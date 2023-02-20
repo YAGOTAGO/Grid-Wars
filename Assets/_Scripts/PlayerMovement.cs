@@ -14,16 +14,28 @@ public class PlayerMovement : MonoBehaviour
     {
         _pSelect = GetComponent<PlayerSelected>();
     }
-    private void LateUpdate()
+    private void Update()
     {
-        if (_pSelect.IsPlayerSelected() && Input.GetMouseButtonDown(0))
+        Move();
+    }
+    
+    private void Move()
+    {
+        //Player is selected, and mouse is clicked, and tile is walkable
+        if (_pSelect.IsPlayerSelected() && Input.GetMouseButtonDown(0) &&
+            MouseInput.Instance.IsTileWalkable() && !_pSelect.cursorInside)
         {
-            MovePlayerToHex(GridManager.Instance.GetTileAtMousePos());
+         
+             // Get the tile from tile dict
+             // Set the player to the tiles position
+            MovePlayerToHex(GridManager.Instance.tilesDict[MouseInput.Instance.GetCellPosFromMouse(GridManager.Instance.grid)].transform.position);
+
         }
     }
-     
+
     public void MovePlayerToHex(Vector3 position)
     {
+
         Hashtable args = new()
         {
             ["speed"] = _playerSpeed,

@@ -7,7 +7,7 @@ public class PlayerSelected : MonoBehaviour
     [SerializeField] private GameObject highlight;
 
     private bool isPlayerSelected = false;
-    private bool cursorInside;
+    public bool cursorInside { get; private set; }
         
     public bool IsPlayerSelected()
     {
