@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,7 +34,8 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         InitBoard();
-
+        //Debug.Log(GetDistance(tilesDict[new Vector3Int(0,0,0)], tilesDict[new Vector3Int(-1,-2,0)])); 
+        InitNeighboors();
     }
 
     private void Update()
@@ -41,6 +43,17 @@ public class GridManager : MonoBehaviour
 
         cellPos = MouseInput.Instance.GetCellPosFromMouse(grid);
 
+        highlight(cellPos);
+    }
+
+    private void InitNeighboors()
+    {
+        foreach (HexNode tile in tilesDict.Values) tile.CacheNeighbors();
+    }
+
+    //Highlights on hover
+    private void highlight(Vector3Int cell)
+    {
         if (tilesDict.ContainsKey(cellPos))
         {
             highlightScript.HighlightTiles(cellPos);
