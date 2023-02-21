@@ -34,15 +34,12 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         InitBoard();
-        //Debug.Log(GetDistance(tilesDict[new Vector3Int(0,0,0)], tilesDict[new Vector3Int(-1,-2,0)])); 
-        InitNeighboors();
+        InitNeighboors(); //caches the neighboors in each tile
     }
 
     private void Update()
     {   
-
         cellPos = MouseInput.Instance.GetCellPosFromMouse(grid);
-
         highlight(cellPos);
     }
 

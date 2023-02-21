@@ -24,12 +24,23 @@ public class PlayerMovement : MonoBehaviour
         //Player is selected, and mouse is clicked, and tile is walkable
         if (_pSelect.IsPlayerSelected() && Input.GetMouseButtonDown(0) &&
             MouseInput.Instance.IsTileWalkable() && !_pSelect.cursorInside)
-        {
-         
-             // Get the tile from tile dict
-             // Set the player to the tiles position
-            MovePlayerToHex(GridManager.Instance.tilesDict[MouseInput.Instance.GetCellPosFromMouse(GridManager.Instance.grid)].transform.position);
+        {   
+            HexNode target = GridManager.Instance.tilesDict[MouseInput.Instance.GetCellPosFromMouse(GridManager.Instance.grid)];
+            HexNode start = GridManager.Instance.tilesDict[new Vector3Int(0, 0)];
 
+            List<HexNode> path = PathFinding.FindPath(start, target);
+
+            StartCoroutine(Walk(path));
+
+        }
+    }
+
+    IEnumerator Walk(List<HexNode> path)
+    {
+        for(int i = path.Count-1; i >=0 ;i--)
+        {
+            MovePlayerToHex(path[i].transform.position);
+            yield return new WaitForSeconds(.2f);
         }
     }
 

@@ -8,9 +8,11 @@ public class HexNode : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] protected SpriteRenderer _renderer;
+    [SerializeField] private List<Sprite> _sprites;
     [SerializeField] public bool isWalkable;
-    public Vector3Int _gridPos; //Unity grid x, y, z
-    public Vector3Int _cubeCoord; //Unity grid converted into cube coords
+
+    [HideInInspector] public Vector3Int _gridPos; //Unity grid x, y, z
+    [HideInInspector] public Vector3Int _cubeCoord; //Unity grid converted into cube coords
 
     #region Pathfinding
     public float G { get; private set; }
@@ -42,11 +44,12 @@ public class HexNode : MonoBehaviour
         _renderer = this.GetComponent<SpriteRenderer>();
     }
 
-    //Inits the grid and cube coords
+    //Inits the Hex
     public void Init(Vector3Int pos)
     {
         _gridPos = pos;
         _cubeCoord = HexDistance.UnityCellToCube(pos);
+        _renderer.sprite = _sprites[Random.Range(0, _sprites.Count())];
     }
     
 }
