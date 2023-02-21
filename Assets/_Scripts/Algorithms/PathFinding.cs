@@ -6,11 +6,10 @@ using UnityEngine;
 
 public class PathFinding
 {
-  
     public static List<HexNode> FindPath(HexNode startNode, HexNode targetNode)
     {
-        List<HexNode> toSearch = new () { startNode };
-        List<HexNode> processed = new ();
+        List<HexNode> toSearch = new() { startNode };
+        List<HexNode> processed = new();
 
         while (toSearch.Any())
         {
@@ -33,7 +32,7 @@ public class PathFinding
                     currentPathTile = currentPathTile.Connection;
                     count--;
                     if (count < 0) throw new Exception();
-                    Debug.Log("sdfsdf");
+                   
                 }
 
                 return path;

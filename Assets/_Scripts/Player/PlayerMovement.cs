@@ -9,16 +9,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _playerSpeed = 10f;
     [SerializeField] private iTween.EaseType _easeType;
     private PlayerSelected _pSelect;
+    private HexNode _onNode;
 
     private void Awake()
     {
         _pSelect = GetComponent<PlayerSelected>();
     }
+
     private void Update()
     {
         Move();
     }
-    
+
+    private void Start()
+    {
+        _onNode = GridManager.Instance.tilesDict[new Vector3Int(0, 0, 0)];
+    }
+
     private void Move()
     {
         //Player is selected, and mouse is clicked, and tile is walkable
@@ -26,12 +33,15 @@ public class PlayerMovement : MonoBehaviour
             MouseInput.Instance.IsTileWalkable() && !_pSelect.cursorInside)
         {   
             HexNode target = GridManager.Instance.tilesDict[MouseInput.Instance.GetCellPosFromMouse(GridManager.Instance.grid)];
-            HexNode start = GridManager.Instance.tilesDict[new Vector3Int(0, 0)];
 
-            List<HexNode> path = PathFinding.FindPath(start, target);
+            DateTime before = DateTime.Now;
+            List<HexNode> path = PathFinding.FindPath(_onNode, target);
+            DateTime after = DateTime.Now;
+            TimeSpan duration = after.Subtract(before);
+            Debug.Log("Duration in milliseconds: " + duration.Milliseconds);
 
             StartCoroutine(Walk(path));
-
+            _onNode = target;
         }
     }
 

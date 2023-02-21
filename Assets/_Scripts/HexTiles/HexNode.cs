@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,8 +50,9 @@ public class HexNode : MonoBehaviour
     {
         _gridPos = pos;
         _cubeCoord = HexDistance.UnityCellToCube(pos);
-        _renderer.sprite = _sprites[Random.Range(0, _sprites.Count())];
+        _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count())];
     }
+
     
 }
 
