@@ -10,8 +10,6 @@ public class PlayerSelected : MonoBehaviour
 
     private bool isPlayerSelected = false;
     public bool cursorInside { get; private set; }
-        
-    public bool IsPlayerSelected(){return isPlayerSelected;}
 
     private void OnMouseEnter()
     {
@@ -23,7 +21,6 @@ public class PlayerSelected : MonoBehaviour
         cursorInside= false;
     }
 
-
     //If cursor is inside and mouse is clicked player is selected or deselected
     private void Update()
     {
@@ -33,6 +30,7 @@ public class PlayerSelected : MonoBehaviour
             isPlayerSelected = !isPlayerSelected;
             highlight.SetActive(isPlayerSelected);
 
+            SelectionManager.Instance.selected = isPlayerSelected ? this.gameObject : null;
         }
 
     }
