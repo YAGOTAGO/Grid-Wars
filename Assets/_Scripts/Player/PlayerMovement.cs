@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerSelected))]
 public class PlayerMovement : MonoBehaviour
 {
 
@@ -10,6 +11,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private iTween.EaseType _easeType;
     private PlayerSelected _pSelect;
     private HexNode _onNode;
+    private int moves = 5;
+    private HashSet<HexNode> _possMoves = new();
+    private bool _firstTime = true;
 
     private void Awake()
     {
@@ -18,7 +22,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (_pSelect.IsPlayerSelected() && _firstTime)
+        {
+            _possMoves = BFS.BFSvisited(_onNode, moves);
+            _firstTime = false;
+        }else if (!_pSelect.IsPlayerSelected())
+        {
+            HighlightManager.Instance.ClearMovesMap();
+            _firstTime = true;
+        }
+
         Move();
+
     }
 
     private void Start()
@@ -29,19 +44,24 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         //Player is selected, and mouse is clicked, and tile is walkable
-        if (_pSelect.IsPlayerSelected() && Input.GetMouseButtonDown(0) &&
-            MouseInput.Instance.IsTileWalkable() && !_pSelect.cursorInside)
+        if (Input.GetMouseButtonDown(0) && MouseInput.Instance.IsTileWalkable() 
+            && !_pSelect.cursorInside)
         {   
+            //What we clicked after selecting player
             HexNode target = GridManager.Instance.tilesDict[MouseInput.Instance.GetCellPosFromMouse(GridManager.Instance.grid)];
 
-            DateTime before = DateTime.Now;
-            List<HexNode> path = PathFinding.FindPath(_onNode, target);
-            DateTime after = DateTime.Now;
-            TimeSpan duration = after.Subtract(before);
-            Debug.Log("Duration in milliseconds: " + duration.Milliseconds);
+            //Check that we have enough moves to make it
+            if(_possMoves.Contains(target))
+            {
+                //Clear the highlighted map
+                HighlightManager.Instance.ClearMovesMap();
 
-            StartCoroutine(Walk(path));
-            _onNode = target;
+                //A* find path and then walk it
+                List<HexNode> path = PathFinding.FindPath(_onNode, target);
+                StartCoroutine(Walk(path));
+                _onNode = target;
+                _firstTime=true;
+            }
         }
     }
 

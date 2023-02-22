@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class PlayerSelected : MonoBehaviour
 {
+    //Highlight is what will follow the currrently selected player
     [SerializeField] private GameObject highlight;
 
     private bool isPlayerSelected = false;
     public bool cursorInside { get; private set; }
         
-    public bool IsPlayerSelected()
-    {
-        return isPlayerSelected;
-    }
+    public bool IsPlayerSelected(){return isPlayerSelected;}
 
     private void OnMouseEnter()
     {
@@ -25,17 +24,17 @@ public class PlayerSelected : MonoBehaviour
     }
 
 
-    //If cursosr is inside and mouse is clicked player is selected or deselected
+    //If cursor is inside and mouse is clicked player is selected or deselected
     private void Update()
     {
-        if (cursorInside)
+
+        if (cursorInside && Input.GetMouseButtonDown(0))
         {
-            if(Input.GetMouseButtonDown(0)) 
-            {
-                isPlayerSelected = !isPlayerSelected;
-                highlight.SetActive(isPlayerSelected);
-            }
+            isPlayerSelected = !isPlayerSelected;
+            highlight.SetActive(isPlayerSelected);
+
         }
+
     }
 
 }

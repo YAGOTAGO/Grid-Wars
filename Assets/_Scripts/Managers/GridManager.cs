@@ -12,7 +12,6 @@ public class GridManager : MonoBehaviour
     public Dictionary<Vector3Int, HexNode> tilesDict { get; private set; } //know which tile by position
     public Grid grid { get; private set; } //used to put all tiles under
 
-    [SerializeField] private Highlight highlightScript;
     private Vector3Int cellPos;
 
     #region TilePrefabs
@@ -53,7 +52,7 @@ public class GridManager : MonoBehaviour
     {
         if (tilesDict.ContainsKey(cellPos))
         {
-            highlightScript.HighlightTiles(cellPos);
+            HighlightManager.Instance.HoverHighlight(cellPos);
         }
     }
 
