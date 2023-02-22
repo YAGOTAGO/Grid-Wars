@@ -5,7 +5,7 @@ using UnityEngine;
 public class SelectionManager : MonoBehaviour
 {
     [HideInInspector] public static SelectionManager Instance;
-    public GameObject selected;
+    [HideInInspector] public GameObject selected;
 
     private void Awake()
     {

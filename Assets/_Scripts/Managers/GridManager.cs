@@ -15,8 +15,11 @@ public class GridManager : MonoBehaviour
     public Vector3Int cellPos { get; private set; }
 
     #region TilePrefabs
+
+    //Could make a tile prefab scrip that hold a dictionary of them based on the enum
+
     [Header("Tile Prefabs")]
-    [SerializeField] private Tilemap tileMap; //the map we will copy
+    [SerializeField] private Tilemap _tileMap; //the map we will copy
     [SerializeField] private HexNode _grassPrefab;
     [SerializeField] private HexNode _mountainPrefab;
     [SerializeField] private HexNode _waterPrefab;
@@ -58,15 +61,15 @@ public class GridManager : MonoBehaviour
 
     private void InitBoard()
     {
-        foreach (Vector3Int position in tileMap.cellBounds.allPositionsWithin)
+        foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
         {
-            if (tileMap.HasTile(position))
+            if (_tileMap.HasTile(position))
             {
 
                 //Get position to instantiate at
-                Vector3 tileWorldPos = tileMap.CellToWorld(position);
+                Vector3 tileWorldPos = _tileMap.CellToWorld(position);
 
-                TileType type = tileMap.GetTile<GameRuleTile>(position).type;
+                TileType type = _tileMap.GetTile<GameRuleTile>(position).type;
                 HexNode tile = null;
 
                 switch (type)

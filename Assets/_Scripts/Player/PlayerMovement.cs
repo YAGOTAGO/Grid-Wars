@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
 
     private HexNode _onNode;
-    [SerializeField] private HashSet<HexNode> _possMoves = new();
+    private HashSet<HexNode> _possMoves = new();
     private readonly HashSet<HexNode> _emptySet = new();
     private PlayerSelected _pSelect;
 
