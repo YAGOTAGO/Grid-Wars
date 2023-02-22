@@ -22,6 +22,21 @@ public class MouseInput : MonoBehaviour
         return false;
     }
 
+    //Returns node that mouse is over or null if none there
+    public HexNode GetNodeFromMouse()
+    {
+        HexNode value;
+        Vector3Int gridPos = GetCellPosFromMouse();
+        if(GridManager.Instance.tilesDict.TryGetValue(gridPos, out value))
+        {
+            return value;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     public Vector3Int GetCellPosFromMouse()
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

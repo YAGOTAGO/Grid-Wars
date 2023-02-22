@@ -8,7 +8,7 @@ public class PlayerSelected : MonoBehaviour
     //Highlight is what will follow the currrently selected player
     [SerializeField] private GameObject highlight;
 
-    private bool isPlayerSelected = false;
+    private bool _isPlayerSelected = false;
     public bool cursorInside { get; private set; }
 
     private void OnMouseEnter()
@@ -27,10 +27,10 @@ public class PlayerSelected : MonoBehaviour
 
         if (cursorInside && Input.GetMouseButtonDown(0))
         {
-            isPlayerSelected = !isPlayerSelected;
-            highlight.SetActive(isPlayerSelected);
+            _isPlayerSelected = !_isPlayerSelected;
+            highlight.SetActive(_isPlayerSelected);
 
-            SelectionManager.Instance.selected = isPlayerSelected ? this.gameObject : null;
+            SelectionManager.Instance.selected = _isPlayerSelected ? this.gameObject : null;
         }
 
     }

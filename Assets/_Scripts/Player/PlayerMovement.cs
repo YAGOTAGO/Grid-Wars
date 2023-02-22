@@ -17,30 +17,62 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement stats")]
     [SerializeField] private float _playerSpeed = 10f;
     [SerializeField] private iTween.EaseType _easeType;
-    [SerializeField] private int moves = 5;
+    [SerializeField] private int _moves = 5;
     #endregion
 
     private void Update()
     {
-        if (!Input.GetMouseButtonDown(0)) { return; }
 
-        if (IsSelected())
+        //Case where player is selected and mouse is hovering
+        if (IsSelected() && _moves > 0)
         {
-            _possMoves = BFS.BFSvisited(_onNode, moves);
-            Move();
-        }
-        else if (!IsSelected())
-        {
-            HighlightManager.Instance.ClearMovesMap();
-            _possMoves = _emptySet;
+            ShowPath();
         }
 
+        //Case where player is selected and mouse is pressed
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            if (IsSelected())
+            {
+                _possMoves = BFS.BFSvisited(_onNode, _moves);
+                Move();
+            }
+            else if (!IsSelected())
+            {
+                HighlightManager.Instance.ClearMovesMap();
+                _possMoves = _emptySet;
+            }
+        }
     }
 
     private void Start()
     {
         _onNode = GridManager.Instance.tilesDict[new Vector3Int(0, 0, 0)];
         _pSelect = GetComponent<PlayerSelected>();
+    }
+
+    private void ShowPath()
+    {
+        //Clear existing map
+        HighlightManager.Instance.ClearPathMap();
+
+        //Find target
+        HexNode target = MouseInput.Instance.GetNodeFromMouse();
+        if(target == null || !_possMoves.Contains(target) || !target.isWalkable) { return; }
+
+        //Get the path
+        List<HexNode> path = PathFinding.FindPath(_onNode, target);
+        if (path == null) { return; }
+
+        //Paint the path
+        foreach (HexNode node in path)
+        {
+
+           HighlightManager.Instance.PathHighlight(node.gridPos);
+
+        }
+
     }
 
     private void Move()
@@ -73,12 +105,12 @@ public class PlayerMovement : MonoBehaviour
         for(int i = path.Count-1; i >=0 ;i--)
         {
             MovePlayerToHex(path[i].transform.position);
-            moves--;
+            _moves--;
             yield return new WaitForSeconds(.2f);
         }
 
         //Update the possible moves
-        _possMoves = BFS.BFSvisited(path[0], moves);
+        _possMoves = BFS.BFSvisited(path[0], _moves);
     }
 
     private void MovePlayerToHex(Vector3 position)

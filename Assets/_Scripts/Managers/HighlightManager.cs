@@ -7,9 +7,14 @@ public class HighlightManager : MonoBehaviour
 {
     public static HighlightManager Instance;
 
+    [Header("Tiles")]
     [SerializeField] private Tile _hoverTile;
+    [SerializeField] private Tile _pathTile;
+
+    [Header("Tile Maps")]
     [SerializeField] private Tilemap _hoverMap;
     [SerializeField] private Tilemap _movesMap;
+    [SerializeField] private Tilemap _pathMap;
 
     private Vector3Int previousMousePos;
 
@@ -17,7 +22,18 @@ public class HighlightManager : MonoBehaviour
     {
         Instance = this;
     }
-    
+
+    #region PathMap
+    public void PathHighlight(Vector3Int pos)
+    {
+        _pathMap.SetTile(pos, _pathTile);
+    }
+
+    public void ClearPathMap()
+    {
+        _pathMap.ClearAllTiles();
+    }
+    #endregion
 
     //Highlights tile at grid pos
     public void MovesHighlight(Vector3Int cellPos)

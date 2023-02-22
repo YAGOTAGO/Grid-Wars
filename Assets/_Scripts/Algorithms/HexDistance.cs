@@ -8,7 +8,7 @@ public class HexDistance
     //Returns distance between two nodes
     public static int GetDistance(HexNode A, HexNode B)
     {
-        return CubeDistance(A._cubeCoord, B._cubeCoord);
+        return CubeDistance(A.cubeCoord, B.cubeCoord);
     }
 
     public static Vector3Int UnityCellToCube(Vector3Int cell)

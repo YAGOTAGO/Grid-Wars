@@ -8,12 +8,12 @@ using UnityEngine;
 public class HexNode : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] protected SpriteRenderer _renderer;
+    [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private List<Sprite> _sprites;
     [SerializeField] public bool isWalkable;
 
-    [HideInInspector] public Vector3Int _gridPos; //Unity grid x, y, z
-    [HideInInspector] public Vector3Int _cubeCoord; //Unity grid converted into cube coords
+    [HideInInspector] public Vector3Int gridPos; //Unity grid x, y, z
+    [HideInInspector] public Vector3Int cubeCoord; //Unity grid converted into cube coords
 
     #region Pathfinding
     public float G { get; private set; }
@@ -48,8 +48,8 @@ public class HexNode : MonoBehaviour
     //Inits the Hex
     public void Init(Vector3Int pos)
     {
-        _gridPos = pos;
-        _cubeCoord = HexDistance.UnityCellToCube(pos);
+        gridPos = pos;
+        cubeCoord = HexDistance.UnityCellToCube(pos);
         _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count())];
     }
 

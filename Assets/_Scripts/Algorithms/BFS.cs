@@ -31,7 +31,7 @@ public class BFS
                 fronteir.Enqueue(neighbor);
                 visited.Add(neighbor);
 
-                HighlightManager.Instance.MovesHighlight(neighbor._gridPos);
+                HighlightManager.Instance.MovesHighlight(neighbor.gridPos);
             }
         }
 
