@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 523693011}
   - component: {fileID: 523693014}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: GridManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -433,9 +433,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileMap: {fileID: 1690136055}
-  _grassPrefab: {fileID: 1791668414952246007, guid: 0658103345f7c9a409f7d4c27d3084e7, type: 3}
-  _mountainPrefab: {fileID: 7229287994363374659, guid: 15d93236db50a5a40895e6bad91bbf4f, type: 3}
-  _waterPrefab: {fileID: 1856939618902459675, guid: 74f2e912b3ecd4b479b9244d42edc774, type: 3}
+  _prefabs:
+  - {fileID: 1791668414952246007, guid: 0658103345f7c9a409f7d4c27d3084e7, type: 3}
+  - {fileID: 7229287994363374659, guid: 15d93236db50a5a40895e6bad91bbf4f, type: 3}
+  - {fileID: 1856939618902459675, guid: 74f2e912b3ecd4b479b9244d42edc774, type: 3}
 --- !u!1 &648585251
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerSpeed: 3
   _easeType: 22
-  _moves: 5
+  _moves: 19
 --- !u!60 &1676267895
 PolygonCollider2D:
   m_ObjectHideFlags: 0

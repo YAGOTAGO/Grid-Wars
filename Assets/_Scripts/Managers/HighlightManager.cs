@@ -21,6 +21,7 @@ public class HighlightManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(this);
     }
 
     #region PathMap

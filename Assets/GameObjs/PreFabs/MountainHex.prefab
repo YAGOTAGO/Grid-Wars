@@ -101,5 +101,6 @@ MonoBehaviour:
   _sprites:
   - {fileID: 21300000, guid: 726840abc01acee479b0e67a71171988, type: 3}
   isWalkable: 0
-  _gridPos: {x: 0, y: 0, z: 0}
-  _cubeCoord: {x: 0, y: 0, z: 0}
+  tileType: 2
+  gridPos: {x: 0, y: 0, z: 0}
+  cubeCoord: {x: 0, y: 0, z: 0}

@@ -19,16 +19,19 @@ public class GridManager : MonoBehaviour
     //Could make a tile prefab scrip that hold a dictionary of them based on the enum
 
     [Header("Tile Prefabs")]
+    private Dictionary<TileType, HexNode> _prefabDict;
     [SerializeField] private Tilemap _tileMap; //the map we will copy
-    [SerializeField] private HexNode _grassPrefab;
+    [SerializeField] private List<HexNode> _prefabs;
+    /*[SerializeField] private HexNode _grassPrefab;
     [SerializeField] private HexNode _mountainPrefab;
-    [SerializeField] private HexNode _waterPrefab;
+    [SerializeField] private HexNode _waterPrefab;*/
     #endregion
-
+    
     void Awake()
     {
         Instance = this;
         tilesDict = new Dictionary<Vector3Int, HexNode>();
+        _prefabDict = new Dictionary<TileType, HexNode>();
         grid = this.GetComponent<Grid>();
         cellPos = new Vector3Int();
         DontDestroyOnLoad(this);
@@ -36,6 +39,7 @@ public class GridManager : MonoBehaviour
 
     void Start()
     {
+        InitDict();
         InitBoard();
         InitNeighboors(); //caches the neighboors in each tile
     }
@@ -60,6 +64,14 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    private void InitDict()
+    {
+        foreach(HexNode prefab in _prefabs)
+        {
+            _prefabDict[prefab.tileType] = prefab;
+        }
+
+    }
     private void InitBoard()
     {
         foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
@@ -71,18 +83,9 @@ public class GridManager : MonoBehaviour
                 Vector3 tileWorldPos = _tileMap.CellToWorld(position);
 
                 TileType type = _tileMap.GetTile<GameRuleTile>(position).type;
-                HexNode tile = null;
 
-                switch (type)
-                {
-                    case TileType.Grass: tile = Instantiate(_grassPrefab, tileWorldPos, Quaternion.identity); break;
-
-                    case TileType.Mountain: tile = Instantiate(_mountainPrefab, tileWorldPos, Quaternion.identity); break;
-
-                    case TileType.Water: tile = Instantiate(_waterPrefab, tileWorldPos, Quaternion.identity); break;
-
-                    default: Debug.Log("Error tried to load tile that didnt match type in GridManager"); break;
-                }
+                //Instatiate the prefab
+                HexNode tile = Instantiate(_prefabDict[type], tileWorldPos, Quaternion.identity);
 
                 tile.transform.SetParent(grid.transform); //organizes look in editor
                 tile.Init(position); //so tile knows own position

@@ -9,6 +9,8 @@ public class BFS
     //Returns the list of visited nodes within the depth
     public static HashSet<HexNode> BFSvisited(HexNode startNode, int depth)
     {
+        Debug.Log("BFS CALLED");
+
         HashSet<HexNode> visited = new();
         Queue<HexNode> fronteir = new();
 

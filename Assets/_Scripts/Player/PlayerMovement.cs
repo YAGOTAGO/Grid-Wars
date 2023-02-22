@@ -11,7 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private HashSet<HexNode> _possMoves = new();
     private readonly HashSet<HexNode> _emptySet = new();
     private PlayerSelected _pSelect;
-
+    private HexNode _priorTarget;
+    private bool isWalking = false;
 
     #region stats
     [Header("Movement stats")]
@@ -23,7 +24,9 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
 
-        //Case where player is selected and mouse is hovering
+        if(isWalking) return; //cannot input while walking
+
+        //Shows path in possible moves
         if (IsSelected() && _moves > 0)
         {
             ShowPath();
@@ -54,16 +57,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void ShowPath()
     {
-        //Clear existing map
-        HighlightManager.Instance.ClearPathMap();
-
+        
         //Find target
         HexNode target = MouseManager.Instance.GetNodeFromMouse();
-        if(target == null || !_possMoves.Contains(target) || !target.isWalkable) { return; }
+        if(target == null || !_possMoves.Contains(target) 
+          || !target.isWalkable || target == _priorTarget) { return; }
+
+        //Remember target for next time
+        _priorTarget = target;
 
         //Get the path
         List<HexNode> path = PathFinding.FindPath(_onNode, target);
         if (path == null) { return; }
+
+        //Clear existing map
+        HighlightManager.Instance.ClearPathMap();
 
         //Paint the path
         foreach (HexNode node in path)
@@ -86,8 +94,9 @@ public class PlayerMovement : MonoBehaviour
             //Check that we have enough moves to make it
             if(_possMoves.Contains(target))
             {
-                //Clear the highlighted map
+                //Clear the maps
                 HighlightManager.Instance.ClearMovesMap();
+                HighlightManager.Instance.ClearPathMap();
 
                 //A* find path and then walk it
                 List<HexNode> path = PathFinding.FindPath(_onNode, target);
@@ -100,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Walk(List<HexNode> path)
     {
+        isWalking = true;
 
         //Iterate and move tile by tile
         for(int i = path.Count-1; i >=0 ;i--)
@@ -111,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Update the possible moves
         _possMoves = BFS.BFSvisited(path[0], _moves);
+        isWalking = false;
     }
 
     private void MovePlayerToHex(Vector3 position)

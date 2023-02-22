@@ -8,6 +8,8 @@ public class PathFinding
 {
     public static List<HexNode> FindPath(HexNode startNode, HexNode targetNode)
     {
+        Debug.Log("A* CALLED");
+
         List<HexNode> toSearch = new() { startNode };
         List<HexNode> processed = new();
 

@@ -7,10 +7,12 @@ using UnityEngine;
 [RequireComponent(typeof (SpriteRenderer))]
 public class HexNode : MonoBehaviour
 {
+
     [Header("References")]
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private List<Sprite> _sprites;
     [SerializeField] public bool isWalkable;
+    [SerializeField] public TileType tileType;
 
     [HideInInspector] public Vector3Int gridPos; //Unity grid x, y, z
     [HideInInspector] public Vector3Int cubeCoord; //Unity grid converted into cube coords
