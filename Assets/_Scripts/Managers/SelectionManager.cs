@@ -10,6 +10,7 @@ public class SelectionManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(this);
     }
 
     public bool IsThisSelected(GameObject go)

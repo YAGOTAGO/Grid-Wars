@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
                 _possMoves = BFS.BFSvisited(_onNode, _moves);
                 Move();
             }
-            else if (!IsSelected())
+            else
             {
                 HighlightManager.Instance.ClearMovesMap();
                 _possMoves = _emptySet;
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         HighlightManager.Instance.ClearPathMap();
 
         //Find target
-        HexNode target = MouseInput.Instance.GetNodeFromMouse();
+        HexNode target = MouseManager.Instance.GetNodeFromMouse();
         if(target == null || !_possMoves.Contains(target) || !target.isWalkable) { return; }
 
         //Get the path
@@ -78,10 +78,10 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         //Player is selected,  and tile is walkable
-        if (MouseInput.Instance.IsTileWalkable() && !_pSelect.cursorInside)
+        if (MouseManager.Instance.IsTileWalkable() && !_pSelect.cursorInside)
         {
             //What we clicked after selecting player
-            HexNode target = GridManager.Instance.tilesDict[MouseInput.Instance.GetCellPosFromMouse()];
+            HexNode target = GridManager.Instance.tilesDict[MouseManager.Instance.GetCellPosFromMouse()];
 
             //Check that we have enough moves to make it
             if(_possMoves.Contains(target))

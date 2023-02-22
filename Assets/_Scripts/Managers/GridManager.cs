@@ -31,6 +31,7 @@ public class GridManager : MonoBehaviour
         tilesDict = new Dictionary<Vector3Int, HexNode>();
         grid = this.GetComponent<Grid>();
         cellPos = new Vector3Int();
+        DontDestroyOnLoad(this);
     }
 
     void Start()
@@ -41,8 +42,8 @@ public class GridManager : MonoBehaviour
 
     private void Update()
     {   
-        cellPos = MouseInput.Instance.GetCellPosFromMouse();
-        highlight(cellPos);
+        cellPos = MouseManager.Instance.GetCellPosFromMouse();
+        Highlight(cellPos);
     }
 
     private void InitNeighboors()
@@ -51,7 +52,7 @@ public class GridManager : MonoBehaviour
     }
 
     //Highlights on hover
-    private void highlight(Vector3Int cell)
+    private void Highlight(Vector3Int cell)
     {
         if (tilesDict.ContainsKey(cellPos))
         {
@@ -86,7 +87,7 @@ public class GridManager : MonoBehaviour
                 tile.transform.SetParent(grid.transform); //organizes look in editor
                 tile.Init(position); //so tile knows own position
                 tilesDict[position] = tile; //So we can lookup tile later from dict
-
+                
             }
 
         }

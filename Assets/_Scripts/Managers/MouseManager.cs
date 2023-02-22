@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseInput : MonoBehaviour
+public class MouseManager : MonoBehaviour
 {
-    public static MouseInput Instance;
+    public static MouseManager Instance;
 
     private void Awake()
     {
         Instance= this;
+        DontDestroyOnLoad(this);
     }
 
     public bool IsTileWalkable()
