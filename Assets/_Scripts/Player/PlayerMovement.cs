@@ -6,13 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerSelected))]
 public class PlayerMovement : MonoBehaviour
 {
-
+    #region Vars
     private HexNode _onNode;
     private HashSet<HexNode> _possMoves = new();
     private readonly HashSet<HexNode> _emptySet = new();
     private PlayerSelected _pSelect;
     private HexNode _priorTarget;
     private bool isWalking = false;
+    #endregion
 
     #region stats
     [Header("Movement stats")]
@@ -43,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                HighlightManager.Instance.ClearMovesMap();
+                ClearMaps();
                 _possMoves = _emptySet;
             }
         }
@@ -52,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _onNode = GridManager.Instance.tilesDict[new Vector3Int(0, 0, 0)];
+        _onNode.isWalkable = false;
+
         _pSelect = GetComponent<PlayerSelected>();
     }
 
@@ -94,15 +97,15 @@ public class PlayerMovement : MonoBehaviour
             //Check that we have enough moves to make it
             if(_possMoves.Contains(target))
             {
-                //Clear the maps
-                HighlightManager.Instance.ClearMovesMap();
-                HighlightManager.Instance.ClearPathMap();
+                //both maps get cleared
+                ClearMaps();    
 
                 //A* find path and then walk it
                 List<HexNode> path = PathFinding.FindPath(_onNode, target);
                 StartCoroutine(Walk(path));
+                _onNode.isWalkable = true;
                 _onNode = target;
- 
+                _onNode.isWalkable = false;
             }
         }
     }
@@ -121,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Update the possible moves
         _possMoves = BFS.BFSvisited(path[0], _moves);
+
         isWalking = false;
     }
 
@@ -142,5 +146,11 @@ public class PlayerMovement : MonoBehaviour
     private bool IsSelected()
     {
         return SelectionManager.Instance.IsThisSelected(this.gameObject);
+    }
+
+    private void ClearMaps()
+    {
+        HighlightManager.Instance.ClearMovesMap();
+        HighlightManager.Instance.ClearPathMap();
     }
 }
