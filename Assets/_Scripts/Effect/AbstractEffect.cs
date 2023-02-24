@@ -7,11 +7,15 @@ public abstract class AbstractEffect
 
     protected int duration;
     protected StatusType type;
-    protected Damage dmg;
+    protected DamageInfo dmg;
 
     public void EndOfTurn() { }
     public void StartOfTurn() { }
 
+    public int AtDamageGive(DamageInfo damageInfo) 
+    { 
+        return dmg.dmg; 
+    }
 
 }
 

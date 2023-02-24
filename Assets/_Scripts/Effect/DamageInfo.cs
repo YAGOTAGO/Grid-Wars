@@ -1,11 +1,11 @@
 
-public class Damage
+public class DamageInfo
 {
     public int dmg { get; private set; }
     public DamageType type { get; private set; }
 
 
-    public Damage(int dmg, DamageType type)
+    public DamageInfo(int dmg, DamageType type)
     {
         this.type = type;
         this.dmg = dmg;
