@@ -11,11 +11,20 @@ public abstract class AbstractEffect
 
     public void EndOfTurn() { }
     public void StartOfTurn() { }
+    public void OnStepNode() { }
+    public void OnLeaveNode() { }
 
     public int AtDamageGive(DamageInfo damageInfo) 
     { 
-        return dmg.dmg; 
+        return damageInfo.Val; 
     }
+
+    public int AtDamageReceive(DamageInfo damageInfo)
+    {
+        return damageInfo.Val;
+    }
+
+
 
 }
 

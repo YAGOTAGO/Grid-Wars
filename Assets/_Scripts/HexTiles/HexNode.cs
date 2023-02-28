@@ -11,11 +11,10 @@ public class HexNode : MonoBehaviour
     [Header("References")]
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private List<Sprite> _sprites;
-    [SerializeField] public bool isWalkable;
-    [SerializeField] public TileType tileType;
-
-    [HideInInspector] public Vector3Int gridPos; //Unity grid x, y, z
-    [HideInInspector] public Vector3Int cubeCoord; //Unity grid converted into cube coords
+    public bool isWalkable;
+    public TileType tileType;
+    [HideInInspector] public Vector3Int GridPos { get; private set; } //Unity grid x, y, z
+    [HideInInspector] public Vector3Int CubeCoord { get; private set; } //Unity grid converted into cube coords
 
     #region Pathfinding
     public float G { get; private set; }
@@ -50,8 +49,8 @@ public class HexNode : MonoBehaviour
     //Inits the Hex
     public void Init(Vector3Int pos)
     {
-        gridPos = pos;
-        cubeCoord = HexDistance.UnityCellToCube(pos);
+        GridPos = pos;
+        CubeCoord = HexDistance.UnityCellToCube(pos);
         _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count())];
     }
 

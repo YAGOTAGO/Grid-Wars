@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         foreach (HexNode node in path)
         {
 
-           HighlightManager.Instance.PathHighlight(node.gridPos);
+           HighlightManager.Instance.PathHighlight(node.GridPos);
 
         }
 
