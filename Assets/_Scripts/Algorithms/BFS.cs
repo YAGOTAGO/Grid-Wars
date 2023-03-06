@@ -7,6 +7,7 @@ public class BFS
 {
 
     //Returns the list of visited nodes within the depth
+    //Highlights the BFS
     public static HashSet<HexNode> BFSvisited(HexNode startNode, int depth)
     {
 

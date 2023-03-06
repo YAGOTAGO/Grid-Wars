@@ -7,23 +7,31 @@ public class MouseManager : MonoBehaviour
     public static MouseManager Instance;
     public Vector3Int MouseCellPos { get; private set; } //coords of node ie: 0,1
 
-    private void Awake()
+    #region Singletons
+    private GridManager _gridManager;
+
+    #endregion
+
+    void Awake()
     {
         Instance= this;
         MouseCellPos = new Vector3Int();
         DontDestroyOnLoad(this);
     }
-
-    private void Update()
+     void Start()
+    {
+        _gridManager = GridManager.Instance;
+    }
+    void Update()
     {
         MouseCellPos = GetCellPosFromMouse();
     }
     //Returns whethet hovered tile is walkable
     public bool IsTileWalkable()
     {
-        if(GridManager.Instance.TilesDict.ContainsKey(MouseCellPos))
+        if(_gridManager.TilesDict.ContainsKey(MouseCellPos))
         {
-            return GridManager.Instance.TilesDict[MouseCellPos].isWalkable;
+            return _gridManager.TilesDict[MouseCellPos].isWalkable;
         }
 
         return false;
@@ -33,7 +41,7 @@ public class MouseManager : MonoBehaviour
     public HexNode GetNodeFromMouse()
     {
 
-        if (GridManager.Instance.TilesDict.TryGetValue(MouseCellPos, out HexNode value))
+        if (_gridManager.TilesDict.TryGetValue(MouseCellPos, out HexNode value))
         {
             return value;
         }
@@ -47,6 +55,6 @@ public class MouseManager : MonoBehaviour
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
-        return GridManager.Instance.Grid.WorldToCell(mouseWorldPos);
+        return _gridManager.Grid.WorldToCell(mouseWorldPos);
     }
 }
