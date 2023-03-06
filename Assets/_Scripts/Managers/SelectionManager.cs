@@ -5,7 +5,28 @@ using UnityEngine;
 public class SelectionManager : MonoBehaviour
 {
     [HideInInspector] public static SelectionManager Instance;
-    [HideInInspector] public GameObject selected;
+    private Character selected;
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Character clicked = MouseManager.Instance.GetNodeFromMouse().GetCharacter();
+
+            if (IsThisSelected(clicked))
+            {
+                //Do unselected action
+                selected = null;
+            }
+            else
+            {
+                selected = clicked;
+                //Do selected action
+            }
+
+            //Call on character selected actions
+        }   
+    }
 
     private void Awake()
     {
@@ -13,7 +34,7 @@ public class SelectionManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public bool IsThisSelected(GameObject go)
+    public bool IsThisSelected(Character go)
     {
         return go.Equals(selected);
     }

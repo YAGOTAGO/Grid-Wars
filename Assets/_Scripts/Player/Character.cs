@@ -14,6 +14,20 @@ public class Character : MonoBehaviour
         
     }
 
+    //TO:DO
+    public void AddEffect(AbstractEffect ef)
+    {
+        
+    }
+
+    public void OnSelected()
+    {
+        //Show ability UI
+
+        //Show moves path
+
+
+    }
     public void TakeDamage(int damage)
     {
         _health -= damage;

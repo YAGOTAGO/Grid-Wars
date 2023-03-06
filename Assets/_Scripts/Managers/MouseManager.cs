@@ -5,19 +5,25 @@ using UnityEngine;
 public class MouseManager : MonoBehaviour
 {
     public static MouseManager Instance;
+    public Vector3Int MouseCellPos { get; private set; } //coords of node ie: 0,1
 
     private void Awake()
     {
         Instance= this;
+        MouseCellPos = new Vector3Int();
         DontDestroyOnLoad(this);
     }
 
+    private void Update()
+    {
+        MouseCellPos = GetCellPosFromMouse();
+    }
+    //Returns whethet hovered tile is walkable
     public bool IsTileWalkable()
     {
-        Vector3Int pos = GetCellPosFromMouse();
-        if(GridManager.Instance.tilesDict.ContainsKey(pos))
+        if(GridManager.Instance.TilesDict.ContainsKey(MouseCellPos))
         {
-            return GridManager.Instance.tilesDict[pos].isWalkable;
+            return GridManager.Instance.TilesDict[MouseCellPos].isWalkable;
         }
 
         return false;
@@ -26,9 +32,8 @@ public class MouseManager : MonoBehaviour
     //Returns node that mouse is over or null if none there
     public HexNode GetNodeFromMouse()
     {
-        HexNode value;
-        Vector3Int gridPos = GetCellPosFromMouse();
-        if(GridManager.Instance.tilesDict.TryGetValue(gridPos, out value))
+
+        if (GridManager.Instance.TilesDict.TryGetValue(MouseCellPos, out HexNode value))
         {
             return value;
         }
@@ -38,10 +43,10 @@ public class MouseManager : MonoBehaviour
         }
     }
 
-    public Vector3Int GetCellPosFromMouse()
+    private Vector3Int GetCellPosFromMouse()
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
-        return GridManager.Instance.grid.WorldToCell(mouseWorldPos);
+        return GridManager.Instance.Grid.WorldToCell(mouseWorldPos);
     }
 }

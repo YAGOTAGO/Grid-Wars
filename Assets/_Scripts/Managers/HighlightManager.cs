@@ -30,6 +30,12 @@ public class HighlightManager : MonoBehaviour
         _pathMap.SetTile(pos, _pathTile);
     }
 
+    public void ClearMaps()
+    {
+        ClearMovesMap();
+        ClearPathMap();
+    }
+
     public void ClearPathMap()
     {
         _pathMap.ClearAllTiles();

@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     public GameState State;
     private bool playerTurn;
 
+    public List<Character> enemyList;
+    public List<Character> allyList;
+
     private void Awake()
     {
         Instance = this;

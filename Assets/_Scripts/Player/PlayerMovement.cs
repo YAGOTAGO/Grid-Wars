@@ -3,9 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerSelected))]
+
+
+[RequireComponent(typeof(Character))]
 public class PlayerMovement : MonoBehaviour
 {
+    #region Singletons
+    private GridManager _gridManager;
+    private MouseManager _mouseManager;
+    private HighlightManager _highlightManager;
+    #endregion
+
     #region Vars
     private HexNode _onNode;
     private HashSet<HexNode> _possMoves = new();
@@ -13,8 +21,9 @@ public class PlayerMovement : MonoBehaviour
     private PlayerSelected _pSelect;
     private HexNode _priorTarget;
     private bool isWalking = false;
+    private Character _thisPlayer;
     #endregion
-
+        
     #region stats
     [Header("Movement stats")]
     [SerializeField] private float _playerSpeed = 10f;
@@ -44,25 +53,44 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                ClearMaps();
+                _highlightManager.ClearMaps();
                 _possMoves = _emptySet;
             }
         }
     }
+    
 
     private void Start()
     {
-        _onNode = GridManager.Instance.tilesDict[new Vector3Int(0, 0, 0)];
+        InitSingletonVars();
+        InitComponents();
+
+        _onNode = _gridManager.TilesDict[new Vector3Int(0, 0, 0)];
+        _onNode.SetCharacter(_thisPlayer);
         _onNode.isWalkable = false;
 
+        
+    }
+
+    private void InitComponents()
+    {
+        _thisPlayer = GetComponent<Character>();
         _pSelect = GetComponent<PlayerSelected>();
     }
+    private void InitSingletonVars()
+    {
+        _gridManager = GridManager.Instance;
+        _mouseManager = MouseManager.Instance;
+        _highlightManager = HighlightManager.Instance;
+    }
+
+   
 
     private void ShowPath()
     {
         
         //Find target
-        HexNode target = MouseManager.Instance.GetNodeFromMouse();
+        HexNode target = _mouseManager.GetNodeFromMouse();
         if(target == null || !_possMoves.Contains(target) 
           || !target.isWalkable || target == _priorTarget) { return; }
 
@@ -74,13 +102,12 @@ public class PlayerMovement : MonoBehaviour
         if (path == null) { return; }
 
         //Clear existing map
-        HighlightManager.Instance.ClearPathMap();
+        _highlightManager.ClearPathMap();
 
         //Paint the path
         foreach (HexNode node in path)
         {
-
-           HighlightManager.Instance.PathHighlight(node.GridPos);
+           _highlightManager.PathHighlight(node.GridPos);
 
         }
 
@@ -89,25 +116,32 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         //Player is selected,  and tile is walkable
-        if (MouseManager.Instance.IsTileWalkable() && !_pSelect.cursorInside)
+        if (_mouseManager.IsTileWalkable() && !_pSelect.CursorInside)
         {
             //What we clicked after selecting player
-            HexNode target = GridManager.Instance.tilesDict[MouseManager.Instance.GetCellPosFromMouse()];
+            HexNode target = _gridManager.TilesDict[_mouseManager.MouseCellPos];
 
             //Check that we have enough moves to make it
             if(_possMoves.Contains(target))
             {
                 //both maps get cleared
-                ClearMaps();    
+                _highlightManager.ClearMaps();    
 
                 //A* find path and then walk it
                 List<HexNode> path = PathFinding.FindPath(_onNode, target);
                 StartCoroutine(Walk(path));
-                _onNode.isWalkable = true;
-                _onNode = target;
-                _onNode.isWalkable = false;
+                OnNodeSetting(target);
             }
         }
+    }
+
+    private void OnNodeSetting(HexNode target)
+    {
+        _onNode.isWalkable = true;
+        _onNode.SetCharacter(null);
+        _onNode = target;
+        _onNode.isWalkable = false;
+        _onNode.SetCharacter(_thisPlayer);
     }
 
     IEnumerator Walk(List<HexNode> path)
@@ -123,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Update the possible moves
-        _possMoves = BFS.BFSvisited(path[0], _moves);
+        _possMoves = BFS.BFSvisited(path[0], _moves); // path[0] is destination
 
         isWalking = false;
     }
@@ -145,12 +179,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsSelected()
     {
-        return SelectionManager.Instance.IsThisSelected(this.gameObject);
+        return SelectionManager.Instance.IsThisSelected(_thisPlayer);
     }
 
-    private void ClearMaps()
-    {
-        HighlightManager.Instance.ClearMovesMap();
-        HighlightManager.Instance.ClearPathMap();
-    }
+    
 }
