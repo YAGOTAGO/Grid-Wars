@@ -5,21 +5,26 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovement))]
 public class Character : MonoBehaviour
 {   
-    public HashSet<AbstractEffect> effects;
-    [SerializeField] private int _health;
-    private PlayerMovement _pMove;
+    public HashSet<AbstractEffect> Effects {  get; private set; }
+    public List<IAbility> Abilities { get; private set; }
 
+    [SerializeField] private int _health;
+    [SerializeField] private GameObject _playerHighlight;
+    private PlayerMovement _pMove;
+        
     // Start is called before the first frame update
     void Start()
     {
-        effects = new();
+        Effects = new();
         _pMove = GetComponent<PlayerMovement>();
     }
 
     //TO:DO
     public void AddEffect(AbstractEffect ef)
     {
-        
+        //If already in set should increase the duration
+
+        //Otherwise add to the set
     }
 
     //May need to do different behavior based on if ally or enemy
@@ -29,12 +34,14 @@ public class Character : MonoBehaviour
 
         //Show moves path
         _pMove.PlayerSelected();
+        _playerHighlight.SetActive(true);
 
     }
 
     public void OnUnselected()
     {
         _pMove.PlayerUnselected();
+        _playerHighlight.SetActive(false);
     }
 
     public void TakeDamage(int damage)

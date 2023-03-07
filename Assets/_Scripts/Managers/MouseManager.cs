@@ -29,9 +29,9 @@ public class MouseManager : MonoBehaviour
     //Returns whethet hovered tile is walkable
     public bool IsTileWalkable()
     {
-        if(_gridManager.TilesDict.ContainsKey(MouseCellPos))
+        if(_gridManager.GridCoordTiles.ContainsKey(MouseCellPos))
         {
-            return _gridManager.TilesDict[MouseCellPos].isWalkable;
+            return _gridManager.GridCoordTiles[MouseCellPos].IsWalkable;
         }
 
         return false;
@@ -41,7 +41,7 @@ public class MouseManager : MonoBehaviour
     public HexNode GetNodeFromMouse()
     {
 
-        if (_gridManager.TilesDict.TryGetValue(MouseCellPos, out HexNode value))
+        if (_gridManager.GridCoordTiles.TryGetValue(MouseCellPos, out HexNode value))
         {
             return value;
         }

@@ -49,9 +49,9 @@ MonoBehaviour:
   _sprites:
   - {fileID: 21300000, guid: 0e1331ad4bfa47645830e30119dc7423, type: 3}
   - {fileID: 21300000, guid: d1c8146b0e5c93846aaab5ad87169e54, type: 3}
-  isWalkable: 1
-  _gridPos: {x: 0, y: 0, z: 0}
-  _cubeCoord: {x: 0, y: 0, z: 0}
+  IsWalkable: 1
+  IsPassable: 1
+  TileType: 0
 --- !u!212 &5961349996421958439
 SpriteRenderer:
   m_ObjectHideFlags: 0

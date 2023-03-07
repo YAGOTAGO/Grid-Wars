@@ -8,7 +8,7 @@ public abstract class AbstractEffect
     protected int duration;
     protected StatusType type;
     protected DamageInfo dmg;
-
+        
     public void EndOfTurn() { }
     public void StartOfTurn() { }
     public void OnStepNode() { }

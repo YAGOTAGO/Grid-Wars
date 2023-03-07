@@ -100,6 +100,6 @@ MonoBehaviour:
   _renderer: {fileID: 0}
   _sprites:
   - {fileID: 21300000, guid: b78e04d0728bd404c95d728f1b51642a, type: 3}
-  isWalkable: 0
+  IsWalkable: 0
+  IsPassable: 1
   TileType: 1
-  characterOnNode: {fileID: 0}

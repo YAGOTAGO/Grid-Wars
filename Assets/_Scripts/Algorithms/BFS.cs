@@ -29,7 +29,7 @@ public class BFS
             }
 
             //Each neighboor that is walkable and not visited
-            foreach (HexNode neighbor in curr.Neighboors.Where(t => t.isWalkable && !visited.Contains(t)))
+            foreach (HexNode neighbor in curr.Neighboors.Where(t => t.IsWalkable && !visited.Contains(t)))
             {
                 fronteir.Enqueue(neighbor);
                 visited.Add(neighbor);

@@ -17,12 +17,12 @@ public class DamageManager : MonoBehaviour
         Character source = dmg.Source;
         Character target = dmg.Target; 
 
-        foreach (AbstractEffect ef in source.effects)
+        foreach (AbstractEffect ef in source.Effects)
         {
             damage = ef.AtDamageGive(dmg);
         }
 
-        foreach(AbstractEffect ef in target.effects)
+        foreach(AbstractEffect ef in target.Effects)
         {
             damage = ef.AtDamageReceive(dmg);
         }

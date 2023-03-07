@@ -8,8 +8,8 @@ using UnityEngine.Tilemaps;
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
-
-    public Dictionary<Vector3Int, HexNode> TilesDict { get; private set; } //know which tile by position
+    public Dictionary<Vector3Int, HexNode> GridCoordTiles { get; private set; } //know which tile by position
+    public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; }
     public Grid Grid { get; private set; } //used to put all tiles under
 
     #region TilePrefabs
@@ -27,12 +27,12 @@ public class GridManager : MonoBehaviour
     {
         InitVars();
         InitDict();
+        InitBoard();
         DontDestroyOnLoad(this);
     }
 
     void Start()
     {
-        InitBoard();
         InitNeighboors(); //caches the neighboors in each tile
     }
 
@@ -44,19 +44,20 @@ public class GridManager : MonoBehaviour
     private void InitVars()
     {
         Instance = this;
-        TilesDict = new Dictionary<Vector3Int, HexNode>();
+        GridCoordTiles = new();
+        CubeCoordTiles = new();
         Grid = this.GetComponent<Grid>();
     }
 
     private void InitNeighboors()
     {
-        foreach (HexNode tile in TilesDict.Values) tile.CacheNeighbors();
+        foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
     }
         
     //Highlights on hover
     private void Highlight()
     {
-        if (TilesDict.ContainsKey(MouseManager.Instance.MouseCellPos))
+        if (GridCoordTiles.ContainsKey(MouseManager.Instance.MouseCellPos))
         {
             HighlightManager.Instance.HoverHighlight(MouseManager.Instance.MouseCellPos);
         }
@@ -86,15 +87,19 @@ public class GridManager : MonoBehaviour
                 //Instatiate the prefab
                 HexNode tile = Instantiate(_prefabDict[type], tileWorldPos, Quaternion.identity);
 
-                tile.transform.SetParent(Grid.transform); //organizes look in editor
-                tile.Init(position); //so tile knows own position
-                TilesDict[position] = tile; //So we can lookup tile later from dict
-                
+                //Cache cube and grid pos
+                Vector3Int cubePos = HexDistance.UnityCellToCube(position);//calculate cube pos
+                tile.Init(position, cubePos); //Init Tile with grid and cube pos
+                GridCoordTiles[position] = tile; //So we can lookup tile later from dict
+                CubeCoordTiles[cubePos] = tile;
+
+                //organizes look in editor
+                tile.transform.SetParent(Grid.transform); 
             }
 
         }
 
-        //Destroy tilemap here prolly, since should not need it again
+        //Destroy tilemap here prolly?, since should not need it again
     }
 
 }

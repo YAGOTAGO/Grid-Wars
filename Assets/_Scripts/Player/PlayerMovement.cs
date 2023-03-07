@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Vars
-    private HexNode _onNode;
+    public HexNode _onNode;
     private HashSet<HexNode> _possMoves = new();
     private readonly HashSet<HexNode> _emptySet = new();
     private HexNode _priorTarget;
@@ -53,12 +53,11 @@ public class PlayerMovement : MonoBehaviour
         InitSingletonVars();
         InitComponents();
 
-        _onNode = _gridManager.TilesDict[new Vector3Int(0, 0, 0)];
+        _onNode = _gridManager.GridCoordTiles[new Vector3Int(0, 0)];
         _onNode.SetCharacter(_thisPlayer);
-        _onNode.isWalkable = false;
+        _onNode.IsWalkable = false;
 
-        
-    }
+    }        
 
     private void InitComponents()
     {
@@ -88,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
         //Find target
         HexNode target = _mouseManager.GetNodeFromMouse();
         if(target == null || !_possMoves.Contains(target) 
-          || !target.isWalkable || target == _priorTarget) { return; }
+          || !target.IsWalkable || target == _priorTarget) { return; }
 
         //Remember target for next time
         _priorTarget = target;
@@ -115,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
         if (_mouseManager.IsTileWalkable())
         {
             //What we clicked after selecting player
-            HexNode target = _gridManager.TilesDict[_mouseManager.MouseCellPos];
+            HexNode target = _gridManager.GridCoordTiles[_mouseManager.MouseCellPos];
 
             //Check that we have enough moves to make it
             if(_possMoves.Contains(target))
@@ -134,12 +133,12 @@ public class PlayerMovement : MonoBehaviour
     private void OnNodeSetting(HexNode target)
     {   
         //set prior node
-        _onNode.isWalkable = true;
+        _onNode.IsWalkable = true;
         _onNode.SetCharacter(null);
 
         //Set current node
         _onNode = target;
-        _onNode.isWalkable = false;
+        _onNode.IsWalkable = false;
         _onNode.SetCharacter(_thisPlayer);
     }
 

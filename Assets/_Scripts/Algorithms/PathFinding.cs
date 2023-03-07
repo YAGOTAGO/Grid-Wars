@@ -39,7 +39,7 @@ public class PathFinding
                 return path;
             }
 
-            foreach (HexNode neighbor in current.Neighboors.Where(t => t.isWalkable && !processed.Contains(t)))
+            foreach (HexNode neighbor in current.Neighboors.Where(t => t.IsWalkable && !processed.Contains(t)))
             {
                 var inSearch = toSearch.Contains(neighbor);
 

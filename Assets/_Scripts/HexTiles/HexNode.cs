@@ -11,7 +11,8 @@ public class HexNode : MonoBehaviour
     [Header("References")]
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private List<Sprite> _sprites;
-    public bool isWalkable;
+    public bool IsWalkable; //Whether characters can be on it
+    public bool IsPassable; //Whether abilies can pass over
     [SerializeField] private TileType TileType; //HAS TO BE PUBLIC TO BE SET IN EDITOR
     private Character characterOnNode;
         
@@ -33,7 +34,7 @@ public class HexNode : MonoBehaviour
 
     public void CacheNeighbors()
     {   
-        Neighboors = GridManager.Instance.TilesDict.Where(t => HexDistance.GetDistance(this, t.Value) == 1).Select(t => t.Value).ToList();
+        Neighboors = GridManager.Instance.GridCoordTiles.Where(t => HexDistance.GetDistance(this, t.Value) == 1).Select(t => t.Value).ToList();
     
     }
 
@@ -49,10 +50,10 @@ public class HexNode : MonoBehaviour
     }
 
     //Inits the Hex
-    public void Init(Vector3Int pos)
+    public void Init(Vector3Int gridPos, Vector3Int cubePos)
     {
-        GridPos = pos;
-        CubeCoord = HexDistance.UnityCellToCube(pos);
+        GridPos = gridPos;
+        CubeCoord = cubePos;
         _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count())];
     }
 

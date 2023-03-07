@@ -14,23 +14,7 @@ public class SelectionManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            _selectedNode = MouseManager.Instance.GetNodeFromMouse();
-            Character clickedChar = _selectedNode.GetCharacter();
-
-            if(clickedChar == null) { return; }
-
-            if (IsThisSelected(clickedChar) && IsSameNode())
-            {
-                _selectedChar.OnUnselected();
-                _selectedChar = null;
-            }
-            else if(!IsSameCharacter())
-            {
-                _selectedChar = clickedChar;
-                _selectedChar.OnSelected();
-            }
-            _priorNode = _selectedNode;
-            _priorChar = clickedChar;
+            PlayerSelected();
         }   
     }
 
@@ -39,6 +23,28 @@ public class SelectionManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(this);
     }
+
+    private void PlayerSelected()
+    {
+        _selectedNode = MouseManager.Instance.GetNodeFromMouse();
+        Character clickedChar = _selectedNode.GetCharacter();
+
+        if (clickedChar == null) { return; }
+
+        if (IsThisSelected(clickedChar) && IsSameNode())
+        {
+            _selectedChar.OnUnselected();
+            _selectedChar = null;
+        }
+        else if (!IsSameCharacter())
+        {
+            _selectedChar = clickedChar;
+            _selectedChar.OnSelected();
+        }
+        _priorNode = _selectedNode;
+        _priorChar = clickedChar;
+    }
+
     private bool IsSameCharacter()
     {
         if(_priorChar == null) { return false; }
