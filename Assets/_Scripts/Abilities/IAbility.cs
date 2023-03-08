@@ -6,11 +6,10 @@ using TMPro;
 public interface IAbility
 {
     int Cooldown { get; }
-    TextMeshPro Description { get; }
     int Range { get; }
-    Sprite Sprite { get; }
+    void Display();
 
-    void DoAbility();
-    
+    void DoAbility(HexNode node);
+    List<HexNode> GetShape();
 
 }

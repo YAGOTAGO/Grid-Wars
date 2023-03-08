@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MouseManager : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class MouseManager : MonoBehaviour
     //Returns node that mouse is over or null if none there
     public HexNode GetNodeFromMouse()
     {
+        if (EventSystem.current.IsPointerOverGameObject()){ return null;}
 
         if (_gridManager.GridCoordTiles.TryGetValue(MouseCellPos, out HexNode value))
         {
@@ -53,6 +55,8 @@ public class MouseManager : MonoBehaviour
 
     private Vector3Int GetCellPosFromMouse()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) { return new Vector3Int(0 , 0, 100); } //this value would never be a cell
+
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
         return _gridManager.Grid.WorldToCell(mouseWorldPos);

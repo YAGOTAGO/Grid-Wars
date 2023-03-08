@@ -27,8 +27,9 @@ public class SelectionManager : MonoBehaviour
     private void PlayerSelected()
     {
         _selectedNode = MouseManager.Instance.GetNodeFromMouse();
-        Character clickedChar = _selectedNode.GetCharacter();
+        if (_selectedNode == null) { return; }
 
+        Character clickedChar = _selectedNode.GetCharacter();
         if (clickedChar == null) { return; }
 
         if (IsThisSelected(clickedChar) && IsSameNode())

@@ -6,8 +6,12 @@ using UnityEngine;
 public class BFS
 {
 
-    //Returns the list of visited nodes within the depth
-    //Highlights the BFS
+    /// <summary>
+    /// Does a BFS search of depth from a start node, highlights all nodes along the way on Moves Map
+    /// </summary>
+    /// <param name="startNode">Which node BFS starts at</param>
+    /// <param name="depth">How far BFS should go</param>
+    /// <returns>A Set of walkable nodes that were found in BFS</returns>
     public static HashSet<HexNode> BFSvisited(HexNode startNode, int depth)
     {
 

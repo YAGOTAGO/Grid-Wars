@@ -21,7 +21,7 @@ public class Shape : MonoBehaviour
 
     private void Update()
     {
-        nodes = LineInDirection(p._onNode, GridManager.Instance.GridCoordTiles[MouseManager.Instance.MouseCellPos], 3);
+        /*nodes = LineInDirection(p._onNode, GridManager.Instance.GridCoordTiles[MouseManager.Instance.MouseCellPos], 3);
 
         foreach (HexNode node in nodes)
         {
@@ -31,7 +31,7 @@ public class Shape : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             HighlightManager.Instance.ClearPathMap();
-        }
+        }*/
         
     }
 
@@ -71,7 +71,7 @@ public class Shape : MonoBehaviour
 
             if(GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord + directionInt, out HexNode Value))
             {
-                currNode = GridManager.Instance.CubeCoordTiles[currNode.CubeCoord + directionInt];
+                currNode = Value;
             }
             
             if(currNode != null && currNode != playerNode && currNode.IsPassable)
