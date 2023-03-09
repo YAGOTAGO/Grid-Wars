@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shape : MonoBehaviour
+public class Shape
 {
     private Vector3Int _up = new(1,0);
     private Vector3Int _down = new(-1, 0);
@@ -14,27 +14,6 @@ public class Shape : MonoBehaviour
     public PlayerMovement p;
     public List<HexNode> nodes;
 
-    #region prior vars
-    private HexNode _priorNode;
-    private List<HexNode> _priorShape;
-    #endregion
-
-    private void Update()
-    {
-        /*nodes = LineInDirection(p._onNode, GridManager.Instance.GridCoordTiles[MouseManager.Instance.MouseCellPos], 3);
-
-        foreach (HexNode node in nodes)
-        {
-            HighlightManager.Instance.PathHighlight(node.GridPos);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            HighlightManager.Instance.ClearPathMap();
-        }*/
-        
-    }
-
     /// <summary>
     /// A amount size line that doesn't include the player, and will not pass terrain
     /// </summary>
@@ -42,15 +21,11 @@ public class Shape : MonoBehaviour
     /// <param name="mouseNode">Node mouse is at</param>
     /// <param name="amount">How long the straight line should be</param>
     /// <returns>A list of nodes of the shape</returns>
-    public List<HexNode> LineInDirection(HexNode playerNode, HexNode mouseNode, int amount)
+    public static List<HexNode> LineInDirection(HexNode playerNode, HexNode mouseNode, int amount)
     {
-
-        //Only call if mouse moved node
-        if(_priorNode == mouseNode){return _priorShape;}
 
         //clear path
         HighlightManager.Instance.ClearPathMap();
-        _priorNode = mouseNode;
 
         //Cubic coords
         List<HexNode> nodesInDirection = new();
@@ -80,17 +55,15 @@ public class Shape : MonoBehaviour
             }
             else
             {
-                _priorShape = nodesInDirection;
                 return nodesInDirection;
             }
 
         }
 
-        _priorShape = nodesInDirection;
         return nodesInDirection;
     }
 
-    public List<HexNode> Circle (HexNode origin, bool includeOrigin)
+    public static List<HexNode> Circle (HexNode origin, bool includeOrigin)
     {
         if (includeOrigin)
         {

@@ -24,8 +24,9 @@ public abstract class AbstractEffect
         return damageInfo.Val;
     }
 
+    public int GetDuration() { return duration; }
 
-
+    public void AddToDuration(int extraDur) { duration += extraDur; }
 }
 
 

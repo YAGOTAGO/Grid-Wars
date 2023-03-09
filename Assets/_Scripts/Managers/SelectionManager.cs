@@ -5,7 +5,7 @@ using UnityEngine;
 public class SelectionManager : MonoBehaviour
 {
     [HideInInspector] public static SelectionManager Instance;
-    private Character _selectedChar;
+    public Character SelectedChar { get; private set; }
     private Character _priorChar;
     private HexNode _selectedNode;
     private HexNode _priorNode;
@@ -21,9 +21,12 @@ public class SelectionManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        DontDestroyOnLoad(this);
+        
     }
 
+    /// <summary>
+    /// A method for handling the clicking over character selection
+    /// </summary>
     private void PlayerSelected()
     {
         _selectedNode = MouseManager.Instance.GetNodeFromMouse();
@@ -34,13 +37,13 @@ public class SelectionManager : MonoBehaviour
 
         if (IsThisSelected(clickedChar) && IsSameNode())
         {
-            _selectedChar.OnUnselected();
-            _selectedChar = null;
+            SelectedChar.OnUnselected();
+            SelectedChar = null;
         }
         else if (!IsSameCharacter())
         {
-            _selectedChar = clickedChar;
-            _selectedChar.OnSelected();
+            SelectedChar = clickedChar;
+            SelectedChar.OnSelected();
         }
         _priorNode = _selectedNode;
         _priorChar = clickedChar;
@@ -49,17 +52,17 @@ public class SelectionManager : MonoBehaviour
     private bool IsSameCharacter()
     {
         if(_priorChar == null) { return false; }
-        return _priorChar.Equals(_selectedChar);
+        return _priorChar == SelectedChar;
     }
 
     private bool IsSameNode()
     {
-        return _selectedNode.Equals(_priorNode);
+        return _selectedNode == _priorNode;
     }
 
     public bool IsThisSelected(Character go)
     {
-        return go.Equals(_selectedChar);
+        return go == SelectedChar;
     }
 
 }

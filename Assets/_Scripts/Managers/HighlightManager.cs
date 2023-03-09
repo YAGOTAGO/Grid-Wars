@@ -21,7 +21,7 @@ public class HighlightManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        DontDestroyOnLoad(this);
+
     }
 
     #region PathMap
@@ -30,7 +30,7 @@ public class HighlightManager : MonoBehaviour
         _pathMap.SetTile(pos, _pathTile);
     }
 
-    public void ClearMaps()
+    public void ClearPathAndMoves()
     {
         ClearMovesMap();
         ClearPathMap();

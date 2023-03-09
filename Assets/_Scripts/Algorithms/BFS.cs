@@ -11,8 +11,9 @@ public class BFS
     /// </summary>
     /// <param name="startNode">Which node BFS starts at</param>
     /// <param name="depth">How far BFS should go</param>
+    /// <param name="paintMoves">Whether or not to highlight Moves map with bfs result</param>
     /// <returns>A Set of walkable nodes that were found in BFS</returns>
-    public static HashSet<HexNode> BFSvisited(HexNode startNode, int depth)
+    public static HashSet<HexNode> BFSvisited(HexNode startNode, int depth, bool paintMoves)
     {
 
         HashSet<HexNode> visited = new();
@@ -38,7 +39,7 @@ public class BFS
                 fronteir.Enqueue(neighbor);
                 visited.Add(neighbor);
 
-                HighlightManager.Instance.MovesHighlight(neighbor.GridPos);
+                if (paintMoves) { HighlightManager.Instance.MovesHighlight(neighbor.GridPos); }
             }
         }
 

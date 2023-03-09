@@ -28,7 +28,6 @@ public class GridManager : MonoBehaviour
         InitVars();
         InitDict();
         InitBoard();
-        DontDestroyOnLoad(this);
     }
 
     void Start()

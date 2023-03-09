@@ -17,7 +17,7 @@ public class MouseManager : MonoBehaviour
     {
         Instance= this;
         MouseCellPos = new Vector3Int();
-        DontDestroyOnLoad(this);
+        
     }
      void Start()
     {
@@ -27,12 +27,13 @@ public class MouseManager : MonoBehaviour
     {
         MouseCellPos = GetCellPosFromMouse();
     }
+
     //Returns whethet hovered tile is walkable
     public bool IsTileWalkable()
     {
-        if(_gridManager.GridCoordTiles.ContainsKey(MouseCellPos))
+        if (_gridManager.GridCoordTiles.TryGetValue(MouseCellPos, out HexNode value))
         {
-            return _gridManager.GridCoordTiles[MouseCellPos].IsWalkable;
+            return value.IsWalkable;
         }
 
         return false;

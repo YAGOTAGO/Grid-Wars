@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Vars
-    public HexNode _onNode;
+    public HexNode OnNode;
     private HashSet<HexNode> _possMoves = new();
     private readonly HashSet<HexNode> _emptySet = new();
     private HexNode _priorTarget;
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        if(_isWalking || !IsSelected()) return; //cannot input while walking or not selected
+        if (_isWalking || !IsSelected()) return; //cannot input while walking or not selected
 
         //Shows path in possible moves
         if (_moves > 0)
@@ -53,9 +53,9 @@ public class PlayerMovement : MonoBehaviour
         InitSingletonVars();
         InitComponents();
 
-        _onNode = _gridManager.GridCoordTiles[new Vector3Int(0, 0)];
-        _onNode.SetCharacter(_thisPlayer);
-        _onNode.IsWalkable = false;
+        OnNode = _gridManager.GridCoordTiles[new Vector3Int(0, 0)];
+        OnNode.SetCharacter(_thisPlayer);
+        OnNode.IsWalkable = false;
 
     }        
 
@@ -72,12 +72,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayerSelected()
     {
-        _possMoves = BFS.BFSvisited(_onNode, _moves);
+        _possMoves = BFS.BFSvisited(OnNode, _moves, true);
     }
 
     public void PlayerUnselected()
     {
-        _highlightManager.ClearMaps();
+        _highlightManager.ClearPathAndMoves();
         _possMoves = _emptySet;
     }
 
@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         _priorTarget = target;
 
         //Get the path
-        List<HexNode> path = PathFinding.FindPath(_onNode, target);
+        List<HexNode> path = PathFinding.FindPath(OnNode, target);
         if (path == null) { return; }
 
         //Clear existing map
@@ -120,10 +120,10 @@ public class PlayerMovement : MonoBehaviour
             if(_possMoves.Contains(target))
             {
                 //both maps get cleared
-                _highlightManager.ClearMaps();    
+                _highlightManager.ClearPathAndMoves();    
 
                 //A* find path and then walk it
-                List<HexNode> path = PathFinding.FindPath(_onNode, target);
+                List<HexNode> path = PathFinding.FindPath(OnNode, target);
                 StartCoroutine(Walk(path));
                 OnNodeSetting(target);
             }
@@ -133,13 +133,13 @@ public class PlayerMovement : MonoBehaviour
     private void OnNodeSetting(HexNode target)
     {   
         //set prior node
-        _onNode.IsWalkable = true;
-        _onNode.SetCharacter(null);
+        OnNode.IsWalkable = true;
+        OnNode.SetCharacter(null);
 
         //Set current node
-        _onNode = target;
-        _onNode.IsWalkable = false;
-        _onNode.SetCharacter(_thisPlayer);
+        OnNode = target;
+        OnNode.IsWalkable = false;
+        OnNode.SetCharacter(_thisPlayer);
     }
 
     IEnumerator Walk(List<HexNode> path)
@@ -155,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Update the possible moves
-        _possMoves = BFS.BFSvisited(path[0], _moves); // path[0] is destination
+        _possMoves = BFS.BFSvisited(path[0], _moves, true); // path[0] is destination
 
         _isWalking = false;
     }

@@ -6,10 +6,11 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {   
     public HashSet<AbstractEffect> Effects {  get; private set; }
-    public List<IAbility> Abilities { get; private set; }
+    public List<AbstractAbility> Abilities { get; private set; }
 
     [SerializeField] private int _health;
     [SerializeField] private GameObject _playerHighlight;
+    [SerializeField] private GameObject _playerUI;
     private PlayerMovement _pMove;
         
     // Start is called before the first frame update
@@ -23,6 +24,14 @@ public class Character : MonoBehaviour
     public void AddEffect(AbstractEffect ef)
     {
         //If already in set should increase the duration
+        if(Effects.Contains(ef))
+        {
+            //Figure out how to increment duration in hashset
+        }
+        else
+        {
+            Effects.Add(ef);
+        }
 
         //Otherwise add to the set
     }
@@ -31,16 +40,25 @@ public class Character : MonoBehaviour
     public void OnSelected()
     {
         //Show ability UI
+        _playerUI.SetActive(true);
 
         //Show moves path
         _pMove.PlayerSelected();
+
+        //Sets highlight
         _playerHighlight.SetActive(true);
 
     }
 
     public void OnUnselected()
     {
+        //Removes player UI
+        _playerUI.SetActive(false);
+
+        //Removes moves maps
         _pMove.PlayerUnselected();
+
+        //Unhighlights player
         _playerHighlight.SetActive(false);
     }
 
@@ -54,4 +72,10 @@ public class Character : MonoBehaviour
         }
 
     }
+
+    public HexNode GetNodeOn()
+    {
+        return _pMove.OnNode;
+    }
+
 }

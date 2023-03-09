@@ -6,7 +6,9 @@ public class AbilityManager : MonoBehaviour
 {
     public static AbilityManager Instance;
 
-    public IAbility SelectedAbility;
+    private AbstractAbility _selectedAbility;
+
+    private HexNode _priorNode;
 
     private void Awake()
     {
@@ -15,32 +17,39 @@ public class AbilityManager : MonoBehaviour
 
     void Update()
     {
-        if(SelectedAbility == null) { return; }
+        if(_selectedAbility == null) { return; }
+            
 
-        List<HexNode> shape = SelectedAbility.GetShape();
-        SelectedAbility.Display();
+        HexNode mouseNode = MouseManager.Instance.GetNodeFromMouse();
+        if(mouseNode==_priorNode || mouseNode == null) { return; }
+        _priorNode = mouseNode;
+
+        //if mouse node not inside range BFS return
+        HashSet<HexNode> possRange = BFS.BFSvisited(mouseNode, _selectedAbility.GetRange() , false);
+        
+        //Dont do ability action if mouse is outside the range
+        if (!possRange.Contains(mouseNode)) { return; }
+
+        //Get the shape and display it
+        List<HexNode> shape = _selectedAbility.GetShape(mouseNode);
+        _selectedAbility.Display(shape);
 
         if(Input.GetMouseButtonDown(0))
         {
             foreach(HexNode node in shape)
             {
-                SelectedAbility.DoAbility(node);
+                _selectedAbility.DoAbility(node);
             }
+            _selectedAbility = null;
+            HighlightManager.Instance.ClearPathAndMoves();
         }
         
-        SelectedAbility = null;
-        ClearDisplay();
     }
 
-    private void ClearDisplay()
-    {
-        HighlightManager.Instance.ClearMovesMap();
-    }
-    public HashSet<HexNode> DisplayRange(HexNode pNode, int range)
-    {
-        HashSet<HexNode> nodesInRange = BFS.BFSvisited(pNode, range);
-        return nodesInRange;
 
+    public void SetSelectedAbility(AbstractAbility ability)
+    {
+        _selectedAbility = ability;
     }
 
 
