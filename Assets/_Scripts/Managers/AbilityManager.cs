@@ -9,7 +9,7 @@ public class AbilityManager : MonoBehaviour
     private AbstractAbility _selectedAbility;
 
     private HexNode _priorNode;
-
+    private List<HexNode> _shape;
     private void Awake()
     {
         Instance = this;
@@ -18,7 +18,18 @@ public class AbilityManager : MonoBehaviour
     void Update()
     {
         if(_selectedAbility == null) { return; }
-            
+
+        if (Input.GetMouseButtonDown(0) && _shape != null)
+        {
+
+            foreach (HexNode node in _shape)
+            {
+                _selectedAbility.DoAbility(node);
+            }
+            _selectedAbility = null;
+            HighlightManager.Instance.ClearPathAndMoves();
+        }
+
         HexNode mouseNode = MouseManager.Instance.GetNodeFromMouse();
         if(mouseNode==_priorNode || mouseNode == null) { return; }
         _priorNode = mouseNode;
@@ -30,19 +41,9 @@ public class AbilityManager : MonoBehaviour
         if (!possRange.Contains(mouseNode)) { return; }
 
         //Get the shape and display it
-        List<HexNode> shape = _selectedAbility.GetShape(mouseNode);
-        _selectedAbility.Display(shape);
+        _shape = _selectedAbility.GetShape(mouseNode);
+        _selectedAbility.Display(_shape);
 
-        if(Input.GetMouseButtonDown(0))
-        {
-            foreach(HexNode node in shape)
-            {
-                _selectedAbility.DoAbility(node);
-            }
-            _selectedAbility = null;
-            HighlightManager.Instance.ClearPathAndMoves();
-        }
-        
     }
 
 

@@ -2,22 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
 public class Character : MonoBehaviour
-{   
-    public HashSet<AbstractEffect> Effects {  get; private set; }
+{
+    public HashSet<AbstractEffect> Effects { get; private set; }
     public List<AbstractAbility> Abilities { get; private set; }
 
-    [SerializeField] private int _health;
+    #region Visuals
     [SerializeField] private GameObject _playerHighlight;
     [SerializeField] private GameObject _playerUI;
-    private PlayerMovement _pMove;
-        
+    #endregion
+
+    #region Stats
+    [SerializeField] private int _health;
+
+    #endregion
+    
+    private HexNode OnNode;
+
+    #region Move Stats
+    [Header("Movement stats")]
+    public float PlayerSpeed = 10f;
+    public iTween.EaseType EaseType;
+    public int Moves = 5;
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
         Effects = new();
-        _pMove = GetComponent<PlayerMovement>();
+        Abilities = new();
+
+        //Some spawn action
+        SetNodeOn(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)]);
+        GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].SetCharacter(this);
+        GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].IsWalkable = false;
+        
     }
 
     //TO:DO
@@ -42,9 +61,6 @@ public class Character : MonoBehaviour
         //Show ability UI
         _playerUI.SetActive(true);
 
-        //Show moves path
-        _pMove.PlayerSelected();
-
         //Sets highlight
         _playerHighlight.SetActive(true);
 
@@ -54,9 +70,6 @@ public class Character : MonoBehaviour
     {
         //Removes player UI
         _playerUI.SetActive(false);
-
-        //Removes moves maps
-        _pMove.PlayerUnselected();
 
         //Unhighlights player
         _playerHighlight.SetActive(false);
@@ -75,7 +88,13 @@ public class Character : MonoBehaviour
 
     public HexNode GetNodeOn()
     {
-        return _pMove.OnNode;
+        return OnNode;
     }
+
+    public void SetNodeOn(HexNode node)
+    {
+        OnNode = node;
+    }
+
 
 }

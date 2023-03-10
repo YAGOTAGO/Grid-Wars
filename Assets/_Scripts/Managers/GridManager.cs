@@ -11,6 +11,7 @@ public class GridManager : MonoBehaviour
     public Dictionary<Vector3Int, HexNode> GridCoordTiles { get; private set; } //know which tile by position
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; }
     public Grid Grid { get; private set; } //used to put all tiles under
+    private int _tileNum = 0;
 
     #region TilePrefabs
 
@@ -94,6 +95,8 @@ public class GridManager : MonoBehaviour
 
                 //organizes look in editor
                 tile.transform.SetParent(Grid.transform); 
+                tile.name = type.ToString() + _tileNum;
+                _tileNum++;
             }
 
         }
