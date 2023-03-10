@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     private bool playerTurn;
 
     public List<Character> enemyList;
-    public List<Character> allyList;
+    public List<Character> AllyList;
 
     private void Awake()
     {

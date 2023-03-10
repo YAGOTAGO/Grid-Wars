@@ -19,6 +19,7 @@ public class AbilityManager : MonoBehaviour
     void Update()
     {
         if(_selectedAbility == null) { return; }
+        if(SelectionManager.Instance.SelectedChar.Actions<=0 ) { return; }
 
         //Cant move if in ability
         MovementManager.Instance.SetCanMoveToFalse();
@@ -33,6 +34,7 @@ public class AbilityManager : MonoBehaviour
             }
             _selectedAbility = null;
             HighlightManager.Instance.ClearPathAndMoves();
+            SelectionManager.Instance.SelectedChar.Actions--;
         }
 
         HexNode mouseNode = MouseManager.Instance.GetNodeFromMouse();

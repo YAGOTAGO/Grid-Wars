@@ -37,6 +37,7 @@ public class MovementManager : MonoBehaviour
     {
         if(!_canMove) { return;}
         SetFunctionVars();
+        if(_player.Actions<=0) { return; }
         ShowPath();
         Move();
     }
@@ -105,6 +106,9 @@ public class MovementManager : MonoBehaviour
                 List<HexNode> path = PathFinding.FindPath(_OnNode, target);
                 StartCoroutine(Walk(path));
                 OnNodeSetting(target);
+
+                _player.Actions--; //Decrease player actions after move
+                _canMove = false; //Cannot move anymore
             }
         }
     }

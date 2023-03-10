@@ -12,10 +12,7 @@ public class SelectionManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            PlayerClicked();
-        }   
+        PlayerClicked();
     }
 
     void Awake()
@@ -29,7 +26,10 @@ public class SelectionManager : MonoBehaviour
     /// </summary>
     private void PlayerClicked()
     {
-        _selectedNode = MouseManager.Instance.GetNodeFromMouse();
+        //Need to get input to go further
+        if (!Input.GetMouseButtonDown(0)) { return; }
+
+            _selectedNode = MouseManager.Instance.GetNodeFromMouse();
         if (_selectedNode == null) { return; }
 
         Character clickedChar = _selectedNode.GetCharacter();

@@ -8,21 +8,23 @@ public class Character : MonoBehaviour
     public List<AbstractAbility> Abilities { get; private set; }
 
     #region Visuals
+    [Header("Visuals")]
     [SerializeField] private GameObject _playerHighlight;
     [SerializeField] private GameObject _playerUI;
     #endregion
 
     #region Stats
+    [Header("Stats")]
     [SerializeField] private int _health;
-    [SerializeField] private int _actions = 2;
+    public int Actions = 2;
     #endregion
     
     private HexNode OnNode;
 
     #region Move Stats
     [Header("Movement stats")]
-    public float PlayerSpeed = 10f;
-    public iTween.EaseType EaseType;
+    public float PlayerSpeed = 3f;
+    public iTween.EaseType EaseType = iTween.EaseType.spring;
     public int Moves = 5;
     #endregion
 
