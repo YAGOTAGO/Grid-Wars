@@ -14,7 +14,7 @@ public class Character : MonoBehaviour
 
     #region Stats
     [SerializeField] private int _health;
-
+    [SerializeField] private int _actions = 2;
     #endregion
     
     private HexNode OnNode;
@@ -39,20 +39,25 @@ public class Character : MonoBehaviour
         
     }
 
-    //TO:DO
     public void AddEffect(AbstractEffect ef)
     {
-        //If already in set should increase the duration
-        if(Effects.Contains(ef))
-        {
-            //Figure out how to increment duration in hashset
-        }
-        else
-        {
+        //Add to set if doesnt exist
+        if (!Effects.Contains(ef)) 
+        { 
             Effects.Add(ef);
+            return;
         }
 
-        //Otherwise add to the set
+        //If exists in hashset we find the effect and extend duration
+        foreach (AbstractEffect effect in Effects)
+        {
+            //Equals is overriden so should compare type
+            if (effect.Equals(ef))
+            {
+                effect.AddToDuration(ef.GetDuration());
+            }
+        }
+
     }
 
     //May need to do different behavior based on if ally or enemy

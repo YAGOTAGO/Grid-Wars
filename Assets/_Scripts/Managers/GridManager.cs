@@ -95,6 +95,8 @@ public class GridManager : MonoBehaviour
 
                 //organizes look in editor
                 tile.transform.SetParent(Grid.transform); 
+
+                //Name to help debugginh
                 tile.name = type.ToString() + _tileNum;
                 _tileNum++;
             }
