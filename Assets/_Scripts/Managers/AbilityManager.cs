@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class AbilityManager : MonoBehaviour
 {
@@ -19,7 +20,11 @@ public class AbilityManager : MonoBehaviour
     {
         if(_selectedAbility == null) { return; }
 
-        if (Input.GetMouseButtonDown(0) && _shape != null)
+        //Cant move if in ability
+        MovementManager.Instance.SetCanMoveToFalse();
+
+        //Click and have a shape we do ability
+        if (Input.GetMouseButtonDown(0) && _shape != null && !EventSystem.current.IsPointerOverGameObject())
         {
 
             foreach (HexNode node in _shape)

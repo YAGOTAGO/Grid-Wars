@@ -71,6 +71,9 @@ public class Character : MonoBehaviour
         //Removes player UI
         _playerUI.SetActive(false);
 
+        //Cannot make move
+        MovementManager.Instance.SetCanMoveToFalse();
+
         //Unhighlights player
         _playerHighlight.SetActive(false);
     }

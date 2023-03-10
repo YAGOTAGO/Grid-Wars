@@ -162,6 +162,9 @@ public class MovementManager : MonoBehaviour
         {
             //Gets poss moves and highlights
             _possMoves = BFS.BFSvisited(_OnNode, _player.Moves, true);
+
+            //Cant also cas ability
+            AbilityManager.Instance.SetSelectedAbility(null);
         }
         else
         {
@@ -169,6 +172,16 @@ public class MovementManager : MonoBehaviour
         }
         
 
+    }
+
+    public void SetCanMoveToFalse()
+    {
+        if (_canMove)
+        {
+            HighlightManager.Instance.ClearPathAndMoves();
+        }
+        _canMove = false;
+        
     }
 
 }
