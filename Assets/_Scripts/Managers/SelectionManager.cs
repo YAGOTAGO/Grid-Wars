@@ -14,7 +14,7 @@ public class SelectionManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            PlayerSelected();
+            PlayerClicked();
         }   
     }
 
@@ -27,7 +27,7 @@ public class SelectionManager : MonoBehaviour
     /// <summary>
     /// A method for handling the clicking over character selection
     /// </summary>
-    private void PlayerSelected()
+    private void PlayerClicked()
     {
         _selectedNode = MouseManager.Instance.GetNodeFromMouse();
         if (_selectedNode == null) { return; }
@@ -35,11 +35,13 @@ public class SelectionManager : MonoBehaviour
         Character clickedChar = _selectedNode.GetCharacter();
         if (clickedChar == null) { return; }
 
+        //Same node and same character we unselect
         if (IsThisSelected(clickedChar) && IsSameNode())
         {
             SelectedChar.OnUnselected();
             SelectedChar = null;
         }
+        //Not the same character then we select that character
         else if (!IsSameCharacter())
         {
             SelectedChar = clickedChar;

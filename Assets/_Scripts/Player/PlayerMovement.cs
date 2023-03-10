@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
         InitSingletonVars();
         InitComponents();
 
+        //temporary
         OnNode = _gridManager.GridCoordTiles[new Vector3Int(0, 0)];
         OnNode.SetCharacter(_thisPlayer);
         OnNode.IsWalkable = false;

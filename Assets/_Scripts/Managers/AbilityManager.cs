@@ -19,7 +19,6 @@ public class AbilityManager : MonoBehaviour
     {
         if(_selectedAbility == null) { return; }
             
-
         HexNode mouseNode = MouseManager.Instance.GetNodeFromMouse();
         if(mouseNode==_priorNode || mouseNode == null) { return; }
         _priorNode = mouseNode;
