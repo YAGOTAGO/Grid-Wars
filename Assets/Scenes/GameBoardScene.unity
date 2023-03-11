@@ -1182,7 +1182,7 @@ GameObject:
   - component: {fileID: 695213176}
   - component: {fileID: 695213177}
   m_Layer: 0
-  m_Name: TipWindow Manager
+  m_Name: Players UI Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1218,6 +1218,7 @@ MonoBehaviour:
   TipText: {fileID: 1504415098}
   TipWindow: {fileID: 1556788611}
   MaxWidth: 150
+  UIPlayerHorizontalGroup: {fileID: 1235210819}
 --- !u!1 &734403729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1624,96 +1625,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986642114}
   m_CullTransparentMesh: 1
---- !u!1 &1149770616
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1149770617}
-  - component: {fileID: 1149770619}
-  - component: {fileID: 1149770618}
-  - component: {fileID: 1149770620}
-  m_Layer: 5
-  m_Name: Effect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1149770617
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149770616}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1741606928}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 59.047, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1149770618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149770616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ddf5f83710277d84c899f8a168603d12, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1149770619
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149770616}
-  m_CullTransparentMesh: 1
---- !u!114 &1149770620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149770616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e3ffe01ba625044a8814e28100a7aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _description: Poison deals damage every turn
 --- !u!1 &1155765048
 GameObject:
   m_ObjectHideFlags: 0
@@ -2618,7 +2529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1556788611
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2985,9 +2896,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2699ccecc01c70458482078453a3700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectsUIGroup: {fileID: 0}
+  _effectsUIGroup: {fileID: 1741606927}
   _playerHighlight: {fileID: 1364720054}
-  _playerUI: {fileID: 1412882489}
+  _playerAbilityUI: {fileID: 0}
   _health: 100
   Actions: 2
   PlayerSpeed: 3
@@ -12503,8 +12414,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1149770617}
+  m_Children: []
   m_Father: {fileID: 2083961035}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

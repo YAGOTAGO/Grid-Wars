@@ -6,16 +6,24 @@ using UnityEngine;
 
 public class HoverTipManager : MonoBehaviour
 {
+    public static HoverTipManager Instance;
+
+    #region TipWindow
     public TextMeshProUGUI TipText;
     public RectTransform TipWindow;
     public int MaxWidth = 150;
-
     public static Action<string, Vector2> OnMouseHover;
     public static Action OnMouseLoseFocus;
+    #endregion
+
+    #region Players UI
+    public GameObject UIPlayerHorizontalGroup;
+    #endregion
 
 
     private void Start()
     {
+        Instance = this;
         HideTip();
     }
 

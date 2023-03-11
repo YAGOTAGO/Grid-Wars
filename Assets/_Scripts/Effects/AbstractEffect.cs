@@ -9,12 +9,12 @@ public abstract class AbstractEffect
      */
     #region Stats
     public abstract int Duration { get; set; }
-    public abstract StatusType Type { get; set; }
+    public abstract StatusType Type { get;}
     #endregion
 
     #region UI Display
-    public abstract string Description { get; set; }
-    public abstract Sprite EffectIcon { get; set; }
+    public abstract string Description { get; }
+    public abstract Sprite EffectIcon { get; }
     #endregion
 
     //Hooks
@@ -27,6 +27,8 @@ public abstract class AbstractEffect
 
     //Helper methods
     public void AddToDuration(int extraDur) { Duration += extraDur; }
+
+    public abstract void UpdateDescrip();
 
     /// <summary>
     /// Equal if are same derived class type

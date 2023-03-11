@@ -12,14 +12,10 @@ public class BurnEffect : AbstractEffect
     public int Damage = 3;
 
     #region Override Abstract Var
-    public override int Duration { get { return _duration; } set { _duration = 2; } }
-    public override StatusType Type { get { return _type; } set { _type = StatusType.DEBUFF; } }
-    public override string Description 
-    { 
-        get { return _description; } 
-        set { _description = "<b>< color=#FF4E01>BURN: </color></b>" + "At the end of the take <color=red>" + Damage + ".</color> Lasts " + _duration + "turns."; } 
-    }
-    public override Sprite EffectIcon { get { return _effectIcon; } set { _effectIcon = Resources.Load<Sprite>("burnIcon"); } }
+    public override int Duration { get => _duration;  set => _duration = value;  }
+    public override StatusType Type { get => _type; } 
+    public override string Description { get => _description; } 
+    public override Sprite EffectIcon { get => _effectIcon; }
 
     #endregion
     
@@ -32,9 +28,19 @@ public class BurnEffect : AbstractEffect
         _effectIcon = Resources.Load<Sprite>("burnIcon");
     }
 
+    /// <summary>
+    /// Updates the description to match new damage and duration values
+    /// </summary>
+    public override void UpdateDescrip()
+    {
+        _description = "<b><color=#FF4E01>BURN: </color></b>" + "At the end of the take <color=red>" + Damage + " damage.</color> Lasts " + _duration + " turns.";
+    }
 
     public override void EndOfTurn(Character character) 
     {
         DamageManager.Instance.Damage(new DamageInfo(Damage, DamageType.Fire, null, character));
+        _duration--;
+        character.UpdateEffectDescrip(this);
+        if (_duration <= 0) { character.RemoveEffect(this); }
     }
 }
