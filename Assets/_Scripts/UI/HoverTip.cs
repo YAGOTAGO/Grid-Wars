@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class HoverTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public string _description = "temp";
-    private readonly float _waitTime = 0.5f;
+    private readonly float _waitTime = 0.3f;
     
     //Interface implementations
     public void OnPointerEnter(PointerEventData eventData)
@@ -18,13 +18,13 @@ public class HoverTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         StopAllCoroutines();
-        HoverTipManager.OnMouseLoseFocus();
+        PlayersUIManager.OnMouseLoseFocus();
     }
 
     //Responisble for showing message
     private void ShowMessage()
     {
-        HoverTipManager.OnMouseHover(_description, Input.mousePosition);
+        PlayersUIManager.OnMouseHover(_description, Input.mousePosition);
     }
 
     private IEnumerator StartTimer()

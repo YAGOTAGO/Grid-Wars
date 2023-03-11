@@ -8,12 +8,13 @@ public class Character : MonoBehaviour
     public HashSet<AbstractEffect> Effects { get; private set; }
     public List<AbstractAbility> Abilities { get; private set; }
     
-    
     #region Visuals
     [Header("Visuals")]
     [SerializeField] private GameObject _playerHighlight;
     [SerializeField] private GameObject _playerAbilityUI;
     [SerializeField] private GameObject _effectsUIGroup; //This contains the horizontal layout group UI
+    [SerializeField] private HealthBar _healthBar;
+    [SerializeField] private GameObject _playerStatsUI;
     #endregion
 
     #region Stats
@@ -52,6 +53,8 @@ public class Character : MonoBehaviour
         Effects = new();
         Abilities = new();
         _effectToUIDict = new();
+        _healthBar.InitHealthBarUI(_health, _health);
+        PlayersUIManager.Instance.SetPlayerUI(_playerStatsUI);
     }
 
     public void AddEffect(AbstractEffect ef)
@@ -150,9 +153,9 @@ public class Character : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        //Take the damage and update health bar
         _health -= damage;
-
-        //Do some health bar logic here
+        _healthBar.SetHealth(_health);
 
         if (_health <= 0)
         {
