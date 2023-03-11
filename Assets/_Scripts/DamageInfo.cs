@@ -7,14 +7,14 @@ public class DamageInfo
     public Character Source { get; private set; }
     public Character Target { get; private set; }
 
-    public DamageInfo(int dmg, DamageType type)
+    public DamageInfo(int dmg, DamageType type, Character source, Character target)
     {
         this.Type = type;
         this.Val = dmg;
+        this.Source = source;
+        this.Target = target;
     }
 
-
-   
 }
 
 public enum DamageType

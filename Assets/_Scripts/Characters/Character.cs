@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
     public HashSet<AbstractEffect> Effects { get; private set; }
+
+    [SerializeField] private GameObject _effectsUIGroup;
+
     public List<AbstractAbility> Abilities { get; private set; }
 
     #region Visuals
@@ -38,7 +42,9 @@ public class Character : MonoBehaviour
         SetNodeOn(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)]);
         GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].SetCharacter(this);
         GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].IsWalkable = false;
-        
+
+        this.AddEffect(new BurnEffect());
+
     }
 
     public void AddEffect(AbstractEffect ef)
@@ -47,6 +53,7 @@ public class Character : MonoBehaviour
         if (!Effects.Contains(ef)) 
         { 
             Effects.Add(ef);
+            SetEffectUI(ef);
             return;
         }
 
@@ -56,10 +63,26 @@ public class Character : MonoBehaviour
             //Equals is overriden so should compare type
             if (effect.Equals(ef))
             {
-                effect.AddToDuration(ef.GetDuration());
+                effect.AddToDuration(ef.Duration);
+
             }
         }
 
+    }
+
+    private void SetEffectUI(AbstractEffect ef)
+    {
+        //UI display that is added
+        GameObject efUI = new() { name = ef.ToString() };
+        efUI.AddComponent<HoverTip>().SetDescription(ef.Description); //So we can hover
+        efUI.AddComponent<CanvasRenderer>(); //So can be seen on Canvas
+        
+        Image efImage = efUI.AddComponent<Image>();
+        efImage.sprite = ef.EffectIcon; //So there is an image
+
+        //Add to the horizontal layout group
+        efUI.transform.SetParent(_effectsUIGroup.transform);
+        efUI.GetComponent<RectTransform>().sizeDelta = new Vector2(20, 20);
     }
 
     //May need to do different behavior based on if ally or enemy

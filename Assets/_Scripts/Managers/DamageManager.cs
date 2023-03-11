@@ -11,22 +11,28 @@ public class DamageManager : MonoBehaviour
         Instance = this;
     }
 
-    public void Damage(DamageInfo dmg)
+    public void Damage(DamageInfo dmgInfo)
     {
-        int damage = dmg.Val;
-        Character source = dmg.Source;
-        Character target = dmg.Target; 
+        int damage = dmgInfo.Val;
+        Character source = dmgInfo.Source;
+        Character target = dmgInfo.Target; 
 
-        foreach (AbstractEffect ef in source.Effects)
+        if(source != null)
         {
-            damage = ef.AtDamageGive(dmg);
+            foreach (AbstractEffect ef in source.Effects)
+            {
+                damage = ef.AtDamageGive(dmgInfo);
+            }
         }
 
-        foreach(AbstractEffect ef in target.Effects)
+        if(target != null)
         {
-            damage = ef.AtDamageReceive(dmg);
+            foreach (AbstractEffect ef in target.Effects)
+            {
+                damage = ef.AtDamageReceive(dmgInfo);
+            }
         }
-
+        
         target.TakeDamage(damage);
 
     }

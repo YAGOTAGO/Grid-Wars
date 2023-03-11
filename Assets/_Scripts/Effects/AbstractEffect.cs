@@ -1,32 +1,32 @@
 
+using UnityEngine;
+
 public abstract class AbstractEffect
 {
     /*
      * Making a method abstract mean derived classes MUST implement it
+     * Virtual means has deafult but can be overriden
      */
+    #region Stats
+    public abstract int Duration { get; set; }
+    public abstract StatusType Type { get; set; }
+    #endregion
 
-    protected int duration;
-    protected StatusType type;
-    protected DamageInfo dmg;
-        
-    public void EndOfTurn() { }
-    public void StartOfTurn() { }
-    public void OnStepNode() { }
-    public void OnLeaveNode() { }
+    #region UI Display
+    public abstract string Description { get; set; }
+    public abstract Sprite EffectIcon { get; set; }
+    #endregion
 
-    public int AtDamageGive(DamageInfo damageInfo) 
-    { 
-        return damageInfo.Val; 
-    }
+    //Hooks
+    public virtual void EndOfTurn(Character character) { }
+    public virtual void StartOfTurn() { }
+    public virtual void OnStepNode() { }
+    public virtual void OnLeaveNode() { }
+    public virtual int AtDamageGive(DamageInfo damageInfo) { return damageInfo.Val; }
+    public virtual int AtDamageReceive(DamageInfo damageInfo) { return damageInfo.Val; }
 
-    public int AtDamageReceive(DamageInfo damageInfo)
-    {
-        return damageInfo.Val;
-    }
-
-    public int GetDuration() { return duration; }
-
-    public void AddToDuration(int extraDur) { duration += extraDur; }
+    //Helper methods
+    public void AddToDuration(int extraDur) { Duration += extraDur; }
 
     /// <summary>
     /// Equal if are same derived class type
