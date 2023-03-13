@@ -3,5 +3,5 @@
 ## Coding features:
 ### A* path finding
 ### BFS searching
-### Abstract Classes for Effects
+### Abstract Classes
 ### Scriptable Objects for Armor
