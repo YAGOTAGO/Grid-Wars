@@ -7,15 +7,11 @@ public class TestAbility : AbstractAbility
     public int Cooldown = 1;
     public int Range = 3;
 
-    public override int GetRange(){  return Range; }
+    public override int GetRange(){ return Range; }
 
-    public override void Display(List<HexNode> shape)
+    public override bool ShouldDisplayRange()
     {
-
-        foreach (HexNode node in shape)
-        {
-            HighlightManager.Instance.PathHighlight(node.GridPos);
-        }
+        return false;
     }
 
     public override void DoAbility(HexNode node)
