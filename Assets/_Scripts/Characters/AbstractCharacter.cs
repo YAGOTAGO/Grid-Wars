@@ -6,6 +6,7 @@ public abstract class AbstractCharacter : MonoBehaviour
 {
     public abstract HashSet<AbstractEffect> Effects { get; }
     public abstract List<AbstractAbility> Abilities { get; }
+    public abstract HexNode OnNode { get; set; }
 
     #region Move Stats
     public abstract float MoveSpeed { get; }
@@ -17,8 +18,6 @@ public abstract class AbstractCharacter : MonoBehaviour
     public abstract int Health { get; }
     public abstract int Actions { get; set; }    
     #endregion
-
-    public abstract HexNode OnNode { get; set; }
 
     #region Abstract Methods
     public abstract void AddEffect(AbstractEffect ef);
