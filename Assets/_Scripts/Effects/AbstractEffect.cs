@@ -28,7 +28,7 @@ public abstract class AbstractEffect
     //Helper methods
     public void AddToDuration(int extraDur) { Duration += extraDur; }
 
-    public abstract void UpdateDescrip();
+    public abstract void UpdateDescription();
 
     /// <summary>
     /// Equal if are same derived class type

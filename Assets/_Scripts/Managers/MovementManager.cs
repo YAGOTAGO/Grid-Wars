@@ -59,7 +59,7 @@ public class MovementManager : MonoBehaviour
     {
         
         //Dont show path if no moves
-        if(_player.Moves <= 0) { return; }
+        if(_player.WalkMoves <= 0) { return; }
 
         //Find target
         HexNode target = _mouseManager.GetNodeFromMouse();
@@ -135,7 +135,7 @@ public class MovementManager : MonoBehaviour
         for (int i = path.Count - 1; i >= 0; i--)
         {
             MovePlayerToHex(path[i].transform.position);
-            _player.Moves--;
+            _player.WalkMoves--;
             yield return new WaitForSeconds(.2f);
         }
 
@@ -165,7 +165,7 @@ public class MovementManager : MonoBehaviour
         if (_canMove)
         {
             //Gets poss moves and highlights
-            _possMoves = BFS.BFSvisited(_OnNode, _player.Moves, true);
+            _possMoves = BFS.BFSvisited(_OnNode, _player.WalkMoves, true);
 
             //Cant also cas ability
             AbilityManager.Instance.SetSelectedAbility(null);

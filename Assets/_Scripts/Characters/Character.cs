@@ -16,7 +16,7 @@ public class Character : MonoBehaviour
     [SerializeField] private HealthBar _healthBar;
     [SerializeField] private GameObject _playerStatsUI;
     #endregion
-
+    
     #region Stats
     [Header("Stats")]
     [SerializeField] private int _health;
@@ -32,7 +32,7 @@ public class Character : MonoBehaviour
     [Header("Movement stats")]
     public float PlayerSpeed = 3f;
     public iTween.EaseType EaseType = iTween.EaseType.spring;
-    public int Moves = 5;
+    public int WalkMoves = 5;
     #endregion
 
     // Start is called before the first frame update
@@ -103,7 +103,7 @@ public class Character : MonoBehaviour
     /// <param name="ef">The effect we want to update the description of</param>
     public void UpdateEffectDescrip(AbstractEffect ef)
     {
-        ef.UpdateDescrip();
+        ef.UpdateDescription();
         GameObject go = _effectToUIDict[ef];
         go.GetComponent<HoverTip>().SetDescription(ef.Description);
     }
@@ -129,7 +129,7 @@ public class Character : MonoBehaviour
     }
 
     //May need to do different behavior based on if ally or enemy
-    public void OnSelected()
+    public void OnSelect()
     {
         //Show ability UI
         _playerAbilityUI.SetActive(true);
@@ -139,7 +139,7 @@ public class Character : MonoBehaviour
 
     }
 
-    public void OnUnselected()
+    public void OnDeselect()
     {
         //Removes player UI
         _playerAbilityUI.SetActive(false);

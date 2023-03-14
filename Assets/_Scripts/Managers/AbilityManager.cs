@@ -56,7 +56,17 @@ public class AbilityManager : MonoBehaviour
 
     public void SetSelectedAbility(AbstractAbility ability)
     {
-        _selectedAbility = ability;
+        if (_selectedAbility == ability)
+        {
+            _selectedAbility = null;
+            HighlightManager.Instance.ClearPathMap();
+
+        }
+        else
+        {
+            _selectedAbility = ability;
+        }
+        
     }
 
 

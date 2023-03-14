@@ -38,14 +38,14 @@ public class SelectionManager : MonoBehaviour
         //Same node and same character we unselect
         if (IsThisSelected(clickedChar) && IsSameNode())
         {
-            SelectedChar.OnUnselected();
+            SelectedChar.OnDeselect();
             SelectedChar = null;
         }
         //Not the same character then we select that character
         else if (!IsSameCharacter())
         {
             SelectedChar = clickedChar;
-            SelectedChar.OnSelected();
+            SelectedChar.OnSelect();
         }
         _priorNode = _selectedNode;
         _priorChar = clickedChar;

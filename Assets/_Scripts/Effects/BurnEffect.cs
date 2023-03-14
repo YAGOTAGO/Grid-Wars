@@ -31,7 +31,7 @@ public class BurnEffect : AbstractEffect
     /// <summary>
     /// Updates the description to match new damage and duration values
     /// </summary>
-    public override void UpdateDescrip()
+    public override void UpdateDescription()
     {
         _description = "<b><color=#FF4E01>BURN: </color></b>" + "At the end of the take <color=red>" + Damage + " damage.</color> Lasts " + _duration + " turns.";
     }
