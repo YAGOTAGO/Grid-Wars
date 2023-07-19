@@ -29,7 +29,7 @@ public class SelectionManager : MonoBehaviour
         //Need to get input to go further
         if (!Input.GetMouseButtonDown(0)) { return; }
 
-            _selectedNode = MouseManager.Instance.GetNodeFromMouse();
+        _selectedNode = MouseManager.Instance.GetNodeFromMouse();
         if (_selectedNode == null) { return; }
 
         Character clickedChar = _selectedNode.GetCharacter();
