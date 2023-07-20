@@ -16,13 +16,13 @@ public class RelayService : NetworkBehaviour
 {
 
     private readonly int _maxPlayers = 1; //Doesn't include the host
-    [SerializeField] private TMP_InputField _joinInput;
+    [SerializeField] private TMP_InputField _joinInput; 
     [SerializeField] private GameObject _buttons;
     [SerializeField] private TextMeshProUGUI _joinCodeTMP;
     [SerializeField] private TextMeshProUGUI _loadingTMP;
     private async void Start()
     {
-        await AuthenticatePlayers();
+        await AuthenticatePlayers(); //log in players annonymously
     }
 
     private static async Task AuthenticatePlayers()
@@ -51,7 +51,7 @@ public class RelayService : NetworkBehaviour
             //Display and update join code text
             _loadingTMP.gameObject.SetActive(false);
             _joinCodeTMP.gameObject.SetActive(true);
-            _joinCodeTMP.text = "Join Code: " + _joinCode;
+            _joinCodeTMP.text = "Join Code: " + _joinCode + "\n Waiting for player to join...";
 
             //Join the the relay
             RelayServerData relayServerData = new(a, "dtls");
@@ -72,7 +72,7 @@ public class RelayService : NetworkBehaviour
         if (string.IsNullOrEmpty(_joinInput.text)) { return; }
         
         _buttons.SetActive(false);
-        
+        _loadingTMP.gameObject.SetActive(true);
         try
         {
             JoinAllocation joinAllocation = await Unity.Services.Relay.RelayService.Instance.JoinAllocationAsync(_joinInput.text);
@@ -88,6 +88,7 @@ public class RelayService : NetworkBehaviour
         }
     }
 
+    //Waits until client has connected and then loads scene for both players
     IEnumerator WaitForClientConnect()
     {
        
@@ -96,6 +97,7 @@ public class RelayService : NetworkBehaviour
             Debug.Log("Waiting for connection");
             yield return null;
         }
+        _loadingTMP.gameObject.SetActive(false);
         Debug.Log("Connected");
        
         LoadSceneServerRPC();

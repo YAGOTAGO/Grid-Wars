@@ -44,14 +44,14 @@ public class PlayersUIManager : MonoBehaviour
         playerUI.transform.SetParent(_UIPlayerHorizontalGroup.transform);
     }
 
+    //Show the tipwindow with the size set up
     private void ShowTip(string tip, Vector2 mousePos)
     {
+        TipWindow.gameObject.SetActive(true);
         TipText.text = tip;
         TipWindow.sizeDelta = new Vector2(TipText.preferredWidth > MaxWidth ? MaxWidth : TipText.preferredWidth, TipText.preferredHeight);
-        
         TipWindow.transform.position = new Vector2(mousePos.x + (TipWindow.sizeDelta.x/2), mousePos.y);
-        TipWindow.gameObject.SetActive(true);
-        
+ 
     }
 
     private void HideTip()

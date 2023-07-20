@@ -15,6 +15,7 @@ public class Character : MonoBehaviour
     [SerializeField] private GameObject _effectsUIGroup; //This contains the horizontal layout group UI
     [SerializeField] private HealthBar _healthBar;
     [SerializeField] private GameObject _playerStatsUI;
+    [SerializeField] private GameObject _effectUIPrefab;
     #endregion
     
     #region Stats
@@ -108,20 +109,15 @@ public class Character : MonoBehaviour
         go.GetComponent<HoverTip>().SetDescription(ef.Description);
     }
 
+    //Adds all the components and sets them
     private void SetEffectUI(AbstractEffect ef)
     {
-        //UI display that is added
-        GameObject efUI = new() { name = ef.ToString() };
-        efUI.AddComponent<HoverTip>().SetDescription(ef.Description); //So we can hover
-        efUI.AddComponent<CanvasRenderer>(); //So can be seen on Canvas
-        
-        //Image of the effect
-        Image efImage = efUI.AddComponent<Image>();
-        efImage.sprite = ef.EffectIcon; //So there is an image
 
-        //Add to the horizontal layout group
-        efUI.transform.SetParent(_effectsUIGroup.transform);
-        efUI.GetComponent<RectTransform>().sizeDelta = new Vector2(20, 20); //Size of the icons
+        //Instatiate the UI element and assign it to the horizontal group
+        GameObject efUI = Instantiate(_effectUIPrefab, _effectsUIGroup.transform);
+        efUI.name = ef.ToString(); //Name the gameobject
+        efUI.GetComponent<HoverTip>().SetDescription(ef.Description); //update description of Hover tip
+        efUI.GetComponent<Image>().sprite = ef.EffectIcon; //update image
 
         //Cache this game object for future
         _effectToUIDict[ef] = efUI;
