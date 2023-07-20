@@ -7,11 +7,10 @@ public class Card : ScriptableObject
 {
    
     public AbstractAbility Ability; //Ability that card will do
-    public string Name;
     public int StoreCost;
     public Sprite CardArt;
     public string Description;
     public int Range;
     public Sprite Shape;
-    
+    public CardName CardName;
 }

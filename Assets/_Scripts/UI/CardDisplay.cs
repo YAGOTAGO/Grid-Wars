@@ -20,7 +20,7 @@ public class CardDisplay : MonoBehaviour
 
     private void UpdateDisplay()
     {
-        _nameTMP.text = _card.Name;
+        _nameTMP.text = _card.CardName.ToString();
         _rangeTMP.text = _card.Range.ToString();
         _descripTMP.text = _card.Description;
         _shape.sprite = _card.Shape;

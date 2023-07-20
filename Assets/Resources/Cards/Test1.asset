@@ -9,7 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82902a6df43688b4c8c9ffa4a283418f, type: 3}
-  m_Name: CardTemplate
+  m_Script: {fileID: 11500000, guid: 607c1db3fb1f12540b8d0f251f986912, type: 3}
+  m_Name: Test1
   m_EditorClassIdentifier: 
-  template: {fileID: 7373885437501436843, guid: 144d6500e93f07b4ca5764399ee0cbb5, type: 3}
+  Ability: {fileID: 0}
+  StoreCost: 0
+  CardArt: {fileID: 0}
+  Description: 
+  Range: 0
+  Shape: {fileID: 0}
+  CardName: 1
