@@ -8,7 +8,7 @@ public class CardDisplayManager : MonoBehaviour
 
     [SerializeField] private CardTemplate _cardTemplate;
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
     }

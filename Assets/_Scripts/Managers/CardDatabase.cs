@@ -8,14 +8,9 @@ public class CardDatabase : MonoBehaviour
     public static CardDatabase Instance { get; private set; }
     public Dictionary<CardName, Card> cardDictionary = new();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Instance = this;
-    }
-
     private void Awake()
     {
+        Instance = this;
         LoadAllCards();
     }
 
