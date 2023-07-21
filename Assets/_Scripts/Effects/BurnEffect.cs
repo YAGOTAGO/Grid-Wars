@@ -25,7 +25,7 @@ public class BurnEffect : AbstractEffect
         _duration = 2;
         _description = "<b><color=#FF4E01>BURN: </color></b>" + "At the end of the take <color=red>" + Damage + " damage.</color> Lasts " + _duration + " turns.";
         _type = StatusType.DEBUFF;
-        _effectIcon = Resources.Load<Sprite>("burnIcon");
+        _effectIcon = LoadSprite("burnIcon");
     }
 
     /// <summary>
