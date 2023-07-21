@@ -32,4 +32,8 @@ public class CardDisplay : MonoBehaviour
         SetCard(card);
         UpdateDisplay();
     }
+
+    public Card GetCard() { return _card; }
+
+    public AbstractAbility ReturnAbility() { return _card.Ability; }
 }

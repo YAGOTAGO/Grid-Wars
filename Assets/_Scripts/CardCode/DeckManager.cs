@@ -17,7 +17,7 @@ public class DeckManager : MonoBehaviour
     [Header("ITween Values")]
     [SerializeField] private float _delay = .2f;
     [SerializeField] private float _speed = 1f;
-    [SerializeField] private iTween.EaseType _easeType = iTween.EaseType.easeOutBounce;
+    [SerializeField] private iTween.EaseType _easeType;
 
     #region Groups of cards
     private List<Card> _deck = new();
@@ -34,22 +34,27 @@ public class DeckManager : MonoBehaviour
     private void Start()
     {
         AddToDeck(_deck, CardDatabase.Instance.GetCardByName(CardName.card1));
-        AddToDeck(_deck, CardDatabase.Instance.GetCardByName(CardName.card2)); 
-        AddToDeck(_deck, CardDatabase.Instance.GetCardByName(CardName.card3));
-        Shuffle(_deck);
+        AddToDeck(_deck, CardDatabase.Instance.GetCardByName(CardName.card1)); 
+        AddToDeck(_deck, CardDatabase.Instance.GetCardByName(CardName.card1));
+        ShuffleDeck();
         DeckToHandDraw();
         DeckToHandDraw();
     }
 
+    /// <summary>
+    /// Takes card from deck list (if possible)
+    /// </summary>
     public void DeckToHandDraw()
     {
+        //
+        //ADD IF HAVE HAND SPACE AND CAN"T DRAW AND THERE ARE CARDS IN DISCARD THEN SHUFFLE
+        //
         if(_hand.Count >= 7) { return; } //Hand is full we cannot draw anymore
 
         //Get and remove card from deck add to hand
         Card cardDrawn = _deck[0];
         _deck.RemoveAt(0);
         _hand.Add(cardDrawn);
-
 
         //Instantiate card display
         GameObject cardDisplay = InstantiateCard(cardDrawn, _deckTransform.position);
@@ -63,11 +68,26 @@ public class DeckManager : MonoBehaviour
 
     IEnumerator TweenCardToHand(GameObject cardDisplay)
     {
-        yield return new WaitForSeconds(_delay); //delay for a bit 
+        yield return new WaitForSeconds(_delay); //delay for a bit
         Transform parent = OpenLeftmostSlot();
         iTween.MoveTo(cardDisplay, iTween.Hash("easetype", _easeType, "speed", _speed, "position", parent.position, "localscale", true));
         cardDisplay.transform.SetParent(parent);
+
     }
+      
+    public void HandCardToDiscard(GameObject cardDisplay)
+    {
+        //Find what slot card was in free that slot
+
+
+        //Tween card to the discard deck position
+
+        //Update cards in hand and cards in discard
+
+        //Destroy the game object
+
+    }
+
 
     /// <summary>
     /// Chose one deck to add cards to from another place
@@ -88,14 +108,14 @@ public class DeckManager : MonoBehaviour
     /// <summary>
     /// Fisher-Yates algorithm to shuffle the deck.
     /// </summary>
-    public void Shuffle(List<Card> deck)
+    public void ShuffleDeck()
     {
-        int n = deck.Count;
+        int n = _deck.Count;
         while (n > 1)
         {
             n--;
             int k = Random.Range(0, n + 1);
-            (deck[n], deck[k]) = (deck[k], deck[n]);
+            (_deck[n], _deck[k]) = (_deck[k], _deck[n]);
         }
     }
 

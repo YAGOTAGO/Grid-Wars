@@ -4,8 +4,8 @@ using UnityEngine;
 public abstract class AbstractEffect
 {
     /*
-     * Making a method abstract mean derived classes MUST implement it
-     * Virtual means has deafult but can be overriden
+     * Abstract means derived classes MUST implement it
+     * Virtual means has default but can be overriden
      */
     #region Stats
     public abstract int Duration { get; set; }
@@ -29,13 +29,7 @@ public abstract class AbstractEffect
     public void AddToDuration(int extraDur) { Duration += extraDur; }
 
     //Assumes you put sprite in Assets/Resources/Effects
-    public Sprite LoadSprite(string spriteName)
-    {
-        return Resources.Load<Sprite>("Effects/" + spriteName);
-    
-    }
-
-    public abstract void UpdateDescription();
+    public Sprite LoadSprite(string spriteName) { return Resources.Load<Sprite>("Effects/" + spriteName);}
 
     /// <summary>
     /// Equal if are same derived class type

@@ -36,6 +36,18 @@ public class Character : MonoBehaviour
     public int WalkMoves = 5;
     #endregion
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach(AbstractEffect effect in Effects)
+            {
+                effect.AddToDuration(2);
+                UpdateEffectDescrip(effect);
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +58,7 @@ public class Character : MonoBehaviour
         GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].SetCharacter(this);
         GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].IsWalkable = false;
 
-        this.AddEffect(new BurnEffect());
+        AddEffect(new BurnEffect());
     }
 
     private void InitVars()
@@ -104,7 +116,7 @@ public class Character : MonoBehaviour
     /// <param name="ef">The effect we want to update the description of</param>
     public void UpdateEffectDescrip(AbstractEffect ef)
     {
-        ef.UpdateDescription();
+        //ef.UpdateDescription();
         GameObject go = _effectToUIDict[ef];
         go.GetComponent<HoverTip>().SetDescription(ef.Description);
     }
