@@ -23,6 +23,7 @@ public class MouseManager : MonoBehaviour
     {
         _gridManager = GridManager.Instance;
     }
+   
     void Update()
     {
         MouseCellPos = GetCellPosFromMouse();

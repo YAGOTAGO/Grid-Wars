@@ -17,19 +17,21 @@ public abstract class AbstractEffect
     public abstract Sprite EffectIcon { get; }
     #endregion
 
-    //Hooks
+    #region Hooks
     public virtual void EndOfTurn(Character character) { }
     public virtual void StartOfTurn() { }
     public virtual void OnStepNode() { }
     public virtual void OnLeaveNode() { }
     public virtual int AtDamageGive(DamageInfo damageInfo) { return damageInfo.Val; }
     public virtual int AtDamageReceive(DamageInfo damageInfo) { return damageInfo.Val; }
+    #endregion
 
-    //Helper methods
+    #region Helper Methods
     public void AddToDuration(int extraDur) { Duration += extraDur; }
 
     //Assumes you put sprite in Assets/Resources/Effects
     public Sprite LoadSprite(string spriteName) { return Resources.Load<Sprite>("Effects/" + spriteName);}
+    #endregion
 
     /// <summary>
     /// Equal if are same derived class type

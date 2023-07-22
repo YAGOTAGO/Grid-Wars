@@ -36,18 +36,6 @@ public class Character : MonoBehaviour
     public int WalkMoves = 5;
     #endregion
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            foreach(AbstractEffect effect in Effects)
-            {
-                effect.AddToDuration(2);
-                UpdateEffectDescrip(effect);
-            }
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
