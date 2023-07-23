@@ -108,6 +108,7 @@ public class RelayService : NetworkBehaviour
     {
 
         NetworkManager.SceneManager.LoadScene("GameBoardScene", LoadSceneMode.Single);
-        
+
+
     }
 }

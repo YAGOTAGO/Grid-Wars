@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class HoverTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public string _description = "temp";
+    private string _description = "temp";
     private readonly float _waitTime = 0.3f;
     
     //Interface implementations

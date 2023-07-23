@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +14,17 @@ public class DeckManager : MonoBehaviour
     [SerializeField] private Transform[] cardSlots; //Keep it to max of 7
     private bool[] cardSlotsFilled = new bool[7];
     [SerializeField] private Transform _deckTransform;
+    [SerializeField] private Transform _canvas;
 
-    [Header("ITween Values")]
-    [SerializeField] private float _delay = .2f;
-    [SerializeField] private float _speed = 1f;
-    [SerializeField] private iTween.EaseType _easeType;
+    [Header("Tween Values")]
+    [SerializeField, Range(0,20)] private float _duration = 1f;
+    [SerializeField, Range(0,2)] private float _drawDelay = 1f;
+    [SerializeField] private Ease _ease;
 
     #region Groups of cards
-    private List<Card> _deck = new();
-    private List<Card> _discard = new();
-    private List<Card> _hand = new();
+    private List<AbstractCard> _deck = new();
+    private List<AbstractCard> _discard = new();
+    private List<AbstractCard> _hand = new();
     private List<GameObject> _cardPrefabsInHand = new();
     #endregion
 
@@ -33,49 +35,61 @@ public class DeckManager : MonoBehaviour
 
     private void Start()
     {
-        AddToDeck(_deck, CardDatabase.Instance.GetCardByName(CardName.card1));
-        AddToDeck(_deck, CardDatabase.Instance.GetCardByName(CardName.card1)); 
-        AddToDeck(_deck, CardDatabase.Instance.GetCardByName(CardName.card1));
+        AddToDeck(_deck, new TestCard());
+        AddToDeck(_deck, new TestCard());
+        AddToDeck(_deck, new TestCard());
         ShuffleDeck();
-        DeckToHandDraw();
-        DeckToHandDraw();
+        DeckDraw(2);
+    
     }
 
     /// <summary>
-    /// Takes card from deck list (if possible)
+    /// Draws if possible from the deck and adds the cards to the hand
     /// </summary>
-    public void DeckToHandDraw()
+    /// <param name="drawAmount"></param>
+    public void DeckDraw(int drawAmount)
     {
-        //
-        //ADD IF HAVE HAND SPACE AND CAN"T DRAW AND THERE ARE CARDS IN DISCARD THEN SHUFFLE
-        //
-        if(_hand.Count >= 7) { return; } //Hand is full we cannot draw anymore
-
-        //Get and remove card from deck add to hand
-        Card cardDrawn = _deck[0];
-        _deck.RemoveAt(0);
-        _hand.Add(cardDrawn);
-
-        //Instantiate card display
-        GameObject cardDisplay = InstantiateCard(cardDrawn, _deckTransform.position);
-        _cardPrefabsInHand.Add(cardDisplay); //Cache a reference to be able to delete in future
-        cardDisplay.transform.SetParent(_deckTransform); //Make it visible in canvas
-        cardDisplay.transform.localScale = Vector3.one; //stop any weird behaviour
-
-        StartCoroutine(TweenCardToHand(cardDisplay));
-        
+        StartCoroutine(DeckToHandDraw(drawAmount));
     }
 
-    IEnumerator TweenCardToHand(GameObject cardDisplay)
+   
+    private IEnumerator DeckToHandDraw(int drawAmount) //try and tweak later to make it feel better
     {
-        yield return new WaitForSeconds(_delay); //delay for a bit
-        Transform parent = OpenLeftmostSlot();
-        iTween.MoveTo(cardDisplay, iTween.Hash("easetype", _easeType, "speed", _speed, "position", parent.position, "localscale", true));
-        cardDisplay.transform.SetParent(parent);
+        for (int i = 0; i < drawAmount; i++)
+        {
+            //
+            //ADD IF HAVE HAND SPACE AND CAN"T DRAW AND THERE ARE CARDS IN DISCARD THEN SHUFFLE
+            //
+            if (_hand.Count >= 7) { yield return null; } //Hand is full we cannot draw anymore
 
+            //Get and remove card from deck add to hand
+            AbstractCard cardDrawn = _deck[0];
+            _deck.RemoveAt(0);
+            _hand.Add(cardDrawn);
+
+            //Instantiate card display
+            GameObject cardDisplay = InstantiateCard(cardDrawn, _deckTransform.position);
+            _cardPrefabsInHand.Add(cardDisplay); //Cache a reference to be able to delete in future
+
+            cardDisplay.transform.SetParent(_canvas); //Make it visible in canvas
+            cardDisplay.transform.localScale = Vector3.one; //stop any weird behaviour
+
+            //Find the right slot and move it there
+            Transform parent = OpenLeftmostSlot(cardDisplay.transform);
+            cardDisplay.transform.DOMove(parent.position, _duration).SetEase(_ease);
+
+            if (drawAmount > 1)
+            {
+                yield return new WaitForSeconds(_drawDelay);
+            }
+            
+        }
+
+        yield return null;
     }
+
       
-    public void HandCardToDiscard(GameObject cardDisplay)
+    public void HandCardToDiscard(GameObject card)
     {
         //Find what slot card was in free that slot
 
@@ -94,13 +108,13 @@ public class DeckManager : MonoBehaviour
     /// </summary>
     /// <param name="deck"></param>
     /// <param name="cardsToAdd"></param>
-    public void AddToDeck(List<Card> deck,List<Card> cardsToAdd)
+    public void AddToDeck(List<AbstractCard> deck,List<AbstractCard> cardsToAdd)
     {
         deck.AddRange(cardsToAdd);
         cardsToAdd.Clear();
     }
 
-    public void AddToDeck(List<Card> deck, Card card)
+    public void AddToDeck(List<AbstractCard> deck, AbstractCard card)
     {
         deck.Add(card);
     }
@@ -125,11 +139,11 @@ public class DeckManager : MonoBehaviour
     /// <param name="card"></param>
     /// <param name="position"></param>
     /// <returns></returns>
-    private GameObject InstantiateCard(Card card, Vector3 position)
+    private GameObject InstantiateCard(AbstractCard card, Vector3 position)
     {
         //Instatiate the template object
         GameObject cardTemplate = Instantiate(_cardTemplate, position, Quaternion.identity);
-        cardTemplate.name = card.name; //Give GameObject a name
+        cardTemplate.name = card.Name; //Give GameObject a name
         cardTemplate.GetComponent<CardDisplay>().Initialize(card); //Initliaze the display
 
         return cardTemplate;
@@ -138,7 +152,7 @@ public class DeckManager : MonoBehaviour
     /// <summary>
     /// </summary>
     /// <returns>Returns the slot that is the leftmost open one, and sets that slot to filled</returns>
-    private Transform OpenLeftmostSlot()
+    private Transform OpenLeftmostSlot(Transform cardTransform)
     {
 
         for(int i=0; i<cardSlotsFilled.Length; i++)

@@ -3,8 +3,7 @@ using UnityEngine;
 public class BurnEffect : AbstractEffect
 {
     #region Private Vars
-    private int _duration;
-    private readonly Sprite _effectIcon;
+    private int _duration = 2;
     #endregion 
 
     private readonly int _damage = 3;
@@ -13,16 +12,9 @@ public class BurnEffect : AbstractEffect
     public override int Duration { get => _duration;  set => _duration = value;  }
     public override StatusType Type => StatusType.DEBUFF; 
     public override string Description => "<b><color=#FF4E01>BURN: </color></b>" + "At the end of the take <color=red>" +  _damage + " damage.</color> Lasts " + _duration + " turns.";
-    public override Sprite EffectIcon { get => _effectIcon; }
+    public override Sprite EffectIcon => SpriteDatabase.Instance.EffectSprites["burnIcon"];
 
     #endregion
-
-    //Constructor
-    public BurnEffect()
-    {
-        _duration = 2;
-        _effectIcon = LoadSprite("burnIcon");
-    }
 
     public override void EndOfTurn(Character character) 
     {

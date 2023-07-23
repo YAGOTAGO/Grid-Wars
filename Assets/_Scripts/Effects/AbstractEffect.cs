@@ -28,9 +28,6 @@ public abstract class AbstractEffect
 
     #region Helper Methods
     public void AddToDuration(int extraDur) { Duration += extraDur; }
-
-    //Assumes you put sprite in Assets/Resources/Effects
-    public Sprite LoadSprite(string spriteName) { return Resources.Load<Sprite>("Effects/" + spriteName);}
     #endregion
 
     /// <summary>

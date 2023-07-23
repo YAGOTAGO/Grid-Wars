@@ -51,8 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e3ffe01ba625044a8814e28100a7aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _description: '<b><color=#FF4E01>BURN: </color></b>At the end of the take <color=red>3
-    damage.</color> Lasts 2 turns.'
+  _description: 
 --- !u!222 &6323281183552353801
 CanvasRenderer:
   m_ObjectHideFlags: 0
