@@ -2,8 +2,10 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
@@ -29,10 +31,10 @@ public class DeckManager : MonoBehaviour
     [SerializeField, Range(0,2)] private float _actionsDelay;
     [SerializeField] private Ease _ease;
 
-    #region lists of cards
-    public List<AbstractCard> _deck = new();
-    public List<AbstractCard> _discard = new();
-    public List<AbstractCard> _hand = new();
+    #region Lists of cards
+    public ObservableCollection<AbstractCard> _deck = new();
+    public ObservableCollection<AbstractCard> _discard = new();
+    public ObservableCollection<AbstractCard> _hand = new();
     private Dictionary<GameObject, int> _cardPrefabsInHand = new();
     #endregion
 
@@ -52,14 +54,32 @@ public class DeckManager : MonoBehaviour
         {
             HandCardToDiscard(_cardPrefabsInHand.Keys.First());
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            DeckDraw(1);
+        }
+
     }
+
+    // Events for updating the text when deck or discard count changes
+    private void OnDeckCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        UpdateDeckNum();
+    }
+    private void OnDiscardCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        UpdateDiscardNum();
+    }
+
     private void Start()
     {
+        // Subscribe to the CollectionChanged event
+        _deck.CollectionChanged += OnDeckCollectionChanged;
+        _discard.CollectionChanged += OnDiscardCollectionChanged;
+
         AddToDeck(_deck, new TestCard());
-        DeckDraw(1);
         _deck.Add(new TestCard());
         _deck.Add(new TestCard());
-        ShuffleList(_deck);
          
     }
 
@@ -148,22 +168,24 @@ public class DeckManager : MonoBehaviour
     /// </summary>
     /// <param name="deck"></param>
     /// <param name="cardsToAdd"></param>
-    public void AddToDeck(List<AbstractCard> deck,List<AbstractCard> cardsToAdd)
+    public void AddToDeck(ObservableCollection<AbstractCard> deck,ObservableCollection<AbstractCard> cardsToAdd)
     {
-        deck.AddRange(cardsToAdd);
+        foreach (AbstractCard card in cardsToAdd)
+        {
+            deck.Add(card);
+        }
         cardsToAdd.Clear();
     }
 
-    public void AddToDeck(List<AbstractCard> deck, AbstractCard card)
+    public void AddToDeck(ObservableCollection<AbstractCard> deck, AbstractCard card)
     {
-        
         deck.Add(card);
     }
 
     /// <summary>
     /// Fisher-Yates algorithm to shuffle the deck.
     /// </summary>
-    public void ShuffleList(List<AbstractCard> deck)
+    public void ShuffleList(ObservableCollection<AbstractCard> deck)
     {
         int n = deck.Count;
         while (n > 1)
