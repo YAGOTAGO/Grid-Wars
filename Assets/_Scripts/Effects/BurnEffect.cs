@@ -12,7 +12,7 @@ public class BurnEffect : AbstractEffect
     public override int Duration { get => _duration;  set => _duration = value;  }
     public override StatusType Type => StatusType.DEBUFF; 
     public override string Description => "<b><color=#FF4E01>BURN: </color></b>" + "At the end of the take <color=red>" +  _damage + " damage.</color> Lasts " + _duration + " turns.";
-    public override Sprite EffectIcon => SpriteDatabase.Instance.EffectSprites["burnIcon"];
+    public override Sprite EffectIcon => SpriteDatabase.Instance.EffectSpritesDB["burnIcon"];
 
     #endregion
 

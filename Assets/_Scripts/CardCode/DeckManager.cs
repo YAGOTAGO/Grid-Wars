@@ -11,9 +11,10 @@ public class DeckManager : MonoBehaviour
     [SerializeField] private GameObject _cardTemplate;
 
     [Header("Location Transforms")]
-    [SerializeField] private Transform[] cardSlots; //Keep it to max of 7
-    private bool[] cardSlotsFilled = new bool[7];
+    [SerializeField] private Transform[] _cardSlots; //Keep it to max of 7
+    private bool[] _cardSlotsFilled = new bool[7];
     [SerializeField] private Transform _deckTransform;
+    [SerializeField] private Transform _discardTransform;
     [SerializeField] private Transform _canvas;
 
     [Header("Tween Values")]
@@ -22,10 +23,10 @@ public class DeckManager : MonoBehaviour
     [SerializeField] private Ease _ease;
 
     #region Groups of cards
-    private List<AbstractCard> _deck = new();
-    private List<AbstractCard> _discard = new();
-    private List<AbstractCard> _hand = new();
-    private List<GameObject> _cardPrefabsInHand = new();
+    public List<AbstractCard> _deck = new();
+    public List<AbstractCard> _discard = new();
+    public List<AbstractCard> _hand = new();
+    private Dictionary<GameObject, int> _cardPrefabsInHand = new();
     #endregion
 
     private void Awake()
@@ -33,6 +34,10 @@ public class DeckManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Update()
+    {
+        
+    }
     private void Start()
     {
         AddToDeck(_deck, new TestCard());
@@ -40,7 +45,7 @@ public class DeckManager : MonoBehaviour
         AddToDeck(_deck, new TestCard());
         ShuffleDeck();
         DeckDraw(2);
-    
+        
     }
 
     /// <summary>
@@ -50,55 +55,63 @@ public class DeckManager : MonoBehaviour
     public void DeckDraw(int drawAmount)
     {
         StartCoroutine(DeckToHandDraw(drawAmount));
+        
     }
 
    
     private IEnumerator DeckToHandDraw(int drawAmount) //try and tweak later to make it feel better
     {
-        for (int i = 0; i < drawAmount; i++)
+        for (int i = drawAmount; i>0 ; i--)
         {
             //
             //ADD IF HAVE HAND SPACE AND CAN"T DRAW AND THERE ARE CARDS IN DISCARD THEN SHUFFLE
             //
             if (_hand.Count >= 7) { yield return null; } //Hand is full we cannot draw anymore
 
-            //Get and remove card from deck add to hand
+            //Get and remove card from deck list add to hand list
             AbstractCard cardDrawn = _deck[0];
             _deck.RemoveAt(0);
             _hand.Add(cardDrawn);
 
-            //Instantiate card display
+            //Instantiate card display and make it visible in canvas
             GameObject cardDisplay = InstantiateCard(cardDrawn, _deckTransform.position);
-            _cardPrefabsInHand.Add(cardDisplay); //Cache a reference to be able to delete in future
-
-            cardDisplay.transform.SetParent(_canvas); //Make it visible in canvas
+            cardDisplay.transform.SetParent(_canvas); 
             cardDisplay.transform.localScale = Vector3.one; //stop any weird behaviour
 
-            //Find the right slot and move it there
-            Transform parent = OpenLeftmostSlot(cardDisplay.transform);
-            cardDisplay.transform.DOMove(parent.position, _duration).SetEase(_ease);
+            //Find the right slot and Tween it there
+            int slotIndex = OpenLeftmostSlotIndex();
+            Transform cardSlot = _cardSlots[slotIndex];
+            _cardSlotsFilled[slotIndex] = true;
+            _cardPrefabsInHand[cardDisplay] = slotIndex;
 
-            if (drawAmount > 1)
-            {
-                yield return new WaitForSeconds(_drawDelay);
-            }
+            cardDisplay.transform.DOMove(cardSlot.position, _duration).SetEase(_ease);
+            
+            //Adds a delay if more cards to draw
+            if (i > 1) { yield return new WaitForSeconds(_drawDelay); }
             
         }
 
         yield return null;
     }
 
-      
+     // BUG if try to discard while cards are drawin things get messed up
     public void HandCardToDiscard(GameObject card)
     {
         //Find what slot card was in free that slot
-
+        int indexSlot = _cardPrefabsInHand[card];
+        _cardSlotsFilled[indexSlot] = false;
+        Transform cardSlot = _cardSlots[indexSlot];
+        
+        //Update cards in hand and cards in discard
+        AbstractCard abstractCard = card.GetComponent<CardDisplay>().GetCard();
+        _hand.Remove(abstractCard);
+        _discard.Add(abstractCard);
 
         //Tween card to the discard deck position
-
-        //Update cards in hand and cards in discard
-
-        //Destroy the game object
+        card.transform.DOMove(_discardTransform.position, _duration).SetEase(_ease).OnComplete(() =>
+        {
+            Destroy(card);
+        });
 
     }
 
@@ -151,20 +164,19 @@ public class DeckManager : MonoBehaviour
 
     /// <summary>
     /// </summary>
-    /// <returns>Returns the slot that is the leftmost open one, and sets that slot to filled</returns>
-    private Transform OpenLeftmostSlot(Transform cardTransform)
+    /// <returns>Returns the index that is the leftmost open one, and sets that slot to filled</returns>
+    private int OpenLeftmostSlotIndex()
     {
 
-        for(int i=0; i<cardSlotsFilled.Length; i++)
+        for(int i=0; i<_cardSlotsFilled.Length; i++)
         {
-            if (!cardSlotsFilled[i])
+            if (!_cardSlotsFilled[i])
             {
-                cardSlotsFilled[i] = true;
-                return cardSlots[i];    
+                return i;    
             }
         }
 
         Debug.Log("Couldn't find open leftmost slot called and all slots full.");
-        return null;
+        return -1;
     }
 }

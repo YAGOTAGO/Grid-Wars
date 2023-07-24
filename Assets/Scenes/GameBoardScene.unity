@@ -578,6 +578,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0da2e7b9f515e409ff18c676fea529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardSprites: []
+  _effectSprites:
+  - {fileID: 21300000, guid: c99ce297a08c35c488096d64c7868a95, type: 3}
+  _shapeSprites: []
 --- !u!1 &308264840
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,7 +862,7 @@ Transform:
   - {fileID: 2060718113}
   - {fileID: 1603025148}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &523693014
 MonoBehaviour:
@@ -2000,7 +2004,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1455461416
 GameObject:
@@ -2211,7 +2215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardTemplate: {fileID: 7373885437501436843, guid: 144d6500e93f07b4ca5764399ee0cbb5, type: 3}
-  cardSlots:
+  _cardSlots:
   - {fileID: 1825479304}
   - {fileID: 374676583}
   - {fileID: 1742202841}
@@ -2220,6 +2224,7 @@ MonoBehaviour:
   - {fileID: 1507136721}
   - {fileID: 827923112}
   _deckTransform: {fileID: 1150034158}
+  _discardTransform: {fileID: 800135424}
   _canvas: {fileID: 1412882493}
   _duration: 1.2
   _drawDelay: 1
