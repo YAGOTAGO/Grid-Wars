@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
@@ -61,16 +60,6 @@ public class DeckManager : MonoBehaviour
 
     }
 
-    // Events for updating the text when deck or discard count changes
-    private void OnDeckCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        UpdateDeckNum();
-    }
-    private void OnDiscardCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        UpdateDiscardNum();
-    }
-
     private void Start()
     {
         // Subscribe to the CollectionChanged event
@@ -81,6 +70,30 @@ public class DeckManager : MonoBehaviour
         _deck.Add(new TestCard());
         _deck.Add(new TestCard());
          
+    }
+    private void OnDestroy()
+    {
+        _deck.CollectionChanged -= OnDeckCollectionChanged;
+        _discard.CollectionChanged -= OnDiscardCollectionChanged;
+    }
+
+    /// <summary>
+    /// Chose one deck to add cards to from another place
+    /// </summary>
+    /// <param name="deck"></param>
+    /// <param name="cardsToAdd"></param>
+    public void AddToDeck(ObservableCollection<AbstractCard> deck, ObservableCollection<AbstractCard> cardsToAdd)
+    {
+        foreach (AbstractCard card in cardsToAdd)
+        {
+            deck.Add(card);
+        }
+        cardsToAdd.Clear();
+    }
+
+    public void AddToDeck(ObservableCollection<AbstractCard> deck, AbstractCard card)
+    {
+        deck.Add(card);
     }
 
     /// <summary>
@@ -96,15 +109,30 @@ public class DeckManager : MonoBehaviour
     {
         EnqueueMethod(() => DiscardCardFromHandCoroutine(card));
     }
-   
+
+    /// <summary>
+    /// Fisher-Yates algorithm to shuffle the deck.
+    /// </summary>
+    public void ShuffleList(ObservableCollection<AbstractCard> deck)
+    {
+        int n = deck.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = UnityEngine.Random.Range(0, n + 1);
+            (deck[n], deck[k]) = (deck[k], deck[n]);
+        }
+    }
     private IEnumerator DrawCoroutine(int drawAmount) 
     {
 
         if (_hand.Count >= 7 || //Hand is full we cannot draw anymore
             (_deck.Count==0 && _discard.Count==0)) //If no cards in deck or discard can't draw
         { 
-            yield return null; 
+            yield break; 
         } 
+
+        Debug.Log(_deck.Count + " " + _discard.Count);
 
         if(_deck.Count==0 && _discard.Count > 0) //If deck is empty but have cards in discard
         {
@@ -129,7 +157,7 @@ public class DeckManager : MonoBehaviour
             int slotIndex = OpenLeftmostSlotIndex();
             Transform cardSlot = _cardSlots[slotIndex];
             _cardSlotsFilled[slotIndex] = true;
-            _cardPrefabsInHand[cardDisplay] = slotIndex;
+            _cardPrefabsInHand[cardDisplay] = slotIndex; //Cache slot index to game object
 
             cardDisplay.transform.DOMove(cardSlot.position, _tweenDuration).SetEase(_ease);
             
@@ -143,6 +171,7 @@ public class DeckManager : MonoBehaviour
 
     private IEnumerator DiscardCardFromHandCoroutine(GameObject card)
     {
+
         //Find what slot card was in free that slot
         int indexSlot = _cardPrefabsInHand[card];
         _cardSlotsFilled[indexSlot] = false; //free the bool slot array
@@ -163,38 +192,7 @@ public class DeckManager : MonoBehaviour
         yield return new WaitForSeconds(_actionsDelay);
     }
 
-    /// <summary>
-    /// Chose one deck to add cards to from another place
-    /// </summary>
-    /// <param name="deck"></param>
-    /// <param name="cardsToAdd"></param>
-    public void AddToDeck(ObservableCollection<AbstractCard> deck,ObservableCollection<AbstractCard> cardsToAdd)
-    {
-        foreach (AbstractCard card in cardsToAdd)
-        {
-            deck.Add(card);
-        }
-        cardsToAdd.Clear();
-    }
-
-    public void AddToDeck(ObservableCollection<AbstractCard> deck, AbstractCard card)
-    {
-        deck.Add(card);
-    }
-
-    /// <summary>
-    /// Fisher-Yates algorithm to shuffle the deck.
-    /// </summary>
-    public void ShuffleList(ObservableCollection<AbstractCard> deck)
-    {
-        int n = deck.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = UnityEngine.Random.Range(0, n + 1);
-            (deck[n], deck[k]) = (deck[k], deck[n]);
-        }
-    }
+    #region Private Helper Methods
 
     /// <summary>
     /// Uses the card template prefab, instantiates it and updates the display.
@@ -230,7 +228,6 @@ public class DeckManager : MonoBehaviour
         return -1;
     }
     
-    
     /// <summary>
     /// Used to do coroutines in a list sequentially
     /// </summary>
@@ -255,7 +252,9 @@ public class DeckManager : MonoBehaviour
 
         isQueueRunning = false;
     }
+    #endregion
 
+    #region Deck/Discard Count TMP updates
     private void UpdateDeckNum()
     {
         _deckNumTMP.text = _deck.Count.ToString();
@@ -264,4 +263,16 @@ public class DeckManager : MonoBehaviour
     {
         _discardNumTMP.text = _discard.Count.ToString();
     }
+
+    // Events for updating the text when deck or discard count changes
+    private void OnDeckCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        UpdateDeckNum();
+    }
+    private void OnDiscardCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        UpdateDiscardNum();
+    }
+    #endregion
+
 }
