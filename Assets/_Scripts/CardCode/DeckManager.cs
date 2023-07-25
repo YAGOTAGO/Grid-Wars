@@ -77,6 +77,7 @@ public class DeckManager : MonoBehaviour
         _discard.CollectionChanged -= OnDiscardCollectionChanged;
     }
 
+    #region Public Methods
     /// <summary>
     /// Chose one deck to add cards to from another place
     /// </summary>
@@ -123,6 +124,20 @@ public class DeckManager : MonoBehaviour
             (deck[n], deck[k]) = (deck[k], deck[n]);
         }
     }
+
+    /// <summary>
+    /// Given a card game object in hand will return the transform of the slot
+    /// </summary>
+    /// <param name="card"></param>
+    /// <returns></returns>
+    public Transform GetSlotTransformFromCard(GameObject card)
+    {
+        return _cardSlots?[_cardPrefabsInHand[card]];
+    }
+    #endregion
+
+    #region Big Boi Methods
+
     private IEnumerator DrawCoroutine(int drawAmount) 
     {
 
@@ -131,8 +146,6 @@ public class DeckManager : MonoBehaviour
         { 
             yield break; 
         } 
-
-        Debug.Log(_deck.Count + " " + _discard.Count);
 
         if(_deck.Count==0 && _discard.Count > 0) //If deck is empty but have cards in discard
         {
@@ -191,6 +204,7 @@ public class DeckManager : MonoBehaviour
 
         yield return new WaitForSeconds(_actionsDelay);
     }
+    #endregion
 
     #region Private Helper Methods
 
