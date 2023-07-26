@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class BFS
 {
@@ -13,7 +14,7 @@ public class BFS
     /// <param name="depth">How far BFS should go</param>
     /// <param name="paintMoves">Whether or not to highlight Moves map with bfs result</param>
     /// <returns>A Set of walkable nodes that were found in BFS</returns>
-    public static HashSet<HexNode> BFSvisited(HexNode startNode, int depth, bool paintMoves)
+    public static HashSet<HexNode> BFSvisited(HexNode startNode, int depth)
     {
 
         HashSet<HexNode> visited = new();
@@ -39,12 +40,20 @@ public class BFS
                 fronteir.Enqueue(neighbor);
                 visited.Add(neighbor);
 
-                if (paintMoves) { HighlightManager.Instance.MovesHighlight(neighbor.GridPos); }
+                
             }
         }
 
         return visited;
 
+    }
+
+    public static void HighlightVisitedNodes(HashSet<HexNode> visited)
+    {
+        foreach (HexNode node in visited)
+        {
+            HighlightManager.Instance.MovesHighlight(node.GridPos);
+        }
     }
 }
 

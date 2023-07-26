@@ -47,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
-
     private void Start()
     {
         InitSingletonVars();
@@ -55,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
         //temporary
         OnNode = _gridManager.GridCoordTiles[new Vector3Int(0, 0)];
-        OnNode.SetCharacter(_thisPlayer);
+        OnNode.CharacterOnNode = _thisPlayer;
         OnNode.IsWalkable = false;
 
     }        
@@ -73,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayerSelected()
     {
-        _possMoves = BFS.BFSvisited(OnNode, _moves, true);
+        _possMoves = BFS.BFSvisited(OnNode, _moves);
     }
 
     public void PlayerUnselected()
@@ -135,12 +134,12 @@ public class PlayerMovement : MonoBehaviour
     {   
         //set prior node
         OnNode.IsWalkable = true;
-        OnNode.SetCharacter(null);
+        OnNode.CharacterOnNode = null;
 
         //Set current node
         OnNode = target;
         OnNode.IsWalkable = false;
-        OnNode.SetCharacter(_thisPlayer);
+        OnNode.CharacterOnNode = _thisPlayer;
     }
 
     IEnumerator Walk(List<HexNode> path)
@@ -156,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Update the possible moves
-        _possMoves = BFS.BFSvisited(path[0], _moves, true); // path[0] is destination
+        _possMoves = BFS.BFSvisited(path[0], _moves); // path[0] is destination
 
         _isWalking = false;
     }

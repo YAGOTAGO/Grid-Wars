@@ -117,12 +117,12 @@ public class MovementManager : MonoBehaviour
     {
         //set prior node
         _OnNode.IsWalkable = true;
-        _OnNode.SetCharacter(null);
+        _OnNode.CharacterOnNode = null;
 
         //Set node vars
         _OnNode = target;
         _OnNode.IsWalkable = false;
-        _OnNode.SetCharacter(_player);
+        _OnNode.CharacterOnNode = _player;
 
         //Set character On Node
         _player.SetNodeOn(target);
@@ -165,7 +165,7 @@ public class MovementManager : MonoBehaviour
         if (_canMove)
         {
             //Gets poss moves and highlights
-            _possMoves = BFS.BFSvisited(_OnNode, _player.WalkMoves, true);
+            _possMoves = BFS.BFSvisited(_OnNode, _player.WalkMoves);
 
             //Cant also cas ability
             AbilityManager.Instance.SetSelectedAbility(null);

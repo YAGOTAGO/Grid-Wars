@@ -42,7 +42,7 @@ public class AbilityManager : MonoBehaviour
         _priorNode = mouseNode;
 
         //if mouse node not inside range BFS return
-        HashSet<HexNode> possRange = BFS.BFSvisited(mouseNode, _selectedAbility.GetRange() , _selectedAbility.ShouldDisplayRange());
+        HashSet<HexNode> possRange = BFS.BFSvisited(mouseNode, _selectedAbility.GetRange());
         
         //Dont do ability action if mouse is outside the range
         if (!possRange.Contains(mouseNode)) { return; }

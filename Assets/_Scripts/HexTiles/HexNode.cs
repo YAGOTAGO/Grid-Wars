@@ -14,8 +14,12 @@ public class HexNode : MonoBehaviour
     public bool IsWalkable; //Whether characters can be on it
     public bool IsPassable; //Whether abilies can pass over
     [SerializeField] private TileType TileType; //HAS TO BE PUBLIC TO BE SET IN EDITOR
-    private Character characterOnNode;
-        
+    public Character CharacterOnNode;
+    
+    [Header("Surface")]
+    private Surface _surface;
+    private SpriteRenderer _surfaceRenderer;
+
     [HideInInspector] public Vector3Int GridPos { get; private set; } //Unity grid x, y, z
     [HideInInspector] public Vector3Int CubeCoord { get; private set; } //Unity grid converted into cube coords
 
@@ -47,6 +51,7 @@ public class HexNode : MonoBehaviour
     private void Awake()
     {
         _renderer = this.GetComponent<SpriteRenderer>();
+        _surfaceRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
 
     //Inits the Hex
@@ -57,22 +62,8 @@ public class HexNode : MonoBehaviour
         _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count())];
     }
 
-    public TileType GetTileType()
-    {
-        return TileType;
-    }
+    public TileType GetTileType() { return TileType; }
 
-    public Character GetCharacter()
-    {
-        return characterOnNode;
-    }
-
-    public void SetCharacter(Character character)
-    {
-        characterOnNode = character;
-    }
-
-    
 }
 
 

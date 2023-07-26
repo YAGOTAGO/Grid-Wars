@@ -32,7 +32,7 @@ public class SelectionManager : MonoBehaviour
         _selectedNode = MouseManager.Instance.GetNodeFromMouse();
         if (_selectedNode == null) { return; }
 
-        Character clickedChar = _selectedNode.GetCharacter();
+        Character clickedChar = _selectedNode.CharacterOnNode;
         if (clickedChar == null) { return; }
 
         //Same node and same character we unselect

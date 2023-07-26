@@ -48,7 +48,13 @@ public class CardSelectionManager : MonoBehaviour
         _selectedCard.transform.DOMove(_selectionLocation.position, _tweenDuration).SetEase(_ease);
         _selectedCard.transform.DOScale(new Vector3(_scale, _scale), _tweenDuration);
 
-        //Call the begginning ability of card
+        //Call the beginning ability of card
+        //for each ability in card ability list
+        //Start that coroutine
+
+        //ie: walk damage 3 push 2
+
+        //
 
     }
 
