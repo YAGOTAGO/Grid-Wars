@@ -132,7 +132,7 @@ public class DeckManager : MonoBehaviour
     /// <returns></returns>
     public Transform GetSlotTransformFromCard(GameObject card)
     {
-        return _cardSlots?[_cardPrefabsInHand[card]];
+        return _cardSlots[_cardPrefabsInHand[card]];
     }
     #endregion
 

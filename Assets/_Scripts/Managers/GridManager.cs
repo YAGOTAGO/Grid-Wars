@@ -8,8 +8,8 @@ using UnityEngine.Tilemaps;
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
-    public Dictionary<Vector3Int, HexNode> GridCoordTiles { get; private set; } //know which tile by position
-    public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; }
+    public Dictionary<Vector3Int, HexNode> GridCoordTiles { get; private set; } = new(); //know which tile by position
+    public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
     public Grid Grid { get; private set; } //used to put all tiles under
     private int _tileNum = 0;
 
@@ -26,27 +26,21 @@ public class GridManager : MonoBehaviour
     
     void Awake()
     {
-        InitVars();
-        InitDict();
-        InitBoard();
+        Instance = this;
+        Grid = this.GetComponent<Grid>();
+        
     }
 
     void Start()
     {
+        InitDict();
+        InitBoard();
         InitNeighboors(); //caches the neighboors in each tile
     }
 
     private void Update()
     {   
         Highlight();
-    }
-
-    private void InitVars()
-    {
-        Instance = this;
-        GridCoordTiles = new();
-        CubeCoordTiles = new();
-        Grid = this.GetComponent<Grid>();
     }
 
     private void InitNeighboors()
@@ -68,7 +62,7 @@ public class GridManager : MonoBehaviour
         _prefabDict = new Dictionary<TileType, HexNode>();
         foreach (HexNode prefab in _prefabs)
         {
-            _prefabDict[prefab.GetTileType()] = prefab;
+            _prefabDict[prefab.TileType] = prefab;
         }
 
     }
@@ -86,7 +80,7 @@ public class GridManager : MonoBehaviour
 
                 //Instatiate the prefab
                 HexNode tile = Instantiate(_prefabDict[type], tileWorldPos, Quaternion.identity);
-
+                
                 //Cache cube and grid pos
                 Vector3Int cubePos = HexDistance.UnityCellToCube(position);//calculate cube pos
                 tile.Init(position, cubePos); //Init Tile with grid and cube pos
@@ -96,7 +90,7 @@ public class GridManager : MonoBehaviour
                 //organizes look in editor
                 tile.transform.SetParent(Grid.transform); 
 
-                //Name to help debugginh
+                //Name to help debugging
                 tile.name = type.ToString() + _tileNum;
                 _tileNum++;
             }

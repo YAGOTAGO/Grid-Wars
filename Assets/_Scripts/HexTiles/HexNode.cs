@@ -13,7 +13,7 @@ public class HexNode : MonoBehaviour
     [SerializeField] private List<Sprite> _sprites;
     public bool IsWalkable; //Whether characters can be on it
     public bool IsPassable; //Whether abilies can pass over
-    [SerializeField] private TileType TileType; //HAS TO BE PUBLIC TO BE SET IN EDITOR
+    [SerializeField] public TileType TileType;
     public Character CharacterOnNode;
     
     [Header("Surface")]
@@ -61,8 +61,6 @@ public class HexNode : MonoBehaviour
         CubeCoord = cubePos;
         _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count())];
     }
-
-    public TileType GetTileType() { return TileType; }
 
 }
 
