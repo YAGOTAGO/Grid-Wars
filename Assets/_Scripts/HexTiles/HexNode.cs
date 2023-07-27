@@ -17,7 +17,8 @@ public class HexNode : MonoBehaviour
     public Character CharacterOnNode;
     
     [Header("Surface")]
-    private Surface _surface;
+    [SerializeField] private GameObject _surfacePrefab;
+    private ISurface _surface;
     private SpriteRenderer _surfaceRenderer;
 
     [HideInInspector] public Vector3Int GridPos { get; private set; } //Unity grid x, y, z
@@ -50,8 +51,9 @@ public class HexNode : MonoBehaviour
 
     private void Awake()
     {
-        _renderer = this.GetComponent<SpriteRenderer>();
+        _renderer = GetComponent<SpriteRenderer>();
         _surfaceRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        _surface = _surfacePrefab.GetComponent<ISurface>();
     }
 
     //Inits the Hex
@@ -61,6 +63,17 @@ public class HexNode : MonoBehaviour
         CubeCoord = cubePos;
         _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count())];
     }
+
+    /// <summary>
+    /// Sets the surface on the node
+    /// </summary>
+    /// <param name="surface">A surface to be put on node</param>
+    public void SetSurface(ISurface surface)
+    {
+        _surface = surface;
+        _surfaceRenderer.sprite = surface.SurfaceSprite;
+    }
+
 
 }
 
