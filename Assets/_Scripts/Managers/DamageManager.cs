@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class DamageManager : MonoBehaviour
 {
-    public static DamageManager Instance;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    public void Damage(DamageInfo dmgInfo)
+    //Could return a struct that contains a bunch of flags such as
+    //Whether the character target character died
+    public static void Damage(DamageInfo dmgInfo)
     {
         int damage = dmgInfo.Val;
         Character source = dmgInfo.Source;

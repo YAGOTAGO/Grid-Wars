@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmptySurface : MonoBehaviour, ISurface
+public class EmptySurface : ISurface
 {
 
     [SerializeField] private bool _isWalkable = true;

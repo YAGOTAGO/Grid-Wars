@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MountainSurface : MonoBehaviour, ISurface
+public class MountainSurface : ISurface
 {
     [SerializeField] private bool _isWalkable = false;
 

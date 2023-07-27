@@ -17,7 +17,6 @@ public class HexNode : MonoBehaviour
     public Character CharacterOnNode;
     
     [Header("Surface")]
-    [SerializeField] private GameObject _surfacePrefab;
     private ISurface _surface;
     private SpriteRenderer _surfaceRenderer;
 
@@ -53,7 +52,6 @@ public class HexNode : MonoBehaviour
     {
         _renderer = GetComponent<SpriteRenderer>();
         _surfaceRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        _surface = _surfacePrefab.GetComponent<ISurface>();
     }
 
     //Inits the Hex

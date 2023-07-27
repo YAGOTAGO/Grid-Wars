@@ -6,13 +6,24 @@ public class SpriteDatabase : MonoBehaviour
 {
     public static SpriteDatabase Instance;
 
+    [Header("Card Art Sprites")]
     [SerializeField] private List<Sprite> _cardSprites = new();
+    
+    [Header("Effect Sprites")]
     [SerializeField] private List<Sprite> _effectSprites = new();
+
+    [Header("Shape Sprites")]
     [SerializeField] private List<Sprite> _shapeSprites = new();
 
+    [Header("Surface Sprites")]
+    [SerializeField] private List<Sprite> _surfaceSprites = new();
+
+    #region Sprite Databases
     public Dictionary<string, Sprite> EffectSpritesDB { get; private set; } = new();
     public Dictionary<string, Sprite> CardSpritesDB { get; private set; } = new();
     public Dictionary<string, Sprite> ShapeSpritesDB { get; private set; } = new();
+    public Dictionary<string, Sprite> SurfaceSpritesDB { get; private set; } = new();
+    #endregion
 
     private void Awake()
     {
@@ -21,6 +32,7 @@ public class SpriteDatabase : MonoBehaviour
         LoadAllCardSprites();
         LoadAllShapeSprites();
         LoadAllEffectSprites();
+        LoadAllSurfaceSprites();
     }
 
     private void LoadAllCardSprites()
@@ -47,6 +59,15 @@ public class SpriteDatabase : MonoBehaviour
         foreach (Sprite s in _effectSprites)
         {
             EffectSpritesDB[s.name] = s;
+        }
+    }
+
+    private void LoadAllSurfaceSprites()
+    {
+
+        foreach (Sprite s in _surfaceSprites)
+        {
+            SurfaceSpritesDB[s.name] = s;
         }
     }
 }

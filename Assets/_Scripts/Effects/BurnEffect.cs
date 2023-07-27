@@ -18,7 +18,7 @@ public class BurnEffect : AbstractEffect
 
     public override void EndOfTurn(Character character) 
     {
-        DamageManager.Instance.Damage(new DamageInfo(_damage, DamageType.Fire, null, character));
+        DamageManager.Damage(new DamageInfo(_damage, DamageType.Fire, null, character));
         _duration--;
         character.UpdateEffectDescrip(this);
         if (_duration <= 0) { character.RemoveEffect(this); }
