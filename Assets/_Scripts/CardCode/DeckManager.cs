@@ -23,7 +23,6 @@ public class DeckManager : MonoBehaviour
     private bool[] _cardSlotsFilled = new bool[7];
     [SerializeField] private Transform _deckTransform;
     [SerializeField] private Transform _discardTransform;
-    [SerializeField] private Transform _canvas;
 
     [Header("Tween Values")]
     [SerializeField, Range(0,20)] private float _tweenDuration;
@@ -38,7 +37,7 @@ public class DeckManager : MonoBehaviour
     #endregion
 
     #region Coroutine Queue
-    private Queue<Func<IEnumerator>> methodQueue = new();
+    private readonly Queue<Func<IEnumerator>> methodQueue = new();
     private bool isQueueRunning = false;
     #endregion
 
@@ -163,12 +162,14 @@ public class DeckManager : MonoBehaviour
 
             //Instantiate card display and make it visible in canvas
             GameObject cardDisplay = InstantiateCard(cardDrawn, _deckTransform.position);
-            cardDisplay.transform.SetParent(_canvas); 
-            cardDisplay.transform.localScale = Vector3.one; //stop any weird behaviour
-
+            
             //Find the right slot and Tween it there
             int slotIndex = OpenLeftmostSlotIndex();
             Transform cardSlot = _cardSlots[slotIndex];
+            
+            cardDisplay.transform.SetParent(cardSlot);
+            cardDisplay.transform.localScale = Vector3.one; //stop any weird behaviour
+
             _cardSlotsFilled[slotIndex] = true;
             _cardPrefabsInHand[cardDisplay] = slotIndex; //Cache slot index to game object
 

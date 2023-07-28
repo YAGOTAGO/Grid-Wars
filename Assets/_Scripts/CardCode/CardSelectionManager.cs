@@ -1,15 +1,18 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CardSelectionManager : MonoBehaviour
 {
     public static CardSelectionManager Instance;
     [SerializeField] private Transform _selectionLocation;
     [SerializeField] private GameObject _buttons;
-
+    [SerializeField] private TextMeshProUGUI _selectCharacterTMP;
     private GameObject _selectedCard;
+    private HexNode _clickedNode;
 
     [Header("Tween Values")]
     [SerializeField, Range(0, 2)] private float _tweenDuration;
@@ -56,6 +59,24 @@ public class CardSelectionManager : MonoBehaviour
 
         //
 
+    }
+
+    private IEnumerator CardAbilityLoop()
+    {
+
+        yield return new WaitUntil(()=> NodeClicked());
+    }
+
+    private bool NodeClicked()
+    {
+        //if mouse is not over UI and the button is clicked then we have clicked a node
+        if (!EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))
+        {
+            _clickedNode = MouseManager.Instance.NodeMouseIsOver;
+            return true;
+        }
+
+        return false;
     }
 
     public void Undo()
