@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class TestAbility : AbstractAbility
 {
-    public int Cooldown = 1;
-    public int Range = 3;
-
-    public override int GetRange(){ return Range; }
-
-    public override bool ShouldDisplayRange()
-    {
-        return false;
-    }
+    public override int Range => 3;
+    
+    public override bool CanAbilityPassthrough => true;
 
     public override void DoAbility(HexNode node)
     {
@@ -21,7 +15,7 @@ public class TestAbility : AbstractAbility
        
     public override List<HexNode> GetShape(HexNode mouseNode)
     {
-        return Shape.LineInDirection(GetHexPlayerIsOn() , mouseNode, Range);
+        return Shape.LineInDirection(CardSelectionManager.Instance.ClickedCharacter.NodeOn , mouseNode, Range);
     }
 
     

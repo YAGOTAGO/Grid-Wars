@@ -94,7 +94,7 @@ public class HexNode : MonoBehaviour
         return _surface.IsWalkable;
     }
 
-    public bool CanAbilitiesPassThroughNode()
+    public bool CanAbilitiesPassthrough()
     {
         return _surface.CanAbilitiesPassthrough;
     }

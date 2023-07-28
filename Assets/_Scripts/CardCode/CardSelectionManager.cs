@@ -8,32 +8,39 @@ using UnityEngine.EventSystems;
 public class CardSelectionManager : MonoBehaviour
 {
     public static CardSelectionManager Instance;
+    [Header("References")]
     [SerializeField] private Transform _selectionLocation;
     [SerializeField] private GameObject _buttons;
     [SerializeField] private TextMeshProUGUI _selectCharacterTMP;
-    private GameObject _selectedCard;
-    private HexNode _clickedNode;
 
     [Header("Tween Values")]
     [SerializeField, Range(0, 2)] private float _tweenDuration;
     [SerializeField] private Ease _ease;
     [SerializeField, Range(0,3)] private float _scale;
 
+    #region Card Ability Loop
+    private GameObject _selectedCardObject;
+    private AbstractCard _selectedCard;
+    private HexNode _clickedNode;
+    [HideInInspector] public Character ClickedCharacter;
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
         _buttons.SetActive(false);
+        _selectCharacterTMP.gameObject.SetActive(false);
     }
 
     public void OnClickCard(GameObject card)
     {
 
-        if(card == _selectedCard) //When click on selected card it undo selection and exit method
+        if(card == _selectedCardObject) //When click on selected card it undo selection and exit method
         {
             Undo();
             return ;
-        }else if (_selectedCard != null) //If a different card is selected Undo before going foward
+        }else if (_selectedCardObject != null) //If a different card is selected Undo before going foward
         {
             Undo();
         }
@@ -42,14 +49,15 @@ public class CardSelectionManager : MonoBehaviour
         _buttons.SetActive(true);
 
         //Cache values for checks later
-        _selectedCard = card;
+        _selectedCardObject = card;
 
         //Card will no longer grow when hovered
         card.GetComponent<CardHover>().enabled = false;
+        _selectedCard = _selectedCardObject.GetComponent<CardDisplay>().GetCard();
 
         //Tween to selection location and scale it up
-        _selectedCard.transform.DOMove(_selectionLocation.position, _tweenDuration).SetEase(_ease);
-        _selectedCard.transform.DOScale(new Vector3(_scale, _scale), _tweenDuration);
+        _selectedCardObject.transform.DOMove(_selectionLocation.position, _tweenDuration).SetEase(_ease);
+        _selectedCardObject.transform.DOScale(new Vector3(_scale, _scale), _tweenDuration);
 
         //Call the beginning ability of card
         //for each ability in card ability list
@@ -63,10 +71,30 @@ public class CardSelectionManager : MonoBehaviour
 
     private IEnumerator CardAbilityLoop()
     {
+        _selectCharacterTMP.gameObject.SetActive(true); //Prompt to select character
+        yield return new WaitUntil(()=> CharacterClicked()); //wait until character is selected
 
-        yield return new WaitUntil(()=> NodeClicked());
+        //Display range if possible
+        if(_selectedCard.Range > 0)
+        {
+            HashSet<HexNode> range = BFS.BFSWalkable(ClickedCharacter.NodeOn, _selectedCard.Range);
+        }
+
     }
 
+    private bool CharacterClicked()
+    {
+        if (NodeClicked() && _clickedNode.CharacterOnNode != null)
+        {
+            ClickedCharacter = _clickedNode.CharacterOnNode;
+            _selectCharacterTMP.gameObject.SetActive(false);
+            return true;
+        }
+
+        return false;
+    }
+
+    //returns whether a node was clicked and sets the _clickedNode
     private bool NodeClicked()
     {
         //if mouse is not over UI and the button is clicked then we have clicked a node
@@ -84,15 +112,16 @@ public class CardSelectionManager : MonoBehaviour
         //Deactivate button
         _buttons.SetActive(false);
         
-        _selectedCard.GetComponent<CardHover>().enabled = true; //Can hover again
+        _selectedCardObject.GetComponent<CardHover>().enabled = true; //Can hover again
 
         //Find what slot the game object belongs to
-        Transform cardSlot = DeckManager.Instance.GetSlotTransformFromCard(_selectedCard);
+        Transform cardSlot = DeckManager.Instance.GetSlotTransformFromCard(_selectedCardObject);
         
         //Tween back to slot and scale card down to 1
-        _selectedCard.transform.DOMove(cardSlot.position, _tweenDuration).SetEase(_ease);
-        _selectedCard.transform.DOScale(new Vector3(1, 1), _tweenDuration);
+        _selectedCardObject.transform.DOMove(cardSlot.position, _tweenDuration).SetEase(_ease);
+        _selectedCardObject.transform.DOScale(new Vector3(1, 1), _tweenDuration);
 
-        _selectedCard = null; //Unselect card
+        _selectedCardObject = null; //Unselect card
+        _selectedCard = null;
     }
 }

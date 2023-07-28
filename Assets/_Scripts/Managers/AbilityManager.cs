@@ -59,7 +59,7 @@ public class AbilityManager : MonoBehaviour
         if (_selectedAbility == ability)
         {
             _selectedAbility = null;
-            HighlightManager.Instance.ClearPathMap();
+            HighlightManager.Instance.ClearTargetMap();
 
         }
         else

@@ -25,7 +25,7 @@ public class Shape
     {
 
         //clear path
-        HighlightManager.Instance.ClearPathMap();
+        HighlightManager.Instance.ClearTargetMap();
 
         //Cubic coords
         List<HexNode> nodesInDirection = new();
@@ -49,7 +49,7 @@ public class Shape
                 currNode = Value;
             }
             
-            if(currNode != null && currNode != playerNode && currNode.CanAbilitiesPassThroughNode())
+            if(currNode != null && currNode != playerNode && currNode.CanAbilitiesPassthrough())
             {
                 nodesInDirection.Add(currNode);
             }

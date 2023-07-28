@@ -9,55 +9,50 @@ public class HighlightManager : MonoBehaviour
 
     [Header("Tiles")]
     [SerializeField] private Tile _hoverTile;
-    [SerializeField] private Tile _pathTile;
+    [SerializeField] private Tile _targetTile;
 
     [Header("Tile Maps")]
     [SerializeField] private Tilemap _hoverMap;
-    [SerializeField] private Tilemap _movesMap;
-    [SerializeField] private Tilemap _pathMap;
+    [SerializeField] private Tilemap _rangeMap;
+    [SerializeField] private Tilemap _targetMap;
 
     //For highlighting
     private HexNode _priorNode;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake(){ Instance = this; }
 
     private void Update()
     {
         Highlight();
     }
-    #region PathMap
-    public void PathHighlight(Vector3Int pos)
+
+    public void ClearTargetAndRange()
     {
-        _pathMap.SetTile(pos, _pathTile);
+        ClearRangeMap();
+        ClearTargetMap();
     }
 
-    public void ClearPathAndMoves()
+    public void ClearTargetMap()
     {
-        ClearMovesMap();
-        ClearPathMap();
+        _targetMap.ClearAllTiles();
     }
-
-    public void ClearPathMap()
-    {
-        _pathMap.ClearAllTiles();
-    }
-    #endregion
 
     //Highlights tile at grid pos
-    public void MovesHighlight(Vector3Int cellPos)
+    public void RangeHighlight(Vector3Int cellPos)
     {
-        _movesMap.SetTile(cellPos, _hoverTile);
+        _rangeMap.SetTile(cellPos, _hoverTile);
+    }
+
+    public void TargetHighlight(Vector3Int pos)
+    {
+        _targetMap.SetTile(pos, _targetTile);
     }
 
     //Clears all tiles
-    public void ClearMovesMap()
+    public void ClearRangeMap()
     {
-        _movesMap.ClearAllTiles();
+        _rangeMap.ClearAllTiles();
     }
-
 
     //Highlights on hover
     private void Highlight()
@@ -76,6 +71,14 @@ public class HighlightManager : MonoBehaviour
                 _priorNode = curr;
             }
 
+        }
+    }
+
+    public void HighlightVisitedNodes(HashSet<HexNode> visited)
+    {
+        foreach (HexNode node in visited)
+        {
+            RangeHighlight(node.GridPos);
         }
     }
 

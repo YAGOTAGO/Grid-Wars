@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-    public HashSet<AbstractEffect> Effects { get; private set; }
-    public List<AbstractAbility> Abilities { get; private set; }
+    public HashSet<AbstractEffect> Effects { get; private set; } = new();
     
     #region Visuals
     [Header("Visuals")]
@@ -21,12 +20,10 @@ public class Character : MonoBehaviour
     #region Stats
     [Header("Stats")]
     [SerializeField] private int _health;
-    public int Actions = 2;
     #endregion
 
     #region Private Vars
-    private HexNode OnNode;
-    private Dictionary<AbstractEffect, GameObject> _effectToUIDict;
+    private Dictionary<AbstractEffect, GameObject> _effectToUIDict = new();
     #endregion
 
     #region Move Stats
@@ -35,23 +32,21 @@ public class Character : MonoBehaviour
     public iTween.EaseType EaseType = iTween.EaseType.spring;
     public int WalkMoves = 5;
     #endregion
+    
+    [HideInInspector] public HexNode NodeOn;
 
     // Start is called before the first frame update
     void Start()
     {
         InitVars();
-
         //Some spawn action
-        SetNodeOn(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)]);
+        NodeOn = GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)];
         GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].CharacterOnNode = this;
         AddEffect(new BurnEffect());
     }
 
     private void InitVars()
     {
-        Effects = new();
-        Abilities = new();
-        _effectToUIDict = new();
         _healthBar.InitHealthBarUI(_health, _health);
         PlayersUIManager.Instance.SetPlayerUI(_playerStatsUI);
     }
@@ -102,7 +97,6 @@ public class Character : MonoBehaviour
     /// <param name="ef">The effect we want to update the description of</param>
     public void UpdateEffectDescrip(AbstractEffect ef)
     {
-        //ef.UpdateDescription();
         GameObject go = _effectToUIDict[ef];
         go.GetComponent<HoverTip>().SetDescription(ef.Description);
     }
@@ -155,16 +149,6 @@ public class Character : MonoBehaviour
         {
             Destroy(this);
         }
-    }
-
-    public HexNode GetNodeOn()
-    {
-        return OnNode;
-    }
-
-    public void SetNodeOn(HexNode node)
-    {
-        OnNode = node;
     }
 
 

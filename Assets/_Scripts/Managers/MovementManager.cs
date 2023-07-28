@@ -37,7 +37,7 @@ public class MovementManager : MonoBehaviour
     {
         if(!_canMove) { return;}
         SetFunctionVars();
-        if(_player.Actions<=0) { return; }
+       // if(_player.Actions<=0) { return; }
         ShowPath();
         Move();
     }
@@ -45,7 +45,7 @@ public class MovementManager : MonoBehaviour
     private void SetFunctionVars()
     {
         _player = SelectionManager.Instance.SelectedChar;
-        _OnNode = _player.GetNodeOn();
+        _OnNode = _player.NodeOn;
     }
 
     private void InitSingletonVars()
@@ -165,14 +165,14 @@ public class MovementManager : MonoBehaviour
         if (_canMove)
         {
             //Gets poss moves and highlights
-            _possMoves = BFS.BFSvisited(_OnNode, _player.WalkMoves);
+            _possMoves = BFS.BFSWalkable(_OnNode, _player.WalkMoves);
 
             //Cant also cas ability
             AbilityManager.Instance.SetSelectedAbility(null);
         }
         else
         {
-            _highlightManager.ClearPathAndMoves();
+            _highlightManager.ClearTargetAndRange();
         }
         
 
@@ -182,7 +182,7 @@ public class MovementManager : MonoBehaviour
     {
         if (_canMove)
         {
-            HighlightManager.Instance.ClearPathAndMoves();
+            HighlightManager.Instance.ClearTargetAndRange();
         }
         _canMove = false;
         

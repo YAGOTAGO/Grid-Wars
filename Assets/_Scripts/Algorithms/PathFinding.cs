@@ -65,5 +65,64 @@ public class PathFinding
         return null;
 
     }
+        
+    public static List<HexNode> FindPathBreakpoints(HexNode startNode, HexNode targetNode, List<HexNode> breakpoints)
+    {
+        HashSet<HexNode> toSearch = new() { startNode };
+        HashSet<HexNode> processed = new();
 
+        while (toSearch.Count > 0)
+        {
+            HexNode current = toSearch.OrderBy(node => node.F).ThenBy(node => node.H).First();
+            toSearch.Remove(current);
+            processed.Add(current);
+
+            // When we find our target
+            if (current == targetNode)
+            {
+                List<HexNode> path = new List<HexNode>();
+                HexNode currentPathTile = targetNode;
+
+                while (currentPathTile != startNode)
+                {
+                    path.Add(currentPathTile);
+                    currentPathTile = currentPathTile.Connection;
+                }
+
+                path.Reverse();
+
+                // Insert breakpoints into the path list at the desired positions
+                foreach (var breakpoint in breakpoints)
+                {
+                    int index = path.FindIndex(node => node == breakpoint);
+                    if (index != -1)
+                    {
+                        path.Insert(index, breakpoint);
+                    }
+                }
+
+                return path;
+            }
+
+            foreach (HexNode neighbor in current.Neighboors.Where(node => node.IsNodeWalkable() && !processed.Contains(node)))
+            {
+                var costToNeighbor = current.G + 1;
+
+                if (!toSearch.Contains(neighbor) || costToNeighbor < neighbor.G)
+                {
+                    neighbor.SetG(costToNeighbor);
+                    neighbor.SetH(HexDistance.GetDistance(neighbor, targetNode));
+                    neighbor.SetConnection(current);
+
+                    if (!toSearch.Contains(neighbor))
+                    {
+                        toSearch.Add(neighbor);
+                    }
+                }
+            }
+        }
+
+        Debug.Log("Error: Unreachable");
+        return null;
+    }
 }

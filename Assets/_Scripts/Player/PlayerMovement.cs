@@ -72,12 +72,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayerSelected()
     {
-        _possMoves = BFS.BFSvisited(OnNode, _moves);
+        _possMoves = BFS.BFSWalkable(OnNode, _moves);
     }
 
     public void PlayerUnselected()
     {
-        _highlightManager.ClearPathAndMoves();
+        _highlightManager.ClearTargetAndRange();
         _possMoves = _emptySet;
     }
 
@@ -155,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Update the possible moves
-        _possMoves = BFS.BFSvisited(path[0], _moves); // path[0] is destination
+        _possMoves = BFS.BFSWalkable(path[0], _moves); // path[0] is destination
 
         _isWalking = false;
     }
