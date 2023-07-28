@@ -10,12 +10,8 @@ using UnityEngine.EventSystems;
 public class HexNode : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private List<Sprite> _sprites;
-    public bool IsWalkable; //Whether characters can be on it
-    public bool IsPassable; //Whether abilies can pass over
-    [SerializeField] public TileType TileType;
-    public Character CharacterOnNode;
+    public TileType TileType;
     
     [Header("Surface")]
     private ISurface _surface;
@@ -23,6 +19,9 @@ public class HexNode : MonoBehaviour
 
     [HideInInspector] public Vector3Int GridPos { get; private set; } //Unity grid x, y, z
     [HideInInspector] public Vector3Int CubeCoord { get; private set; } //Unity grid converted into cube coords
+    
+    private SpriteRenderer _renderer;
+    [HideInInspector]public Character CharacterOnNode;
 
     #region Pathfinding
     public float G { get; private set; }
@@ -61,6 +60,23 @@ public class HexNode : MonoBehaviour
         GridPos = gridPos;
         CubeCoord = cubePos;
         _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count())];
+        InitSurface();
+    }
+
+    private void InitSurface()
+    {
+        switch (TileType)
+        {
+            case TileType.Grass:
+                SetSurface(new EmptySurface()); 
+                break;
+            case TileType.Mountain:
+                SetSurface(new MountainSurface());
+                break;
+            case TileType.Water:
+                SetSurface(new WaterSurface());
+                break;
+        }
     }
 
     /// <summary>
@@ -82,6 +98,12 @@ public class HexNode : MonoBehaviour
     {
         return _surface.CanAbilitiesPassthrough;
     }
+
+    public void SetSurfaceWalkable(bool isWalkable)
+    {
+        _surface.IsWalkable = isWalkable;
+    }
+
     //So we can globally know what player is hovering over
     private void OnMouseEnter()
     {

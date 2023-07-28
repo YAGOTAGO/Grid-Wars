@@ -116,12 +116,12 @@ public class MovementManager : MonoBehaviour
     private void OnNodeSetting(HexNode target)
     {
         //set prior node
-        _OnNode.IsWalkable = true;
+        _OnNode.SetSurfaceWalkable(true);
         _OnNode.CharacterOnNode = null;
 
         //Set node vars
         _OnNode = target;
-        _OnNode.IsWalkable = false;
+        _OnNode.SetSurfaceWalkable(false);
         _OnNode.CharacterOnNode = _player;
 
         //Set character On Node

@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         //temporary
         OnNode = _gridManager.GridCoordTiles[new Vector3Int(0, 0)];
         OnNode.CharacterOnNode = _thisPlayer;
-        OnNode.IsWalkable = false;
+        OnNode.SetSurfaceWalkable(false);
 
     }        
 
@@ -133,12 +133,12 @@ public class PlayerMovement : MonoBehaviour
     private void OnNodeSetting(HexNode target)
     {   
         //set prior node
-        OnNode.IsWalkable = true;
+        OnNode.SetSurfaceWalkable(true);
         OnNode.CharacterOnNode = null;
 
         //Set current node
         OnNode = target;
-        OnNode.IsWalkable = false;
+        OnNode.SetSurfaceWalkable(false);
         OnNode.CharacterOnNode = _thisPlayer;
     }
 

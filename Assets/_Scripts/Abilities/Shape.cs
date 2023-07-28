@@ -49,7 +49,7 @@ public class Shape
                 currNode = Value;
             }
             
-            if(currNode != null && currNode != playerNode && currNode.IsPassable)
+            if(currNode != null && currNode != playerNode && currNode.CanAbilitiesPassThroughNode())
             {
                 nodesInDirection.Add(currNode);
             }

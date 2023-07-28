@@ -44,7 +44,6 @@ public class Character : MonoBehaviour
         //Some spawn action
         SetNodeOn(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)]);
         GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].CharacterOnNode = this;
-        GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].IsWalkable = false;
         AddEffect(new BurnEffect());
     }
 

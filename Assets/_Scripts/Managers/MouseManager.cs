@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class MouseManager : MonoBehaviour
 {
     public static MouseManager Instance;
 
-    public HexNode NodeMouseIsOver;
+    public HexNode NodeMouseIsOver; //Node that mouse is over
     void Awake()
     {
         Instance= this;

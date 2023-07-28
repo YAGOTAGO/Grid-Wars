@@ -16,10 +16,9 @@ public class HighlightManager : MonoBehaviour
     [SerializeField] private Tilemap _movesMap;
     [SerializeField] private Tilemap _pathMap;
 
+    //For highlighting
     private HexNode _priorNode;
-    private Vector3Int previousMousePos;
 
-    private int lol;
     private void Awake()
     {
         Instance = this;
@@ -64,6 +63,7 @@ public class HighlightManager : MonoBehaviour
     private void Highlight()
     {
         HexNode curr = MouseManager.Instance.NodeMouseIsOver;
+        if(curr == null) { return; }
         Vector3Int currGridPos = curr.GridPos;
 
         if (GridManager.Instance.GridCoordTiles.ContainsKey(currGridPos))
