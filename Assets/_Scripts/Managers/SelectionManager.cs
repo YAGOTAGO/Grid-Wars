@@ -26,7 +26,7 @@ public class SelectionManager : MonoBehaviour
     /// </summary>
     private void PlayerClicked()
     {
-        //Need to get input to go further
+        /*//Need to get input to go further
         if (!Input.GetMouseButtonDown(0)) { return; }
 
         _selectedNode = MouseManager.Instance.GetNodeFromMouse();
@@ -48,7 +48,7 @@ public class SelectionManager : MonoBehaviour
             SelectedChar.OnSelect();
         }
         _priorNode = _selectedNode;
-        _priorChar = clickedChar;
+        _priorChar = clickedChar;*/
     }
 
     private bool IsSameCharacter()

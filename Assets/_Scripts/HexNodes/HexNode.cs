@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof (SpriteRenderer))]
+[RequireComponent(typeof(PolygonCollider2D))]
 public class HexNode : MonoBehaviour
 {
-
     [Header("References")]
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private List<Sprite> _sprites;
@@ -72,7 +73,23 @@ public class HexNode : MonoBehaviour
         _surfaceRenderer.sprite = surface.SurfaceSprite;
     }
 
+    public bool IsNodeWalkable()
+    {
+        return _surface.IsWalkable;
+    }
 
+    public bool CanAbilitiesPassThroughNode()
+    {
+        return _surface.CanAbilitiesPassthrough;
+    }
+    //So we can globally know what player is hovering over
+    private void OnMouseEnter()
+    {
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            MouseManager.Instance.NodeMouseIsOver = this;
+        }
+    }
 }
 
 

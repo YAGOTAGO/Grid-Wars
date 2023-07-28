@@ -18,7 +18,7 @@ public class AbilityManager : MonoBehaviour
 
     void Update()
     {
-        if(_selectedAbility == null) { return; }
+        /*if(_selectedAbility == null) { return; }
         if(SelectionManager.Instance.SelectedChar.Actions<=0 ) { return; }
 
         //Cant move if in ability
@@ -49,7 +49,7 @@ public class AbilityManager : MonoBehaviour
 
         //Get the shape and display it
         _shape = _selectedAbility.GetShape(mouseNode);
-        _selectedAbility.Display(_shape);
+        _selectedAbility.Display(_shape);*/
 
     }
 

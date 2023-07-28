@@ -16,14 +16,19 @@ public class HighlightManager : MonoBehaviour
     [SerializeField] private Tilemap _movesMap;
     [SerializeField] private Tilemap _pathMap;
 
+    private HexNode _priorNode;
     private Vector3Int previousMousePos;
 
+    private int lol;
     private void Awake()
     {
         Instance = this;
-
     }
 
+    private void Update()
+    {
+        Highlight();
+    }
     #region PathMap
     public void PathHighlight(Vector3Int pos)
     {
@@ -54,16 +59,24 @@ public class HighlightManager : MonoBehaviour
         _movesMap.ClearAllTiles();
     }
 
-    //Works by setting a highlight in tilemap that is over gametile map
-    public void HoverHighlight(Vector3Int cellPos)
+
+    //Highlights on hover
+    private void Highlight()
     {
-        //Check if moved
-        if (!cellPos.Equals(previousMousePos))
+        HexNode curr = MouseManager.Instance.NodeMouseIsOver;
+        Vector3Int currGridPos = curr.GridPos;
+
+        if (GridManager.Instance.GridCoordTiles.ContainsKey(currGridPos))
         {
-            _hoverMap.SetTile(previousMousePos, null); // Remove old hoverTile
-            _hoverMap.SetTile(cellPos, _hoverTile);
-            previousMousePos = cellPos;
-            
+            //Check if moved
+            if (!curr.Equals(_priorNode))
+            {
+                if(_priorNode != null){ _hoverMap.SetTile(_priorNode.GridPos, null); }// Remove old hoverTile
+                _hoverMap.SetTile(currGridPos, _hoverTile);
+                _priorNode = curr;
+            }
+
         }
     }
+
 }

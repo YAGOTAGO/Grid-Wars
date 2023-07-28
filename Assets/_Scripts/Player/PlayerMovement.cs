@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ShowPath()
     {
-        
+        /*
         //Find target
         HexNode target = _mouseManager.GetNodeFromMouse();
         if(target == null || !_possMoves.Contains(target) 
@@ -104,13 +104,13 @@ public class PlayerMovement : MonoBehaviour
         {
            _highlightManager.PathHighlight(node.GridPos);
 
-        }
+        }*/
 
     }
 
     private void Move()
     {
-        //Check whether tile is walkable
+       /* //Check whether tile is walkable
         if (_mouseManager.IsTileWalkable())
         {
             //What we clicked after selecting player
@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
                 StartCoroutine(Walk(path));
                 OnNodeSetting(target);
             }
-        }
+        }*/
     }
 
     private void OnNodeSetting(HexNode target)

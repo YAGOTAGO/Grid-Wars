@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8796947751317369630}
   - component: {fileID: 2779108147619994489}
   - component: {fileID: 1856939618902459675}
+  - component: {fileID: 4659979537830759772}
   m_Layer: 0
   m_Name: WaterHex
   m_TagString: Untagged
@@ -104,6 +105,38 @@ MonoBehaviour:
   IsWalkable: 0
   IsPassable: 1
   TileType: 1
+  CharacterOnNode: {fileID: 0}
+--- !u!60 &4659979537830759772
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7002228065961958210}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1.6445312}
+    newSize: {x: 1, y: 1.6445312}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.24199712, y: -0.3981542}
+      - {x: 0.24955446, y: -0.39660984}
+      - {x: 0.49535033, y: 0.039566547}
+      - {x: 0.24463594, y: 0.47085023}
+      - {x: -0.2497924, y: 0.47042194}
+      - {x: -0.4936496, y: 0.0346393}
 --- !u!1 &8237139153824822180
 GameObject:
   m_ObjectHideFlags: 0

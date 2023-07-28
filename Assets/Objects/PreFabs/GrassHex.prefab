@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2050604376059984429}
   - component: {fileID: 1791668414952246007}
   - component: {fileID: 5961349996421958439}
+  - component: {fileID: 6870048336337979354}
   m_Layer: 0
   m_Name: GrassHex
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050604376059984418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.02, y: 0.011, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -54,7 +55,6 @@ MonoBehaviour:
   IsPassable: 1
   TileType: 0
   CharacterOnNode: {fileID: 0}
-  _surfacePrefab: {fileID: 1224426945815776663, guid: 7c67e12a5a4495f448f994205d7978da, type: 3}
 --- !u!212 &5961349996421958439
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -107,6 +107,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &6870048336337979354
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050604376059984418}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1.15625}
+    newSize: {x: 1, y: 1.15625}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.24513966, y: 0.46757674}
+      - {x: -0.48947474, y: 0.04117654}
+      - {x: -0.24036992, y: -0.39156926}
+      - {x: 0.2484293, y: -0.388895}
+      - {x: 0.4927663, y: 0.041237935}
+      - {x: 0.23942365, y: 0.4658249}
 --- !u!1 &8987658272687426763
 GameObject:
   m_ObjectHideFlags: 0

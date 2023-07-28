@@ -57,7 +57,7 @@ public class MovementManager : MonoBehaviour
 
     private void ShowPath()
     {
-        
+        /*
         //Dont show path if no moves
         if(_player.WalkMoves <= 0) { return; }
 
@@ -81,14 +81,14 @@ public class MovementManager : MonoBehaviour
         {
             _highlightManager.PathHighlight(node.GridPos);
 
-        }
+        }*/
 
     }
 
     private void Move()
     {
 
-        if(!Input.GetMouseButtonDown(0)) { return; }
+       /* if(!Input.GetMouseButtonDown(0)) { return; }
 
         //Check whether tile is walkable
         if (_mouseManager.IsTileWalkable())
@@ -110,7 +110,7 @@ public class MovementManager : MonoBehaviour
                 _player.Actions--; //Decrease player actions after move
                 _canMove = false; //Cannot move anymore
             }
-        }
+        }*/
     }
 
     private void OnNodeSetting(HexNode target)

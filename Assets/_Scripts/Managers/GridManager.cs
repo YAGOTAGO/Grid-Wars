@@ -11,7 +11,7 @@ public class GridManager : MonoBehaviour
     public Dictionary<Vector3Int, HexNode> GridCoordTiles { get; private set; } = new(); //know which tile by position
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
     public Grid Grid { get; private set; } //used to put all tiles under
-    private int _tileNum = 0;
+    private int _tileNum = 0; //to name tiles in editor
 
     #region TilePrefabs
 
@@ -27,7 +27,7 @@ public class GridManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        Grid = this.GetComponent<Grid>();
+        Grid = GetComponent<Grid>();
         
     }
 
@@ -38,25 +38,11 @@ public class GridManager : MonoBehaviour
         InitNeighboors(); //caches the neighboors in each tile
     }
 
-    private void Update()
-    {   
-        Highlight();
-    }
-
     private void InitNeighboors()
     {
         foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
     }
-        
-    //Highlights on hover
-    private void Highlight()
-    {
-        if (GridCoordTiles.ContainsKey(MouseManager.Instance.MouseCellPos))
-        {
-            HighlightManager.Instance.HoverHighlight(MouseManager.Instance.MouseCellPos);
-        }
-    }
-
+    
     private void InitDict()
     {
         _prefabDict = new Dictionary<TileType, HexNode>();
@@ -99,5 +85,6 @@ public class GridManager : MonoBehaviour
 
         //Destroy tilemap here prolly?, since should not need it again
     }
+
 
 }
