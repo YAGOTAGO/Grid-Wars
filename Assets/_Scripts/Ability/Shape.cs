@@ -11,9 +11,6 @@ public class Shape
     private Vector3Int _upLeft = new(0, -1);
     private Vector3Int _downLeft = new(-1,-1);
 
-    public PlayerMovement p;
-    public List<HexNode> nodes;
-
     /// <summary>
     /// A amount size line that doesn't include the player, and will not pass terrain
     /// </summary>

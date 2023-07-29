@@ -12,32 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6da4f128e99aa684e8e6fff109eda79b, type: 3}
   m_Name: Grass
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: 0e1331ad4bfa47645830e30119dc7423, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 361adbced04bd3f46af8f77188e0e75e, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
-  m_TilingRules:
-  - m_Id: 0
-    m_Sprites:
-    - {fileID: 21300000, guid: 0e1331ad4bfa47645830e30119dc7423, type: 3}
-    - {fileID: 21300000, guid: d1c8146b0e5c93846aaab5ad87169e54, type: 3}
-    m_GameObject: {fileID: 0}
-    m_MinAnimationSpeed: 1
-    m_MaxAnimationSpeed: 1
-    m_PerlinScale: 0.5
-    m_Output: 1
-    m_ColliderType: 1
-    m_RandomTransform: 2
-    m_Neighbors: 
-    m_NeighborPositions:
-    - {x: -1, y: 1, z: 0}
-    - {x: 0, y: 1, z: 0}
-    - {x: 1, y: 1, z: 0}
-    - {x: -1, y: 0, z: 0}
-    - {x: 1, y: 0, z: 0}
-    - {x: -1, y: -1, z: 0}
-    - {x: 0, y: -1, z: 0}
-    - {x: 1, y: -1, z: 0}
-    m_RuleTransform: 0
+  m_TilingRules: []
   m_FlatTop: 1
   type: 0
-  isWalkable: 1

@@ -125,16 +125,13 @@ public class CardSelectionManager : MonoBehaviour
      
             yield return null; //have to wait a frame before trying to detect click again
             
-            //loops so reselect works
+            //loops if click reselect button
             while (true)
             {
-                //Prompt("Select a target", true);
                 yield return new WaitUntil(() => ShowShape(abilities[i], range)); //Show the shape and wait until player makes a selection
 
                 //Ask to confirm or reselect
-                _reselectButton.gameObject.SetActive(true);
-                _confirmButton.gameObject.SetActive(true);
-
+                ButtonsSetActive(true);
                 yield return new WaitUntil(() => ButtonsClicked());
 
                 //After clicked buttons they go away

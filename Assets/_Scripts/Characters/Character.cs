@@ -97,8 +97,7 @@ public class Character : MonoBehaviour
     /// <param name="ef">The effect we want to update the description of</param>
     public void UpdateEffectDescrip(AbstractEffect ef)
     {
-        GameObject go = _effectToUIDict[ef];
-        go.GetComponent<HoverTip>().SetDescription(ef.Description);
+        _effectToUIDict[ef].GetComponent<HoverTip>().SetDescription(ef.Description);
     }
 
     //Adds all the components and sets them
@@ -131,9 +130,6 @@ public class Character : MonoBehaviour
     {
         //Removes player UI
         _playerAbilityUI.SetActive(false);
-
-        //Cannot make move
-        MovementManager.Instance.SetCanMoveToFalse();
 
         //Unhighlights player
         _playerHighlight.SetActive(false);
