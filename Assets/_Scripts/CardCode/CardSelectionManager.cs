@@ -72,17 +72,18 @@ public class CardSelectionManager : MonoBehaviour
         _selectedCardObject.transform.DOScale(new Vector3(_scale, _scale), _tweenDuration);
 
         //Start that coroutine for card abilities
-        StartCoroutine(CardAbilityLoop());
+        StartCoroutine(CardAbilityLoop(_selectedCard));
 
     }
 
-    private IEnumerator CardAbilityLoop()
+    private IEnumerator CardAbilityLoop(AbstractCard card)
     {
+        Debug.Log("Card ability loop started");
+
         _selectCharacterTMP.gameObject.SetActive(true); //Prompt to select character
         yield return new WaitUntil(()=> CharacterClicked()); //wait until character is selected
 
-        
-        List<AbstractAbility> abilities = _selectedCard.Abilities;
+        List<AbstractAbility> abilities = card.Abilities;
         HashSet<HexNode> range = new();
         
         //Display range if possible
@@ -111,6 +112,7 @@ public class CardSelectionManager : MonoBehaviour
             HighlightManager.Instance.HighlightRangeSet(range);
             yield return null; //have to wait a frame before trying to detect click again
             
+            //loops so reselect works
             while (true)
             {
                 yield return new WaitUntil(() => ShowShape(ability, range)); //Show the shape and wait until player makes a selection
@@ -122,11 +124,13 @@ public class CardSelectionManager : MonoBehaviour
                 yield return new WaitUntil(() => ButtonsClicked());
 
                 //After clicked buttons they go away
-                if (_confirm) { break; }
-                ButtonsTurnOff();
+                if (_confirm) 
+                {
+                    ButtonsTurnOff();
+                    break; 
+                }
+                ButtonsTurnOff(); //this is not redudant KEEP IT
             }
-
-            ButtonsTurnOff();
 
             //Do the ability to the given shape
             foreach(HexNode node in _shape)
@@ -141,15 +145,23 @@ public class CardSelectionManager : MonoBehaviour
         //This is after card abilities
 
         //Take away card durability then either destroy it or add it to the discard
-
+        card.Durability--;
+        if(card.Durability <= 0)
+        {
+            //remove card from the hand
+        }
 
     }
     private void Undo()
     {
+        //Deactivate the Select character text
+        _selectCharacterTMP.gameObject.SetActive(false);
+
         //Deactivate button
         _undoButton.gameObject.SetActive(false);
 
-        _selectedCardObject.GetComponent<CardHover>().enabled = true; //Can hover again
+        //Can hover again
+        _selectedCardObject.GetComponent<CardHover>().enabled = true; 
 
         //Find what slot the game object belongs to
         Transform cardSlot = DeckManager.Instance.GetSlotTransformFromCard(_selectedCardObject);
@@ -173,6 +185,7 @@ public class CardSelectionManager : MonoBehaviour
 
     private bool ShowShape(AbstractAbility ability, HashSet<HexNode> range)
     {
+
         //Clear any prior shape
         HighlightManager.Instance.ClearTargetMap();
 

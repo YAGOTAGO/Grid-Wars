@@ -11,10 +11,11 @@ public abstract class AbstractCard
     public abstract string Description { get; }
     public abstract string Name { get; }
     public abstract int Range { get; }
-    public abstract int Durability { get; }
+    public abstract int Durability { get; set; }
     public abstract List<AbstractAbility> Abilities { get; }
 
     #endregion
-
+    
+    
 
 }

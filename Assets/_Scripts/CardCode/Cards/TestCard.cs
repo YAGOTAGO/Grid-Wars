@@ -8,6 +8,7 @@ public class TestCard : AbstractCard
     private Sprite _cardArt;
     private Sprite _shapeArt;
     private readonly List<AbstractAbility> _abilities = new() { new TestAbility() };
+    private int _durability = 2;
     #endregion
 
     public override int StoreCost => 20;
@@ -22,7 +23,7 @@ public class TestCard : AbstractCard
 
     public override int Range => 3;
 
-    public override List<AbstractAbility> Abilities {get => _abilities; }
+    public override List<AbstractAbility> Abilities { get => _abilities; }
 
-    public override int Durability => 2;
+    public override int Durability { get => _durability; set => _durability = value; }
 }
