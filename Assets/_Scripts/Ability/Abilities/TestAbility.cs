@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TestAbility : AbstractAbility
 {
-    public override int Range => 3;
+    private int _range;
+    public override int Range { get => _range; set => _range = value; }
 
     public override void DoAbility(HexNode node)
     {
@@ -19,5 +20,10 @@ public class TestAbility : AbstractAbility
     public override TargetingType GetTargetingType()
     {
         return TargetingType.NORMAL;
+    }
+
+    public TestAbility(int range)
+    {
+        _range = range;
     }
 }

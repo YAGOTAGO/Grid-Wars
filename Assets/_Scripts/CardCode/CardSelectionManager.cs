@@ -18,12 +18,6 @@ public class CardSelectionManager : MonoBehaviour
     [SerializeField] private Ease _ease;
     [SerializeField, Range(0,3)] private float _scale;
 
-    #region Card Ability Loop
-    private GameObject _selectedCardObject;
-    private AbstractCard _selectedCard;
-    private HexNode _clickedNode;
-    private List<HexNode> _shape;
-
     [Header("Buttons")]
     [SerializeField] private Button _confirmButton;
     [SerializeField] private Button _reselectButton;
@@ -31,7 +25,15 @@ public class CardSelectionManager : MonoBehaviour
     private bool _reselect;
     private bool _confirm;
 
+    #region Card Ability Loop
+    private GameObject _selectedCardObject; //game object so we can potentially destroy card
+    private AbstractCard _selectedCard; //The information of what the card does
+    private HexNode _clickedNode; //Node we clicked on
+    private List<HexNode> _shape; //Shape we last hovered
     [HideInInspector] public Character ClickedCharacter;
+    private Coroutine _cardLoopCoroutine; //store this to cancel it later
+    private bool _canStopCoroutine = true;
+    private HexNode _priorMouseNode;
     #endregion
 
     // Start is called before the first frame update
@@ -72,7 +74,7 @@ public class CardSelectionManager : MonoBehaviour
         _selectedCardObject.transform.DOScale(new Vector3(_scale, _scale), _tweenDuration);
 
         //Start that coroutine for card abilities
-        StartCoroutine(CardAbilityLoop(_selectedCard));
+        _cardLoopCoroutine = StartCoroutine(CardAbilityLoop(_selectedCard));
 
     }
 
@@ -127,6 +129,8 @@ public class CardSelectionManager : MonoBehaviour
                 if (_confirm) 
                 {
                     ButtonsTurnOff();
+                    _undoButton.gameObject.SetActive(false);
+                    _canStopCoroutine = false;
                     break; 
                 }
                 ButtonsTurnOff(); //this is not redudant KEEP IT
@@ -142,22 +146,38 @@ public class CardSelectionManager : MonoBehaviour
             HighlightManager.Instance.ClearTargetAndRange();
         }
 
-        //This is after card abilities
+        //This is after cards abilities
+        _canStopCoroutine = true;
 
         //Take away card durability then either destroy it or add it to the discard
         card.Durability--;
         if(card.Durability <= 0)
         {
             //remove card from the hand
+            DeckManager.Instance.RemoveFromHand(_selectedCardObject, true);
+        }
+        else
+        {
+            //Move from hand to discard
+            DeckManager.Instance.HandCardToDiscard(_selectedCardObject);
         }
 
     }
     private void Undo()
     {
+        //If we can cancel coroutine
+        if(_canStopCoroutine){ StopCoroutine(_cardLoopCoroutine); }
+
+        //Get rid of reselect and confirm buttons
+        ButtonsTurnOff();
+
+        //Remove the range tile map
+        HighlightManager.Instance.ClearTargetAndRange();
+
         //Deactivate the Select character text
         _selectCharacterTMP.gameObject.SetActive(false);
 
-        //Deactivate button
+        //Deactivate undo button
         _undoButton.gameObject.SetActive(false);
 
         //Can hover again
@@ -165,17 +185,17 @@ public class CardSelectionManager : MonoBehaviour
 
         //Find what slot the game object belongs to
         Transform cardSlot = DeckManager.Instance.GetSlotTransformFromCard(_selectedCardObject);
-
         //Tween back to slot and scale card down to 1
         _selectedCardObject.transform.DOMove(cardSlot.position, _tweenDuration).SetEase(_ease);
         _selectedCardObject.transform.DOScale(new Vector3(1, 1), _tweenDuration);
-
         _selectedCardObject = null; //Unselect card
         _selectedCard = null;
     }
 
     private bool ButtonsClicked()
     {
+        Debug.Log("calling buttons clicked");
+
         if (_reselect || _confirm)
         {
             return true;
@@ -185,29 +205,37 @@ public class CardSelectionManager : MonoBehaviour
 
     private bool ShowShape(AbstractAbility ability, HashSet<HexNode> range)
     {
-
-        //Clear any prior shape
-        HighlightManager.Instance.ClearTargetMap();
+        HexNode mouseNode = MouseManager.Instance.NodeMouseIsOver;
 
         //If mouse node is within the range then we show the shape
-        HexNode mouseNode = MouseManager.Instance.NodeMouseIsOver;
         if (range.Contains(mouseNode))
         {
-            List<HexNode> shape = ability.GetShape(mouseNode);
-            HighlightManager.Instance.HighlightTargetList(shape);
 
-            if (shape.Contains(mouseNode) && NodeClicked()) //Have to check if target is valid based on type
+            if(mouseNode != _priorMouseNode) //only find shape if mouse node changes
             {
-                _shape = shape;
+                HighlightManager.Instance.ClearTargetMap(); //Clear any prior shape
+                _shape = ability.GetShape(mouseNode);
+                HighlightManager.Instance.HighlightTargetList(_shape);
+                Debug.Log("calling show shape");
+            }
+
+            Debug.Log(_shape.Contains(mouseNode));
+
+            if (_shape.Contains(mouseNode) && NodeClicked()) //Have to check if target is valid based on type
+            {
+                _priorMouseNode = mouseNode;
                 return true;
             }
         }
 
+        _priorMouseNode = mouseNode;
         return false;
     }
 
     private bool CharacterClicked()
     {
+        Debug.Log("calling character clicked");
+
         if (NodeClicked() && _clickedNode.CharacterOnNode != null)
         {
             ClickedCharacter = _clickedNode.CharacterOnNode;
@@ -221,6 +249,7 @@ public class CardSelectionManager : MonoBehaviour
     //returns whether a node was clicked and sets the _clickedNode
     private bool NodeClicked()
     {
+        Debug.Log("calling Node Clicked");
         //if mouse is not over UI and the button is clicked then we have clicked a node
         if (!EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))
         {

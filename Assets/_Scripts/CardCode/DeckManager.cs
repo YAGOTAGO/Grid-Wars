@@ -36,11 +36,6 @@ public class DeckManager : MonoBehaviour
     private Dictionary<GameObject, int> _cardPrefabsInHand = new();
     #endregion
 
-    #region Coroutine Queue
-    private readonly Queue<Func<IEnumerator>> methodQueue = new();
-    private bool isQueueRunning = false;
-    #endregion
-
     private void Awake()
     {
         Instance = this;
@@ -102,12 +97,12 @@ public class DeckManager : MonoBehaviour
     /// <param name="drawAmount"></param>
     public void DeckDraw(int drawAmount)
     {
-        EnqueueMethod(()=> DrawCoroutine(drawAmount));
+        ActionQueue.Instance.EnqueueMethod(()=> DrawCoroutine(drawAmount));
     }
 
     public void HandCardToDiscard(GameObject card)
     {
-        EnqueueMethod(() => DiscardCardFromHandCoroutine(card));
+        ActionQueue.Instance.EnqueueMethod(() => DiscardCardFromHandCoroutine(card));
     }
 
     /// <summary>
@@ -183,25 +178,39 @@ public class DeckManager : MonoBehaviour
         yield return null;
     }
 
+    //Removes the card from all hand related data structs, returns its slot index
+    public int RemoveFromHand(GameObject card, bool destroy)
+    {
+        int indexSlot = _cardPrefabsInHand[card]; //index of slot that card is in
+        
+        _cardSlotsFilled[indexSlot] = false; //free the bool slot array
+
+        AbstractCard abstractCard = card.GetComponent<CardDisplay>().GetCard();
+        _hand.Remove(abstractCard);
+        _cardPrefabsInHand.Remove(card);
+
+        if(destroy) { Destroy(card); }
+        return indexSlot;
+    }
+
     private IEnumerator DiscardCardFromHandCoroutine(GameObject card)
     {
 
         //Find what slot card was in free that slot
-        int indexSlot = _cardPrefabsInHand[card];
-        _cardSlotsFilled[indexSlot] = false; //free the bool slot array
+        int indexSlot = RemoveFromHand(card, false);
         Transform cardSlot = _cardSlots[indexSlot];
         
         //Update cards in hand and cards in discard
         AbstractCard abstractCard = card.GetComponent<CardDisplay>().GetCard();
-        _hand.Remove(abstractCard);
         _discard.Add(abstractCard);
-        _cardPrefabsInHand.Remove(card);
 
         //Tween card to the discard deck position
         card.transform.DOMove(_discardTransform.position, _tweenDuration).SetEase(_ease).OnComplete(() =>
         {
             Destroy(card);
         });
+        card.transform.DOScale(new Vector3(1, 1), _tweenDuration);
+
 
         yield return new WaitForSeconds(_actionsDelay);
     }
@@ -243,30 +252,6 @@ public class DeckManager : MonoBehaviour
         return -1;
     }
     
-    /// <summary>
-    /// Used to do coroutines in a list sequentially
-    /// </summary>
-    /// <param name="method">EnqueueMethod(()=> yourmethodhere(param))</param>
-    private void EnqueueMethod(Func<IEnumerator> method)
-    {
-        methodQueue.Enqueue(method);
-
-        if (!isQueueRunning) { StartCoroutine(ProcessQueue()); }
-    }
-
-    // Coroutine to process the method queue
-    private IEnumerator ProcessQueue()
-    {
-        isQueueRunning = true;
-
-        while (methodQueue.Count > 0)
-        {
-            Func<IEnumerator> method = methodQueue.Dequeue();
-            yield return StartCoroutine(method());
-        }
-
-        isQueueRunning = false;
-    }
     #endregion
 
     #region Deck/Discard Count TMP updates

@@ -8,7 +8,7 @@ public abstract class AbstractAbility
     public abstract void DoAbility(HexNode node);
     public abstract List<HexNode> GetShape(HexNode mouseNode);
     public abstract TargetingType GetTargetingType();
-    public abstract int Range { get; }
+    public abstract int Range { get; set; }
 
 }
 
