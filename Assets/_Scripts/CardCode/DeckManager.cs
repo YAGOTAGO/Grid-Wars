@@ -144,7 +144,7 @@ public class DeckManager : MonoBehaviour
 
         for (int i = drawAmount; i>0 ; i--)
         {
-
+            if(_deck.Count <= 0) { yield break; }
             //Get and remove card from deck list add to hand list
             AbstractCard cardDrawn = _deck[0];
             _deck.RemoveAt(0);

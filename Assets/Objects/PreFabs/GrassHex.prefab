@@ -47,12 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920d3aa62607b7c4298d9d99bda8a076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 5961349996421958439}
   _sprites:
-  - {fileID: 21300000, guid: 0e1331ad4bfa47645830e30119dc7423, type: 3}
-  - {fileID: 21300000, guid: d1c8146b0e5c93846aaab5ad87169e54, type: 3}
-  IsWalkable: 1
-  IsPassable: 1
+  - {fileID: 21300000, guid: 361adbced04bd3f46af8f77188e0e75e, type: 3}
   TileType: 0
   CharacterOnNode: {fileID: 0}
 --- !u!212 &5961349996421958439
@@ -96,7 +92,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0e1331ad4bfa47645830e30119dc7423, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 361adbced04bd3f46af8f77188e0e75e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,7 +120,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.15625}
+    oldSize: {x: 1, y: 2.5}
     newSize: {x: 1, y: 1.15625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -132,12 +128,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.24513966, y: 0.46757674}
-      - {x: -0.48947474, y: 0.04117654}
-      - {x: -0.24036992, y: -0.39156926}
-      - {x: 0.2484293, y: -0.388895}
-      - {x: 0.4927663, y: 0.041237935}
-      - {x: 0.23942365, y: 0.4658249}
+    - - {x: -0.24513966, y: 0.41367984}
+      - {x: -0.48947474, y: 0.00075386465}
+      - {x: -0.24036992, y: -0.41851774}
+      - {x: 0.23495509, y: -0.41584346}
+      - {x: 0.49007145, y: 0.0035101026}
+      - {x: 0.23942365, y: 0.41192803}
 --- !u!1 &8987658272687426763
 GameObject:
   m_ObjectHideFlags: 0

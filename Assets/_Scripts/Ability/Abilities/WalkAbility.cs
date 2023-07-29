@@ -7,7 +7,7 @@ public class WalkAbility : AbstractAbility
 {
     private int _range;
     public override int Range { get => _range; set => _range = value; }
-
+    public override string Prompt => "Select a node to walk to, right click to add breakpoint.";
     public override void DoAbility(HexNode node)
     {
         ActionQueue.Instance.EnqueueMethod(()=>WalkRoutine(node));

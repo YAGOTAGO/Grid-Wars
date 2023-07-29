@@ -29,6 +29,7 @@ public class CardSelectionManager : MonoBehaviour
     private Coroutine _cardLoopCoroutine; //store this to cancel it later
     private bool _canStopCoroutine = true;
     private HexNode _priorMouseNode;
+    public List<HexNode> PivotPoints = new();
     #endregion
 
     // Start is called before the first frame update
@@ -37,14 +38,14 @@ public class CardSelectionManager : MonoBehaviour
         Instance = this;
         _undoButton.gameObject.SetActive(false);
         Prompt("", false);
-        ButtonsTurnOff();
+        ButtonsSetActive(false);
         _confirmButton.onClick.AddListener(() => _confirm = true);
         _reselectButton.onClick.AddListener(() => _reselect = true);
     }
 
     public void OnClickCard(GameObject card)
     {
-        if (!_canStopCoroutine) { return; }
+        if (!_canStopCoroutine) { return; } //Stops selecting a new card after an action has taken place
 
         if (card == _selectedCardObject) //When click on selected card it undo selection and exit method
         {
@@ -76,46 +77,59 @@ public class CardSelectionManager : MonoBehaviour
 
     private IEnumerator CardAbilityLoop(AbstractCard card)
     {
-        Debug.Log("Card ability loop started");
-
-        Prompt("Select a character", true);
-
+        Prompt("Select a Character", true);
         yield return new WaitUntil(()=> CharacterClicked()); //wait until character is selected
 
         List<AbstractAbility> abilities = card.Abilities;
         HashSet<HexNode> range = new();
-        
-        //Display range if possible
-        foreach (AbstractAbility ability in abilities)
+
+        for (int i= 0; i<abilities.Count; i++) //iterate over all abilities in the card
         {
-            if (ability.Range > 0)
+            //Before starting any ability we wait for action queue
+            yield return new WaitUntil(ActionQueue.Instance.IsQueueStopped);
+
+            Prompt(abilities[i].Prompt, true); //Tell the player what to expect
+
+            TargetingType tarType = abilities[i].GetTargetingType();                
+
+            switch (tarType)
             {
-
-                TargetingType tarType = ability.GetTargetingType();
-
-                switch (tarType)
-                {
-                    case TargetingType.AIREAL:
-                        range = BFS.BFSAll(ClickedCharacter.NodeOn, ability.Range);
-                        break;
-                    case TargetingType.NORMAL:
-                        range = BFS.BFSNormalAbilties(ClickedCharacter.NodeOn, ability.Range);
-                        break;
-                    case TargetingType.WALKABLE:
-                        range = BFS.BFSWalkable(ClickedCharacter.NodeOn, ability.Range);
-                        break;
-                }
-
+                case TargetingType.AIREAL:
+                    range = BFS.BFSAll(ClickedCharacter.NodeOn, abilities[i].Range);
+                    break;
+                case TargetingType.NORMAL:
+                    range = BFS.BFSNormalAbilties(ClickedCharacter.NodeOn, abilities[i].Range);
+                    break;
+                case TargetingType.WALKABLE:
+                    range = BFS.BFSWalkable(ClickedCharacter.NodeOn, abilities[i].Range);
+                    break;
+                case TargetingType.NONE:
+                case TargetingType.SELF:
+                    if (i > 0) //If we already in the loop then we dont need to use confirm button
+                    {
+                        abilities[i].DoAbility(ClickedCharacter.NodeOn);
+                        CannotStopCoroutine();
+                        continue;
+                    }
+                    _confirmButton.gameObject.SetActive(true);
+                    yield return new WaitUntil(() => ButtonsClicked()); //wait for confirm
+                    abilities[i].DoAbility(ClickedCharacter.NodeOn); //Pass the node character is on
+                    CannotStopCoroutine();
+                    _confirm = false;
+                    _confirmButton.gameObject.SetActive(false);
+                    continue;
             }
 
             HighlightManager.Instance.HighlightRangeSet(range);
+            
+     
             yield return null; //have to wait a frame before trying to detect click again
             
             //loops so reselect works
             while (true)
             {
-                Prompt("Select a target", true);
-                yield return new WaitUntil(() => ShowShape(ability, range)); //Show the shape and wait until player makes a selection
+                //Prompt("Select a target", true);
+                yield return new WaitUntil(() => ShowShape(abilities[i], range)); //Show the shape and wait until player makes a selection
 
                 //Ask to confirm or reselect
                 _reselectButton.gameObject.SetActive(true);
@@ -126,31 +140,24 @@ public class CardSelectionManager : MonoBehaviour
                 //After clicked buttons they go away
                 if (_confirm) 
                 {
-                    ButtonsTurnOff();
+                    ButtonsSetActive(false);
                     Prompt("", false);
-                    _undoButton.gameObject.SetActive(false);
-                    _canStopCoroutine = false;
+                    CannotStopCoroutine();
                     break; 
                 }
                 Prompt("", false);
-                ButtonsTurnOff(); //this is not redudant KEEP IT
+                ButtonsSetActive(false); //this is not redudant KEEP IT
             }
 
             //Do the ability to the given shape 
             foreach(HexNode node in _shape)
             {
-                ability.DoAbility(node);
+                abilities[i].DoAbility(node);
             }
-
-            //Before going on wait untill queue is done processing
-            yield return new WaitUntil(ActionQueue.Instance.IsQueueStopped);
 
             //Clear all range and target indicators
             HighlightManager.Instance.ClearTargetAndRange();
         }
-
-        //This is after cards abilities
-        _canStopCoroutine = true;
 
         //Take away card durability then either destroy it or add it to the discard
         card.Durability--;
@@ -164,6 +171,8 @@ public class CardSelectionManager : MonoBehaviour
             //Move from hand to discard
             DeckManager.Instance.HandCardToDiscard(_selectedCardObject);
         }
+        //This is after cards abilities
+        _canStopCoroutine = true;
 
     }
     private void Undo()
@@ -174,7 +183,7 @@ public class CardSelectionManager : MonoBehaviour
         StopCoroutine(_cardLoopCoroutine);
 
         //Get rid of reselect and confirm buttons
-        ButtonsTurnOff();
+        ButtonsSetActive(false);
 
         //Remove the range tile map
         HighlightManager.Instance.ClearTargetAndRange();
@@ -223,8 +232,6 @@ public class CardSelectionManager : MonoBehaviour
                 HighlightManager.Instance.HighlightTargetList(_shape);
             }
 
-            Debug.Log(_shape.Contains(mouseNode));
-
             if (_shape.Contains(mouseNode) && NodeClicked()) //Have to check if target is valid based on type
             {
                 _priorMouseNode = mouseNode;
@@ -262,10 +269,10 @@ public class CardSelectionManager : MonoBehaviour
         return false;
     }
 
-    private void ButtonsTurnOff()
+    private void ButtonsSetActive(bool isActive)
     {
-        _confirmButton.gameObject.SetActive(false);
-        _reselectButton.gameObject.SetActive(false);
+        _confirmButton.gameObject.SetActive(isActive);
+        _reselectButton.gameObject.SetActive(isActive);
         _confirm = false;
         _reselect = false;
     }
@@ -274,5 +281,11 @@ public class CardSelectionManager : MonoBehaviour
     {
         _promptTMP.text = text;
         _promptTMP.gameObject.SetActive(setActive);
+    }
+
+    private void CannotStopCoroutine()
+    {
+        _canStopCoroutine = false;
+        _undoButton.gameObject.SetActive(false);
     }
 }

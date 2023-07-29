@@ -7,7 +7,7 @@ public class TestCard : AbstractCard
     #region local vars
     private Sprite _cardArt;
     private Sprite _shapeArt;
-    private readonly List<AbstractAbility> _abilities = new() { new WalkAbility(3), new TestAbility(3) };
+    private readonly List<AbstractAbility> _abilities = new() { new DrawAbility(2), new WalkAbility(3), new TestAbility(3) };
     private int _durability = 2;
     #endregion
 

@@ -7,6 +7,8 @@ public class TestAbility : AbstractAbility
     private int _range;
     public override int Range { get => _range; set => _range = value; }
 
+    public override string Prompt => "This is the prompt";
+
     public override void DoAbility(HexNode node)
     {
         Debug.Log("Test Ability Done to: " + node.name);
