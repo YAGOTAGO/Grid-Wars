@@ -13,11 +13,6 @@ public class CardSelectionManager : MonoBehaviour
     [SerializeField] private Transform _selectionLocation;
     [SerializeField] private TextMeshProUGUI _selectCharacterTMP;
 
-    [Header("Tween Values")]
-    [SerializeField, Range(0, 2)] private float _tweenDuration;
-    [SerializeField] private Ease _ease;
-    [SerializeField, Range(0,3)] private float _scale;
-
     [Header("Buttons")]
     [SerializeField] private Button _confirmButton;
     [SerializeField] private Button _reselectButton;
@@ -70,8 +65,8 @@ public class CardSelectionManager : MonoBehaviour
         _selectedCard = _selectedCardObject.GetComponent<CardDisplay>().GetCard();
 
         //Tween to selection location and scale it up
-        _selectedCardObject.transform.DOMove(_selectionLocation.position, _tweenDuration).SetEase(_ease);
-        _selectedCardObject.transform.DOScale(new Vector3(_scale, _scale), _tweenDuration);
+        TweenManager.Instance.CardMove(_selectedCardObject, _selectionLocation.position);
+        TweenManager.Instance.CardScale(_selectedCardObject, TweenManager.Instance.CardScaleUp);
 
         //Start that coroutine for card abilities
         _cardLoopCoroutine = StartCoroutine(CardAbilityLoop(_selectedCard));
@@ -136,7 +131,8 @@ public class CardSelectionManager : MonoBehaviour
                 ButtonsTurnOff(); //this is not redudant KEEP IT
             }
 
-            //Do the ability to the given shape
+            //Do the ability to the given shape 
+
             foreach(HexNode node in _shape)
             {
                 ability.DoAbility(node);
@@ -185,9 +181,11 @@ public class CardSelectionManager : MonoBehaviour
 
         //Find what slot the game object belongs to
         Transform cardSlot = DeckManager.Instance.GetSlotTransformFromCard(_selectedCardObject);
+        
         //Tween back to slot and scale card down to 1
-        _selectedCardObject.transform.DOMove(cardSlot.position, _tweenDuration).SetEase(_ease);
-        _selectedCardObject.transform.DOScale(new Vector3(1, 1), _tweenDuration);
+        TweenManager.Instance.CardMove(_selectedCardObject, cardSlot.position);
+        TweenManager.Instance.CardScale(_selectedCardObject, 1f);
+
         _selectedCardObject = null; //Unselect card
         _selectedCard = null;
     }

@@ -104,6 +104,11 @@ public class HexNode : MonoBehaviour
         _surface.IsWalkable = isWalkable;
     }
 
+    public void SurfaceOnEnter(Character character)
+    {
+        _surface.OnTouchNode(character);
+    }
+
     //So we can globally know what player is hovering over
     private void OnMouseEnter()
     {

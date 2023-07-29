@@ -35,7 +35,7 @@ public class PathFinding
                     if (count < 0) throw new Exception();
                    
                 }
-
+                path.Reverse();
                 return path;
             }
 

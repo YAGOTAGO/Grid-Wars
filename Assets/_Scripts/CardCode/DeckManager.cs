@@ -24,11 +24,6 @@ public class DeckManager : MonoBehaviour
     [SerializeField] private Transform _deckTransform;
     [SerializeField] private Transform _discardTransform;
 
-    [Header("Tween Values")]
-    [SerializeField, Range(0,20)] private float _tweenDuration;
-    [SerializeField, Range(0,2)] private float _actionsDelay;
-    [SerializeField] private Ease _ease;
-
     #region Lists of cards
     public ObservableCollection<AbstractCard> _deck = new();
     public ObservableCollection<AbstractCard> _discard = new();
@@ -168,10 +163,10 @@ public class DeckManager : MonoBehaviour
             _cardSlotsFilled[slotIndex] = true;
             _cardPrefabsInHand[cardDisplay] = slotIndex; //Cache slot index to game object
 
-            cardDisplay.transform.DOMove(cardSlot.position, _tweenDuration).SetEase(_ease);
+            Tween cardMove = TweenManager.Instance.CardMove(cardDisplay, cardSlot.position);
             
-            //Adds a delay if more cards to draw
-            if (i > 1) { yield return new WaitForSeconds(_actionsDelay); }
+            //Wait for card draw to finish before moving on
+            yield return cardMove.WaitForCompletion();
             
         }
 
@@ -205,14 +200,12 @@ public class DeckManager : MonoBehaviour
         _discard.Add(abstractCard);
 
         //Tween card to the discard deck position
-        card.transform.DOMove(_discardTransform.position, _tweenDuration).SetEase(_ease).OnComplete(() =>
+        Tween cardMove = TweenManager.Instance.CardMove(card, _discardTransform.position).OnComplete(() =>
         {
             Destroy(card);
         });
-        card.transform.DOScale(new Vector3(1, 1), _tweenDuration);
 
-
-        yield return new WaitForSeconds(_actionsDelay);
+        yield return cardMove.WaitForCompletion();
     }
     #endregion
 
