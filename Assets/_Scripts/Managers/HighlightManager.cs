@@ -74,11 +74,19 @@ public class HighlightManager : MonoBehaviour
         }
     }
 
-    public void HighlightVisitedNodes(HashSet<HexNode> visited)
+    public void HighlightRangeSet(HashSet<HexNode> visited)
     {
         foreach (HexNode node in visited)
         {
             RangeHighlight(node.GridPos);
+        }
+    }
+
+    public void HighlightTargetList(List<HexNode> visited)
+    {
+        foreach(HexNode node in visited)
+        {
+            TargetHighlight(node.GridPos);
         }
     }
 

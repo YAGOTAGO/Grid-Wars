@@ -52,7 +52,7 @@ public class BFS
     /// <param name="startNode">Starting HexNode</param>
     /// <param name="depth">How far the range is</param>
     /// <returns>A set of nodes which abilities can pass through</returns>
-    public static HashSet<HexNode> BFSAblitiesPassThrough(HexNode startNode, int depth)
+    public static HashSet<HexNode> BFSNormalAbilties(HexNode startNode, int depth)
     {
 
         HashSet<HexNode> visited = new();
@@ -74,6 +74,44 @@ public class BFS
 
             //Each neighboor that abilities can passthrough and not visited
             foreach (HexNode neighbor in curr.Neighboors.Where(t => t.CanAbilitiesPassthrough() && !visited.Contains(t)))
+            {
+                fronteir.Enqueue(neighbor);
+                visited.Add(neighbor);
+            }
+        }
+
+        return visited;
+
+    }
+
+    /// <summary>
+    /// A bfs that gives all nodes in given range
+    /// </summary>
+    /// <param name="startNode">Start Node</param>
+    /// <param name="depth"> Depth of BFS</param>
+    /// <returns>A set of nodes that are in depth</returns>
+    public static HashSet<HexNode> BFSAll(HexNode startNode, int depth)
+    {
+
+        HashSet<HexNode> visited = new();
+        Queue<HexNode> fronteir = new();
+
+        fronteir.Enqueue(startNode);
+        visited.Add(startNode);
+
+        while (fronteir.Count > 0)
+        {
+            HexNode curr = fronteir.Dequeue();
+
+            int distance = HexDistance.GetDistance(startNode, curr);
+
+            if (distance >= depth)
+            {
+                return visited;
+            }
+
+            //Each neighboor that abilities can passthrough and not visited
+            foreach (HexNode neighbor in curr.Neighboors.Where(t => !visited.Contains(t)))
             {
                 fronteir.Enqueue(neighbor);
                 visited.Add(neighbor);

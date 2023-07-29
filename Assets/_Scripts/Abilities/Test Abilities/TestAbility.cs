@@ -5,8 +5,6 @@ using UnityEngine;
 public class TestAbility : AbstractAbility
 {
     public override int Range => 3;
-    
-    public override bool CanAbilityPassthrough => true;
 
     public override void DoAbility(HexNode node)
     {
@@ -15,8 +13,11 @@ public class TestAbility : AbstractAbility
        
     public override List<HexNode> GetShape(HexNode mouseNode)
     {
-        return Shape.LineInDirection(CardSelectionManager.Instance.ClickedCharacter.NodeOn , mouseNode, Range);
+        return Shape.LineInDirection(CardSelectionManager.Instance.ClickedCharacter.NodeOn , mouseNode, Range, true);
     }
 
-    
+    public override TargetingType GetTargetingType()
+    {
+        return TargetingType.NORMAL;
+    }
 }

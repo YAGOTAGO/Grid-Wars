@@ -21,11 +21,8 @@ public class Shape
     /// <param name="mouseNode">Node mouse is at</param>
     /// <param name="amount">How long the straight line should be</param>
     /// <returns>A list of nodes of the shape</returns>
-    public static List<HexNode> LineInDirection(HexNode playerNode, HexNode mouseNode, int amount)
+    public static List<HexNode> LineInDirection(HexNode playerNode, HexNode mouseNode, int amount, bool typeNormal)
     {
-
-        //clear path
-        HighlightManager.Instance.ClearTargetMap();
 
         //Cubic coords
         List<HexNode> nodesInDirection = new();
@@ -43,19 +40,20 @@ public class Shape
         HexNode currNode = playerNode;
         for(int i = 0; i < amount; i++)
         {
+            if (GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord + directionInt, out HexNode nextNode))
+            {
+                currNode = nextNode;
 
-            if(GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord + directionInt, out HexNode Value))
-            {
-                currNode = Value;
-            }
-            
-            if(currNode != null && currNode != playerNode && currNode.CanAbilitiesPassthrough())
-            {
+                if (typeNormal && !currNode.CanAbilitiesPassthrough())
+                {
+                    break;
+                }
+
                 nodesInDirection.Add(currNode);
             }
             else
             {
-                return nodesInDirection;
+                break;
             }
 
         }

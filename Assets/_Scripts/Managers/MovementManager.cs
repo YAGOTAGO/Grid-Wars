@@ -125,7 +125,7 @@ public class MovementManager : MonoBehaviour
         _OnNode.CharacterOnNode = _player;
 
         //Set character On Node
-        _player.SetNodeOn(target);
+        _player.NodeOn = target;
     }
 
     IEnumerator Walk(List<HexNode> path)
