@@ -11,7 +11,7 @@ public class CardSelectionManager : MonoBehaviour
     public static CardSelectionManager Instance;
     [Header("References")]
     [SerializeField] private Transform _selectionLocation;
-    [SerializeField] private TextMeshProUGUI _selectCharacterTMP;
+    [SerializeField] private TextMeshProUGUI _promptTMP;
 
     [Header("Buttons")]
     [SerializeField] private Button _confirmButton;
@@ -36,7 +36,7 @@ public class CardSelectionManager : MonoBehaviour
     {
         Instance = this;
         _undoButton.gameObject.SetActive(false);
-        _selectCharacterTMP.gameObject.SetActive(false);
+        Prompt("", false);
         ButtonsTurnOff();
         _confirmButton.onClick.AddListener(() => _confirm = true);
         _reselectButton.onClick.AddListener(() => _reselect = true);
@@ -44,8 +44,9 @@ public class CardSelectionManager : MonoBehaviour
 
     public void OnClickCard(GameObject card)
     {
+        if (!_canStopCoroutine) { return; }
 
-        if(card == _selectedCardObject) //When click on selected card it undo selection and exit method
+        if (card == _selectedCardObject) //When click on selected card it undo selection and exit method
         {
             Undo();
             return ;
@@ -77,7 +78,8 @@ public class CardSelectionManager : MonoBehaviour
     {
         Debug.Log("Card ability loop started");
 
-        _selectCharacterTMP.gameObject.SetActive(true); //Prompt to select character
+        Prompt("Select a character", true);
+
         yield return new WaitUntil(()=> CharacterClicked()); //wait until character is selected
 
         List<AbstractAbility> abilities = card.Abilities;
@@ -112,6 +114,7 @@ public class CardSelectionManager : MonoBehaviour
             //loops so reselect works
             while (true)
             {
+                Prompt("Select a target", true);
                 yield return new WaitUntil(() => ShowShape(ability, range)); //Show the shape and wait until player makes a selection
 
                 //Ask to confirm or reselect
@@ -124,19 +127,23 @@ public class CardSelectionManager : MonoBehaviour
                 if (_confirm) 
                 {
                     ButtonsTurnOff();
+                    Prompt("", false);
                     _undoButton.gameObject.SetActive(false);
                     _canStopCoroutine = false;
                     break; 
                 }
+                Prompt("", false);
                 ButtonsTurnOff(); //this is not redudant KEEP IT
             }
 
             //Do the ability to the given shape 
-
             foreach(HexNode node in _shape)
             {
                 ability.DoAbility(node);
             }
+
+            //Before going on wait untill queue is done processing
+            yield return new WaitUntil(ActionQueue.Instance.IsQueueStopped);
 
             //Clear all range and target indicators
             HighlightManager.Instance.ClearTargetAndRange();
@@ -162,7 +169,9 @@ public class CardSelectionManager : MonoBehaviour
     private void Undo()
     {
         //If we can cancel coroutine
-        if(_canStopCoroutine){ StopCoroutine(_cardLoopCoroutine); }
+        if(!_canStopCoroutine){ return; }
+
+        StopCoroutine(_cardLoopCoroutine);
 
         //Get rid of reselect and confirm buttons
         ButtonsTurnOff();
@@ -171,7 +180,7 @@ public class CardSelectionManager : MonoBehaviour
         HighlightManager.Instance.ClearTargetAndRange();
 
         //Deactivate the Select character text
-        _selectCharacterTMP.gameObject.SetActive(false);
+        Prompt("", false);
 
         //Deactivate undo button
         _undoButton.gameObject.SetActive(false);
@@ -192,8 +201,6 @@ public class CardSelectionManager : MonoBehaviour
 
     private bool ButtonsClicked()
     {
-        Debug.Log("calling buttons clicked");
-
         if (_reselect || _confirm)
         {
             return true;
@@ -214,7 +221,6 @@ public class CardSelectionManager : MonoBehaviour
                 HighlightManager.Instance.ClearTargetMap(); //Clear any prior shape
                 _shape = ability.GetShape(mouseNode);
                 HighlightManager.Instance.HighlightTargetList(_shape);
-                Debug.Log("calling show shape");
             }
 
             Debug.Log(_shape.Contains(mouseNode));
@@ -232,12 +238,11 @@ public class CardSelectionManager : MonoBehaviour
 
     private bool CharacterClicked()
     {
-        Debug.Log("calling character clicked");
 
         if (NodeClicked() && _clickedNode.CharacterOnNode != null)
         {
             ClickedCharacter = _clickedNode.CharacterOnNode;
-            _selectCharacterTMP.gameObject.SetActive(false);
+            _promptTMP.gameObject.SetActive(false);
             return true;
         }
 
@@ -247,7 +252,6 @@ public class CardSelectionManager : MonoBehaviour
     //returns whether a node was clicked and sets the _clickedNode
     private bool NodeClicked()
     {
-        Debug.Log("calling Node Clicked");
         //if mouse is not over UI and the button is clicked then we have clicked a node
         if (!EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0))
         {
@@ -264,5 +268,11 @@ public class CardSelectionManager : MonoBehaviour
         _reselectButton.gameObject.SetActive(false);
         _confirm = false;
         _reselect = false;
+    }
+
+    private void Prompt(string text, bool setActive)
+    {
+        _promptTMP.text = text;
+        _promptTMP.gameObject.SetActive(setActive);
     }
 }

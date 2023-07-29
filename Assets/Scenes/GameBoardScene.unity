@@ -1250,7 +1250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectionLocation: {fileID: 1853156728}
-  _selectCharacterTMP: {fileID: 1158124493}
+  _promptTMP: {fileID: 1158124493}
   _confirmButton: {fileID: 1064099630}
   _reselectButton: {fileID: 1552082169}
   _undoButton: {fileID: 1904884387}
@@ -2015,7 +2015,7 @@ GameObject:
   - component: {fileID: 1158124494}
   - component: {fileID: 1158124493}
   m_Layer: 5
-  m_Name: SelectCharacterTMP
+  m_Name: PromptTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -22,6 +22,7 @@ public class WalkAbility : AbstractAbility
 
         target.SetSurfaceWalkable(false); //Target node becomes non walkable
         target.CharacterOnNode = character; //Target nodes character becomes the character
+        character.NodeOn = target;
 
         //change this later to after the character moves another coroutine goes that does animation
         target.SurfaceOnEnter(character);

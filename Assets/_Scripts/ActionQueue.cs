@@ -42,4 +42,9 @@ public class ActionQueue : MonoBehaviour
 
         isQueueRunning = false;
     }
+
+    public bool IsQueueStopped()
+    {
+        return !isQueueRunning;
+    }
 }
