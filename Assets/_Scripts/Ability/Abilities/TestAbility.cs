@@ -5,7 +5,7 @@ using UnityEngine;
 public class TestAbility : AbstractAbility
 {
     private static int _range;
-    private AbstractShape _shape = new LineShape(_range, true);
+    private AbstractShape _shape = new LineShape(_range, true, true);
     public override int Range { get => _range; set => _range = value; }
 
     public override string Prompt => "This is the prompt";
