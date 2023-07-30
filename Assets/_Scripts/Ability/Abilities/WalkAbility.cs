@@ -33,7 +33,8 @@ public class WalkAbility : AbstractAbility
 
     public override List<HexNode> GetShape(HexNode mouseNode)
     {
-        return PathFinding.FindPath(CardSelectionManager.Instance.ClickedCharacter.NodeOn, mouseNode);
+        //return PathFinding.FindPath(CardSelectionManager.Instance.ClickedCharacter.NodeOn, mouseNode);
+        return PathFinding.FindPathBreakpoints(CardSelectionManager.Instance.ClickedCharacter.NodeOn, mouseNode, CardSelectionManager.Instance.BreakPoints);
     }
 
     public override TargetingType GetTargetingType()

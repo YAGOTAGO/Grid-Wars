@@ -68,61 +68,21 @@ public class PathFinding
         
     public static List<HexNode> FindPathBreakpoints(HexNode startNode, HexNode targetNode, List<HexNode> breakpoints)
     {
-        HashSet<HexNode> toSearch = new() { startNode };
-        HashSet<HexNode> processed = new();
+        if (breakpoints.Count == 0) { return FindPath(startNode, targetNode); }
 
-        while (toSearch.Count > 0)
+        List<HexNode> pathToFirstBreakpoint = FindPath(startNode, breakpoints[0]);
+        HexNode currentBreakpoint = breakpoints[0];
+
+        for (int i = 1; i < breakpoints.Count; i++)
         {
-            HexNode current = toSearch.OrderBy(node => node.F).ThenBy(node => node.H).First();
-            toSearch.Remove(current);
-            processed.Add(current);
-
-            // When we find our target
-            if (current == targetNode)
-            {
-                List<HexNode> path = new List<HexNode>();
-                HexNode currentPathTile = targetNode;
-
-                while (currentPathTile != startNode)
-                {
-                    path.Add(currentPathTile);
-                    currentPathTile = currentPathTile.Connection;
-                }
-
-                path.Reverse();
-
-                // Insert breakpoints into the path list at the desired positions
-                foreach (var breakpoint in breakpoints)
-                {
-                    int index = path.FindIndex(node => node == breakpoint);
-                    if (index != -1)
-                    {
-                        path.Insert(index, breakpoint);
-                    }
-                }
-
-                return path;
-            }
-
-            foreach (HexNode neighbor in current.Neighboors.Where(node => node.IsNodeWalkable() && !processed.Contains(node)))
-            {
-                var costToNeighbor = current.G + 1;
-
-                if (!toSearch.Contains(neighbor) || costToNeighbor < neighbor.G)
-                {
-                    neighbor.SetG(costToNeighbor);
-                    neighbor.SetH(HexDistance.GetDistance(neighbor, targetNode));
-                    neighbor.SetConnection(current);
-
-                    if (!toSearch.Contains(neighbor))
-                    {
-                        toSearch.Add(neighbor);
-                    }
-                }
-            }
+            List<HexNode> tempPath = FindPath(currentBreakpoint, breakpoints[i]);
+            pathToFirstBreakpoint.AddRange(tempPath.GetRange(1, tempPath.Count - 1));
+            currentBreakpoint = breakpoints[i];
         }
 
-        Debug.Log("Error: Unreachable");
-        return null;
+        List<HexNode> pathFromLastBreakpointToTarget = FindPath(currentBreakpoint, targetNode);
+        pathToFirstBreakpoint.AddRange(pathFromLastBreakpointToTarget.GetRange(1, pathFromLastBreakpointToTarget.Count - 1));
+
+        return pathToFirstBreakpoint;
     }
 }

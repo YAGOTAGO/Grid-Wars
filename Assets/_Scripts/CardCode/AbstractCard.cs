@@ -13,9 +13,15 @@ public abstract class AbstractCard
     public abstract int Range { get; }
     public abstract int Durability { get; set; }
     public abstract List<AbstractAbility> Abilities { get; }
-
-    #endregion
     
+    /// <summary>
+    /// Decreases durability by 1
+    /// </summary>
+    public virtual bool CanDecreaseDurability()
+    {
+        return true;
+    }
+    #endregion
     
 
 }

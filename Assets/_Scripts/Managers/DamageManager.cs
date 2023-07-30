@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageManager : MonoBehaviour
@@ -12,6 +10,12 @@ public class DamageManager : MonoBehaviour
         int damage = dmgInfo.Val;
         Character source = dmgInfo.Source;
         Character target = dmgInfo.Target; 
+
+        if(target == null)
+        {
+            Debug.Log("Target is null in damage manager");
+            return;
+        }
 
         if(source != null)
         {

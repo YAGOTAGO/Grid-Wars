@@ -29,7 +29,7 @@ public class CardSelectionManager : MonoBehaviour
     private Coroutine _cardLoopCoroutine; //store this to cancel it later
     private bool _canStopCoroutine = true;
     private HexNode _priorMouseNode;
-    public List<HexNode> PivotPoints = new();
+    public List<HexNode> BreakPoints = new();
     #endregion
 
     // Start is called before the first frame update
@@ -78,19 +78,19 @@ public class CardSelectionManager : MonoBehaviour
     private IEnumerator CardAbilityLoop(AbstractCard card)
     {
         Prompt("Select a Character", true);
-        yield return new WaitUntil(()=> CharacterClicked()); //wait until character is selected
+        yield return new WaitUntil(() => CharacterClicked()); //wait until character is selected
 
         List<AbstractAbility> abilities = card.Abilities;
         HashSet<HexNode> range = new();
 
-        for (int i= 0; i<abilities.Count; i++) //iterate over all abilities in the card
+        for (int i = 0; i < abilities.Count; i++) //iterate over all abilities in the card
         {
             //Before starting any ability we wait for action queue
             yield return new WaitUntil(ActionQueue.Instance.IsQueueStopped);
 
             Prompt(abilities[i].Prompt, true); //Tell the player what to expect
 
-            TargetingType tarType = abilities[i].GetTargetingType();                
+            TargetingType tarType = abilities[i].GetTargetingType();
 
             switch (tarType)
             {
@@ -121,10 +121,9 @@ public class CardSelectionManager : MonoBehaviour
             }
 
             HighlightManager.Instance.HighlightRangeSet(range);
-            
-     
+
             yield return null; //have to wait a frame before trying to detect click again
-            
+
             //loops if click reselect button
             while (true)
             {
@@ -135,19 +134,19 @@ public class CardSelectionManager : MonoBehaviour
                 yield return new WaitUntil(() => ButtonsClicked());
 
                 //After clicked buttons they go away
-                if (_confirm) 
+                if (_confirm)
                 {
                     ButtonsSetActive(false);
                     Prompt("", false);
                     CannotStopCoroutine();
-                    break; 
+                    break;
                 }
                 Prompt("", false);
                 ButtonsSetActive(false); //this is not redudant KEEP IT
             }
 
             //Do the ability to the given shape 
-            foreach(HexNode node in _shape)
+            foreach (HexNode node in _shape)
             {
                 abilities[i].DoAbility(node);
             }
@@ -157,7 +156,7 @@ public class CardSelectionManager : MonoBehaviour
         }
 
         //Take away card durability then either destroy it or add it to the discard
-        card.Durability--;
+        if (card.CanDecreaseDurability()) { card.Durability--;}
         if(card.Durability <= 0)
         {
             //remove card from the hand
@@ -232,6 +231,7 @@ public class CardSelectionManager : MonoBehaviour
             if (_shape.Contains(mouseNode) && NodeClicked()) //Have to check if target is valid based on type
             {
                 _priorMouseNode = mouseNode;
+                BreakPoints.Clear();
                 return true;
             }
         }

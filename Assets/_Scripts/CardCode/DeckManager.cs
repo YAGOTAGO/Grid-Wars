@@ -55,7 +55,7 @@ public class DeckManager : MonoBehaviour
         _deck.CollectionChanged += OnDeckCollectionChanged;
         _discard.CollectionChanged += OnDiscardCollectionChanged;
 
-        AddToDeck(_deck, new TestCard());
+        AddToDeck(_deck, new Kick());
         _deck.Add(new TestCard());
         _deck.Add(new TestCard());
          
