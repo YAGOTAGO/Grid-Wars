@@ -8,6 +8,9 @@ public class DamageAbility : AbstractAbility
     private readonly string _prompt;
     private readonly DamageInfo _damageInfo;
     private readonly TargetingType _targetingType;
+    private AbstractShape _shape;
+
+    public override AbstractShape Shape { get => _shape; set => _shape = value; }
     public override string Prompt => _prompt;
     public override int Range { get => _range; set => _range = value; }
     public override void DoAbility(HexNode node)
@@ -16,21 +19,17 @@ public class DamageAbility : AbstractAbility
         Debug.Log(node.ToString() + " in damage ability;");
     }
 
-    public override List<HexNode> GetShape(HexNode mouseNode)
-    {
-        return new List<HexNode>() { mouseNode };
-    }
-
     public override TargetingType GetTargetingType()
     {
         return _targetingType;
     }
 
-    public DamageAbility(int range, DamageInfo dmgInfo, TargetingType tarType, string prompt)
+    public DamageAbility(int range, AbstractShape shape, DamageInfo dmgInfo, TargetingType tarType, string prompt)
     {
         _range = range;
         _prompt = prompt;
         _damageInfo = dmgInfo;
         _targetingType = tarType;
+        _shape = shape;
     }
 }

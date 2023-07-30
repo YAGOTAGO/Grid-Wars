@@ -5,23 +5,23 @@ using UnityEngine;
 public abstract class AbstractCard
 {
     #region Stats
-    public abstract int StoreCost { get; }
+    public abstract Rarity Rarity { get; }
     public abstract Sprite CartArt { get; }
-    public abstract Sprite ShapeArt { get; }
+    public virtual Sprite ShapeArt { get; } = null;
     public abstract string Description { get; }
     public abstract string Name { get; }
-    public abstract int Range { get; }
     public abstract int Durability { get; set; }
     public abstract List<AbstractAbility> Abilities { get; }
-    
-    /// <summary>
-    /// Decreases durability by 1
-    /// </summary>
-    public virtual bool CanDecreaseDurability()
-    {
-        return true;
-    }
+   
     #endregion
     
 
+}
+
+public enum Rarity
+{
+    BASIC, //Basic cards can't lose durability and start in hand
+    COMMON, //Frequently found
+    RARE, //maybe sometimes in treasure chests
+    EPIC // maybe unique to events, or certain npcs
 }

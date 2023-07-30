@@ -11,8 +11,6 @@ public class TestCard : AbstractCard
     private int _durability = 2;
     #endregion
 
-    public override int StoreCost => 20;
-
     public override Sprite CartArt { get => _cardArt; }
 
     public override Sprite ShapeArt { get => _shapeArt; }
@@ -21,9 +19,9 @@ public class TestCard : AbstractCard
 
     public override string Name => "Testing TEST";
 
-    public override int Range => 3;
-
     public override List<AbstractAbility> Abilities { get => _abilities; }
 
     public override int Durability { get => _durability; set => _durability = value; }
+
+    public override Rarity Rarity => Rarity.BASIC;
 }

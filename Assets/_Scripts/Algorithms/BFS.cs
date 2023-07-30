@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class BFS
 {
@@ -31,6 +30,7 @@ public class BFS
 
             if(distance>= depth)
             {
+                visited.Remove(startNode);
                 return visited;
             }
 
@@ -41,7 +41,7 @@ public class BFS
                 visited.Add(neighbor);
             }
         }
-
+        visited.Remove(startNode);
         return visited;
 
     }
@@ -69,6 +69,7 @@ public class BFS
 
             if (distance >= depth)
             {
+                visited.Remove(startNode);
                 return visited;
             }
 
@@ -80,6 +81,7 @@ public class BFS
             }
         }
 
+        visited.Remove(startNode);
         return visited;
 
     }
@@ -97,7 +99,7 @@ public class BFS
         Queue<HexNode> fronteir = new();
 
         fronteir.Enqueue(startNode);
-        visited.Add(startNode);
+        //visited.Add(startNode);
 
         while (fronteir.Count > 0)
         {
@@ -107,6 +109,7 @@ public class BFS
 
             if (distance >= depth)
             {
+                visited.Remove(startNode);
                 return visited;
             }
 
@@ -118,6 +121,7 @@ public class BFS
             }
         }
 
+        visited.Remove(startNode);
         return visited;
 
     }

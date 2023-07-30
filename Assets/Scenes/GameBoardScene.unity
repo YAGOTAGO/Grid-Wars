@@ -399,11 +399,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9fae9cb4f116748a85dd37ce1d80bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardSpeed: 617
-  CardMoveEase: 20
+  CardSpeed: 650
+  CardMoveEase: 1
   CardScaleUp: 3
   CardScaleDuration: 0.5
-  CardScaleEase: 23
+  CardScaleEase: 1
   CharacterMoveEase: 1
   CharacterMoveSpeed: 3.13
 --- !u!1 &162962165
@@ -1255,7 +1255,7 @@ MonoBehaviour:
   _reselectButton: {fileID: 1552082169}
   _undoButton: {fileID: 1904884387}
   ClickedCharacter: {fileID: 0}
-  PivotPoints: []
+  BreakPoints: []
 --- !u!1 &648585251
 GameObject:
   m_ObjectHideFlags: 0

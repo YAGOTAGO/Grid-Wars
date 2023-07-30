@@ -9,26 +9,18 @@ public class Kick : AbstractCard
     private readonly string _prompt = "Deal " + _damage + " to an adjacent character";
     private readonly TargetingType _targetingType = TargetingType.NORMAL;
     private readonly DamageType _dmgType = DamageType.Normal;
-    public override int StoreCost => 0;
+    private readonly int _range = 1;
 
     public override Sprite CartArt => null;
-
-    public override Sprite ShapeArt => null;
-
+    public override Rarity Rarity => Rarity.BASIC;
     public override string Description => "Deal " + _damage + " to an adjacent character.";
-
     public override string Name => "Kick";
-
-    public override int Range => 1;
 
     public override int Durability { get => _durability; set => _durability = value; }
 
-    public override List<AbstractAbility> Abilities => new() { 
-        new DamageAbility(Range, new DamageInfo(_damage, _dmgType, null, null), _targetingType, _prompt)};
+    public override List<AbstractAbility> Abilities => new() {
+        new DamageAbility(_range, new SingleHexShape(), new DamageInfo(_damage, _dmgType, null, null), _targetingType, _prompt)
+    };
+
     
-    //Means this card doesn't lose durability
-    public override bool CanDecreaseDurability()
-    {
-        return false;
-    }
 }

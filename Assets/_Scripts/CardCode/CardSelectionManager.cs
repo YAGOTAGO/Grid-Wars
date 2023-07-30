@@ -156,7 +156,7 @@ public class CardSelectionManager : MonoBehaviour
         }
 
         //Take away card durability then either destroy it or add it to the discard
-        if (card.CanDecreaseDurability()) { card.Durability--;}
+        if (card.Rarity != Rarity.BASIC) { card.Durability--;}
         if(card.Durability <= 0)
         {
             //remove card from the hand

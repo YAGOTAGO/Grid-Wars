@@ -9,7 +9,6 @@ public class CardDisplay : MonoBehaviour
     private AbstractCard _card; //ScriptableObject we use as data to display
 
     [SerializeField] private TextMeshProUGUI _nameTMP;
-    [SerializeField] private TextMeshProUGUI _rangeTMP;
     [SerializeField] private TextMeshProUGUI _descripTMP;
     [SerializeField] private Image _shape;
     
@@ -21,7 +20,6 @@ public class CardDisplay : MonoBehaviour
     private void UpdateDisplay()
     {
         _nameTMP.text = _card.Name.ToString();
-        _rangeTMP.text = _card.Range.ToString();
         _descripTMP.text = _card.Description;
         _shape.sprite = _card.ShapeArt;
     }
