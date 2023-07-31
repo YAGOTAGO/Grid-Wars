@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour //may need to become network variable
 {
     public HashSet<AbstractEffect> Effects { get; private set; } = new();
     
     #region Visuals
     [Header("Visuals")]
-    [SerializeField] private GameObject _playerHighlight;
-    [SerializeField] private GameObject _playerAbilityUI;
     [SerializeField] private GameObject _effectsUIGroup; //This contains the horizontal layout group UI
     [SerializeField] private HealthBar _healthBar;
     [SerializeField] private GameObject _playerStatsUI;
@@ -19,18 +17,11 @@ public class Character : MonoBehaviour
     
     #region Stats
     [Header("Stats")]
-    [SerializeField] private int _health;
+    [SerializeField] private int _health; //this will likely be network variable
     #endregion
 
     #region Private Vars
     private Dictionary<AbstractEffect, GameObject> _effectToUIDict = new();
-    #endregion
-
-    #region Move Stats
-    [Header("Movement stats")]
-    public float PlayerSpeed = 3f;
-    public iTween.EaseType EaseType = iTween.EaseType.spring;
-    public int WalkMoves = 5;
     #endregion
     
     [HideInInspector] public HexNode NodeOn;
@@ -118,21 +109,12 @@ public class Character : MonoBehaviour
     //May need to do different behavior based on if ally or enemy
     public void OnSelect()
     {
-        //Show ability UI
-        _playerAbilityUI.SetActive(true);
-
-        //Sets highlight
-        _playerHighlight.SetActive(true);
 
     }
 
     public void OnDeselect()
     {
-        //Removes player UI
-        _playerAbilityUI.SetActive(false);
 
-        //Unhighlights player
-        _playerHighlight.SetActive(false);
     }
 
     public void TakeDamage(int damage)
