@@ -19,15 +19,7 @@ public class WalkAbility : AbstractAbility
     {
         AbstractCharacter character = CardSelectionManager.Instance.ClickedCharacter;
 
-        character.NodeOn.SetSurfaceWalkable(true); //Node character is on becomes walkable
-        character.NodeOn.CharacterOnNode = null; //Character on that node is now none
-
-        target.SetSurfaceWalkable(false); //Target node becomes non walkable
-        target.CharacterOnNode = character; //Target nodes character becomes the character
-        character.NodeOn = target;
-
-        //change this later to after the character moves another coroutine goes that does animation
-        target.SurfaceOnEnter(character);
+        character.PutOnHexNode(target, false);
 
         Tween characterMove = TweenManager.Instance.CharacterMove(character.gameObject, target.transform.position);
         yield return characterMove.WaitForCompletion();

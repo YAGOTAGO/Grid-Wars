@@ -20,17 +20,14 @@ public class Character : AbstractCharacter //may need to become network behaviou
     [SerializeField] private GameObject _effectUIPrefab;
     #endregion
 
-
     private readonly Dictionary<AbstractEffect, GameObject> _effectToUIDict = new();
- 
 
     // Start is called before the first frame update
     void Start()
     {
         InitVars();
         //Some spawn action
-        _nodeOn = GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)];
-        GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].CharacterOnNode = this;
+        PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(3, 0)], true);
         AddEffect(new BurnEffect());
     }
 

@@ -2769,9 +2769,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba182cad79836a48981cc80f66b9270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  State: 0
-  enemyList: []
-  AllyList: []
 --- !u!4 &1416620741
 Transform:
   m_ObjectHideFlags: 0
@@ -3569,6 +3566,7 @@ GameObject:
   - component: {fileID: 1676267891}
   - component: {fileID: 1676267890}
   - component: {fileID: 1676267896}
+  - component: {fileID: 1676267897}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -3660,8 +3658,22 @@ MonoBehaviour:
   _healthBar: {fileID: 1765725768}
   _characterStatsUI: {fileID: 2083961034}
   _effectUIPrefab: {fileID: 3834171814173998123, guid: 9f7b01a8318faf74e9de3c5508271f40, type: 3}
-  _health: 20
-  NodeOn: {fileID: 0}
+--- !u!114 &1676267897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676267889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2708605065
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1690136052
 GameObject:
   m_ObjectHideFlags: 0
