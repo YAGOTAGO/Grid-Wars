@@ -17,7 +17,7 @@ public class WalkAbility : AbstractAbility
 
     private IEnumerator WalkRoutine(HexNode target)
     {
-        Character character = CardSelectionManager.Instance.ClickedCharacter;
+        AbstractCharacter character = CardSelectionManager.Instance.ClickedCharacter;
 
         character.NodeOn.SetSurfaceWalkable(true); //Node character is on becomes walkable
         character.NodeOn.CharacterOnNode = null; //Character on that node is now none

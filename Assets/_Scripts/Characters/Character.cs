@@ -3,57 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Character : MonoBehaviour //may need to become network variable
+public class Character : AbstractCharacter //may need to become network behaviour
 {
-    public HashSet<AbstractEffect> Effects { get; private set; } = new();
-    
+    private HexNode _nodeOn;
+    private HashSet<AbstractEffect> _effects = new();
+    private int _health = 20;
+    public override HashSet<AbstractEffect> Effects { get=> _effects; }
+    public override HexNode NodeOn { get => _nodeOn; set => _nodeOn = value; }
+    public override int Health { get => _health; set => _health = value; } //this will likely be network variable
+   
     #region Visuals
     [Header("Visuals")]
     [SerializeField] private GameObject _effectsUIGroup; //This contains the horizontal layout group UI
-    [SerializeField] private HealthBar _healthBar;
-    [SerializeField] private GameObject _playerStatsUI;
+    [SerializeField] private HealthBar _healthBar; //info about player healthbar
+    [SerializeField] private GameObject _characterStatsUI; //UI object that holds everything else
     [SerializeField] private GameObject _effectUIPrefab;
     #endregion
-    
-    #region Stats
-    [Header("Stats")]
-    [SerializeField] private int _health; //this will likely be network variable
-    #endregion
 
-    #region Private Vars
-    private Dictionary<AbstractEffect, GameObject> _effectToUIDict = new();
-    #endregion
-    
-    [HideInInspector] public HexNode NodeOn;
+
+    private readonly Dictionary<AbstractEffect, GameObject> _effectToUIDict = new();
+ 
 
     // Start is called before the first frame update
     void Start()
     {
         InitVars();
         //Some spawn action
-        NodeOn = GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)];
+        _nodeOn = GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)];
         GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)].CharacterOnNode = this;
         AddEffect(new BurnEffect());
     }
 
     private void InitVars()
     {
-        _healthBar.InitHealthBarUI(_health, _health);
-        PlayersUIManager.Instance.SetPlayerUI(_playerStatsUI);
+        _healthBar.InitHealthBarUI(Health, Health);
+        PlayersUIManager.Instance.SetPlayerUI(_characterStatsUI);
     }
 
-    public void AddEffect(AbstractEffect ef)
+    public override void AddEffect(AbstractEffect ef)
     {
-        //Add to set if doesnt exist
-        if (!Effects.Contains(ef)) 
+        //Add to set if doesnt exist    
+        if (!_effects.Contains(ef)) 
         { 
-            Effects.Add(ef);
+            _effects.Add(ef);
             SetEffectUI(ef);
             return;
         }
 
         //If exists in hashset we find the effect and extend duration
-        foreach (AbstractEffect effect in Effects)
+        foreach (AbstractEffect effect in _effects)
         {
             //Equals is overriden so should compare type
             if (effect.Equals(ef))
@@ -69,10 +67,10 @@ public class Character : MonoBehaviour //may need to become network variable
     /// Removes effect from character effects list, and also their UI
     /// </summary>
     /// <param name="ef">The effect to be removed</param>
-    public void RemoveEffect(AbstractEffect ef)
+    public override void RemoveEffect(AbstractEffect ef)
     {
         //Remove from the character set
-        Effects.Remove(ef);
+        _effects.Remove(ef);
 
         if (_effectToUIDict.TryGetValue(ef, out GameObject value))
         {
@@ -106,24 +104,13 @@ public class Character : MonoBehaviour //may need to become network variable
 
     }
 
-    //May need to do different behavior based on if ally or enemy
-    public void OnSelect()
-    {
-
-    }
-
-    public void OnDeselect()
-    {
-
-    }
-
-    public void TakeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
         //Take the damage and update health bar
-        _health -= damage;
-        _healthBar.SetHealth(_health);
+        Health -= damage;
+        _healthBar.SetHealth(Health);
 
-        if (_health <= 0)
+        if (Health <= 0)
         {
             Destroy(this);
         }

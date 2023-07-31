@@ -8,8 +8,8 @@ public class DamageManager : MonoBehaviour
     public static void Damage(DamageInfo dmgInfo)
     {
         int damage = dmgInfo.Val;
-        Character source = dmgInfo.Source;
-        Character target = dmgInfo.Target; 
+        AbstractCharacter source = dmgInfo.Source;
+        AbstractCharacter target = dmgInfo.Target; 
 
         if(target == null)
         {

@@ -8,6 +8,6 @@ public interface ISurface
     public bool CanAbilitiesPassthrough { get; } // Whether abilities can go over it
     public Sprite SurfaceSprite { get; }
     public int Duration { get; }
-    public void OnTouchNode(Character character);
+    public void OnTouchNode(AbstractCharacter character);
 }
 

@@ -21,7 +21,7 @@ public class HexNode : MonoBehaviour
     [HideInInspector] public Vector3Int CubeCoord { get; private set; } //Unity grid converted into cube coords
     
     private SpriteRenderer _renderer;
-    [HideInInspector]public Character CharacterOnNode;
+    [HideInInspector]public AbstractCharacter CharacterOnNode;
 
     #region Pathfinding
     public float G { get; private set; }
@@ -104,7 +104,7 @@ public class HexNode : MonoBehaviour
         _surface.IsWalkable = isWalkable;
     }
 
-    public void SurfaceOnEnter(Character character)
+    public void SurfaceOnEnter(AbstractCharacter character)
     {
         _surface.OnTouchNode(character);
     }

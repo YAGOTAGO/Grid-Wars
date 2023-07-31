@@ -16,5 +16,5 @@ public class WaterSurface : ISurface
     public Sprite SurfaceSprite => _surfaceSprite;
     public int Duration => _duration;
     public bool IsWalkable { get => _isWalkable; set => _isWalkable = value; }
-    public void OnTouchNode(Character character) { }
+    public void OnTouchNode(AbstractCharacter character) { }
 }

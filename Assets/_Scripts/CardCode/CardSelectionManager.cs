@@ -25,7 +25,7 @@ public class CardSelectionManager : MonoBehaviour
     private AbstractCard _selectedCard; //The information of what the card does
     private HexNode _clickedNode; //Node we clicked on
     private List<HexNode> _shape; //Shape we last hovered
-    [HideInInspector] public Character ClickedCharacter;
+    [HideInInspector] public AbstractCharacter ClickedCharacter;
     private Coroutine _cardLoopCoroutine; //store this to cancel it later
     private bool _canStopCoroutine = true;
     private HexNode _priorMouseNode;
