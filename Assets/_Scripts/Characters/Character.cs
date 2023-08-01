@@ -26,9 +26,6 @@ public class Character : AbstractCharacter //may need to become network behaviou
     void Start()
     {
         InitVars();
-        //Some spawn action
-        PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(3, 0)], true);
-        AddEffect(new BurnEffect());
     }
 
     private void InitVars()
