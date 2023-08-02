@@ -110,5 +110,15 @@ public class Character : AbstractCharacter //may need to become network behaviou
         }
     }
 
+    public GameObject GetEffectGameObject(AbstractEffect ef)
+    {
+        if (_effectToUIDict.TryGetValue(ef, out GameObject value))
+        {
+            return value;
+        }
+
+        Debug.LogWarning("Could not find effect GO in Character");
+        return null;
+    }
 
 }

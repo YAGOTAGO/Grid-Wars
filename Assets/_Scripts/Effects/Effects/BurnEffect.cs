@@ -22,5 +22,6 @@ public class BurnEffect : AbstractEffect
         _duration--;
         character.UpdateEffectDescrip(this);
         if (_duration <= 0) { character.RemoveEffect(this); }
+        
     }
 }
