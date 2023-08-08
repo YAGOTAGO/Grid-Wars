@@ -32,22 +32,7 @@ public abstract class AbstractEffect
     #region Helper Methods
     public void AddToDuration(int extraDur) { Duration += extraDur; }
 
-    //May need to adjust this when adding npcs
-    public virtual IEnumerator FlashEffect(Character character)
-    {
-        GameObject effectObj = character.GetEffectGameObject(this);
-        if(effectObj == null) { yield break; }
-
-        for(int i =0; i<2; i++)
-        {
-            Tween scaleUp = effectObj.transform.DOScale(new Vector3(2, 2), .5f);
-            yield return scaleUp.WaitForCompletion();
-
-            Tween scaleDown = effectObj.transform.DOScale(new Vector3(1, 1), .5f);
-            yield return scaleDown.WaitForCompletion();
-        }
-        
-    }
+    
     #endregion
 
     /// <summary>

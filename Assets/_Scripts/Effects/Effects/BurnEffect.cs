@@ -21,7 +21,15 @@ public class BurnEffect : AbstractEffect
         DamageManager.Damage(new DamageInfo(_damage, DamageType.Fire, null, character));
         _duration--;
         character.UpdateEffectDescrip(this);
-        if (_duration <= 0) { character.RemoveEffect(this); }
-        
+
+        if (_duration <= 0) 
+        { 
+            character.RemoveEffect(this); 
+        } 
+        else
+        {
+            character.FlashEffect(this);
+        }
+
     }
 }

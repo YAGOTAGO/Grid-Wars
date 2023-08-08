@@ -43,6 +43,10 @@ public class HighlightManager : MonoBehaviour
         _rangeMap.SetTile(cellPos, _hoverTile);
     }
 
+    public void RangeUnhighlight(Vector3Int cellPos)
+    {
+        _rangeMap.SetTile(cellPos, null);
+    }
     public void TargetHighlight(Vector3Int pos)
     {
         _targetMap.SetTile(pos, _targetTile);

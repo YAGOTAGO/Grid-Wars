@@ -16,9 +16,11 @@ public class CardSelectionManager : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Button _confirmButton;
     [SerializeField] private Button _reselectButton;
+    [SerializeField] private Button _skipButton;
     [SerializeField] private Button _undoButton;
     private bool _reselect;
     private bool _confirm;
+    private bool _skip;
 
     #region Card Ability Loop
     private GameObject _selectedCardObject; //game object so we can potentially destroy card
@@ -38,9 +40,14 @@ public class CardSelectionManager : MonoBehaviour
         Instance = this;
         _undoButton.gameObject.SetActive(false);
         Prompt("", false);
-        ButtonsSetActive(false);
+        
+        ButtonsSetActive(false, false, false); //no buttons are active
+
+        //Add listeners so buttons do things
         _confirmButton.onClick.AddListener(() => _confirm = true);
         _reselectButton.onClick.AddListener(() => _reselect = true);
+        _skipButton.onClick.AddListener(() => _skip = true);
+
     }
 
     public void OnClickCard(GameObject card)
@@ -85,8 +92,8 @@ public class CardSelectionManager : MonoBehaviour
 
         for (int i = 0; i < abilities.Count; i++) //iterate over all abilities in the card
         {
-            //Before starting any ability we wait for action queue
-            yield return new WaitUntil(ActionQueue.Instance.IsQueueStopped);
+            
+            yield return new WaitUntil(ActionQueue.Instance.IsQueueStopped); //Before starting any ability we wait for action queue
 
             Prompt(abilities[i].Prompt, true); //Tell the player what to expect
 
@@ -107,16 +114,31 @@ public class CardSelectionManager : MonoBehaviour
                 case TargetingType.SELF:
                     if (i > 0) //If we already in the loop then we dont need to use confirm button
                     {
+                        ButtonsSetActive(true, false, true); //we can confirm or skip
+                        yield return new WaitUntil(() => ButtonsClicked());
+                        if (_skip) //if skip we dont do ability
+                        {
+                            ButtonsSetActive(false, false, false);
+                            //CannotStopCoroutine();
+                            continue;
+                        }
+
                         abilities[i].DoAbility(ClickedCharacter.NodeOn);
+                        //CannotStopCoroutine();
+                        continue;
+                    }
+
+                    ButtonsSetActive(true, false, true);
+                    yield return new WaitUntil(() => ButtonsClicked()); //wait for confirm
+                    if (_skip) //if skip we dont do ability
+                    {
+                        ButtonsSetActive(false, false, false);
                         CannotStopCoroutine();
                         continue;
                     }
-                    _confirmButton.gameObject.SetActive(true);
-                    yield return new WaitUntil(() => ButtonsClicked()); //wait for confirm
                     abilities[i].DoAbility(ClickedCharacter.NodeOn); //Pass the node character is on
                     CannotStopCoroutine();
-                    _confirm = false;
-                    _confirmButton.gameObject.SetActive(false);
+                    ButtonsSetActive(false, false, false);
                     continue;
             }
 
@@ -130,29 +152,40 @@ public class CardSelectionManager : MonoBehaviour
                 yield return new WaitUntil(() => ShowShape(abilities[i], range)); //Show the shape and wait until player makes a selection
 
                 //Ask to confirm or reselect
-                ButtonsSetActive(true);
+                ButtonsSetActive(true, true, true);
                 yield return new WaitUntil(() => ButtonsClicked());
 
                 //After clicked buttons they go away
                 if (_confirm)
                 {
-                    ButtonsSetActive(false);
+                    ButtonsSetActive(false, false, false);
                     Prompt("", false);
                     CannotStopCoroutine();
+                    
+                    //Do the ability to the given shape 
+                    foreach (HexNode node in _shape)
+                    {
+                        abilities[i].DoAbility(node);
+                    }
+
+                    //Clear all range and target indicators
+                    HighlightManager.Instance.ClearTargetAndRange();
+                    break;
+                }else if (_skip)
+                {
+                    ButtonsSetActive(false, false, false);
+                    Prompt("", false);
+                    CannotStopCoroutine();
+                    HighlightManager.Instance.ClearTargetAndRange();
                     break;
                 }
-                Prompt("", false);
-                ButtonsSetActive(false); //this is not redudant KEEP IT
+                else
+                {
+                    Prompt("", false);
+                    ButtonsSetActive(false, false, false); //this is not redudant KEEP IT
+                }
+                
             }
-
-            //Do the ability to the given shape 
-            foreach (HexNode node in _shape)
-            {
-                abilities[i].DoAbility(node);
-            }
-
-            //Clear all range and target indicators
-            HighlightManager.Instance.ClearTargetAndRange();
         }
 
         //Take away card durability then either destroy it or add it to the discard
@@ -179,7 +212,7 @@ public class CardSelectionManager : MonoBehaviour
         StopCoroutine(_cardLoopCoroutine);
 
         //Get rid of reselect and confirm buttons
-        ButtonsSetActive(false);
+        ButtonsSetActive(false, false, false);
 
         //Remove the range tile map
         HighlightManager.Instance.ClearTargetAndRange();
@@ -206,7 +239,7 @@ public class CardSelectionManager : MonoBehaviour
 
     private bool ButtonsClicked()
     {
-        if (_reselect || _confirm)
+        if (_reselect || _confirm || _skip)
         {
             return true;
         }
@@ -266,12 +299,14 @@ public class CardSelectionManager : MonoBehaviour
         return false;
     }
 
-    private void ButtonsSetActive(bool isActive)
+    private void ButtonsSetActive(bool confirm, bool reselect, bool skip)
     {
-        _confirmButton.gameObject.SetActive(isActive);
-        _reselectButton.gameObject.SetActive(isActive);
+        _confirmButton.gameObject.SetActive(confirm);
+        _reselectButton.gameObject.SetActive(reselect);
+        _skipButton.gameObject.SetActive(skip);
         _confirm = false;
         _reselect = false;
+        _skip = false;
     }
 
     private void Prompt(string text, bool setActive)

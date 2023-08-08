@@ -13,6 +13,11 @@ public class CameraMovement : MonoBehaviour
 
     void LateUpdate()
     {
+        HandleCamMovement();    
+    }
+
+    public void HandleCamMovement()
+    {
         // Handle camera movement with WASD
         _horzInput = Input.GetAxis("Horizontal");
         _vertInput = Input.GetAxis("Vertical");

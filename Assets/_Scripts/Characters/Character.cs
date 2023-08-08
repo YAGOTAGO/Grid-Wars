@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     void Start()
     {
         InitVars();
+        AddEffect(new BurnEffect());
     }
 
     private void InitVars()
@@ -121,4 +123,45 @@ public class Character : AbstractCharacter //may need to become network behaviou
         return null;
     }
 
+    public void HighlightCharacter(bool highlight)
+    {
+        if(highlight)
+        {
+            HighlightManager.Instance.RangeHighlight(NodeOn.GridPos);
+        }
+        else
+        {
+            HighlightManager.Instance.RangeUnhighlight(NodeOn.GridPos);
+        }
+    }
+
+    #region UI Effect flash
+    /// <summary>
+    /// Call this with effect to flash the corresponding effect in player UI
+    /// </summary>
+    /// <param name="ef"></param>
+    public void FlashEffect(AbstractEffect ef)
+    {
+       StartCoroutine(FlashEffectRoutine(ef));
+
+    }
+
+    //May need to adjust this when adding npcs
+    private IEnumerator FlashEffectRoutine(AbstractEffect ef)
+    {
+        GameObject effectObj = _effectToUIDict[ef];
+        if (effectObj == null) { Debug.Log("No effect for flash effect"); yield break; }
+
+        for (int i = 0; i < 2; i++)
+        {
+            Tween scaleUp = effectObj.transform.DOScale(new Vector3(2, 2), .5f);
+            yield return scaleUp.WaitForCompletion();
+
+            Tween scaleDown = effectObj.transform.DOScale(new Vector3(1, 1), .5f);
+            yield return scaleDown.WaitForCompletion();
+        }
+
+    }
+
+    #endregion
 }

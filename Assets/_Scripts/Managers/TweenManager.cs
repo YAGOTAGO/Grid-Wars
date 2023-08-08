@@ -8,7 +8,7 @@ public class TweenManager : MonoBehaviour
     public static TweenManager Instance;
 
     [Header("Card Move")]
-    [Range(400, 700)] public float CardSpeed;
+    [Range(500, 900)] public float CardSpeed;
     public Ease CardMoveEase;
     
     [Header("Card Scale")]

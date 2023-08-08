@@ -15,7 +15,14 @@ public class GameManager : NetworkBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public override void OnNetworkSpawn()
+    private void Start()
+    {
+        GameObject character1 = Instantiate(_character);
+        character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)], true);
+
+    }
+
+    /*public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
@@ -33,6 +40,6 @@ public class GameManager : NetworkBehaviour
     private void Start()
     {
         GetComponent<NetworkObject>().Spawn();
-    }
+    }*/
 
 }

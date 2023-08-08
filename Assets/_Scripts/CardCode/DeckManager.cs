@@ -193,7 +193,6 @@ public class DeckManager : MonoBehaviour
 
         //Find what slot card was in free that slot
         int indexSlot = RemoveFromHand(card, false);
-        Transform cardSlot = _cardSlots[indexSlot];
         
         //Update cards in hand and cards in discard
         AbstractCard abstractCard = card.GetComponent<CardDisplay>().GetCard();
