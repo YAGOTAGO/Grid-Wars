@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa94d14f7359494e8df5db2770026b0, type: 3}
   m_Name: GrassSurface
   m_EditorClassIdentifier: 
-  _isWalkable: 0
-  _canAbilitiesPassthrough: 0
-  _surfaceSprites: []
+  _isWalkable: 1
+  _canAbilitiesPassthrough: 1
+  _surfaceSprites:
+  - {fileID: 21300000, guid: 5e073b2d86c02924dbbe1d40bc7cface, type: 3}
+  - {fileID: 21300000, guid: b6645725b6159a74e98f3adfaece53bd, type: 3}
+  - {fileID: 21300000, guid: 96500789aee90b64fb3d6c392be83176, type: 3}
+  - {fileID: 21300000, guid: 65b19522edd2f6b41b3d6f52ee48484b, type: 3}
+  - {fileID: 21300000, guid: f07f79c03b5aabd4292dba0a44b59659, type: 3}
+  - {fileID: 21300000, guid: 25ba76606dffb184bb70440bbd7d0e79, type: 3}
+  - {fileID: 21300000, guid: 6ae55fa17068fce4abb10914337db4c1, type: 3}

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpriteDatabase : MonoBehaviour
+public class Database : MonoBehaviour
 {
-    public static SpriteDatabase Instance;
+    public static Database Instance;
 
     [Header("Card Art Sprites")]
     [SerializeField] private List<Sprite> _cardSprites = new();
@@ -15,14 +15,14 @@ public class SpriteDatabase : MonoBehaviour
     [Header("Shape Sprites")]
     [SerializeField] private List<Sprite> _shapeSprites = new();
 
-    [Header("Surface Sprites")]
-    [SerializeField] private List<Sprite> _surfaceSprites = new();
+    [Header("Surface ScripableObjects")]
+    [SerializeField] private List<SurfaceAbstractBase> _surfaceScriptables = new();
 
-    #region Sprite Databases
+    #region Databases
     public Dictionary<string, Sprite> EffectSpritesDB { get; private set; } = new();
     public Dictionary<string, Sprite> CardSpritesDB { get; private set; } = new();
     public Dictionary<string, Sprite> ShapeSpritesDB { get; private set; } = new();
-    public Dictionary<string, Sprite> SurfaceSpritesDB { get; private set; } = new();
+    public Dictionary<string, SurfaceAbstractBase> SurfaceScriptablesDB { get; private set; } = new();
     #endregion
 
     private void Awake()
@@ -32,7 +32,7 @@ public class SpriteDatabase : MonoBehaviour
         LoadAllCardSprites();
         LoadAllShapeSprites();
         LoadAllEffectSprites();
-        LoadAllSurfaceSprites();
+        LoadAllSurfaceScriptables();
     }
 
     private void LoadAllCardSprites()
@@ -62,12 +62,12 @@ public class SpriteDatabase : MonoBehaviour
         }
     }
 
-    private void LoadAllSurfaceSprites()
+    private void LoadAllSurfaceScriptables()
     {
 
-        foreach (Sprite s in _surfaceSprites)
+        foreach (SurfaceAbstractBase s in _surfaceScriptables)
         {
-            SurfaceSpritesDB[s.name] = s;
+            SurfaceScriptablesDB[s.name] = s;
         }
     }
 }

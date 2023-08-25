@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: WaterSurface
   m_EditorClassIdentifier: 
   _isWalkable: 0
-  _canAbilitiesPassthrough: 0
+  _canAbilitiesPassthrough: 1
   _surfaceSprites: []
