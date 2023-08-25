@@ -59,7 +59,7 @@ public class HexNode : MonoBehaviour
     {
         GridPos = gridPos;
         CubeCoord = cubePos;
-        _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count())];
+        _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
         InitSurface();
     }
 
