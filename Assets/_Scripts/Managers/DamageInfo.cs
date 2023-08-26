@@ -16,7 +16,6 @@ public class DamageInfo
     }
 
 }
-
 public enum DamageType
 {
     Fire,
@@ -24,3 +23,4 @@ public enum DamageType
     Normal,
 
 }
+

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageAbility : AbstractAbility
+/*public class DamageAbility : AbstractAbility
 {
     private int _range;
     private readonly string _prompt;
@@ -33,3 +33,4 @@ public class DamageAbility : AbstractAbility
         _shape = shape;
     }
 }
+*/

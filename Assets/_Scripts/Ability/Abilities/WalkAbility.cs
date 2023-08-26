@@ -19,7 +19,7 @@ public class WalkAbility : AbstractAbility
     {
         AbstractCharacter character = CardSelectionManager.Instance.ClickedCharacter;
 
-        character.PutOnHexNode(target, false);
+        character.PutOnHexNode(target, false); //logic for setting surface variables
 
         Tween characterMove = TweenManager.Instance.CharacterMove(character.gameObject, target.transform.position);
         yield return characterMove.WaitForCompletion();

@@ -14,16 +14,9 @@ public abstract class AbstractAbility
 
     public List<HexNode> GetShape(HexNode mouseNode)
     {
-        return Shape.GetShape(mouseNode);
+        //return Shape.GetShape(mouseNode);
+        return null;
     }
 }
 
 
-public enum TargetingType
-{
-    NORMAL, //Any tile that ability can passthrough
-    AIREAL, //Any tile
-    WALKABLE, //Only tiles that are walkable
-    NONE, //For abilities that dont care about surfaces (ie: draw)
-    SELF //Abilities that apply on character chosen
-}

@@ -30,7 +30,7 @@ public abstract class AbstractCharacter : MonoBehaviour
         target.SetSurfaceWalkable(false);
         target.CharacterOnNode = this;
         NodeOn = target;
-        target.SurfaceOnEnter(this);
+        target.OnEnterSurface(this);
 
         if (positionCharacterOnNode)
         {

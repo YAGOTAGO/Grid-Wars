@@ -68,7 +68,7 @@ public class HexNode : MonoBehaviour
         switch (TileType)
         {
             case TileType.Grass:
-                SetSurface(Database.Instance.SurfaceScriptablesDB["GrassSurface"]); 
+                SetSurface(Instantiate(Database.Instance.SurfaceScriptablesDB["GrassSurface"])); 
                 break;
             case TileType.Mountain:
                 SetSurface(Database.Instance.SurfaceScriptablesDB["MountainSurface"]);
@@ -104,7 +104,7 @@ public class HexNode : MonoBehaviour
         _surface.IsWalkable = isWalkable;
     }
 
-    public void SurfaceOnEnter(AbstractCharacter character)
+    public void OnEnterSurface(AbstractCharacter character)
     {
         _surface.OnTouchNode(character);
     }

@@ -20,7 +20,7 @@ public class Kick : AbstractCard
 
     public override List<AbstractAbility> Abilities => new() {
         new DrawAbility(1),
-        new DamageAbility(_range, new SingleHexShape(), new DamageInfo(_damage, _dmgType, null, null), _targetingType, _prompt)
+        //new DamageAbility(_range, new SingleHexShape(), new DamageInfo(_damage, _dmgType, null, null), _targetingType, _prompt)
     };
 
     
