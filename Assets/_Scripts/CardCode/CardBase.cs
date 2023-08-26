@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
-public class CardSO : ScriptableObject
+public class CardBase : ScriptableObject
 {
     public Rarity Rarity;
     public Sprite CardArt;

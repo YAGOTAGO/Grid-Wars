@@ -12,9 +12,9 @@ public abstract class AbilityBase : ScriptableObject
 
     private int _range = -1; //default range of ability is -1 (aka no range)
 
-    public List<HexNode> GetShape(HexNode mouseNode, AbstractAbility ability)
+    public List<HexNode> GetShape(HexNode mouseNode)
     {
-        return Shape.GetShape(mouseNode, ability);
+        return Shape.GetShape(mouseNode, this);
     }
 
     public AbstractShape EnumToShape(Shape shapeEnum)

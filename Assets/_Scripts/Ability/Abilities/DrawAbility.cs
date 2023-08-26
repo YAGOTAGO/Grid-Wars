@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrawAbility : AbstractAbility
+[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/DrawAbility")]
+public class DrawAbility : AbilityBase
 {
-    private readonly int _drawAmount;
+    [SerializeField] private int _drawAmount;
+    [SerializeField] private string _prompt;
 
-    public override string Prompt => "Draw " + _drawAmount + " cards.";
+    public override string Prompt => _prompt;
+
     public override void DoAbility(HexNode node)
     {
         DeckManager.Instance.DeckDraw(_drawAmount);
@@ -15,10 +18,5 @@ public class DrawAbility : AbstractAbility
     public override TargetingType GetTargetingType()
     {
         return TargetingType.NONE;
-    }
-
-    public DrawAbility(int drawAmount)
-    {
-        _drawAmount = drawAmount;
     }
 }

@@ -25,9 +25,9 @@ public class DeckManager : MonoBehaviour
     [SerializeField] private Transform _discardTransform;
 
     #region Lists of cards
-    public ObservableCollection<AbstractCard> _deck = new();
-    public ObservableCollection<AbstractCard> _discard = new();
-    public ObservableCollection<AbstractCard> _hand = new();
+    public ObservableCollection<CardBase> _deck = new();
+    public ObservableCollection<CardBase> _discard = new();
+    public ObservableCollection<CardBase> _hand = new();
     private Dictionary<GameObject, int> _cardPrefabsInHand = new();
     #endregion
 
@@ -55,9 +55,7 @@ public class DeckManager : MonoBehaviour
         _deck.CollectionChanged += OnDeckCollectionChanged;
         _discard.CollectionChanged += OnDiscardCollectionChanged;
 
-        AddToDeck(_deck, new Kick());
-        _deck.Add(new TestCard());
-        _deck.Add(new TestCard());
+        //Add cards to deck here
          
     }
     private void OnDestroy()
@@ -72,16 +70,16 @@ public class DeckManager : MonoBehaviour
     /// </summary>
     /// <param name="deck"></param>
     /// <param name="cardsToAdd"></param>
-    public void AddToDeck(ObservableCollection<AbstractCard> deck, ObservableCollection<AbstractCard> cardsToAdd)
+    public void AddToDeck(ObservableCollection<CardBase> deck, ObservableCollection<CardBase> cardsToAdd)
     {
-        foreach (AbstractCard card in cardsToAdd)
+        foreach (CardBase card in cardsToAdd)
         {
             deck.Add(card);
         }
         cardsToAdd.Clear();
     }
 
-    public void AddToDeck(ObservableCollection<AbstractCard> deck, AbstractCard card)
+    public void AddToDeck(ObservableCollection<CardBase> deck, CardBase card)
     {
         deck.Add(card);
     }
@@ -103,7 +101,7 @@ public class DeckManager : MonoBehaviour
     /// <summary>
     /// Fisher-Yates algorithm to shuffle the deck.
     /// </summary>
-    public void ShuffleList(ObservableCollection<AbstractCard> deck)
+    public void ShuffleList(ObservableCollection<CardBase> deck)
     {
         int n = deck.Count;
         while (n > 1)
@@ -146,7 +144,7 @@ public class DeckManager : MonoBehaviour
         {
             if(_deck.Count <= 0) { yield break; }
             //Get and remove card from deck list add to hand list
-            AbstractCard cardDrawn = _deck[0];
+            CardBase cardDrawn = _deck[0];
             _deck.RemoveAt(0);
             _hand.Add(cardDrawn);
 
@@ -180,7 +178,7 @@ public class DeckManager : MonoBehaviour
         
         _cardSlotsFilled[indexSlot] = false; //free the bool slot array
 
-        AbstractCard abstractCard = card.GetComponent<CardDisplay>().GetCard();
+        CardBase abstractCard = card.GetComponent<CardDisplay>().GetCard();
         _hand.Remove(abstractCard);
         _cardPrefabsInHand.Remove(card);
 
@@ -195,7 +193,7 @@ public class DeckManager : MonoBehaviour
         int indexSlot = RemoveFromHand(card, false);
         
         //Update cards in hand and cards in discard
-        AbstractCard abstractCard = card.GetComponent<CardDisplay>().GetCard();
+        CardBase abstractCard = card.GetComponent<CardDisplay>().GetCard();
         _discard.Add(abstractCard);
 
         //Tween card to the discard deck position
@@ -216,7 +214,7 @@ public class DeckManager : MonoBehaviour
     /// <param name="card"></param>
     /// <param name="position"></param>
     /// <returns></returns>
-    private GameObject InstantiateCard(AbstractCard card, Vector3 position)
+    private GameObject InstantiateCard(CardBase card, Vector3 position)
     {
         //Instatiate the template object
         GameObject cardTemplate = Instantiate(_cardTemplate, position, Quaternion.identity);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SingleHexShape : AbstractShape
 {
-    public override List<HexNode> GetShape(HexNode mouseNode, AbstractAbility ability)
+    public override List<HexNode> GetShape(HexNode mouseNode, AbilityBase ability)
     {
         return new List<HexNode>() { mouseNode };
     }

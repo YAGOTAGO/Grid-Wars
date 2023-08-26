@@ -24,7 +24,7 @@ public class CardSelectionManager : MonoBehaviour
 
     #region Card Ability Loop
     private GameObject _selectedCardObject; //game object so we can potentially destroy card
-    private AbstractCard _selectedCard; //The information of what the card does
+    private CardBase _selectedCard; //The information of what the card does
     private HexNode _clickedNode; //Node we clicked on
     private List<HexNode> _shape; //Shape we last hovered
     [HideInInspector] public AbstractCharacter ClickedCharacter;
@@ -82,12 +82,12 @@ public class CardSelectionManager : MonoBehaviour
 
     }
 
-    private IEnumerator CardAbilityLoop(AbstractCard card)
+    private IEnumerator CardAbilityLoop(CardBase card)
     {
         Prompt("Select a Character", true);
         yield return new WaitUntil(() => CharacterClicked()); //wait until character is selected
 
-        List<AbstractAbility> abilities = card.Abilities;
+        List<AbilityBase> abilities = card.Abilities;
         HashSet<HexNode> range = new();
 
         for (int i = 0; i < abilities.Count; i++) //iterate over all abilities in the card
@@ -246,7 +246,7 @@ public class CardSelectionManager : MonoBehaviour
         return false;
     }
 
-    private bool ShowShape(AbstractAbility ability, HashSet<HexNode> range)
+    private bool ShowShape(AbilityBase ability, HashSet<HexNode> range)
     {
         HexNode mouseNode = MouseManager.Instance.NodeMouseIsOver;
 

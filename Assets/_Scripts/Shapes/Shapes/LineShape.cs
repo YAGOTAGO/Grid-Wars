@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class LineShape : AbstractShape
 {
-
-    public override List<HexNode> GetShape(HexNode mouseNode, AbstractAbility ability)
+    public override List<HexNode> GetShape(HexNode mouseNode, AbilityBase ability)
     {
         //Cubic coords
         List<HexNode> nodesInDirection = new();

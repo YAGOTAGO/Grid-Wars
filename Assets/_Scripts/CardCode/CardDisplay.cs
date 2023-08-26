@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class CardDisplay : MonoBehaviour
 {
-    private AbstractCard _card; //ScriptableObject we use as data to display
+    private CardBase _card; //ScriptableObject we use as data to display
 
     [SerializeField] private TextMeshProUGUI _nameTMP;
     [SerializeField] private TextMeshProUGUI _descripTMP;
     [SerializeField] private Image _shape;
     
-    private void SetCard(AbstractCard card)
+    private void SetCard(CardBase card)
     {
         _card = card;
     }
@@ -25,13 +25,13 @@ public class CardDisplay : MonoBehaviour
     }
 
     //Call this to initialize new disaplay
-    public void Initialize(AbstractCard card)
+    public void Initialize(CardBase card)
     {
         SetCard(card);
         UpdateDisplay();
     }
 
-    public AbstractCard GetCard() { return _card; }
+    public CardBase GetCard() { return _card; }
 
  //   public AbstractAbility ReturnAbility() { return _card.Ability; }
 }

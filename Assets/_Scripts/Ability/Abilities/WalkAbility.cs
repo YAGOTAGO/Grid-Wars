@@ -1,18 +1,26 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Path;
 using UnityEngine;
 
-public class WalkAbility : AbstractAbility
+public class WalkAbility : AbilityBase
 {
-    private int _range;
-    private AbstractShape _shape = new PathfindShape();
-    public override AbstractShape Shape { get => _shape; set => _shape = value; }
-    public override int Range { get => _range; set => _range = value; }
-    public override string Prompt => "Select a node to walk to, right click to add breakpoint.";
-    public override void DoAbility(HexNode node)
-    {
-        ActionQueue.Instance.EnqueueMethod(()=>WalkRoutine(node));
+    [SerializeField] private string _prompt;
+    [SerializeField] private int _range;
+ 
+    private AbstractShape _abstractShape;
+
+    public override string Prompt => _prompt;
+    public override int Range => _range;
+
+    public override AbstractShape Shape {
+        get
+        {
+            _abstractShape ??= EnumToShape(global::Shape.PATHFIND); //If abstract shape is null we set it
+            return _abstractShape;
+        }
+        set => _abstractShape = value;
     }
 
     private IEnumerator WalkRoutine(HexNode target)
@@ -24,13 +32,14 @@ public class WalkAbility : AbstractAbility
         Tween characterMove = TweenManager.Instance.CharacterMove(character.gameObject, target.transform.position);
         yield return characterMove.WaitForCompletion();
     }
+
+    public override void DoAbility(HexNode node)
+    {
+        ActionQueue.Instance.EnqueueMethod(() => WalkRoutine(node));
+    }
+
     public override TargetingType GetTargetingType()
     {
         return TargetingType.WALKABLE;
-    }
-
-    public WalkAbility(int range)
-    {
-        Range = range;
     }
 }
