@@ -14,7 +14,7 @@ public class HexNode : MonoBehaviour
     public TileType TileType;
     
     [Header("Surface")]
-    private SurfaceAbstractBase _surface;
+    private SurfaceBase _surface;
     private SpriteRenderer _surfaceRenderer;
 
     [HideInInspector] public Vector3Int GridPos { get; private set; } //Unity grid x, y, z
@@ -68,13 +68,13 @@ public class HexNode : MonoBehaviour
         switch (TileType)
         {
             case TileType.Grass:
-                SetSurface(Instantiate(Database.Instance.SurfaceScriptablesDB["GrassSurface"])); 
+                SetSurface(Database.Instance.GetSurface("GrassSurface")); 
                 break;
             case TileType.Mountain:
-                SetSurface(Database.Instance.SurfaceScriptablesDB["MountainSurface"]);
+                SetSurface(Database.Instance.GetSurface("MountainSurface"));
                 break;
             case TileType.Water:
-                SetSurface(Database.Instance.SurfaceScriptablesDB["WaterSurface"]);
+                SetSurface(Database.Instance.GetSurface("WaterSurface"));
                 break;
         }
     }
@@ -83,7 +83,7 @@ public class HexNode : MonoBehaviour
     /// Sets the surface on the node
     /// </summary>
     /// <param name="surface">A surface to be put on node</param>
-    public void SetSurface(SurfaceAbstractBase surface)
+    public void SetSurface(SurfaceBase surface)
     {
         _surface = surface;
         _surfaceRenderer.sprite = surface.SurfaceSprite;

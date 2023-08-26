@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Surface", menuName = "Surfaces/DefaultSurface")]
-public class DefaultSurface : SurfaceAbstractBase
+public class DefaultSurface : SurfaceBase
 {
     [SerializeField] private bool _isWalkable;
     [SerializeField] private bool _canAbilitiesPassthrough;

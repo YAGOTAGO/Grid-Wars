@@ -5,54 +5,62 @@ using UnityEngine;
 public class Database : MonoBehaviour
 {
     public static Database Instance;
-
-    [Header("Card Art Sprites")]
-    [SerializeField] private List<Sprite> _cardSprites = new();
     
     [Header("Effect Sprites")]
     [SerializeField] private List<Sprite> _effectSprites = new();
 
-    [Header("Shape Sprites")]
-    [SerializeField] private List<Sprite> _shapeSprites = new();
-
     [Header("Surface ScripableObjects")]
-    [SerializeField] private List<SurfaceAbstractBase> _surfaceScriptables = new();
+    [SerializeField] private List<SurfaceBase> _surfaceScriptables = new();
+
+    [Header("Card ScriptableObjects")]
+    [SerializeField] private List<CardBase> _cardScriptables = new();
 
     #region Databases
     public Dictionary<string, Sprite> EffectSpritesDB { get; private set; } = new();
-    public Dictionary<string, Sprite> CardSpritesDB { get; private set; } = new();
-    public Dictionary<string, Sprite> ShapeSpritesDB { get; private set; } = new();
-    public Dictionary<string, SurfaceAbstractBase> SurfaceScriptablesDB { get; private set; } = new();
+    private readonly Dictionary<string, SurfaceBase> _surfaceScriptablesDB = new();
+    private readonly Dictionary<string, CardBase> _cardScriptablesDB = new();
     #endregion
 
     private void Awake()
     {
         Instance = this;
 
-        LoadAllCardSprites();
-        LoadAllShapeSprites();
         LoadAllEffectSprites();
         LoadAllSurfaceScriptables();
+        LoadAllCardScriptables();
     }
 
-    private void LoadAllCardSprites()
+    /// <param name="name">Name of surface</param>
+    /// <returns>A instance of a surface scriptable object</returns>
+    public SurfaceBase GetSurface(string name)
     {
-
-        foreach (Sprite s in _cardSprites)
+        if (_surfaceScriptablesDB.TryGetValue(name, out SurfaceBase surface))
         {
-            CardSpritesDB[s.name] = s;
+            return Instantiate(surface); //Use instantiate so each surface is unique
+        }
+        else
+        {
+            Debug.LogWarning("Did not find + " + name + "in Surfaces DB");
+            return null;
         }
     }
 
-    private void LoadAllShapeSprites()
+    /// <param name="name">Name of card</param>
+    /// <returns>A instance of a card scriptable object</returns>
+    public CardBase GetCardByName(string name)
     {
-
-        foreach (Sprite s in _shapeSprites)
+        if (_cardScriptablesDB.TryGetValue(name, out CardBase card))
         {
-            ShapeSpritesDB[s.name] = s;
+            return Instantiate(card); //Use instantiate so each surface is unique
+        }
+        else
+        {
+            Debug.LogWarning("Did not find + " + name + "in cards DB");
+            return null;
         }
     }
 
+    #region Load Database
     private void LoadAllEffectSprites()
     {
 
@@ -65,9 +73,20 @@ public class Database : MonoBehaviour
     private void LoadAllSurfaceScriptables()
     {
 
-        foreach (SurfaceAbstractBase s in _surfaceScriptables)
+        foreach (SurfaceBase s in _surfaceScriptables)
         {
-            SurfaceScriptablesDB[s.name] = s;
+            _surfaceScriptablesDB[s.name] = s;
         }
     }
+
+    private void LoadAllCardScriptables()
+    {
+        foreach (CardBase c in _cardScriptables)
+        {
+            _cardScriptablesDB[c.name] = c;
+        }
+    }
+    #endregion
+    
+
 }

@@ -56,7 +56,9 @@ public class DeckManager : MonoBehaviour
         _discard.CollectionChanged += OnDiscardCollectionChanged;
 
         //Add cards to deck here
-         
+        AddToDeck(_deck, Database.Instance.GetCardByName("Kick"));
+        AddToDeck(_deck, Database.Instance.GetCardByName("FlameBlast"));
+
     }
     private void OnDestroy()
     {

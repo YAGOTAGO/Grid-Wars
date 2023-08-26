@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class SurfaceAbstractBase : ScriptableObject
+public abstract class SurfaceBase : ScriptableObject
 {
     public abstract bool IsWalkable { get; set; }
     public abstract bool CanAbilitiesPassthrough { get; }

@@ -119,12 +119,13 @@ public class CardSelectionManager : MonoBehaviour
                         if (_skip) //if skip we dont do ability
                         {
                             ButtonsSetActive(false, false, false);
-                            //CannotStopCoroutine();
+                            Prompt("", false);
                             continue;
                         }
 
-                        abilities[i].DoAbility(ClickedCharacter.NodeOn);
-                        //CannotStopCoroutine();
+                        abilities[i].DoAbility(ClickedCharacter.NodeOn); //do ability if not skip
+                        ButtonsSetActive(false, false, false); //get rid of the UI stuff
+                        Prompt("", false);
                         continue;
                     }
 
@@ -134,11 +135,13 @@ public class CardSelectionManager : MonoBehaviour
                     {
                         ButtonsSetActive(false, false, false);
                         CannotStopCoroutine();
+                        Prompt("", false);
                         continue;
                     }
                     abilities[i].DoAbility(ClickedCharacter.NodeOn); //Pass the node character is on
                     CannotStopCoroutine();
                     ButtonsSetActive(false, false, false);
+                    Prompt("", false);
                     continue;
             }
 
