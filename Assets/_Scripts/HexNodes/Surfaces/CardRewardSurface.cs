@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Surface", menuName = "Surfaces/CardRewardSurface")]
 public class CardRewardSurface : SurfaceBase
 {
     [SerializeField] private bool _isWalkable;

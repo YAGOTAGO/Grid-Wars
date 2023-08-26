@@ -7,7 +7,7 @@ public class CardRewardScreen : MonoBehaviour
 {
 
     public static CardRewardScreen Instance;
-    [SerializeField] [Range(0,3)] private List<Vector3> _positions = new();
+    [SerializeField] private List<Transform> _positions = new();
     private void Start()
     {
         Instance = this;
@@ -28,9 +28,14 @@ public class CardRewardScreen : MonoBehaviour
         }
 
         //Instantiate and wait for cards to be clicked
-        GameObject card1 = DeckManager.Instance.InstantiateCard(cards[0], _positions[0]);
-        GameObject card2 = DeckManager.Instance.InstantiateCard(cards[1], _positions[1]);
-        GameObject card3 = DeckManager.Instance.InstantiateCard(cards[2], _positions[2]);
+        GameObject card1 = DeckManager.Instance.InstantiateCard(cards[0], _positions[0].position);
+        GameObject card2 = DeckManager.Instance.InstantiateCard(cards[1], _positions[1].position);
+        GameObject card3 = DeckManager.Instance.InstantiateCard(cards[2], _positions[2].position);
+
+        //Parent the cards to this gameobject to be visible
+        card1.transform.SetParent(_positions[0]);
+        card2.transform.SetParent(_positions[1]);
+        card3.transform.SetParent(_positions[2]);
 
         //Makes it so the card on click event is for rewards and not actions
         card1.GetComponent<OnCardClick>().CardIsForReward();

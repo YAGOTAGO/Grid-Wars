@@ -68,13 +68,13 @@ public class HexNode : MonoBehaviour
         switch (TileType)
         {
             case TileType.Grass:
-                SetSurface(Database.Instance.GetSurface("GrassSurface")); 
+                SetSurface(Database.Instance.GetSurface("CommonRewardSurface")); 
                 break;
             case TileType.Mountain:
-                SetSurface(Database.Instance.GetSurface("MountainSurface"));
+                SetSurface(Database.Instance.GetSurface("CommonRewardSurface"));
                 break;
             case TileType.Water:
-                SetSurface(Database.Instance.GetSurface("WaterSurface"));
+                SetSurface(Database.Instance.GetSurface("CommonRewardSurface"));
                 break;
         }
     }

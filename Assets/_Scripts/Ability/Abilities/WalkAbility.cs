@@ -2,12 +2,12 @@ using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/DrawAbility")]
+[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/WalkAbility")]
 public class WalkAbility : AbilityBase
 {
     [SerializeField] private string _prompt;
     [SerializeField] private int _range;
- 
+    
     private AbstractShape _abstractShape;
 
     public override string Prompt => _prompt;

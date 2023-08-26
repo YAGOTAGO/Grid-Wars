@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
-  m_Name: Kick
+  m_Name: Walk
   m_EditorClassIdentifier: 
   Rarity: 0
   CardArt: {fileID: 0}
   ShapeArt: {fileID: 0}
   IconArt: {fileID: 0}
-  Description: A powerful kick
-  Name: Kick
+  Description: Walk 3 tiles.
+  Name: Walk
   Durability: 1
   Abilities:
-  - {fileID: 11400000, guid: 68911e5474baecd4f996417312ac0ed2, type: 2}
+  - {fileID: 11400000, guid: c5893bd7877bc65438b03701f690e61d, type: 2}
