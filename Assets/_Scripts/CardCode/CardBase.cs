@@ -8,6 +8,7 @@ public class CardBase : ScriptableObject
     public Rarity Rarity;
     public Sprite CardArt;
     public Sprite ShapeArt;
+    public Sprite IconArt; //for the icon on ground pickup
     public string Description;
     public string Name;
     public int Durability;

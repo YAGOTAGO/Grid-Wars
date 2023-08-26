@@ -19,6 +19,12 @@ public class Database : MonoBehaviour
     public Dictionary<string, Sprite> EffectSpritesDB { get; private set; } = new();
     private readonly Dictionary<string, SurfaceBase> _surfaceScriptablesDB = new();
     private readonly Dictionary<string, CardBase> _cardScriptablesDB = new();
+    
+    //Sorted by rarity
+    private readonly List<CardBase> _basicCardsDB = new();
+    private readonly List<CardBase> _commonCardsDB = new();
+    private readonly List<CardBase> _rareCardsDB = new();
+    private readonly List<CardBase> _epicCardsDB = new();
     #endregion
 
     private void Awake()
@@ -60,6 +66,88 @@ public class Database : MonoBehaviour
         }
     }
 
+    #region GetRandomCards
+    public CardBase GetRandomCommonCard()
+    {
+        if(_commonCardsDB.Count == 0) { Debug.LogWarning("No cards in common card database"); return null; }
+        return Instantiate(_commonCardsDB[Random.Range(0, _commonCardsDB.Count)]);
+    }
+
+    public List<CardBase> GetDifferentCommons(int amount)
+    {
+        if (_commonCardsDB.Count == 0) { Debug.LogWarning("No cards in common card database"); return null; }
+        if(amount > _commonCardsDB.Count) { Debug.LogWarning("Not enought common cards to pull from"); return null; }
+
+        List<CardBase> selectedCards = new();
+        List<int> selectedIndices = new();
+
+        while(selectedCards.Count < amount) 
+        {
+            int randomIndex = Random.Range(0, _commonCardsDB.Count);
+            if (!selectedIndices.Contains(randomIndex))
+            {
+                selectedIndices.Add(randomIndex);
+                selectedCards.Add(Instantiate(_commonCardsDB[randomIndex]));
+            }
+        }
+        
+        return selectedCards;
+    }
+
+    public CardBase GetRandomRareCard()
+    {
+        if (_rareCardsDB.Count == 0) { Debug.LogWarning("No cards in rare card database"); return null; }
+        return Instantiate(_rareCardsDB[Random.Range(0, _rareCardsDB.Count)]);
+    }
+
+    public List<CardBase> GetDifferentRares(int amount)
+    {
+        if (_rareCardsDB.Count == 0) { Debug.LogWarning("No cards in rare card database"); return null; }
+        if (amount > _rareCardsDB.Count) { Debug.LogWarning("Not enought rare cards to pull from"); return null; }
+
+        List<CardBase> selectedCards = new();
+        List<int> selectedIndices = new();
+
+        while (selectedCards.Count < amount)
+        {
+            int randomIndex = Random.Range(0, _rareCardsDB.Count);
+            if (!selectedIndices.Contains(randomIndex))
+            {
+                selectedIndices.Add(randomIndex);
+                selectedCards.Add(Instantiate(_rareCardsDB[randomIndex]));
+            }
+        }
+
+        return selectedCards;
+    }
+    public CardBase GetRandomEpicCard()
+    {
+        if (_epicCardsDB.Count == 0) { Debug.LogWarning("No cards in epic card database"); return null; }
+        return Instantiate(_epicCardsDB[Random.Range(0, _epicCardsDB.Count)]);
+    }
+
+    public List<CardBase> GetDifferentEpics(int amount)
+    {
+        if (_epicCardsDB.Count == 0) { Debug.LogWarning("No cards in epic card database"); return null; }
+        if (amount > _epicCardsDB.Count) { Debug.LogWarning("Not enought epic cards to pull from"); return null; }
+
+        List<CardBase> selectedCards = new();
+        List<int> selectedIndices = new();
+
+        while (selectedCards.Count < amount)
+        {
+            int randomIndex = Random.Range(0, _epicCardsDB.Count);
+            if (!selectedIndices.Contains(randomIndex))
+            {
+                selectedIndices.Add(randomIndex);
+                selectedCards.Add(Instantiate(_epicCardsDB[randomIndex]));
+            }
+        }
+
+        return selectedCards;
+    }
+    #endregion
+
     #region Load Database
     private void LoadAllEffectSprites()
     {
@@ -84,6 +172,14 @@ public class Database : MonoBehaviour
         foreach (CardBase c in _cardScriptables)
         {
             _cardScriptablesDB[c.name] = c;
+
+            switch (c.Rarity)
+            {
+                case Rarity.BASIC: _basicCardsDB.Add(c); break;
+                case Rarity.COMMON: _commonCardsDB.Add(c);break;
+                case Rarity.RARE: _rareCardsDB.Add(c); break;
+                case Rarity.EPIC: _epicCardsDB.Add(c); break;
+            }
         }
     }
     #endregion

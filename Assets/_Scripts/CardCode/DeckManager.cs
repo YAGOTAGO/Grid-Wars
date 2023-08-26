@@ -21,7 +21,7 @@ public class DeckManager : MonoBehaviour
     [Header("Location Transforms")]
     [SerializeField] private Transform[] _cardSlots; //Keep it to max of 7
     private bool[] _cardSlotsFilled = new bool[7];
-    [SerializeField] private Transform _deckTransform;
+    public Transform DeckTransform;
     [SerializeField] private Transform _discardTransform;
 
     #region Lists of cards
@@ -84,6 +84,14 @@ public class DeckManager : MonoBehaviour
     public void AddToDeck(ObservableCollection<CardBase> deck, CardBase card)
     {
         deck.Add(card);
+    }
+    public void AddToDeck(CardBase card)
+    {
+        _deck.Add(card);
+    }
+    public void AddToDiscard(CardBase card)
+    {
+        _discard.Add(card);
     }
 
     /// <summary>
@@ -151,7 +159,7 @@ public class DeckManager : MonoBehaviour
             _hand.Add(cardDrawn);
 
             //Instantiate card display and make it visible in canvas
-            GameObject cardDisplay = InstantiateCard(cardDrawn, _deckTransform.position);
+            GameObject cardDisplay = InstantiateCard(cardDrawn, DeckTransform.position);
             
             //Find the right slot and Tween it there
             int slotIndex = OpenLeftmostSlotIndex();
@@ -216,7 +224,7 @@ public class DeckManager : MonoBehaviour
     /// <param name="card"></param>
     /// <param name="position"></param>
     /// <returns></returns>
-    private GameObject InstantiateCard(CardBase card, Vector3 position)
+    public GameObject InstantiateCard(CardBase card, Vector3 position)
     {
         //Instatiate the template object
         GameObject cardTemplate = Instantiate(_cardTemplate, position, Quaternion.identity);

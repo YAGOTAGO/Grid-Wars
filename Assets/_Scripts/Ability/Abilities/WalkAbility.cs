@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/DrawAbility")]
 public class WalkAbility : AbilityBase
 {
     [SerializeField] private string _prompt;

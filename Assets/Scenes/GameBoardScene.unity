@@ -623,8 +623,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 48431b4cc907f2d4ca64685b5343449c, type: 2}
   - {fileID: 11400000, guid: 7a379190edcbb4e49be9fb1034270cb6, type: 2}
   - {fileID: 11400000, guid: 11e3a3106ffd3bd48a803177b4dcc505, type: 2}
+  - {fileID: 11400000, guid: ef3d25e93ea771346baa43b7c518952b, type: 2}
+  - {fileID: 11400000, guid: 3cbe17b4a186c8d4fae4b020a0d66bce, type: 2}
+  - {fileID: 11400000, guid: 46eb9c7f7c9b99447b7eae83d0b0170d, type: 2}
   _cardScriptables:
   - {fileID: 11400000, guid: 6db2b7ee8e7b1744ea41522ff06920e8, type: 2}
+  - {fileID: 11400000, guid: 2e8c1dd3ebf7de3478f2335e24e3857f, type: 2}
+  - {fileID: 11400000, guid: 2e8c1dd3ebf7de3478f2335e24e3857f, type: 2}
   - {fileID: 11400000, guid: 2e8c1dd3ebf7de3478f2335e24e3857f, type: 2}
 --- !u!1 &308264840
 GameObject:
@@ -2935,7 +2940,7 @@ MonoBehaviour:
   - {fileID: 934938371}
   - {fileID: 1507136721}
   - {fileID: 827923112}
-  _deckTransform: {fileID: 1150034158}
+  DeckTransform: {fileID: 0}
   _discardTransform: {fileID: 800135424}
 --- !u!4 &1506774895
 Transform:
