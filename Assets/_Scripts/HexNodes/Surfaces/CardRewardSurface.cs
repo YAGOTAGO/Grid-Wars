@@ -17,5 +17,6 @@ public class CardRewardSurface : SurfaceBase
     public override void OnTouchNode(AbstractCharacter character)
     {
         CardRewardScreen.Instance.PickThreeCards(_rarity);
+        character.NodeOn.SetSurface(Database.Instance.GetSurface("EmptySurface")); //remove this surface on touch
     }
 }
