@@ -9,8 +9,10 @@ public class PlayersUIManager : MonoBehaviour
     public static PlayersUIManager Instance;
 
     #region TipWindow
-    public TextMeshProUGUI TipText;
-    public RectTransform TipWindow;
+    [SerializeField] private GameObject _tipWindowPrefab;
+    [SerializeField] private Canvas _UICanvas;
+    private TextMeshProUGUI _tipText;
+    private RectTransform _tipWindow;
     public int MaxWidth = 150;
     public static Action<string, Vector2> OnMouseHover;
     public static Action OnMouseLoseFocus;
@@ -23,7 +25,17 @@ public class PlayersUIManager : MonoBehaviour
     private void Start()
     {
         Instance = this;
+        InitTipPrefab();
         HideTip();
+    }
+
+    private void InitTipPrefab()
+    {
+        _tipWindowPrefab = Instantiate(_tipWindowPrefab);
+        _tipWindowPrefab.transform.SetParent(_UICanvas.transform);
+        _tipText = _tipWindowPrefab.GetComponentInChildren<TextMeshProUGUI>();
+        _tipWindow = _tipWindowPrefab.GetComponent<RectTransform>();
+        _tipWindow.localScale = Vector3.one;
     }
 
     private void OnEnable()
@@ -46,16 +58,16 @@ public class PlayersUIManager : MonoBehaviour
     //Show the tipwindow with the size set up
     private void ShowTip(string tip, Vector2 mousePos)
     {
-        TipWindow.gameObject.SetActive(true);
-        TipText.text = tip;
-        TipWindow.sizeDelta = new Vector2(TipText.preferredWidth > MaxWidth ? MaxWidth : TipText.preferredWidth, TipText.preferredHeight);
-        TipWindow.transform.position = new Vector2(mousePos.x + (TipWindow.sizeDelta.x/2), mousePos.y);
+        _tipWindow.gameObject.SetActive(true);
+        _tipText.text = tip;
+        _tipWindow.sizeDelta = new Vector2(_tipText.preferredWidth > MaxWidth ? MaxWidth : _tipText.preferredWidth, _tipText.preferredHeight);
+        _tipWindow.transform.position = new Vector2(mousePos.x + (_tipWindow.sizeDelta.x/2), mousePos.y);
  
     }
 
     private void HideTip()
     {
-        TipWindow.gameObject.SetActive(false);
+        _tipWindow.gameObject.SetActive(false);
     }
 
 }

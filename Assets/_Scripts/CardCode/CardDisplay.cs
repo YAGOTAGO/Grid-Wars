@@ -8,6 +8,7 @@ public class CardDisplay : MonoBehaviour
 {
     private CardBase _card; //ScriptableObject we use as data to display
 
+    [Header("Card Elements")]
     [SerializeField] private TextMeshProUGUI _nameTMP;
     [SerializeField] private TextMeshProUGUI _descripTMP;
     [SerializeField] private Image _shape;
@@ -18,10 +19,6 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private int _maxWidth = 100;
     [SerializeField] private int _fontSize = 10;
     private List<GameObject> _keywordWindows = new();
-    private void SetCard(CardBase card)
-    {
-        _card = card;
-    }
 
     private void AddKeywordWindows()
     {
@@ -29,9 +26,10 @@ public class CardDisplay : MonoBehaviour
         {
             //Instatiate a new keyword display
             GameObject window = Instantiate(_keywordWindow);
-            window.SetActive(true);
-            _keywordWindows.Add(window);
+            window.SetActive(true); //do this to avoid bugs with textsize
+            _keywordWindows.Add(window); //cache the window to later be able to display
 
+            //Get components needed to size the window
             RectTransform tipWindow = window.GetComponent<RectTransform>();
             TextMeshProUGUI tmp = window.GetComponentInChildren<TextMeshProUGUI>();
             tmp.text = CardKeywords.KeywordDescriptions[keyword];
@@ -43,7 +41,7 @@ public class CardDisplay : MonoBehaviour
             tmp.rectTransform.position = tipWindow.position;
             tipWindow.sizeDelta = new Vector2(_maxWidth, tmp.preferredHeight); //this is not repetitive
 
-            //Set the position
+            //Set the prefab into the layoutgroup
             window.transform.SetParent(_keywordLayout.transform);
             window.SetActive(false); //necessary for window size shenanigans
          
@@ -62,7 +60,7 @@ public class CardDisplay : MonoBehaviour
     //Call this to initialize new disaplay
     public void Initialize(CardBase card)
     {
-        SetCard(card);
+        _card = card;
         AddKeywordWindows();
         UpdateDisplay(); //must be last to show bolded keyword
     }
