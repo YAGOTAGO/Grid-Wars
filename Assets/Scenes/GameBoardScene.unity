@@ -1099,6 +1099,9 @@ MonoBehaviour:
   _moveSpeed: 10
   _minPosition: {x: -5, y: -5}
   _maxPosition: {x: 0, y: 10}
+  _zoomSpeed: 3
+  _minOrthoSize: 2
+  _maxOrthoSize: 10
 --- !u!1 &523693010
 GameObject:
   m_ObjectHideFlags: 0

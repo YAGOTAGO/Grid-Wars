@@ -192,17 +192,21 @@ public class CardSelectionManager : MonoBehaviour
         }
 
         //Take away card durability then either destroy it or add it to the discard
-        if (card.Rarity != Rarity.BASIC) { card.Durability--;}
-        if(card.Durability <= 0)
-        {
-            //remove card from the hand
-            DeckManager.Instance.RemoveFromHand(_selectedCardObject, true);
+        if (card.Rarity != Rarity.BASIC) 
+        { 
+            card.Durability--;
+            if (card.Durability <= 0)
+            {
+                //remove card from the hand
+                DeckManager.Instance.RemoveFromHand(_selectedCardObject, true);
+            }
+            else
+            {
+                //Move from hand to discard
+                DeckManager.Instance.HandCardToDiscard(_selectedCardObject);
+            }
         }
-        else
-        {
-            //Move from hand to discard
-            DeckManager.Instance.HandCardToDiscard(_selectedCardObject);
-        }
+
         //This is after cards abilities
         _canStopCoroutine = true;
 

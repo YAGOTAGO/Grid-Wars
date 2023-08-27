@@ -11,6 +11,7 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nameTMP;
     [SerializeField] private TextMeshProUGUI _descripTMP;
     [SerializeField] private Image _shape;
+    [SerializeField] private VerticalLayoutGroup _keywordLayout;
     
     private void SetCard(CardBase card)
     {
@@ -33,5 +34,6 @@ public class CardDisplay : MonoBehaviour
 
     public CardBase GetCard() { return _card; }
 
- //   public AbstractAbility ReturnAbility() { return _card.Ability; }
+    //probably have a set visible method here for layout group
+
 }

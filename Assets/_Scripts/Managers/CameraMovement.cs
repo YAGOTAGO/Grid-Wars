@@ -7,13 +7,38 @@ public class CameraMovement : MonoBehaviour
 
     private float _horzInput;
     private float _vertInput;
+    private Camera _camera;
+
+    [Header("WASD movement")]
     [SerializeField, Range(0,20)] private float _moveSpeed;
     [SerializeField] private Vector2 _minPosition;
     [SerializeField] private Vector2 _maxPosition;
 
+    [Header("Zoom Movement")]
+    [SerializeField] private float _zoomSpeed = 1f;
+    [SerializeField] private float _minOrthoSize = 2f;
+    [SerializeField] private float _maxOrthoSize = 10f;
+
+    private void Start()
+    {
+        _camera = GetComponent<Camera>();
+    }
+
     void LateUpdate()
     {
-        HandleCamMovement();    
+        HandleCamMovement(); 
+        HandleScrollMovement();
+    }
+
+    public void HandleScrollMovement()
+    {
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollInput != 0)
+        {
+            float newOrthoSize = _camera.orthographicSize - scrollInput * _zoomSpeed;
+            newOrthoSize = Mathf.Clamp(newOrthoSize, _minOrthoSize, _maxOrthoSize);
+            _camera.orthographicSize = newOrthoSize;
+        }
     }
 
     public void HandleCamMovement()

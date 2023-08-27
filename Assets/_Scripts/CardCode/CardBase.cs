@@ -8,12 +8,12 @@ public class CardBase : ScriptableObject
     public Rarity Rarity;
     public Sprite CardArt;
     public Sprite ShapeArt;
-    public Sprite IconArt; //for the icon on ground pickup
-    public string Description;
-    public string Name;
     public int Durability;
+    public Sprite IconArt; //for the icon on ground pickup
+    public string Name;
+    public string Description; 
     public List<AbilityBase> Abilities;
-    
+    public List<Keyword> Keywords;
 }
 
 public enum Rarity
