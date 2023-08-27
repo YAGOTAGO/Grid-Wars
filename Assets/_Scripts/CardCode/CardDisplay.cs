@@ -46,7 +46,10 @@ public class CardDisplay : MonoBehaviour
             //Set the position
             window.transform.SetParent(_keywordLayout.transform);
             window.SetActive(false); //necessary for window size shenanigans
+         
         }
+
+        CardKeywords.BoldenKeywords(_card);
     }
 
     private void UpdateDisplay()
@@ -60,8 +63,8 @@ public class CardDisplay : MonoBehaviour
     public void Initialize(CardBase card)
     {
         SetCard(card);
-        UpdateDisplay();
         AddKeywordWindows();
+        UpdateDisplay(); //must be last to show bolded keyword
     }
 
     public CardBase GetCard() { return _card; }

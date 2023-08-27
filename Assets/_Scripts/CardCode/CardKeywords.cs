@@ -15,7 +15,7 @@ public class CardKeywords
     /// Takes a card and boldens keyword in description
     /// </summary>
     /// <param name="card">The card we want description bolden</param>
-    public void BoldenKeywords(CardBase card)
+    public static void BoldenKeywords(CardBase card)
     {
         foreach(Keyword keyword in card.Keywords)
         {
