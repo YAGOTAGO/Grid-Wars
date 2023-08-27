@@ -36,6 +36,7 @@ public abstract class AbstractCharacter : MonoBehaviour
         {
            gameObject.transform.position = target.transform.position;
         }
+
     }
     #endregion
 

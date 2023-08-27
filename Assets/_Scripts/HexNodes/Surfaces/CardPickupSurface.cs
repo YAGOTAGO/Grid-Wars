@@ -32,6 +32,7 @@ public class CardPickupSurface : SurfaceBase
         }
     }
 
+
     public override void OnTouchNode(AbstractCharacter character)
     {
         //queue up and animation here or something

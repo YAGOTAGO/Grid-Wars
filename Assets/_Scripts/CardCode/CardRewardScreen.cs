@@ -14,8 +14,9 @@ public class CardRewardScreen : MonoBehaviour
     }
     public void PickThreeCards(Rarity rarity)
     {
-        ActionQueue.Instance.EnqueueMethod(()=>CardRewards(rarity));
+        ActionQueue.Instance.EnqueueToFront(()=>CardRewards(rarity));
     }
+
     private IEnumerator CardRewards(Rarity rarity)
     {
         //Get the cards we are going to show

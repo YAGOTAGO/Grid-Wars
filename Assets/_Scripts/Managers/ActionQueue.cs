@@ -26,9 +26,36 @@ public class ActionQueue : MonoBehaviour
     {
         methodQueue.Enqueue(method);
 
+        Debug.Log(method.Method.Name + " queued to back");
+    
         if (!isQueueRunning) { StartCoroutine(ProcessQueue()); }
     }
 
+    /// <summary>
+    /// Puts the action on the front of the queue
+    /// </summary>
+    /// <param name="method">EnqueueToFront(()=> yourmethodhere(param))</param>
+    public void EnqueueToFront(Func<IEnumerator> method)
+    {
+        Queue<Func<IEnumerator>> tempQueue = new ();
+        tempQueue.Enqueue(method);
+
+        while (methodQueue.Count > 0)
+        {
+            tempQueue.Enqueue(methodQueue.Dequeue());
+        }
+
+        methodQueue.Clear();
+
+        while (tempQueue.Count > 0)
+        {
+            methodQueue.Enqueue(tempQueue.Dequeue());
+        }
+
+        Debug.Log(method.Method.Name + " queued to front");
+
+        if (!isQueueRunning) { StartCoroutine(ProcessQueue()); }
+    }
     // Coroutine to process the method queue
     private IEnumerator ProcessQueue()
     {
