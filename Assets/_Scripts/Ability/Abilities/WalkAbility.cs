@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Ability", menuName = "Ability/WalkAbility")]
@@ -32,9 +33,12 @@ public class WalkAbility : AbilityBase
         yield return characterMove.WaitForCompletion();
     }
 
-    public override void DoAbility(HexNode node)
+    public override void DoAbility(List<HexNode> shape)
     {
-        ActionQueue.Instance.EnqueueMethod(() => WalkRoutine(node));
+        foreach (HexNode node in shape)
+        {
+            ActionQueue.Instance.EnqueueMethod(() => WalkRoutine(node));
+        }
     }
 
     public override TargetingType GetTargetingType()

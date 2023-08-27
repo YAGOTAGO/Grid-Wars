@@ -25,10 +25,14 @@ public class DamageAbility : AbilityBase
         } 
         set => _abstractShape = value; 
     }
-    public override void DoAbility(HexNode node)
+    public override void DoAbility(List<HexNode> shape)
     {
-        DamageManager.Damage(new DamageInfo(_damageAmount, _damageType, CardSelectionManager.Instance.ClickedCharacter, node.CharacterOnNode));
-        Debug.Log(node.ToString() + " in damage ability;");
+        foreach (HexNode node in shape)
+        {
+            DamageManager.Damage(new DamageInfo(_damageAmount, _damageType, CardSelectionManager.Instance.ClickedCharacter, node.CharacterOnNode));
+            Debug.Log(node.ToString() + " in damage ability;");
+        }
+        
     }
 
     public override TargetingType GetTargetingType()

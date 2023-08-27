@@ -123,7 +123,7 @@ public class CardSelectionManager : MonoBehaviour
                             continue;
                         }
 
-                        abilities[i].DoAbility(ClickedCharacter.NodeOn); //do ability if not skip
+                        abilities[i].DoAbility(new List<HexNode> { ClickedCharacter.NodeOn }); //do ability if not skip
                         ButtonsSetActive(false, false, false); //get rid of the UI stuff
                         Prompt("", false);
                         continue;
@@ -138,7 +138,7 @@ public class CardSelectionManager : MonoBehaviour
                         Prompt("", false);
                         continue;
                     }
-                    abilities[i].DoAbility(ClickedCharacter.NodeOn); //Pass the node character is on
+                    abilities[i].DoAbility(new List<HexNode> { ClickedCharacter.NodeOn }); //Pass the node character is on
                     CannotStopCoroutine();
                     ButtonsSetActive(false, false, false);
                     Prompt("", false);
@@ -165,11 +165,8 @@ public class CardSelectionManager : MonoBehaviour
                     Prompt("", false);
                     CannotStopCoroutine();
                     
-                    //Do the ability to the given shape 
-                    foreach (HexNode node in _shape)
-                    {
-                        abilities[i].DoAbility(node);
-                    }
+                    //Do ability when we confirm
+                    abilities[i].DoAbility(_shape);
 
                     //Clear all range and target indicators
                     HighlightManager.Instance.ClearTargetAndRange();
@@ -205,6 +202,11 @@ public class CardSelectionManager : MonoBehaviour
                 //Move from hand to discard
                 DeckManager.Instance.HandCardToDiscard(_selectedCardObject);
             }
+        }
+        else //card is basic
+        {
+            //Move from hand to discard
+            DeckManager.Instance.HandCardToDiscard(_selectedCardObject);
         }
 
         //This is after cards abilities

@@ -10,7 +10,7 @@ public class DrawAbility : AbilityBase
 
     public override string Prompt => _prompt;
 
-    public override void DoAbility(HexNode node)
+    public override void DoAbility(List<HexNode> shape)
     {
         DeckManager.Instance.DeckDraw(_drawAmount);
     }
