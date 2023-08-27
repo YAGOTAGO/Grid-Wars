@@ -9,17 +9,18 @@ public class PlayersUIManager : MonoBehaviour
     public static PlayersUIManager Instance;
 
     #region TipWindow
+    [Header("Tip window settings")]
     [SerializeField] private GameObject _tipWindowPrefab;
+    [SerializeField] private int MaxWidth = 150;
+
+    [Header("References to UI")]
     [SerializeField] private Canvas _UICanvas;
+    [SerializeField] private GameObject _UIPlayerHorizontalGroup;
+
     private TextMeshProUGUI _tipText;
     private RectTransform _tipWindow;
-    public int MaxWidth = 150;
     public static Action<string, Vector2> OnMouseHover;
     public static Action OnMouseLoseFocus;
-    #endregion
-
-    #region Players UI
-    [SerializeField] private GameObject _UIPlayerHorizontalGroup;
     #endregion
 
     private void Start()
