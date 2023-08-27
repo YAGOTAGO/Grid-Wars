@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardKeywords : MonoBehaviour
+public class CardKeywords
 {
 
-    private readonly Dictionary<Keyword, string> _keywordDescriptions = new()
+    public static readonly Dictionary<Keyword, string> KeywordDescriptions = new()
     {
-        {Keyword.Dash, "Move up to X in a straightline." },
+        {Keyword.Dash, "<b>Dash:</b> Move up to X in one direction." },
 
     };
-
 
     /// <summary>
     /// Takes a card and boldens keyword in description

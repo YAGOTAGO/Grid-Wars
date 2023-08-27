@@ -20,7 +20,6 @@ public class PlayersUIManager : MonoBehaviour
     [SerializeField] private GameObject _UIPlayerHorizontalGroup;
     #endregion
 
-
     private void Start()
     {
         Instance = this;
@@ -56,7 +55,6 @@ public class PlayersUIManager : MonoBehaviour
 
     private void HideTip()
     {
-        //TipText = default;
         TipWindow.gameObject.SetActive(false);
     }
 

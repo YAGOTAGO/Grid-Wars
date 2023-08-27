@@ -285,6 +285,10 @@ MonoBehaviour:
   _nameTMP: {fileID: 7373885438165794856}
   _descripTMP: {fileID: 7373885438960532217}
   _shape: {fileID: 7373885437236864723}
+  _keywordLayout: {fileID: 9109660203847100341}
+  _keywordWindow: {fileID: 5879003801570251382, guid: 9b21ac918ff8dac4495ae98237e027c0, type: 3}
+  _maxWidth: 100
+  _fontSize: 10
 --- !u!114 &3934577231500278071
 MonoBehaviour:
   m_ObjectHideFlags: 0

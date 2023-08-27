@@ -6,14 +6,18 @@ using UnityEngine.UI;
 
 public class CardHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
+    [Header("Card Hover Zoom")]
     [SerializeField] private float _moveTime = 0.1f;
     [Range(0f, 2f), SerializeField] private float _scaleAmount = 1.1f;
     private Vector3 _startScale;
 
+    [Header("Card Keyword Hover")]
+    [SerializeField] private float _keywordDelay = .3f;
+    private CardDisplay _cardDisplay;
     void Start()
     {
         _startScale = transform.localScale;
-        
+        _cardDisplay = GetComponent<CardDisplay>();
     }
 
     private IEnumerator MoveCard(bool startigAnim)
@@ -45,14 +49,22 @@ public class CardHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         }
     }
 
+    private IEnumerator KeywordTimer()
+    {
+        yield return new WaitForSeconds(_keywordDelay);
+        _cardDisplay.DisplayKeyword(true);
+
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        StartCoroutine(KeywordTimer());
         eventData.selectedObject = gameObject;
-
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        StopAllCoroutines();
+        _cardDisplay.DisplayKeyword(false);
         eventData.selectedObject = null;
     }
 
