@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6da4f128e99aa684e8e6fff109eda79b, type: 3}
   m_Name: Grass
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: 361adbced04bd3f46af8f77188e0e75e, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: dfc1825c15db227438ad1ce93377734e, type: 3}
   m_DefaultGameObject: {fileID: 2050604376059984418, guid: 0658103345f7c9a409f7d4c27d3084e7, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []
   m_FlatTop: 1
-  type: 0
+  Type: 0
+  Surface: {fileID: 11400000, guid: 48431b4cc907f2d4ca64685b5343449c, type: 2}

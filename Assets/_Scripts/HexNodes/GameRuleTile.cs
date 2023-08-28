@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameRuleTile : HexagonalRuleTile
 {   
 
-    [SerializeField] public TileType type;
-
+    public TileType Type;
+    public SurfaceBase Surface;
 }
 
 

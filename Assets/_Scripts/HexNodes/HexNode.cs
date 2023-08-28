@@ -55,28 +55,12 @@ public class HexNode : MonoBehaviour
     }
 
     //Inits the Hex
-    public void Init(Vector3Int gridPos, Vector3Int cubePos)
+    public void Init(Vector3Int gridPos, Vector3Int cubePos, SurfaceBase surface)
     {
         GridPos = gridPos;
         CubeCoord = cubePos;
         _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
-        InitSurface();
-    }
-
-    private void InitSurface()
-    {
-        switch (TileType)
-        {
-            case TileType.Grass:
-                SetSurface(Database.Instance.GetSurface("CommonRewardSurface")); 
-                break;
-            case TileType.Mountain:
-                SetSurface(Database.Instance.GetSurface("CommonRewardSurface"));
-                break;
-            case TileType.Water:
-                SetSurface(Database.Instance.GetSurface("CommonRewardSurface"));
-                break;
-        }
+        SetSurface(surface);
     }
 
     /// <summary>
