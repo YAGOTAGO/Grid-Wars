@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CardRewardScreen : MonoBehaviour
@@ -8,6 +9,8 @@ public class CardRewardScreen : MonoBehaviour
 
     public static CardRewardScreen Instance;
     [SerializeField] private List<Transform> _positions = new();
+    [SerializeField] private TextMeshProUGUI _promptTmp;
+
     private void Start()
     {
         Instance = this;
@@ -19,6 +22,10 @@ public class CardRewardScreen : MonoBehaviour
 
     private IEnumerator CardRewards(Rarity rarity)
     {
+
+        _promptTmp.gameObject.SetActive(true);
+        _promptTmp.text = "Pick 1 of these 3 "+ rarity.ToString() +" cards to add to your deck.";
+
         //Get the cards we are going to show
         List<CardBase> cards = new();
         switch (rarity)
@@ -48,6 +55,8 @@ public class CardRewardScreen : MonoBehaviour
         (card1.GetComponent<OnCardClick>().IsCardRewardClicked()) ||
         (card2.GetComponent<OnCardClick>().IsCardRewardClicked()) ||
         (card3.GetComponent<OnCardClick>().IsCardRewardClicked()));
+
+        _promptTmp.gameObject.SetActive(false); //get rid of text
 
         //Get the card that was clicked
         GameObject chosenCard = null;

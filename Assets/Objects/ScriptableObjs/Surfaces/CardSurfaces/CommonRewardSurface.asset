@@ -15,4 +15,4 @@ MonoBehaviour:
   _isWalkable: 1
   _canAbilitiesPassthrough: 1
   _rarity: 1
-  _cardRewardIcon: {fileID: 0}
+  _cardRewardIcon: {fileID: 21300000, guid: 95ca14d2a86f6b8488d00a0f5e4fbbe9, type: 3}
