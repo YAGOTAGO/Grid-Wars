@@ -10,9 +10,11 @@ public class DrawAbility : AbilityBase
 
     public override string Prompt => _prompt;
 
-    public override void DoAbility(List<HexNode> shape)
+    public override IEnumerator DoAbility(List<HexNode> shape)
     {
         DeckManager.Instance.DeckDraw(_drawAmount);
+
+        yield return new WaitUntil(()=> ActionQueue.Instance.IsQueueStopped());
     }
 
     public override TargetingType GetTargetingType()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class AbilityBase : ScriptableObject
 {
-    public abstract void DoAbility(List<HexNode> shape); //Will do its ability using given hexnode if needed
+    public abstract IEnumerator DoAbility(List<HexNode> shape); //Will do its ability using given hexnode if needed
     public abstract string Prompt { get; } //What to tell the player before confirming
     public virtual AbstractShape Shape { get; set; }
     public abstract TargetingType GetTargetingType();

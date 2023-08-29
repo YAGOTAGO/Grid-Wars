@@ -10,7 +10,7 @@ public class ActionQueue : MonoBehaviour
 
     #region Coroutine Queue
     private readonly Queue<Func<IEnumerator>> methodQueue = new();
-    private bool isQueueRunning = false;
+    private bool _isQueueRunning = false;
     #endregion
 
     private void Awake()
@@ -28,7 +28,7 @@ public class ActionQueue : MonoBehaviour
 
         Debug.Log(method.Method.Name + " queued to back");
     
-        if (!isQueueRunning) { StartCoroutine(ProcessQueue()); }
+        if (!_isQueueRunning) { StartCoroutine(ProcessQueue()); }
     }
 
     /// <summary>
@@ -54,12 +54,13 @@ public class ActionQueue : MonoBehaviour
 
         Debug.Log(method.Method.Name + " queued to front");
 
-        if (!isQueueRunning) { StartCoroutine(ProcessQueue()); }
+        if (!_isQueueRunning) { StartCoroutine(ProcessQueue()); }
     }
+    
     // Coroutine to process the method queue
     private IEnumerator ProcessQueue()
     {
-        isQueueRunning = true;
+        _isQueueRunning = true;
 
         while (methodQueue.Count > 0)
         {
@@ -67,11 +68,16 @@ public class ActionQueue : MonoBehaviour
             yield return StartCoroutine(method());
         }
 
-        isQueueRunning = false;
+        _isQueueRunning = false;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>Returns true when queue is not running</returns>
     public bool IsQueueStopped()
     {
-        return !isQueueRunning;
+        return !_isQueueRunning;
     }
+
 }

@@ -92,7 +92,7 @@ public class CardSelectionManager : MonoBehaviour
 
         for (int i = 0; i < abilities.Count; i++) //iterate over all abilities in the card
         {
-            
+
             yield return new WaitUntil(ActionQueue.Instance.IsQueueStopped); //Before starting any ability we wait for action queue
 
             Prompt(abilities[i].Prompt, true); //Tell the player what to expect
@@ -134,12 +134,12 @@ public class CardSelectionManager : MonoBehaviour
                     if (_skip) //if skip we dont do ability
                     {
                         ButtonsSetActive(false, false, false);
-                        CannotStopCoroutine();
+                        CanStopCoroutine(false);
                         Prompt("", false);
                         continue;
                     }
                     abilities[i].DoAbility(new List<HexNode> { ClickedCharacter.NodeOn }); //Pass the node character is on
-                    CannotStopCoroutine();
+                    CanStopCoroutine(false);
                     ButtonsSetActive(false, false, false);
                     Prompt("", false);
                     continue;
@@ -163,19 +163,20 @@ public class CardSelectionManager : MonoBehaviour
                 {
                     ButtonsSetActive(false, false, false);
                     Prompt("", false);
-                    CannotStopCoroutine();
-                    
-                    //Do ability when we confirm
-                    abilities[i].DoAbility(_shape);
+                    CanStopCoroutine(false);
 
                     //Clear all range and target indicators
                     HighlightManager.Instance.ClearTargetAndRange();
+
+                    //Do ability when we confirm and wait for it to complete
+                    yield return StartCoroutine(abilities[i].DoAbility(_shape));
+                    
                     break;
                 }else if (_skip)
                 {
                     ButtonsSetActive(false, false, false);
                     Prompt("", false);
-                    CannotStopCoroutine();
+                    CanStopCoroutine(false);
                     HighlightManager.Instance.ClearTargetAndRange();
                     break;
                 }
@@ -324,9 +325,13 @@ public class CardSelectionManager : MonoBehaviour
         _promptTMP.gameObject.SetActive(setActive);
     }
 
-    private void CannotStopCoroutine()
+    /// <summary>
+    /// Whether or not the current card ability can undo what it has done
+    /// </summary>
+    /// <param name="canStop"></param>
+    public void CanStopCoroutine(bool canStop)
     {
-        _canStopCoroutine = false;
-        _undoButton.gameObject.SetActive(false);
+        _canStopCoroutine = canStop;
+        _undoButton.gameObject.SetActive(canStop);
     }
 }

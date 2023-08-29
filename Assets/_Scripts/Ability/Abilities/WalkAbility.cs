@@ -33,12 +33,16 @@ public class WalkAbility : AbilityBase
         yield return characterMove.WaitForCompletion();
     }
 
-    public override void DoAbility(List<HexNode> shape)
+    public override IEnumerator DoAbility(List<HexNode> shape)
     {
         foreach (HexNode node in shape)
         {
             ActionQueue.Instance.EnqueueMethod(() => WalkRoutine(node));
         }
+
+        //Wait until queue is done
+
+        yield return new WaitUntil(() => ActionQueue.Instance.IsQueueStopped());
     }
 
     public override TargetingType GetTargetingType()

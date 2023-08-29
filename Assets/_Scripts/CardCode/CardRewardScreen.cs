@@ -56,7 +56,7 @@ public class CardRewardScreen : MonoBehaviour
         (card2.GetComponent<OnCardClick>().IsCardRewardClicked()) ||
         (card3.GetComponent<OnCardClick>().IsCardRewardClicked()));
 
-        _promptTmp.gameObject.SetActive(false); //get rid of text
+        _promptTmp.gameObject.SetActive(false);
 
         //Get the card that was clicked
         GameObject chosenCard = null;
