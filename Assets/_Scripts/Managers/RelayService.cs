@@ -15,7 +15,7 @@ using UnityEngine.SceneManagement;
 public class RelayService : NetworkBehaviour
 {
 
-    private readonly int _maxPlayers = 1; //Doesn't include the host
+    private readonly int _maxPlayers = 2; //Doesn't include the host
     [SerializeField] private TMP_InputField _joinInput; 
     [SerializeField] private GameObject _buttons;
     [SerializeField] private TextMeshProUGUI _joinCodeTMP;

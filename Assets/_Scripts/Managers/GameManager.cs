@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
@@ -17,17 +18,19 @@ public class GameManager : NetworkBehaviour
 
     private void Start()
     {
-        GameObject character1 = Instantiate(_character);
-        character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)], true);
+        //GameObject character1 = Instantiate(_character);
+        //character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)], true);
 
     }
 
-    /*public override void OnNetworkSpawn()
+
+    public override void OnNetworkSpawn()
     {
+
         if (IsServer)
         {
             GameObject character1 = Instantiate(_character);
-            character1.GetComponent<NetworkObject>().Spawn();
+            character1.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
             character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)], true);
             
             GameObject character2 = Instantiate(_character);
@@ -37,9 +40,9 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    private void Start()
+    /*private void Start()
     {
         GetComponent<NetworkObject>().Spawn();
-    }*/
-
+    }
+*/
 }
