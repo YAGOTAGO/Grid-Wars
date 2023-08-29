@@ -54,6 +54,8 @@ public class CardSelectionManager : MonoBehaviour
     {
         if (!_canStopCoroutine) { return; } //Stops selecting a new card after an action has taken place
 
+        card.GetComponent<CardDisplay>().DisplayKeyword(false); //Selected card removes keyword display
+
         if (card == _selectedCardObject) //When click on selected card it undo selection and exit method
         {
             Undo();
