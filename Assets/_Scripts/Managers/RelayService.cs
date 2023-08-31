@@ -107,8 +107,7 @@ public class RelayService : NetworkBehaviour
     private void LoadSceneServerRPC()
     {
 
-        NetworkManager.SceneManager.LoadScene("GameBoardScene", LoadSceneMode.Single);
-
+        NetworkManager.Singleton.SceneManager.LoadScene("GameBoardScene", LoadSceneMode.Single);
 
     }
 }
