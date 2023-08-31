@@ -25,6 +25,11 @@ public class RelayService : NetworkBehaviour
         await AuthenticatePlayers(); //log in players annonymously
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        Debug.Log("Network Spawn");
+    }
     private static async Task AuthenticatePlayers()
     {
         await UnityServices.InitializeAsync();
@@ -75,13 +80,12 @@ public class RelayService : NetworkBehaviour
         _loadingTMP.gameObject.SetActive(true);
         try
         {
+            NetworkManager.Singleton.OnClientConnectedCallback += SwapScene; //swap scene after connecting
             JoinAllocation joinAllocation = await Unity.Services.Relay.RelayService.Instance.JoinAllocationAsync(_joinInput.text);
-
             RelayServerData relayServerData = new(joinAllocation, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartClient();
-            StartCoroutine(WaitForClientConnect());
-
+            //StartCoroutine(WaitForClientConnect());
         }
         catch (RelayServiceException e)
         {
@@ -89,7 +93,11 @@ public class RelayService : NetworkBehaviour
         }
     }
 
-    
+    public void SwapScene(ulong clientId)
+    {
+        Debug.Log("Connected");
+        LoadSceneServerRPC();
+    }
 
     //Waits until client has connected and then loads scene for both players
     IEnumerator WaitForClientConnect()
@@ -111,8 +119,6 @@ public class RelayService : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void LoadSceneServerRPC()
     {
-
         NetworkManager.Singleton.SceneManager.LoadScene("GameBoardScene", LoadSceneMode.Single);
-
     }
 }

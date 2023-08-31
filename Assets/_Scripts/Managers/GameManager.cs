@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -20,11 +20,15 @@ public class GameManager : NetworkBehaviour
     {
         //GameObject character1 = Instantiate(_characterPrefabToSpawn);
         //character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)], true);
-
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += SpawnCharacters;
     }
 
+    public void SpawnCharacters(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+    {
+        Debug.Log("Called Spawn Characters");
+    }
 
-    public override void OnNetworkSpawn()
+    /*public override void OnNetworkSpawn()
     {
 
         if (IsServer)
@@ -39,11 +43,6 @@ public class GameManager : NetworkBehaviour
 
         }
 
-    }
+    }*/
 
-    /*private void Start()
-    {
-        
-    }
-*/
 }
