@@ -28,21 +28,6 @@ public class GameManager : NetworkBehaviour
         Debug.Log("Called Spawn Characters");
     }
 
-    /*public override void OnNetworkSpawn()
-    {
-
-        if (IsServer)
-        {
-            GameObject character1 = Instantiate(_characterPrefabToSpawn);
-            character1.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
-            character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(0, 0)], true);
-            
-            GameObject character2 = Instantiate(_characterPrefabToSpawn);
-            character2.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
-            character2.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(1, 1)], true);
-
-        }
-
-    }*/
+    
 
 }
