@@ -46,18 +46,18 @@ public class RelayService : NetworkBehaviour
             Allocation a = await Unity.Services.Relay.RelayService.Instance.CreateAllocationAsync(_maxPlayers);
             
             //Get the code
-            string _joinCode = await Unity.Services.Relay.RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
+            string joinCode = await Unity.Services.Relay.RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
 
             //Display and update join code text
             _loadingTMP.gameObject.SetActive(false);
             _joinCodeTMP.gameObject.SetActive(true);
-            _joinCodeTMP.text = "Join Code: " + _joinCode + "\n Waiting for player to join...";
+            _joinCodeTMP.text = "Join Code: " + joinCode + "\n Waiting for player to join...";
 
             //Join the the relay
             RelayServerData relayServerData = new(a, "dtls");
-            NetworkManager.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
-            NetworkManager.StartHost();
+            NetworkManager.Singleton.StartHost();
             
         }
         catch (RelayServiceException e)
@@ -78,9 +78,10 @@ public class RelayService : NetworkBehaviour
             JoinAllocation joinAllocation = await Unity.Services.Relay.RelayService.Instance.JoinAllocationAsync(_joinInput.text);
 
             RelayServerData relayServerData = new(joinAllocation, "dtls");
-            NetworkManager.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
-            NetworkManager.StartClient();
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+            NetworkManager.Singleton.StartClient();
             StartCoroutine(WaitForClientConnect());
+
         }
         catch (RelayServiceException e)
         {
@@ -88,10 +89,12 @@ public class RelayService : NetworkBehaviour
         }
     }
 
+    
+
     //Waits until client has connected and then loads scene for both players
     IEnumerator WaitForClientConnect()
     {
-       
+        
         while(!NetworkManager.Singleton.IsConnectedClient)
         {
             Debug.Log("Waiting for connection");
@@ -99,6 +102,8 @@ public class RelayService : NetworkBehaviour
         }
         _loadingTMP.gameObject.SetActive(false);
         Debug.Log("Connected");
+
+        yield return new WaitForSeconds(.5f); //add a buffer for loading reasons
        
         LoadSceneServerRPC();
     }

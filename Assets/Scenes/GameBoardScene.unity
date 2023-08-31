@@ -3040,7 +3040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba182cad79836a48981cc80f66b9270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _character: {fileID: 7146395176818553976, guid: 12fa879a0f734a74994cc2f03a35b491, type: 3}
+  _characterPrefabToSpawn: {fileID: 7146395176818553976, guid: 12fa879a0f734a74994cc2f03a35b491, type: 3}
 --- !u!4 &1416620741
 Transform:
   m_ObjectHideFlags: 0
