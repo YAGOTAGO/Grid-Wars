@@ -15,21 +15,19 @@ using UnityEngine.SceneManagement;
 public class RelayService : NetworkBehaviour
 {
 
-    private readonly int _maxPlayers = 2; //Doesn't include the host
+    private readonly int _maxPlayers = 1; //Doesn't include the host
     [SerializeField] private TMP_InputField _joinInput; 
     [SerializeField] private GameObject _buttons;
     [SerializeField] private TextMeshProUGUI _joinCodeTMP;
     [SerializeField] private TextMeshProUGUI _loadingTMP;
+
+    private string _joinCode;
+
     private async void Start()
     {
         await AuthenticatePlayers(); //log in players annonymously
     }
 
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-        Debug.Log("Network Spawn");
-    }
     private static async Task AuthenticatePlayers()
     {
         await UnityServices.InitializeAsync();
@@ -46,17 +44,19 @@ public class RelayService : NetworkBehaviour
         _buttons.SetActive(false);
         _loadingTMP.gameObject.SetActive(true);
         try
-        {   
+        {
+            //Show join on successful connection
+            NetworkManager.Singleton.OnServerStarted += () => {
+                _loadingTMP.gameObject.SetActive(false);
+                _joinCodeTMP.gameObject.SetActive(true);
+                _joinCodeTMP.text = "Join Code: " + _joinCode + "\n Waiting for player to join...";
+            };
+
             //Make an allocation
             Allocation a = await Unity.Services.Relay.RelayService.Instance.CreateAllocationAsync(_maxPlayers);
             
             //Get the code
-            string joinCode = await Unity.Services.Relay.RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
-
-            //Display and update join code text
-            _loadingTMP.gameObject.SetActive(false);
-            _joinCodeTMP.gameObject.SetActive(true);
-            _joinCodeTMP.text = "Join Code: " + joinCode + "\n Waiting for player to join...";
+            _joinCode = await Unity.Services.Relay.RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
 
             //Join the the relay
             RelayServerData relayServerData = new(a, "dtls");
@@ -80,12 +80,16 @@ public class RelayService : NetworkBehaviour
         _loadingTMP.gameObject.SetActive(true);
         try
         {
-            NetworkManager.Singleton.OnClientConnectedCallback += SwapScene; //swap scene after connecting
+            NetworkManager.Singleton.OnClientConnectedCallback += (ulong clientId) =>
+            {
+                Debug.Log("On client connected swapping scene");
+                LoadSceneServerRPC();
+            };
+
             JoinAllocation joinAllocation = await Unity.Services.Relay.RelayService.Instance.JoinAllocationAsync(_joinInput.text);
             RelayServerData relayServerData = new(joinAllocation, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartClient();
-            //StartCoroutine(WaitForClientConnect());
         }
         catch (RelayServiceException e)
         {
@@ -93,32 +97,17 @@ public class RelayService : NetworkBehaviour
         }
     }
 
-    public void SwapScene(ulong clientId)
-    {
-        Debug.Log("Connected");
-        LoadSceneServerRPC();
-    }
-
-    //Waits until client has connected and then loads scene for both players
-    IEnumerator WaitForClientConnect()
-    {
-        
-        while(!NetworkManager.Singleton.IsConnectedClient)
-        {
-            Debug.Log("Waiting for connection");
-            yield return null;
-        }
-        _loadingTMP.gameObject.SetActive(false);
-        Debug.Log("Connected");
-
-        yield return new WaitForSeconds(.5f); //add a buffer for loading reasons
-       
-        LoadSceneServerRPC();
-    }
- 
     [ServerRpc(RequireOwnership = false)]
     private void LoadSceneServerRPC()
     {
+        //NetworkManager.Singleton.SceneManager.LoadScene("GameBoardScene", LoadSceneMode.Single);
+        StartCoroutine(LoadBoardScene());
+    }
+
+    private IEnumerator LoadBoardScene()
+    {
+        yield return new WaitUntil(()=> NetworkManager.Singleton != null);
         NetworkManager.Singleton.SceneManager.LoadScene("GameBoardScene", LoadSceneMode.Single);
     }
+
 }

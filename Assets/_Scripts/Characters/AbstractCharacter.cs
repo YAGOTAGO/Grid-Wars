@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public abstract class AbstractCharacter : MonoBehaviour
+public abstract class AbstractCharacter : NetworkBehaviour
 {
     public abstract HashSet<AbstractEffect> Effects { get; }
     public abstract HexNode NodeOn { get; set; }
@@ -34,7 +35,7 @@ public abstract class AbstractCharacter : MonoBehaviour
 
         if (positionCharacterOnNode)
         {
-           gameObject.transform.position = target.transform.position;
+           transform.position = target.transform.position;
         }
 
     }
