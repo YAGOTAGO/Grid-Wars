@@ -1990,6 +1990,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1743139561}
   - component: {fileID: 1743139562}
+  - component: {fileID: 1743139563}
   m_Layer: 0
   m_Name: Player Spawner
   m_TagString: Untagged
@@ -2024,9 +2025,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd9935d618b8d54382bb42b27dd7cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 0}
-  _sceneToSpawnCharactersIn:
-    m_Handle: 0
+  _playerPrefab: {fileID: 7146395176818553976, guid: 12fa879a0f734a74994cc2f03a35b491, type: 3}
+  _sceneName: GameBoardScene
+--- !u!114 &1743139563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743139560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2519385622
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1868207477
 GameObject:
   m_ObjectHideFlags: 0
