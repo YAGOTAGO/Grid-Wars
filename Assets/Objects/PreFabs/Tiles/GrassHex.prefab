@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1791668414952246007}
   - component: {fileID: 5961349996421958439}
   - component: {fileID: 6870048336337979354}
+  - component: {fileID: 3488659305418113084}
   m_Layer: 0
   m_Name: GrassHex
   m_TagString: Untagged
@@ -136,6 +137,22 @@ PolygonCollider2D:
       - {x: 0.23495509, y: -0.41584346}
       - {x: 0.49007145, y: 0.0035101026}
       - {x: 0.23942365, y: 0.41192803}
+--- !u!114 &3488659305418113084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050604376059984418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &8987658272687426763
 GameObject:
   m_ObjectHideFlags: 0

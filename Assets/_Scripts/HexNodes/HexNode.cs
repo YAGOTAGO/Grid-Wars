@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof (SpriteRenderer))]
 [RequireComponent(typeof(PolygonCollider2D))]
-public class HexNode : MonoBehaviour
+public class HexNode : NetworkBehaviour
 {
     [Header("References")]
     [SerializeField] private List<Sprite> _sprites;
@@ -15,6 +16,7 @@ public class HexNode : MonoBehaviour
     
     [Header("Surface")]
     private SurfaceBase _surface;
+    //private NetworkVariable<SurfaceBase> _variable;
     private SpriteRenderer _surfaceRenderer;
 
     [HideInInspector] public Vector3Int GridPos { get; private set; } //Unity grid x, y, z

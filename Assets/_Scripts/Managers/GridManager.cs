@@ -63,11 +63,11 @@ public class GridManager : MonoBehaviour
                 Vector3 tileWorldPos = _tileMap.CellToWorld(position);
 
                 GameRuleTile tileInfo = _tileMap.GetTile<GameRuleTile>(position);
-                TileType type = tileInfo.Type; //get type to know which tile prefab
+                
                 SurfaceBase surface = Instantiate(tileInfo.Surface); //use instantiate so we use a copy
 
                 //Instatiate the prefab
-                HexNode tile = Instantiate(_prefabDict[type], tileWorldPos, Quaternion.identity);
+                HexNode tile = Instantiate(_prefabDict[tileInfo.Type], tileWorldPos, Quaternion.identity);
                 
                 //Cache cube and grid pos
                 Vector3Int cubePos = HexDistance.UnityCellToCube(position);//calculate cube pos
@@ -79,7 +79,7 @@ public class GridManager : MonoBehaviour
                 tile.transform.SetParent(Grid.transform); 
 
                 //Name to help debugging
-                tile.name = type.ToString() + _tileNum;
+                tile.name = tileInfo.Type.ToString() + _tileNum;
                 _tileNum++;
             }
 

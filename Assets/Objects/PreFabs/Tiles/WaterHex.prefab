@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2779108147619994489}
   - component: {fileID: 1856939618902459675}
   - component: {fileID: 4659979537830759772}
+  - component: {fileID: 3674591752251923956}
   m_Layer: 0
   m_Name: WaterHex
   m_TagString: Untagged
@@ -99,11 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920d3aa62607b7c4298d9d99bda8a076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 0}
   _sprites:
   - {fileID: 21300000, guid: b78e04d0728bd404c95d728f1b51642a, type: 3}
-  IsWalkable: 0
-  IsPassable: 1
   TileType: 1
   CharacterOnNode: {fileID: 0}
 --- !u!60 &4659979537830759772
@@ -137,6 +135,22 @@ PolygonCollider2D:
       - {x: 0.24463594, y: 0.47085023}
       - {x: -0.2497924, y: 0.47042194}
       - {x: -0.4936496, y: 0.0346393}
+--- !u!114 &3674591752251923956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7002228065961958210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &8237139153824822180
 GameObject:
   m_ObjectHideFlags: 0

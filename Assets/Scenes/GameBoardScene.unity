@@ -1113,6 +1113,7 @@ GameObject:
   - component: {fileID: 523693012}
   - component: {fileID: 523693011}
   - component: {fileID: 523693014}
+  - component: {fileID: 523693015}
   m_Layer: 0
   m_Name: Grid Manager
   m_TagString: Untagged
@@ -1167,6 +1168,22 @@ MonoBehaviour:
   _prefabs:
   - {fileID: 1791668414952246007, guid: 0658103345f7c9a409f7d4c27d3084e7, type: 3}
   - {fileID: 1856939618902459675, guid: 74f2e912b3ecd4b479b9244d42edc774, type: 3}
+--- !u!114 &523693015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523693010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 259074932
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &541861593
 GameObject:
   m_ObjectHideFlags: 0
