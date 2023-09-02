@@ -16,8 +16,8 @@ public class HexNode : NetworkBehaviour
     
     [Header("Surface")]
     private SurfaceBase _surface;
-    //private NetworkVariable<SurfaceBase> _variable;
-    private SpriteRenderer _surfaceRenderer;
+    
+    private SpriteRenderer _surfaceRenderer; //where the surface sprite is displayed
 
     [HideInInspector] public Vector3Int GridPos { get; private set; } //Unity grid x, y, z
     [HideInInspector] public Vector3Int CubeCoord { get; private set; } //Unity grid converted into cube coords
