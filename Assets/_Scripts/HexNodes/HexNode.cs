@@ -74,7 +74,7 @@ public class HexNode : NetworkBehaviour
 
         if(!IsServer && IsClient) //Non host clients
         {
-            SurfaceName.OnValueChanged += UpdateTheSurfaceSO;
+            SurfaceName.OnValueChanged += UpdateTheSurfaceReference;
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += ClientUpdateGridManager;
         }
     }
@@ -85,7 +85,7 @@ public class HexNode : NetworkBehaviour
 
         if (!IsServer && IsClient) //Non host clients
         {
-            SurfaceName.OnValueChanged -= UpdateTheSurfaceSO;
+            SurfaceName.OnValueChanged -= UpdateTheSurfaceReference;
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= ClientUpdateGridManager;
         }
     }
@@ -95,7 +95,7 @@ public class HexNode : NetworkBehaviour
     /// </summary>
     /// <param name="prevVal"></param>
     /// <param name="newVal"></param>
-    private void UpdateTheSurfaceSO(FixedString32Bytes prevVal,  FixedString32Bytes newVal)
+    private void UpdateTheSurfaceReference(FixedString32Bytes prevVal,  FixedString32Bytes newVal)
     {
         SetSurface(Database.Instance.GetSurface(newVal.Value.Replace("(Clone)", ""))); //Have to get rid of "clone" to make it work
 

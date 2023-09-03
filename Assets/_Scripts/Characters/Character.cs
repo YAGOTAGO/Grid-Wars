@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
 public class Character : AbstractCharacter //may need to become network behaviour
 {
@@ -23,11 +24,22 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
     private readonly Dictionary<AbstractEffect, GameObject> _effectToUIDict = new();
 
-    // Start is called before the first frame update
+    private int _characterID;
+
     void Start()
     {
         InitVars();
         AddEffect(new BurnEffect());
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        //NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += AddThisToCharacterDB;
+    }
+
+    private void AddThisToCharacterDB(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        _characterID = Database.Instance.PlayerCharactersDB.Add(this);
     }
 
     private void InitVars()

@@ -2037,6 +2037,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: 7146395176818553976, guid: 12fa879a0f734a74994cc2f03a35b491, type: 3}
   _sceneName: GameBoardScene
+  _spawnLocations:
+  - {x: -6, y: -17, z: 0}
+  - {x: -6, y: -5, z: 0}
+  - {x: -6, y: 7, z: 0}
+  - {x: 12, y: -17, z: 0}
+  - {x: 13, y: -4, z: 0}
+  - {x: 12, y: 9, z: 0}
 --- !u!114 &1743139563
 MonoBehaviour:
   m_ObjectHideFlags: 0

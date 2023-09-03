@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,7 @@ public class PlayerSpawner : NetworkBehaviour
 
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private string _sceneName; //the scene which we want the characters to spawn in
+    [SerializeField] private List<Vector3Int> _spawnLocations = new();
 
     private void Awake()
     {
@@ -23,51 +25,33 @@ public class PlayerSpawner : NetworkBehaviour
 
     private void SpawnCharacters(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-
+        int positionIndex = 0;
+        
         if(sceneName == _sceneName)
         {
             if (IsServer)
             {
-                Debug.Log("Server spawning characters " + OwnerClientId);
+                foreach(ulong clientId in clientsCompleted)
+                {
+                    GameObject character1 = Instantiate(_playerPrefab);
+                    GameObject character2 = Instantiate(_playerPrefab);
+                    GameObject character3 = Instantiate(_playerPrefab);
 
-                GameObject character1 = Instantiate(_playerPrefab);
-                GameObject character2 = Instantiate(_playerPrefab);
-                GameObject character3 = Instantiate(_playerPrefab);
+                    character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
+                    character2.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
+                    character3.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
 
-                character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(-6, -17)], true);
-                character2.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(-6, -5)], true);
-                character3.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(-6, 7)], true);
+                    character1.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+                    character2.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+                    character3.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+                }
 
-                character1.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
-                character2.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
-                character3.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
-
-            }
-            else
-            {
-                SpawnClientCharactersServerRPC(OwnerClientId);
             }
 
         }
 
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnClientCharactersServerRPC(ulong clientID)
-    {
-        Debug.Log("Client spawning characters " + OwnerClientId);
-        GameObject character1 = Instantiate(_playerPrefab);
-        GameObject character2 = Instantiate(_playerPrefab);
-        GameObject character3 = Instantiate(_playerPrefab);
-
-        character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(12, -17)], true);
-        character2.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(13, -4)], true);
-        character3.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[new Vector3Int(12, 9)], true);
-
-        character1.GetComponent<NetworkObject>().SpawnWithOwnership(clientID);
-        character2.GetComponent<NetworkObject>().SpawnWithOwnership(clientID);
-        character3.GetComponent<NetworkObject>().SpawnWithOwnership(clientID);
-    }
 
 
 }
