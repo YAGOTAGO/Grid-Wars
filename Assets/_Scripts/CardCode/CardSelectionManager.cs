@@ -288,9 +288,9 @@ public class CardSelectionManager : MonoBehaviour
     private bool CharacterClicked()
     {
 
-        if (NodeClicked() && _clickedNode.CharacterOnNode != null)
+        if (NodeClicked() && _clickedNode.GetCharacterOnNode() != null)
         {
-            ClickedCharacter = _clickedNode.CharacterOnNode;
+            ClickedCharacter = _clickedNode.GetCharacterOnNode();
             _promptTMP.gameObject.SetActive(false);
             return true;
         }

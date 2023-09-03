@@ -33,17 +33,27 @@ public class PlayerSpawner : NetworkBehaviour
             {
                 foreach(ulong clientId in clientsCompleted)
                 {
-                    GameObject character1 = Instantiate(_playerPrefab);
-                    GameObject character2 = Instantiate(_playerPrefab);
-                    GameObject character3 = Instantiate(_playerPrefab);
+                    GameObject characterGO1 = Instantiate(_playerPrefab);
+                    GameObject characterGO2 = Instantiate(_playerPrefab);
+                    GameObject characterGO3 = Instantiate(_playerPrefab);
 
-                    character1.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
-                    character2.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
-                    character3.GetComponent<Character>().PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
+                    Character character1 = characterGO1.GetComponent<Character>();
+                    Character character2 = characterGO2.GetComponent<Character>();
+                    Character character3 = characterGO3.GetComponent<Character>();
 
-                    character1.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
-                    character2.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
-                    character3.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+                    characterGO1.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+                    characterGO2.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+                    characterGO3.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+
+                    character1.CharacterIDNetVar.Value = positionIndex;
+                    character1.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
+
+                    character2.CharacterIDNetVar.Value = positionIndex;
+                    character2.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
+
+                    character3.CharacterIDNetVar.Value = positionIndex;
+                    character3.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
+                    
                 }
 
             }

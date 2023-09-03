@@ -8,6 +8,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
     public abstract HashSet<AbstractEffect> Effects { get; }
     public abstract HexNode NodeOn { get; set; }
     public abstract int Health { get; set; }
+    public abstract int CharacterID { get; }
 
     #region Abstract Methods
     public abstract void AddEffect(AbstractEffect ef);
@@ -25,11 +26,11 @@ public abstract class AbstractCharacter : NetworkBehaviour
         {
             //Set node we are leaving to be free
             NodeOn.SetSurfaceWalkable(true);
-            NodeOn.CharacterOnNode = null;
+            NodeOn.SetCharacterOnNode(-1); //-1 will set a null character reference
         }
 
         target.SetSurfaceWalkable(false);
-        target.CharacterOnNode = this;
+        target.SetCharacterOnNode(CharacterID);
         NodeOn = target;
         target.OnEnterSurface(this);
 

@@ -13,7 +13,8 @@ public class Character : AbstractCharacter //may need to become network behaviou
     public override HashSet<AbstractEffect> Effects { get=> _effects; }
     public override HexNode NodeOn { get => _nodeOn; set => _nodeOn = value; }
     public override int Health { get => _health; set => _health = value; } //this will likely be network variable
-   
+    public override int CharacterID => CharacterIDNetVar.Value;
+
     #region Visuals
     [Header("Visuals")]
     [SerializeField] private GameObject _effectsUIGroup; //This contains the horizontal layout group UI
@@ -24,7 +25,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
     private readonly Dictionary<AbstractEffect, GameObject> _effectToUIDict = new();
 
-    private int _characterID;
+    public NetworkVariable<int> CharacterIDNetVar = new(-1);
 
     void Start()
     {
@@ -34,12 +35,13 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
     public override void OnNetworkSpawn()
     {
-        //NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += AddThisToCharacterDB;
+        CharacterIDNetVar.OnValueChanged += AddThisToCharacterDB;
     }
 
-    private void AddThisToCharacterDB(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    private void AddThisToCharacterDB(int preVal, int newVal)
     {
-        _characterID = Database.Instance.PlayerCharactersDB.Add(this);
+        Database.Instance.PlayerCharactersDB[newVal] = this;
+        Database.Instance.debugcheck.Add(this);
     }
 
     private void InitVars()

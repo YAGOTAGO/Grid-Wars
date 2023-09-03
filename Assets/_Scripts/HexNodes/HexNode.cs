@@ -26,7 +26,8 @@ public class HexNode : NetworkBehaviour
     [HideInInspector] public NetworkVariable<Vector3Int> GridPos { get; private set; } = new();//Unity grid x, y, z
     [HideInInspector] public NetworkVariable<Vector3Int> CubeCoord { get; private set; } = new();//Unity grid converted into cube coords
 
-    public AbstractCharacter CharacterOnNode;
+    private AbstractCharacter _characterOnNode;
+    private NetworkVariable<int> _characterOnNodeID = new();
 
     #region Pathfinding
     public float G { get; private set; }
@@ -70,6 +71,7 @@ public class HexNode : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        _characterOnNodeID.OnValueChanged += SetCharacterOnNodeReference;
         _surfaceWalkable.OnValueChanged += UpdateTheSurfaceWalkable; //both server and client
 
         if(!IsServer && IsClient) //Non host clients
@@ -82,6 +84,7 @@ public class HexNode : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         _surfaceWalkable.OnValueChanged -= UpdateTheSurfaceWalkable;
+        _characterOnNodeID.OnValueChanged -= SetCharacterOnNodeReference;
 
         if (!IsServer && IsClient) //Non host clients
         {
@@ -144,6 +147,48 @@ public class HexNode : NetworkBehaviour
     public void OnEnterSurface(AbstractCharacter character)
     {
         _surface.OnTouchNode(character);
+    }
+
+    private void SetCharacterOnNodeReference(int preVal, int newVal)
+    {
+        if(newVal < 0)
+        {
+            _characterOnNode = null;
+        }
+        else if(newVal >= 0 && newVal<=6)
+        {
+            _characterOnNode = Database.Instance.PlayerCharactersDB[newVal];
+        }
+    }
+
+    /// <summary>
+    /// Sets the network variable which in turn will update the reference of character
+    /// </summary>
+    /// <param name="abstractCharacterID">If int is Less Than 0 will set to null</param>
+    public void SetCharacterOnNode(int abstractCharacterID)
+    {
+        _characterOnNodeID.Value = abstractCharacterID;
+    }
+
+    public AbstractCharacter GetCharacterOnNode()
+    {
+        if(IsServer)
+        {
+            return _characterOnNode;
+        }
+        else if(!IsServer && IsClient)
+        {
+            if(Database.Instance.PlayerCharactersDB.TryGetValue(_characterOnNodeID.Value, out AbstractCharacter value)){
+                return value;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        Debug.LogWarning("Get Character On Node failed no server or clients");
+        return null;
     }
 
     //So we can globally know what player is hovering over

@@ -29,7 +29,7 @@ public class DamageAbility : AbilityBase
     {
         foreach (HexNode node in shape)
         {
-            DamageManager.Damage(new DamageInfo(_damageAmount, _damageType, CardSelectionManager.Instance.ClickedCharacter, node.CharacterOnNode));
+            DamageManager.Damage(new DamageInfo(_damageAmount, _damageType, CardSelectionManager.Instance.ClickedCharacter, node.GetCharacterOnNode()));
         }
         yield break;
     }
