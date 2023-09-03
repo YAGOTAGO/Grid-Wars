@@ -10,8 +10,8 @@ public class LineShape : AbstractShape
         List<HexNode> nodesInDirection = new();
         HexNode playerNode = CardSelectionManager.Instance.ClickedCharacter.NodeOn;
         
-        Vector3Int playerCubeCoord = playerNode.CubeCoord;//start
-        Vector3Int mouseCubeCoord = mouseNode.CubeCoord; //target
+        Vector3Int playerCubeCoord = playerNode.CubeCoord.Value;//start
+        Vector3Int mouseCubeCoord = mouseNode.CubeCoord.Value; //target
 
         //Displacements, and distance
         Vector3 displacement = mouseCubeCoord - playerCubeCoord;
@@ -28,7 +28,7 @@ public class LineShape : AbstractShape
         HexNode currNode = playerNode;
         for (int i = 0; i < range; i++)
         {
-            if (GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord + directionInt, out HexNode nextNode))
+            if (GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord.Value + directionInt, out HexNode nextNode))
             {
                 currNode = nextNode;
 

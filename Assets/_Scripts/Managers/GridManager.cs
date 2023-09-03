@@ -1,41 +1,56 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Grid))]
-public class GridManager : MonoBehaviour
+public class GridManager : NetworkBehaviour
 {
     public static GridManager Instance;
     public Dictionary<Vector3Int, HexNode> GridCoordTiles { get; private set; } = new(); //know which tile by position
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
-    public Grid Grid { get; private set; } //used to put all tiles under
+    private Grid _grid; //used to put all tiles under
     private int _tileNum = 0; //to name tiles in editor
 
-    #region TilePrefabs
-
-    //Could make a tile prefab scrip that hold a dictionary of them based on the enum
 
     [Header("Tile Prefabs")]
     private Dictionary<TileType, HexNode> _prefabDict;
     [SerializeField] private Tilemap _tileMap; //the map we will copy
     [SerializeField] private List<HexNode> _prefabs;
-    
-    #endregion
-    
+
     void Awake()
     {
         Instance = this;
-        Grid = GetComponent<Grid>();
+        _grid = GetComponent<Grid>();
         
     }
 
     void Start()
     {
         InitDict();
-        InitBoard();
-        InitNeighboors(); //caches the neighboors in each tile
+
+        if (IsServer)
+        {
+            InitBoard();
+            InitNeighboors(); //caches the neighboors in each tile
+        }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if(!IsServer && IsClient)
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += ClientUpdateNeighboors;
+        }
+        
+    }
+
+    private void ClientUpdateNeighboors(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        InitNeighboors();
     }
 
     private void InitNeighboors()
@@ -52,8 +67,10 @@ public class GridManager : MonoBehaviour
         }
 
     }
+
     private void InitBoard()
     {
+
         foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
         {
             if (_tileMap.HasTile(position))
@@ -71,12 +88,14 @@ public class GridManager : MonoBehaviour
                 
                 //Cache cube and grid pos
                 Vector3Int cubePos = HexDistance.UnityCellToCube(position);//calculate cube pos
-                tile.Init(position, cubePos, surface); //Init Tile with grid and cube pos and the surface
+                tile.ServerInitHex(position, cubePos, surface); //Init Tile with grid and cube pos and the surface
                 GridCoordTiles[position] = tile; //So we can lookup tile later from dict
                 CubeCoordTiles[cubePos] = tile;
 
+                tile.GetComponent<NetworkObject>().Spawn(); //spawn tile for the clients
+
                 //organizes look in editor
-                tile.transform.SetParent(Grid.transform); 
+                tile.transform.SetParent(_grid.transform); 
 
                 //Name to help debugging
                 tile.name = tileInfo.Type.ToString() + _tileNum;
@@ -85,7 +104,6 @@ public class GridManager : MonoBehaviour
 
         }
 
-        //Destroy tilemap here prolly?, since should not need it again
     }
 
 

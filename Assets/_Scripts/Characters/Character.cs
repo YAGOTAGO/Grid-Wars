@@ -127,11 +127,11 @@ public class Character : AbstractCharacter //may need to become network behaviou
     {
         if(highlight)
         {
-            HighlightManager.Instance.RangeHighlight(NodeOn.GridPos);
+            HighlightManager.Instance.RangeHighlight(NodeOn.GridPos.Value);
         }
         else
         {
-            HighlightManager.Instance.RangeUnhighlight(NodeOn.GridPos);
+            HighlightManager.Instance.RangeUnhighlight(NodeOn.GridPos.Value);
         }
     }
 

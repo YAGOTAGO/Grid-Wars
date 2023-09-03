@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof (SpriteRenderer))]
 [RequireComponent(typeof(PolygonCollider2D))]
@@ -14,16 +16,15 @@ public class HexNode : NetworkBehaviour
     [SerializeField] private List<Sprite> _sprites;
     public TileType TileType;
     
-    [Header("Surface")]
     private SurfaceBase _surface;
-    
+    public NetworkVariable<FixedString32Bytes> SurfaceName = new(); //used to know what surface we hold
     private SpriteRenderer _surfaceRenderer; //where the surface sprite is displayed
+    private SpriteRenderer _hexRenderer; //where hex art is displayed
 
-    [HideInInspector] public Vector3Int GridPos { get; private set; } //Unity grid x, y, z
-    [HideInInspector] public Vector3Int CubeCoord { get; private set; } //Unity grid converted into cube coords
-    
-    private SpriteRenderer _renderer;
-    [HideInInspector]public AbstractCharacter CharacterOnNode;
+    [HideInInspector] public NetworkVariable<Vector3Int> GridPos { get; private set; } = new();//Unity grid x, y, z
+    [HideInInspector] public NetworkVariable<Vector3Int> CubeCoord { get; private set; } = new();//Unity grid converted into cube coords
+
+    public AbstractCharacter CharacterOnNode;
 
     #region Pathfinding
     public float G { get; private set; }
@@ -52,16 +53,57 @@ public class HexNode : NetworkBehaviour
 
     private void Awake()
     {
-        _renderer = GetComponent<SpriteRenderer>();
+        _hexRenderer = GetComponent<SpriteRenderer>();
         _surfaceRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
 
-    //Inits the Hex
-    public void Init(Vector3Int gridPos, Vector3Int cubePos, SurfaceBase surface)
+    /// <summary>
+    /// Updates the grid manager with hexnodes for the client
+    /// </summary>
+    private void ClientUpdateGridManager(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        GridPos = gridPos;
-        CubeCoord = cubePos;
-        _renderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
+        GridManager.Instance.GridCoordTiles[GridPos.Value] = this;
+        GridManager.Instance.CubeCoordTiles[CubeCoord.Value] = this;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if(!IsServer && IsClient)
+        {
+            SurfaceName.OnValueChanged += UpdateTheSurfaceSO;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += ClientUpdateGridManager;
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if (!IsServer && IsClient)
+        {
+            SurfaceName.OnValueChanged -= UpdateTheSurfaceSO;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= ClientUpdateGridManager;
+        }
+    }
+
+    /// <summary>
+    /// Whenever we change the surface string network variable we update the reference to the surface scriptable object
+    /// </summary>
+    /// <param name="prevVal"></param>
+    /// <param name="newVal"></param>
+    private void UpdateTheSurfaceSO(FixedString32Bytes prevVal,  FixedString32Bytes newVal)
+    {
+        SetSurface(Database.Instance.GetSurface(newVal.Value.Replace("(Clone)", ""))); //Have to get rid of "clone" to make it work
+    }
+
+    //Inits the Hex
+    public void ServerInitHex(Vector3Int gridPos, Vector3Int cubePos, SurfaceBase surface)
+    {
+        GridPos.Value = gridPos;
+        CubeCoord.Value = cubePos;
+        SurfaceName.Value = surface.name;
+        _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
         SetSurface(surface);
     }
 

@@ -63,18 +63,13 @@ public class HighlightManager : MonoBehaviour
     {
         HexNode curr = MouseManager.Instance.NodeMouseIsOver;
         if(curr == null) { return; }
-        Vector3Int currGridPos = curr.GridPos;
+        Vector3Int currGridPos = curr.GridPos.Value;
 
-        if (GridManager.Instance.GridCoordTiles.ContainsKey(currGridPos))
+        if (curr !=_priorNode)
         {
-            //Check if moved
-            if (!curr.Equals(_priorNode))
-            {
-                if(_priorNode != null){ _hoverMap.SetTile(_priorNode.GridPos, null); }// Remove old hoverTile
-                _hoverMap.SetTile(currGridPos, _hoverTile);
-                _priorNode = curr;
-            }
-
+            if(_priorNode != null){ _hoverMap.SetTile(_priorNode.GridPos.Value, null); }// Remove old hoverTile
+            _hoverMap.SetTile(currGridPos, _hoverTile);
+            _priorNode = curr;
         }
     }
 
@@ -82,7 +77,7 @@ public class HighlightManager : MonoBehaviour
     {
         foreach (HexNode node in visited)
         {
-            RangeHighlight(node.GridPos);
+            RangeHighlight(node.GridPos.Value);
         }
     }
 
@@ -90,7 +85,7 @@ public class HighlightManager : MonoBehaviour
     {
         foreach(HexNode node in visited)
         {
-            TargetHighlight(node.GridPos);
+            TargetHighlight(node.GridPos.Value);
         }
     }
 
