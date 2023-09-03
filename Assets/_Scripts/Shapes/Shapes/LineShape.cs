@@ -8,7 +8,7 @@ public class LineShape : AbstractShape
     {
         //Cubic coords
         List<HexNode> nodesInDirection = new();
-        HexNode playerNode = CardSelectionManager.Instance.ClickedCharacter.NodeOn;
+        HexNode playerNode = CardSelectionManager.Instance.ClickedCharacter.GetNodeOn();
         
         Vector3Int playerCubeCoord = playerNode.CubeCoord.Value;//start
         Vector3Int mouseCubeCoord = mouseNode.CubeCoord.Value; //target

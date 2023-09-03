@@ -7,13 +7,11 @@ using Unity.Netcode;
 
 public class Character : AbstractCharacter //may need to become network behaviour
 {
-    private HexNode _nodeOn;
     private HashSet<AbstractEffect> _effects = new();
     private static readonly int _startingHealth = 20;
 
     public NetworkVariable<int> HealthNetVar = new();
     public override HashSet<AbstractEffect> Effects { get=> _effects; }
-    public override HexNode NodeOn { get => _nodeOn; set => _nodeOn = value; }
     public override int Health { get => HealthNetVar.Value; } //this will likely be network variable
     public override int CharacterID => CharacterIDNetVar.Value;
 
@@ -37,15 +35,18 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
     public override void OnNetworkSpawn()
     {
-        CharacterIDNetVar.OnValueChanged += AddThisToCharacterDB;
         HealthNetVar.Value = _startingHealth;
+        CharacterIDNetVar.OnValueChanged += AddThisToCharacterDB;
         HealthNetVar.OnValueChanged += UpdateClientsHealthBar;
+        HexGridPosition.OnValueChanged += UpdateNodeOn;
     }
 
     public override void OnNetworkDespawn()
     {
         CharacterIDNetVar.OnValueChanged -= AddThisToCharacterDB;
         HealthNetVar.OnValueChanged += UpdateClientsHealthBar;
+        HexGridPosition.OnValueChanged -= UpdateNodeOn;
+
     }
     private void AddThisToCharacterDB(int preVal, int newVal)
     {
@@ -154,11 +155,11 @@ public class Character : AbstractCharacter //may need to become network behaviou
     {
         if(highlight)
         {
-            HighlightManager.Instance.RangeHighlight(NodeOn.GridPos.Value);
+            HighlightManager.Instance.RangeHighlight(GetNodeOn().GridPos.Value);
         }
         else
         {
-            HighlightManager.Instance.RangeUnhighlight(NodeOn.GridPos.Value);
+            HighlightManager.Instance.RangeUnhighlight(GetNodeOn().GridPos.Value);
         }
     }
 

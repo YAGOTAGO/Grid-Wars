@@ -27,7 +27,7 @@ public class CardSelectionManager : MonoBehaviour
     private CardBase _selectedCard; //The information of what the card does
     private HexNode _clickedNode; //Node we clicked on
     private List<HexNode> _shape; //Shape we last hovered
-    [HideInInspector] public AbstractCharacter ClickedCharacter;
+    public AbstractCharacter ClickedCharacter;
     private Coroutine _cardLoopCoroutine; //store this to cancel it later
     private bool _canStopCoroutine = true;
     private HexNode _priorMouseNode;
@@ -104,13 +104,13 @@ public class CardSelectionManager : MonoBehaviour
             switch (tarType)
             {
                 case TargetingType.AIREAL:
-                    range = BFS.BFSAll(ClickedCharacter.NodeOn, abilities[i].Range);
+                    range = BFS.BFSAll(ClickedCharacter.GetNodeOn(), abilities[i].Range);
                     break;
                 case TargetingType.NORMAL:
-                    range = BFS.BFSNormalAbilties(ClickedCharacter.NodeOn, abilities[i].Range);
+                    range = BFS.BFSNormalAbilties(ClickedCharacter.GetNodeOn(), abilities[i].Range);
                     break;
                 case TargetingType.WALKABLE:
-                    range = BFS.BFSWalkable(ClickedCharacter.NodeOn, abilities[i].Range);
+                    range = BFS.BFSWalkable(ClickedCharacter.GetNodeOn(), abilities[i].Range);
                     break;
                 case TargetingType.NONE:
                 case TargetingType.SELF:
@@ -125,7 +125,7 @@ public class CardSelectionManager : MonoBehaviour
                             continue;
                         }
 
-                        abilities[i].DoAbility(new List<HexNode> { ClickedCharacter.NodeOn }); //do ability if not skip
+                        abilities[i].DoAbility(new List<HexNode> { ClickedCharacter.GetNodeOn() }); //do ability if not skip
                         ButtonsSetActive(false, false, false); //get rid of the UI stuff
                         Prompt("", false);
                         continue;
@@ -140,7 +140,7 @@ public class CardSelectionManager : MonoBehaviour
                         Prompt("", false);
                         continue;
                     }
-                    abilities[i].DoAbility(new List<HexNode> { ClickedCharacter.NodeOn }); //Pass the node character is on
+                    abilities[i].DoAbility(new List<HexNode> { ClickedCharacter.GetNodeOn() }); //Pass the node character is on
                     CanStopCoroutine(false);
                     ButtonsSetActive(false, false, false);
                     Prompt("", false);

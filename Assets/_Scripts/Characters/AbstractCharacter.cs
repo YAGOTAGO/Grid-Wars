@@ -6,9 +6,26 @@ using UnityEngine;
 public abstract class AbstractCharacter : NetworkBehaviour
 {
     public abstract HashSet<AbstractEffect> Effects { get; }
-    public abstract HexNode NodeOn { get; set; }
     public abstract int Health { get; }
     public abstract int CharacterID { get; }
+
+    public NetworkVariable<Vector3Int> HexGridPosition = new(new Vector3Int(-1,-1,-1));
+
+    private HexNode NodeOn;
+    public HexNode GetNodeOn() { return NodeOn; }
+
+    public void SetNodeOn(HexNode node)
+    {
+        Debug.Log("Set node on called");
+        HexGridPosition.Value = node.GridPos.Value;
+    }
+
+    public void UpdateNodeOn(Vector3Int preVal, Vector3Int newVal)
+    {
+        Debug.Log("Update Node On called");
+
+        NodeOn = GridManager.Instance.GridCoordTiles[newVal];
+    }
 
     #region Abstract Methods
     public abstract void AddEffect(AbstractEffect ef);
@@ -31,7 +48,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
 
         target.SetSurfaceWalkable(false);
         target.SetCharacterOnNode(CharacterID);
-        NodeOn = target;
+        SetNodeOn(target);
         target.OnEnterSurface(this);
 
         if (positionCharacterOnNode)

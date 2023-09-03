@@ -6,6 +6,6 @@ public class PathfindShape : AbstractShape
 {
     public override List<HexNode> GetShape(HexNode mouseNode, AbilityBase ability)
     {
-        return PathFinding.FindPathBreakpoints(CardSelectionManager.Instance.ClickedCharacter.NodeOn, mouseNode, CardSelectionManager.Instance.BreakPoints);
+        return PathFinding.FindPathBreakpoints(CardSelectionManager.Instance.ClickedCharacter.GetNodeOn(), mouseNode, CardSelectionManager.Instance.BreakPoints);
     }
 }
