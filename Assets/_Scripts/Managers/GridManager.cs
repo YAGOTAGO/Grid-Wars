@@ -85,14 +85,13 @@ public class GridManager : NetworkBehaviour
 
                 //Instatiate the prefab
                 HexNode tile = Instantiate(_prefabDict[tileInfo.Type], tileWorldPos, Quaternion.identity);
-                
+                tile.GetComponent<NetworkObject>().Spawn(); //spawn tile for the clients
+
                 //Cache cube and grid pos
                 Vector3Int cubePos = HexDistance.UnityCellToCube(position);//calculate cube pos
                 tile.ServerInitHex(position, cubePos, surface); //Init Tile with grid and cube pos and the surface
                 GridCoordTiles[position] = tile; //So we can lookup tile later from dict
                 CubeCoordTiles[cubePos] = tile;
-
-                tile.GetComponent<NetworkObject>().Spawn(); //spawn tile for the clients
 
                 //organizes look in editor
                 tile.transform.SetParent(_grid.transform); 
