@@ -7,7 +7,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
 {
     public abstract HashSet<AbstractEffect> Effects { get; }
     public abstract HexNode NodeOn { get; set; }
-    public abstract int Health { get; set; }
+    public abstract int Health { get; }
     public abstract int CharacterID { get; }
 
     #region Abstract Methods

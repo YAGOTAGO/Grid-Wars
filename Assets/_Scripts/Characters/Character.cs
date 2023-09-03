@@ -9,10 +9,12 @@ public class Character : AbstractCharacter //may need to become network behaviou
 {
     private HexNode _nodeOn;
     private HashSet<AbstractEffect> _effects = new();
-    private int _health = 20;
+    private static readonly int _startingHealth = 20;
+
+    public NetworkVariable<int> HealthNetVar = new();
     public override HashSet<AbstractEffect> Effects { get=> _effects; }
     public override HexNode NodeOn { get => _nodeOn; set => _nodeOn = value; }
-    public override int Health { get => _health; set => _health = value; } //this will likely be network variable
+    public override int Health { get => HealthNetVar.Value; } //this will likely be network variable
     public override int CharacterID => CharacterIDNetVar.Value;
 
     #region Visuals
@@ -36,8 +38,15 @@ public class Character : AbstractCharacter //may need to become network behaviou
     public override void OnNetworkSpawn()
     {
         CharacterIDNetVar.OnValueChanged += AddThisToCharacterDB;
+        HealthNetVar.Value = _startingHealth;
+        HealthNetVar.OnValueChanged += UpdateClientsHealthBar;
     }
 
+    public override void OnNetworkDespawn()
+    {
+        CharacterIDNetVar.OnValueChanged -= AddThisToCharacterDB;
+        HealthNetVar.OnValueChanged += UpdateClientsHealthBar;
+    }
     private void AddThisToCharacterDB(int preVal, int newVal)
     {
         Database.Instance.PlayerCharactersDB[newVal] = this;
@@ -46,7 +55,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
     private void InitVars()
     {
-        _healthBar.InitHealthBarUI(Health, Health);
+        _healthBar.InitHealthBarUI(_startingHealth, _startingHealth);
         PlayersUIManager.Instance.SetPlayerUI(_characterStatsUI);
     }
 
@@ -117,7 +126,11 @@ public class Character : AbstractCharacter //may need to become network behaviou
     public override void TakeDamage(int damage)
     {
         //Take the damage and update health bar
-        Health -= damage;
+        HealthNetVar.Value -= damage;
+    }
+
+    private void UpdateClientsHealthBar(int preVal, int newVal)
+    {
         _healthBar.SetHealth(Health);
 
         if (Health <= 0)
