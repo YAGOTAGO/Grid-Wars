@@ -18,6 +18,8 @@ public class HexNode : NetworkBehaviour
     
     private SurfaceBase _surface;
     public NetworkVariable<FixedString32Bytes> SurfaceName = new(); //used to know what surface we hold
+    private NetworkVariable<bool> _surfaceWalkable = new(); //when set this triggers on all clients to update their surface value
+    
     private SpriteRenderer _surfaceRenderer; //where the surface sprite is displayed
     private SpriteRenderer _hexRenderer; //where hex art is displayed
 
@@ -68,9 +70,9 @@ public class HexNode : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
+        _surfaceWalkable.OnValueChanged += UpdateTheSurfaceWalkable; //both server and client
 
-        if(!IsServer && IsClient)
+        if(!IsServer && IsClient) //Non host clients
         {
             SurfaceName.OnValueChanged += UpdateTheSurfaceSO;
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += ClientUpdateGridManager;
@@ -79,8 +81,9 @@ public class HexNode : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        base.OnNetworkDespawn();
-        if (!IsServer && IsClient)
+        _surfaceWalkable.OnValueChanged -= UpdateTheSurfaceWalkable;
+
+        if (!IsServer && IsClient) //Non host clients
         {
             SurfaceName.OnValueChanged -= UpdateTheSurfaceSO;
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= ClientUpdateGridManager;
@@ -95,6 +98,7 @@ public class HexNode : NetworkBehaviour
     private void UpdateTheSurfaceSO(FixedString32Bytes prevVal,  FixedString32Bytes newVal)
     {
         SetSurface(Database.Instance.GetSurface(newVal.Value.Replace("(Clone)", ""))); //Have to get rid of "clone" to make it work
+
     }
 
     //Inits the Hex
@@ -105,6 +109,7 @@ public class HexNode : NetworkBehaviour
         SurfaceName.Value = surface.name;
         _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
         SetSurface(surface);
+        SetSurfaceWalkable(surface.IsWalkable);
     }
 
     /// <summary>
@@ -129,7 +134,11 @@ public class HexNode : NetworkBehaviour
 
     public void SetSurfaceWalkable(bool isWalkable)
     {
-        _surface.IsWalkable = isWalkable;
+        _surfaceWalkable.Value = isWalkable;
+    }
+    public void UpdateTheSurfaceWalkable(bool prevVal, bool newVal)
+    {
+        _surface.IsWalkable = newVal;
     }
 
     public void OnEnterSurface(AbstractCharacter character)

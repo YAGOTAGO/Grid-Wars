@@ -45,7 +45,6 @@ public class PlayerSpawner : NetworkBehaviour
             }
             else
             {
-                Debug.Log("Client spawning characters " + OwnerClientId);
                 SpawnClientCharactersServerRPC(OwnerClientId);
             }
 
@@ -56,6 +55,7 @@ public class PlayerSpawner : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SpawnClientCharactersServerRPC(ulong clientID)
     {
+        Debug.Log("Client spawning characters " + OwnerClientId);
         GameObject character1 = Instantiate(_playerPrefab);
         GameObject character2 = Instantiate(_playerPrefab);
         GameObject character3 = Instantiate(_playerPrefab);
