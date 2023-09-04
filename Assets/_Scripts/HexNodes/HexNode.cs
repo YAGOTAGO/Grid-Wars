@@ -137,8 +137,23 @@ public class HexNode : NetworkBehaviour
 
     public void SetSurfaceWalkable(bool isWalkable)
     {
+        if (IsServer) //Change net var for everyone
+        {
+            _surfaceWalkable.Value = isWalkable;
+        }
+        else //if not server send rpc to change variable
+        {
+            SurfaceWalkableServerRPC(isWalkable);
+        }
+        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SurfaceWalkableServerRPC(bool isWalkable)
+    {
         _surfaceWalkable.Value = isWalkable;
     }
+
     public void UpdateTheSurfaceWalkable(bool prevVal, bool newVal)
     {
         _surface.IsWalkable = newVal;
@@ -167,9 +182,22 @@ public class HexNode : NetworkBehaviour
     /// <param name="abstractCharacterID">If int is Less Than 0 will set to null</param>
     public void SetCharacterOnNode(int abstractCharacterID)
     {
-        _characterOnNodeID.Value = abstractCharacterID;
+        if (IsServer)
+        {
+            _characterOnNodeID.Value = abstractCharacterID;
+        }
+        else
+        {
+            CharacterOnNodeServerRPC(abstractCharacterID);
+        }
+        
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void CharacterOnNodeServerRPC(int abstractCharacterID)
+    {
+        _characterOnNodeID.Value = abstractCharacterID;
+    }
     public AbstractCharacter GetCharacterOnNode()
     {
         if(IsServer)

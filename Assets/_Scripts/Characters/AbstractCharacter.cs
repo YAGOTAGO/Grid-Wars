@@ -16,7 +16,21 @@ public abstract class AbstractCharacter : NetworkBehaviour
 
     public void SetNodeOn(HexNode node)
     {
-        HexGridPosition.Value = node.GridPos.Value;
+        if(IsServer)
+        {
+            HexGridPosition.Value = node.GridPos.Value;
+        }
+        else
+        {
+            SetNodeOnServerRPC(node.GridPos.Value);
+        }
+        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetNodeOnServerRPC(Vector3Int nodeGridPos)
+    {
+        HexGridPosition.Value = nodeGridPos;
     }
 
     public void UpdateNodeOn(Vector3Int preVal, Vector3Int newVal)
