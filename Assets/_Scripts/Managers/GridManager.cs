@@ -53,6 +53,10 @@ public class GridManager : NetworkBehaviour
         StartCoroutine(WaitForGridCoord());
     }
 
+    /// <summary>
+    /// Waits until the grid has all the hexes in it
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator WaitForGridCoord()
     {
         while(GridCoordTiles.Count < _tileNum.Value)
