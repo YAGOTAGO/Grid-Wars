@@ -44,7 +44,7 @@ public class TweenManager : NetworkBehaviour
         }
         else
         {
-            CharacterMoveServerRPC(character.GetComponent<Character>().CharacterID, target);
+            CharacterMoveServerRPC(character.GetComponent<Character>().CharacterID.Value, target);
             return character.transform.DOMove(target, CharacterMoveSpeed).SetSpeedBased(true).SetEase(CharacterMoveEase);
         }
         

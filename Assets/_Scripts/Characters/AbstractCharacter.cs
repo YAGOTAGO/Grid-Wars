@@ -5,14 +5,40 @@ using UnityEngine;
 
 public abstract class AbstractCharacter : NetworkBehaviour
 {
-    public abstract HashSet<AbstractEffect> Effects { get; }
-    public abstract int Health { get; }
-    public abstract int CharacterID { get; }
-
+    public HashSet<AbstractEffect> Effects = new();
+    public NetworkVariable<int> Health = new();
+    public NetworkVariable<int> CharacterID = new(-1);
     public NetworkVariable<Vector3Int> HexGridPosition = new(new Vector3Int(-1,-1,-1));
 
     private HexNode NodeOn;
     public HexNode GetNodeOn() { return NodeOn; }
+
+    #region Network methods
+
+    public override void OnNetworkSpawn()
+    {
+        CharacterID.OnValueChanged += AddThisToCharacterDB;
+        Health.OnValueChanged += HealthChange;
+        HexGridPosition.OnValueChanged += UpdateNodeOn;
+
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        CharacterID.OnValueChanged -= HealthChange;
+        Health.OnValueChanged -= HealthChange;
+        HexGridPosition.OnValueChanged -= UpdateNodeOn;
+    }
+    private void AddThisToCharacterDB(int preVal, int newVal)
+    {
+        Database.Instance.PlayerCharactersDB[newVal] = this;
+        Database.Instance.debugcheck.Add(this);
+    }
+
+    private void HealthChange(int prevVal, int newVal)
+    {
+        OnHealthChanged();
+    }
 
     public void SetNodeOn(HexNode node)
     {
@@ -27,6 +53,43 @@ public abstract class AbstractCharacter : NetworkBehaviour
         
     }
 
+    protected void SetHealth(int health)
+    {
+        if(IsServer)
+        {
+            Health.Value = health;
+        }
+        else
+        {
+            SetHealthServerRPC(health);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetHealthServerRPC(int health)
+    {
+        Health.Value = health;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (IsServer)
+        {
+            Health.Value -= damage;
+        }
+        else
+        {
+            TakeDamageServerRPC(damage);
+
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void TakeDamageServerRPC(int damage)
+    {
+        Health.Value -= damage;
+    }
+
     [ServerRpc(RequireOwnership = false)]
     private void SetNodeOnServerRPC(Vector3Int nodeGridPos)
     {
@@ -38,10 +101,13 @@ public abstract class AbstractCharacter : NetworkBehaviour
         NodeOn = GridManager.Instance.GridCoordTiles[newVal];
     }
 
-    #region Abstract Methods
+    #endregion
+
+
+    #region Abstract/Virtual Methods
+    protected virtual void OnHealthChanged() { }
     public abstract void AddEffect(AbstractEffect ef);
-    public abstract void RemoveEffect(AbstractEffect ef);
-    public abstract void TakeDamage(int damage);
+    protected abstract void RemoveEffect(AbstractEffect ef);
 
     /// <summary>
     /// Puts the character on given hexnode
@@ -58,7 +124,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
         }
 
         target.SetSurfaceWalkable(false);
-        target.SetCharacterOnNode(CharacterID);
+        target.SetCharacterOnNode(CharacterID.Value);
         SetNodeOn(target);
         target.OnEnterSurface(this);
 

@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class BurnEffect : AbstractEffect
 {
-    #region Private Vars
     private int _duration = 2;
-    #endregion 
 
     private readonly int _damage = 3;
 
@@ -24,11 +22,11 @@ public class BurnEffect : AbstractEffect
 
         if (_duration <= 0) 
         { 
-            character.RemoveEffect(this); 
+            character.FlashEffect(this, true); 
         } 
         else
         {
-            character.FlashEffect(this);
+            character.FlashEffect(this, false);
         }
 
     }

@@ -7,71 +7,53 @@ using Unity.Netcode;
 
 public class Character : AbstractCharacter //may need to become network behaviour
 {
-    private HashSet<AbstractEffect> _effects = new();
-    private static readonly int _startingHealth = 20;
-
-    public NetworkVariable<int> HealthNetVar = new();
-    public override HashSet<AbstractEffect> Effects { get=> _effects; }
-    public override int Health { get => HealthNetVar.Value; } //this will likely be network variable
-    public override int CharacterID => CharacterIDNetVar.Value;
-
+   
     #region Visuals
     [Header("Visuals")]
     [SerializeField] private GameObject _effectsUIGroup; //This contains the horizontal layout group UI
     [SerializeField] private HealthBar _healthBar; //info about player healthbar
     [SerializeField] private GameObject _characterStatsUI; //UI object that holds everything else
     [SerializeField] private GameObject _effectUIPrefab;
+    [SerializeField] private int _startingHealth = 20;
     #endregion
 
     private readonly Dictionary<AbstractEffect, GameObject> _effectToUIDict = new();
 
-    public NetworkVariable<int> CharacterIDNetVar = new(-1);
-
     void Start()
     {
-        InitVars();
+        Initialize();
         AddEffect(new BurnEffect());
     }
 
-    public override void OnNetworkSpawn()
+    private void Update()
     {
-        HealthNetVar.Value = _startingHealth;
-        CharacterIDNetVar.OnValueChanged += AddThisToCharacterDB;
-        HealthNetVar.OnValueChanged += UpdateClientsHealthBar;
-        HexGridPosition.OnValueChanged += UpdateNodeOn;
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            foreach(AbstractEffect ef in Effects)
+            {
+                ef.EndOfTurn(this);
+            }
+        }
     }
-
-    public override void OnNetworkDespawn()
-    {
-        CharacterIDNetVar.OnValueChanged -= AddThisToCharacterDB;
-        HealthNetVar.OnValueChanged += UpdateClientsHealthBar;
-        HexGridPosition.OnValueChanged -= UpdateNodeOn;
-
-    }
-    private void AddThisToCharacterDB(int preVal, int newVal)
-    {
-        Database.Instance.PlayerCharactersDB[newVal] = this;
-        Database.Instance.debugcheck.Add(this);
-    }
-
-    private void InitVars()
+    private void Initialize()
     {
         _healthBar.InitHealthBarUI(_startingHealth, _startingHealth);
+        SetHealth(_startingHealth);
         PlayersUIManager.Instance.SetPlayerUI(_characterStatsUI);
     }
 
     public override void AddEffect(AbstractEffect ef)
     {
         //Add to set if doesnt exist    
-        if (!_effects.Contains(ef)) 
+        if (!Effects.Contains(ef)) 
         { 
-            _effects.Add(ef);
+            Effects.Add(ef);
             SetEffectUI(ef);
             return;
         }
 
         //If exists in hashset we find the effect and extend duration
-        foreach (AbstractEffect effect in _effects)
+        foreach (AbstractEffect effect in Effects)
         {
             //Equals is overriden so should compare type
             if (effect.Equals(ef))
@@ -87,10 +69,10 @@ public class Character : AbstractCharacter //may need to become network behaviou
     /// Removes effect from character effects list, and also their UI
     /// </summary>
     /// <param name="ef">The effect to be removed</param>
-    public override void RemoveEffect(AbstractEffect ef)
+    protected override void RemoveEffect(AbstractEffect ef)
     {
         //Remove from the character set
-        _effects.Remove(ef);
+        Effects.Remove(ef);
 
         if (_effectToUIDict.TryGetValue(ef, out GameObject value))
         {
@@ -123,32 +105,12 @@ public class Character : AbstractCharacter //may need to become network behaviou
         _effectToUIDict[ef] = efUI;
 
     }
-
-    public override void TakeDamage(int damage)
+    
+    protected override void OnHealthChanged()
     {
-        //Take the damage and update health bar
-        if(IsServer)
-        {
-            HealthNetVar.Value -= damage;
-        }
-        else
-        {
-            TakeDamageServerRPC(damage);
-        }
-        
-    }
+        _healthBar.SetHealth(Health.Value);
 
-    [ServerRpc(RequireOwnership = false)]
-    private void TakeDamageServerRPC(int damage)
-    {
-        HealthNetVar.Value -= damage;
-    }
-
-    private void UpdateClientsHealthBar(int preVal, int newVal)
-    {
-        _healthBar.SetHealth(Health);
-
-        if (Health <= 0)
+        if (Health.Value <= 0)
         {
             Destroy(this);
         }
@@ -179,17 +141,16 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
     #region UI Effect flash
     /// <summary>
-    /// Call this with effect to flash the corresponding effect in player UI
+    /// Call this with effect to flash the corresponding effect in player UI, and potentially remove the effect
     /// </summary>
     /// <param name="ef"></param>
-    public void FlashEffect(AbstractEffect ef)
+    public void FlashEffect(AbstractEffect ef, bool destroy)
     {
-       StartCoroutine(FlashEffectRoutine(ef));
+       StartCoroutine(FlashEffectRoutine(ef, destroy));
 
     }
 
-    //May need to adjust this when adding npcs
-    private IEnumerator FlashEffectRoutine(AbstractEffect ef)
+    private IEnumerator FlashEffectRoutine(AbstractEffect ef, bool destroy)
     {
         GameObject effectObj = _effectToUIDict[ef];
         if (effectObj == null) { Debug.Log("No effect for flash effect"); yield break; }
@@ -201,6 +162,11 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
             Tween scaleDown = effectObj.transform.DOScale(new Vector3(1, 1), .5f);
             yield return scaleDown.WaitForCompletion();
+        }
+
+        if (destroy)
+        {
+            RemoveEffect(ef);
         }
 
     }

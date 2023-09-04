@@ -45,13 +45,13 @@ public class PlayerSpawner : NetworkBehaviour
                     characterGO2.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
                     characterGO3.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
 
-                    character1.CharacterIDNetVar.Value = positionIndex;
+                    character1.CharacterID.Value = positionIndex;
                     character1.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
 
-                    character2.CharacterIDNetVar.Value = positionIndex;
+                    character2.CharacterID.Value = positionIndex;
                     character2.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
 
-                    character3.CharacterIDNetVar.Value = positionIndex;
+                    character3.CharacterID.Value = positionIndex;
                     character3.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
                     
                 }
