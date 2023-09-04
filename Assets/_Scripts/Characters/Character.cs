@@ -127,6 +127,20 @@ public class Character : AbstractCharacter //may need to become network behaviou
     public override void TakeDamage(int damage)
     {
         //Take the damage and update health bar
+        if(IsServer)
+        {
+            HealthNetVar.Value -= damage;
+        }
+        else
+        {
+            TakeDamageServerRPC(damage);
+        }
+        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void TakeDamageServerRPC(int damage)
+    {
         HealthNetVar.Value -= damage;
     }
 

@@ -1,9 +1,10 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class TweenManager : MonoBehaviour
+public class TweenManager : NetworkBehaviour
 {
     public static TweenManager Instance;
 
@@ -37,6 +38,21 @@ public class TweenManager : MonoBehaviour
 
     public Tween CharacterMove(GameObject character, Vector3 target)
     {
-        return character.transform.DOMove(target, CharacterMoveSpeed).SetSpeedBased(true).SetEase(CharacterMoveEase);
+        if (IsServer)
+        {
+            return character.transform.DOMove(target, CharacterMoveSpeed).SetSpeedBased(true).SetEase(CharacterMoveEase);
+        }
+        else
+        {
+            CharacterMoveServerRPC(character.GetComponent<Character>().CharacterID, target);
+            return character.transform.DOMove(target, CharacterMoveSpeed).SetSpeedBased(true).SetEase(CharacterMoveEase);
+        }
+        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void CharacterMoveServerRPC(int characterID, Vector3 target)
+    {
+        Database.Instance.PlayerCharactersDB[characterID].gameObject.transform.DOMove(target, CharacterMoveSpeed).SetSpeedBased(true).SetEase(CharacterMoveEase);
     }
 }
