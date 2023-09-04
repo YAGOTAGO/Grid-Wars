@@ -27,7 +27,7 @@ public class HexNode : NetworkBehaviour
     [HideInInspector] public NetworkVariable<Vector3Int> CubeCoord { get; private set; } = new();//Unity grid converted into cube coords
 
     private AbstractCharacter _characterOnNode;
-    private NetworkVariable<int> _characterOnNodeID = new();
+    private NetworkVariable<int> _characterOnNodeID = new(-1); //-1 because needs to detect change
 
     #region Pathfinding
     public float G { get; private set; }
