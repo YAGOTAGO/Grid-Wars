@@ -20,11 +20,48 @@ public class GameManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        IsServersTurn.OnValueChanged += OnServerTurnValueChanged;
         if (IsServer)
         {
             IsServersTurn.Value = UnityEngine.Random.Range(0f, 1f) < 0.5f; //randomize who goes first
+            ButtonColorUpdateClientRPC();
         }
     }
+
+    [ClientRpc]
+    private void ButtonColorUpdateClientRPC()
+    {
+        ButtonColorUpdate();
+    }
+
+    public bool IsItMyTurn()
+    {
+        if (IsServer) 
+        { 
+            return IsServersTurn.Value; 
+        } 
+        else 
+        { 
+            return !IsServersTurn.Value; 
+        }
+    }
+    
+    private void ButtonColorUpdate()
+    {
+        if (IsItMyTurn())
+        {
+            _endTurnButton.image.color = Color.green;
+        }
+        else
+        {
+            _endTurnButton.image.color = Color.red;
+        }
+    }
+    private void OnServerTurnValueChanged(bool prevVal,  bool newVal)
+    {
+        ButtonColorUpdate();
+    }
+
     private void OnEndTurnButtonClick()
     {
         if (IsServer && IsServersTurn.Value) //Server and is your turn
