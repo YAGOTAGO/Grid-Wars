@@ -16,14 +16,11 @@ public abstract class AbstractCharacter : NetworkBehaviour
 
     public void SetNodeOn(HexNode node)
     {
-        Debug.Log("Set node on called");
         HexGridPosition.Value = node.GridPos.Value;
     }
 
     public void UpdateNodeOn(Vector3Int preVal, Vector3Int newVal)
     {
-        Debug.Log("Update Node On called");
-
         NodeOn = GridManager.Instance.GridCoordTiles[newVal];
     }
 

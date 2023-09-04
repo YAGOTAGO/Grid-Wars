@@ -12,7 +12,7 @@ public class GridManager : NetworkBehaviour
     public Dictionary<Vector3Int, HexNode> GridCoordTiles { get; private set; } = new(); //know which tile by position
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
     private Grid _grid; //used to put all tiles under
-    private int _tileNum = 0; //to name tiles in editor
+    private NetworkVariable<int> _tileNum = new(0); //to name tiles in editor
 
 
     [Header("Tile Prefabs")]
@@ -40,8 +40,7 @@ public class GridManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
-        if(!IsServer && IsClient)
+        if(!IsServer && IsClient) //Non server, client
         {
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += ClientUpdateNeighboors;
         }
@@ -50,6 +49,17 @@ public class GridManager : NetworkBehaviour
 
     private void ClientUpdateNeighboors(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
+
+        StartCoroutine(WaitForGridCoord());
+    }
+
+    private IEnumerator WaitForGridCoord()
+    {
+        while(GridCoordTiles.Count < _tileNum.Value)
+        {
+            yield return null;
+        }
+
         InitNeighboors();
     }
 
@@ -97,8 +107,8 @@ public class GridManager : NetworkBehaviour
                 tile.transform.SetParent(_grid.transform); 
 
                 //Name to help debugging
-                tile.name = tileInfo.Type.ToString() + _tileNum;
-                _tileNum++;
+                tile.name = tileInfo.Type.ToString() + _tileNum.Value;
+                _tileNum.Value++;
             }
 
         }
