@@ -2,11 +2,12 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardSelectionManager : MonoBehaviour
+public class CardSelectionManager : NetworkBehaviour
 {
     public static CardSelectionManager Instance;
     [Header("References")]
@@ -293,9 +294,17 @@ public class CardSelectionManager : MonoBehaviour
 
         if (NodeClicked() && _clickedNode.GetCharacterOnNode() != null)
         {
-            ClickedCharacter = _clickedNode.GetCharacterOnNode();
-            _promptTMP.gameObject.SetActive(false);
-            return true;
+            if(_clickedNode.GetCharacterOnNode().IsOwner)
+            {
+                ClickedCharacter = _clickedNode.GetCharacterOnNode();
+                _promptTMP.gameObject.SetActive(false);
+                return true;
+            }
+            else
+            {
+                Debug.Log("You do not own this character");
+                return false;
+            }
         }
 
         return false;
