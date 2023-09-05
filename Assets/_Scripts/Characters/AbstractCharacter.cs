@@ -7,7 +7,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
 {
     public HashSet<AbstractEffect> Effects = new();
     public NetworkVariable<int> Health = new();
-    public NetworkVariable<int> CharacterID = new(-1);
+    public NetworkVariable<int> CharacterID { get; private set; } = new(-1);
     public NetworkVariable<Vector3Int> HexGridPosition = new(new Vector3Int(-1,-1,-1));
 
     private HexNode NodeOn;
@@ -17,22 +17,21 @@ public abstract class AbstractCharacter : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        CharacterID.OnValueChanged += AddThisToCharacterDB;
         Health.OnValueChanged += HealthChange;
         HexGridPosition.OnValueChanged += UpdateNodeOn;
+        AddThisToCharacterDB();
     }
 
     public override void OnNetworkDespawn()
     {
-        CharacterID.OnValueChanged -= HealthChange;
         Health.OnValueChanged -= HealthChange;
         HexGridPosition.OnValueChanged -= UpdateNodeOn;
     }
 
-    private void AddThisToCharacterDB(int preVal, int newVal)
+    private void AddThisToCharacterDB()
     {
-        Database.Instance.PlayerCharactersDB[newVal] = this;
         Database.Instance.debugcheck.Add(this);
+        CharacterID.Value =  Database.Instance.PlayerCharactersDB.Add(this);
     }
 
     private void HealthChange(int prevVal, int newVal)

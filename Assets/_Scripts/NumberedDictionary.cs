@@ -18,13 +18,14 @@ public class NumberedDictionary<T>
     // Retrieve an element by its assigned number
     public T Get(int key)
     {
+
         if (dictionary.ContainsKey(key))
         {
             return dictionary[key];
         }
         else
         {
-            throw new KeyNotFoundException($"Element with key {key} not found.");
+            return default;
         }
     }
 

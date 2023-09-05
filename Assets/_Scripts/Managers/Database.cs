@@ -16,7 +16,7 @@ public class Database : MonoBehaviour
     [SerializeField] private List<CardBase> _cardScriptables = new();
 
     #region Databases
-    public Dictionary<int, AbstractCharacter> PlayerCharactersDB { get; private set; } = new();
+    public NumberedDictionary<AbstractCharacter> PlayerCharactersDB { get; private set; } = new();
     public List<AbstractCharacter> debugcheck = new();
     public Dictionary<string, Sprite> EffectSpritesDB { get; private set; } = new();
     private readonly Dictionary<string, SurfaceBase> _surfaceScriptablesDB = new();

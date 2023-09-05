@@ -188,7 +188,7 @@ public class HexNode : NetworkBehaviour
         }
         else if(newVal >= 0 && newVal<=6)
         {
-            _characterOnNode = Database.Instance.PlayerCharactersDB[newVal];
+            _characterOnNode = Database.Instance.PlayerCharactersDB.Get(newVal);
         }
     }
 
@@ -222,14 +222,7 @@ public class HexNode : NetworkBehaviour
         }
         else if(!IsServer && IsClient)
         {
-            if(Database.Instance.PlayerCharactersDB.TryGetValue(_characterOnNodeID.Value, out AbstractCharacter value)){
-                return value;
-            }
-            else
-            {
-                Debug.Log("Error didn't find character in db");
-                return null;
-            }
+            return Database.Instance.PlayerCharactersDB.Get(_characterOnNodeID.Value);
         }
 
         Debug.LogWarning("Get Character On Node failed no server or clients");

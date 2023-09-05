@@ -53,6 +53,6 @@ public class TweenManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void CharacterMoveServerRPC(int characterID, Vector3 target)
     {
-        Database.Instance.PlayerCharactersDB[characterID].gameObject.transform.DOMove(target, CharacterMoveSpeed).SetSpeedBased(true).SetEase(CharacterMoveEase);
+        Database.Instance.PlayerCharactersDB.Get(characterID).gameObject.transform.DOMove(target, CharacterMoveSpeed).SetSpeedBased(true).SetEase(CharacterMoveEase);
     }
 }
