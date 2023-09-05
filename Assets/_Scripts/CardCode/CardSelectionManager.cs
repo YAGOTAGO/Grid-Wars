@@ -52,7 +52,7 @@ public class CardSelectionManager : MonoBehaviour
 
     public void OnClickCard(GameObject card)
     {
-        if (!_canStopCoroutine) { return; } //Stops selecting a new card after an action has taken place
+        if (!_canStopCoroutine || !GameManager.Instance.IsItMyTurn()) { return; } //Stops selecting a new card after an action has taken place
 
         card.GetComponent<CardDisplay>().DisplayKeyword(false); //Selected card removes keyword display
 
