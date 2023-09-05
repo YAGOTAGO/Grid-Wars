@@ -11,7 +11,7 @@ public class DeckManager : MonoBehaviour
 {
     public static DeckManager Instance;
 
-    [Header("Deck Nums")]
+    [Header("Deck Nums TMP")]
     [SerializeField] private TextMeshProUGUI _deckNumTMP;
     [SerializeField] private TextMeshProUGUI _discardNumTMP;
 
@@ -20,9 +20,10 @@ public class DeckManager : MonoBehaviour
 
     [Header("Location Transforms")]
     [SerializeField] private Transform[] _cardSlots; //Keep it to max of 7
-    private bool[] _cardSlotsFilled = new bool[7];
-    public Transform DeckTransform;
     [SerializeField] private Transform _discardTransform;
+    public Transform DeckTransform;
+    [SerializeField] private float _cardScale = 1.3f;
+    private bool[] _cardSlotsFilled = new bool[7];
 
     #region Lists of cards
     public ObservableCollection<CardBase> _deck = new();
@@ -167,7 +168,7 @@ public class DeckManager : MonoBehaviour
             Transform cardSlot = _cardSlots[slotIndex];
             
             cardDisplay.transform.SetParent(cardSlot);
-            cardDisplay.transform.localScale = Vector3.one; //stop any weird behaviour
+            cardDisplay.transform.localScale = new Vector3(_cardScale, _cardScale, _cardScale); //stop any weird behaviour
 
             _cardSlotsFilled[slotIndex] = true;
             _cardPrefabsInHand[cardDisplay] = slotIndex; //Cache slot index to game object
