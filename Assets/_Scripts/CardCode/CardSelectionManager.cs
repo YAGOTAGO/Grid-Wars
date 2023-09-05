@@ -53,7 +53,13 @@ public class CardSelectionManager : NetworkBehaviour
 
     public void OnClickCard(GameObject card)
     {
-        if (!_canStopCoroutine || !GameManager.Instance.IsItMyTurn()) { return; } //Stops selecting a new card after an action has taken place
+        if (!_canStopCoroutine) { return; } //Stops selecting a new card after an action has taken place
+
+        if (!GameManager.Instance.IsItMyTurn())
+        {
+            GameManager.Instance.PopUpText("It is NOT your turn.");
+            return;
+        }
 
         GameManager.Instance.CanClickEndTurn(false);
 
@@ -302,7 +308,7 @@ public class CardSelectionManager : NetworkBehaviour
             }
             else
             {
-                Debug.Log("You do not own this character");
+                GameManager.Instance.PopUpText("You do NOT own this character");
                 return false;
             }
         }

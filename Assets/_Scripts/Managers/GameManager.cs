@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,11 +13,14 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<bool> IsServersTurn = new();
 
     [SerializeField] private Button _endTurnButton;
+    [SerializeField] private TextMeshProUGUI _popUpTMP;
+    private Coroutine _popUpCoroutine;
 
     private void Awake()
     {
         Instance = this;
         _endTurnButton.onClick.AddListener(OnEndTurnButtonClick);
+        _popUpTMP.gameObject.SetActive(false);
     }
 
     public override void OnNetworkSpawn()
@@ -29,6 +33,26 @@ public class GameManager : NetworkBehaviour
         }
     }
     
+    public void PopUpText(string text)
+    {
+        if(_popUpCoroutine != null)
+        {
+            StopCoroutine(_popUpCoroutine);
+        }
+        
+        _popUpCoroutine = StartCoroutine(PopUpCoroutine(text));
+
+    }
+    private IEnumerator PopUpCoroutine(string text)
+    {
+        _popUpTMP.gameObject.SetActive(true);
+        _popUpTMP.text = text;
+          
+        yield return new WaitForSeconds(3f);
+
+        _popUpTMP.gameObject.SetActive(false);
+    }
+
     public void CanClickEndTurn(bool canClick)
     {
         _endTurnButton.interactable = canClick;
