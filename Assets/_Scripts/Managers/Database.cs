@@ -166,6 +166,7 @@ public class Database : MonoBehaviour
         foreach (SurfaceBase s in _surfaceScriptables)
         {
             _surfaceScriptablesDB[s.name] = s;
+
         }
     }
 

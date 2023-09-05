@@ -73,11 +73,12 @@ public class HexNode : NetworkBehaviour
     {
         _characterOnNodeID.OnValueChanged += SetCharacterOnNodeReference;
         _surfaceWalkable.OnValueChanged += UpdateTheSurfaceWalkable; //both server and client
+        SurfaceName.OnValueChanged += UpdateTheSurfaceReference;
 
-        if(!IsServer && IsClient) //Non host clients
-        {
-            SurfaceName.OnValueChanged += UpdateTheSurfaceReference;
+        if (!IsServer && IsClient) //Non host clients
+        {    
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += ClientUpdateGridManager;
+            _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
         }
     }
 
@@ -85,10 +86,10 @@ public class HexNode : NetworkBehaviour
     {
         _surfaceWalkable.OnValueChanged -= UpdateTheSurfaceWalkable;
         _characterOnNodeID.OnValueChanged -= SetCharacterOnNodeReference;
+        SurfaceName.OnValueChanged -= UpdateTheSurfaceReference;
 
         if (!IsServer && IsClient) //Non host clients
-        {
-            SurfaceName.OnValueChanged -= UpdateTheSurfaceReference;
+        {    
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= ClientUpdateGridManager;
         }
     }
@@ -100,18 +101,20 @@ public class HexNode : NetworkBehaviour
     /// <param name="newVal"></param>
     private void UpdateTheSurfaceReference(FixedString32Bytes prevVal,  FixedString32Bytes newVal)
     {
-        SetSurface(Database.Instance.GetSurface(newVal.Value.Replace("(Clone)", ""))); //Have to get rid of "clone" to make it work
-
+        _surface = Database.Instance.GetSurface(newVal.Value.Replace("(Clone)", "")); //Have to get rid of "clone" to make it work
+        Debug.Log(_surface.ToString());
+        _surfaceRenderer.sprite = _surface.SurfaceSprite;
     }
 
-    //Inits the Hex
     public void ServerInitHex(Vector3Int gridPos, Vector3Int cubePos, SurfaceBase surface)
     {
         GridPos.Value = gridPos;
         CubeCoord.Value = cubePos;
         SurfaceName.Value = surface.name;
+        /*_surface = surface;
+        _surfaceRenderer.sprite = _surface.SurfaceSprite;*/
         _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
-        SetSurface(surface);
+        //SetSurface(surface);
         SetSurfaceWalkable(surface.IsWalkable);
     }
 
@@ -121,8 +124,21 @@ public class HexNode : NetworkBehaviour
     /// <param name="surface">A surface to be put on node</param>
     public void SetSurface(SurfaceBase surface)
     {
-        _surface = surface;
-        _surfaceRenderer.sprite = surface.SurfaceSprite;
+        if (IsServer)
+        {
+            SurfaceName.Value = surface.name;
+        }
+        else if(!IsServer && IsClient)
+        {
+            SetSurfaceServerRPC(surface.name);
+        }
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetSurfaceServerRPC(string surfaceName)
+    {
+        SurfaceName.Value = surfaceName;
     }
 
     public bool IsNodeWalkable()
@@ -211,6 +227,7 @@ public class HexNode : NetworkBehaviour
             }
             else
             {
+                Debug.Log("Error didn't find character in db");
                 return null;
             }
         }

@@ -20,7 +20,6 @@ public abstract class AbstractCharacter : NetworkBehaviour
         CharacterID.OnValueChanged += AddThisToCharacterDB;
         Health.OnValueChanged += HealthChange;
         HexGridPosition.OnValueChanged += UpdateNodeOn;
-
     }
 
     public override void OnNetworkDespawn()
@@ -40,6 +39,16 @@ public abstract class AbstractCharacter : NetworkBehaviour
         OnHealthChanged();
     }
 
+    public void UpdateNodeOn(Vector3Int preVal, Vector3Int newVal)
+    {
+        NodeOn = GridManager.Instance.GridCoordTiles[newVal];
+        
+        if(IsOwner)
+        {
+            NodeOn.OnEnterSurface(this);
+        }
+    }
+
     public void SetNodeOn(HexNode node)
     {
         if(IsServer)
@@ -51,6 +60,12 @@ public abstract class AbstractCharacter : NetworkBehaviour
             SetNodeOnServerRPC(node.GridPos.Value);
         }
         
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetNodeOnServerRPC(Vector3Int nodeGridPos)
+    {
+        HexGridPosition.Value = nodeGridPos;
     }
 
     protected void SetHealth(int health)
@@ -90,17 +105,6 @@ public abstract class AbstractCharacter : NetworkBehaviour
         Health.Value -= damage;
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SetNodeOnServerRPC(Vector3Int nodeGridPos)
-    {
-        HexGridPosition.Value = nodeGridPos;
-    }
-
-    public void UpdateNodeOn(Vector3Int preVal, Vector3Int newVal)
-    {
-        NodeOn = GridManager.Instance.GridCoordTiles[newVal];
-    }
-
     #endregion
 
 
@@ -122,11 +126,11 @@ public abstract class AbstractCharacter : NetworkBehaviour
             NodeOn.SetSurfaceWalkable(true);
             NodeOn.SetCharacterOnNode(-1); //-1 will set a null character reference
         }
-
+ 
+        SetNodeOn(target); //yield until this is done
         target.SetSurfaceWalkable(false);
         target.SetCharacterOnNode(CharacterID.Value);
-        SetNodeOn(target);
-        target.OnEnterSurface(this);
+        //target.OnEnterSurface(this);
 
         if (positionCharacterOnNode)
         {

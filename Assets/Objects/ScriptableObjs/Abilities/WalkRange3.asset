@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: WalkRange3
   m_EditorClassIdentifier: 
   _prompt: Walk up to 3 tiles away.
-  _range: 3
+  _range: 7
