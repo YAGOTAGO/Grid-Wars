@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,20 @@ public class GameManager : NetworkBehaviour
         {
             IsServersTurn.Value = UnityEngine.Random.Range(0f, 1f) < 0.5f; //randomize who goes first
             ButtonColorUpdateClientRPC();
+        }
+    }
+    
+    public void CanClickEndTurn(bool canClick)
+    {
+        _endTurnButton.interactable = canClick;
+        
+        if (!canClick)
+        {
+            _endTurnButton.image.color = Color.grey;
+        }
+        else
+        {
+            ButtonColorUpdate();
         }
     }
 

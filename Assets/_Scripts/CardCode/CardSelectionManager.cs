@@ -54,9 +54,11 @@ public class CardSelectionManager : MonoBehaviour
     {
         if (!_canStopCoroutine || !GameManager.Instance.IsItMyTurn()) { return; } //Stops selecting a new card after an action has taken place
 
+        GameManager.Instance.CanClickEndTurn(false);
+
         card.GetComponent<CardDisplay>().DisplayKeyword(false); //Selected card removes keyword display
 
-        if (card == _selectedCardObject) //When click on selected card it undo selection and exit method
+        if (card == _selectedCardObject) //When click on same card undo selection
         {
             Undo();
             return ;
@@ -214,7 +216,7 @@ public class CardSelectionManager : MonoBehaviour
 
         //This is after cards abilities
         _canStopCoroutine = true;
-
+        GameManager.Instance.CanClickEndTurn(true);
     }
     private void Undo()
     {
@@ -222,6 +224,7 @@ public class CardSelectionManager : MonoBehaviour
         if(!_canStopCoroutine){ return; }
 
         StopCoroutine(_cardLoopCoroutine);
+        GameManager.Instance.CanClickEndTurn(true);
 
         //Get rid of reselect and confirm buttons
         ButtonsSetActive(false, false, false);
