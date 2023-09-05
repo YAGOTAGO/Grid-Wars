@@ -28,6 +28,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
         Health.OnValueChanged -= HealthChange;
         HexGridPosition.OnValueChanged -= UpdateNodeOn;
     }
+
     private void AddThisToCharacterDB(int preVal, int newVal)
     {
         Database.Instance.PlayerCharactersDB[newVal] = this;
