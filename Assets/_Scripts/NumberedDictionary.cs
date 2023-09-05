@@ -6,12 +6,13 @@ public class NumberedDictionary<T>
 {
     private readonly Dictionary<int, T> dictionary = new();
     private int nextKey = 1;
+    // Get the count of elements in the NumberedDictionary
+    public int Count => dictionary.Count;
 
     // Add an element and return its assigned number
     public int Add(T item)
     {
         dictionary[nextKey] = item;
-        Debug.Log("Adding " + item + " Id: " + nextKey + 1);
         return nextKey++;
     }
 
@@ -41,7 +42,5 @@ public class NumberedDictionary<T>
         dictionary.Remove(key);
     }
 
-    // Get the count of elements in the NumberedDictionary
-    public int Count => dictionary.Count;
 }
   
