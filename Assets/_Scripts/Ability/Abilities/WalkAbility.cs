@@ -43,6 +43,8 @@ public class WalkAbility : AbilityBase
         //Wait until queue is done
 
         yield return new WaitUntil(() => ActionQueue.Instance.IsQueueStopped());
+
+        LogManager.Instance.LogMovementAbility(name, CardSelectionManager.Instance.ClickedCharacter, shape.Count);
     }
 
     public override TargetingType GetTargetingType()

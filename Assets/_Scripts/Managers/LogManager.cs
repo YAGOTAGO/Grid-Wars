@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -16,13 +17,26 @@ public class LogManager : NetworkBehaviour
         Instance = this;
     }
 
+    public void LogMovementAbility(string abilityName, AbstractCharacter character ,int amount)
+    {
+        string name = abilityName.Replace("Ability", "");
+        FixedString128Bytes log = $"\n{character.CharacterID.Value} moved {amount} hexes using {name}.";
+        SyncLogs(log);
+    }
+
     public void LogDamageAbility(string abilityName, DamageInfo dmgInfo, int damage)
     {
         string name = abilityName.Replace("Ability", "");
         if (dmgInfo.Target == null) { return; }
         
-        FixedString128Bytes log = $"\nCharacter #{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to character #{dmgInfo.Target.CharacterID.Value} using {name}.";
+        FixedString128Bytes log = $"\n#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using {name}.";
+        //Debug.Log(Encoding.UTF8.GetByteCount(log.ToString()));
+        SyncLogs(log);
+    }
 
+    #region Network synching
+    private void SyncLogs(FixedString128Bytes log)
+    {
         if (IsServer) //update all clients (includes server)
         {
             UpdateLogManagerClientRPC(log);
@@ -44,5 +58,5 @@ public class LogManager : NetworkBehaviour
     {
         _logTMP.text += logString;
     }
-
+    #endregion
 }

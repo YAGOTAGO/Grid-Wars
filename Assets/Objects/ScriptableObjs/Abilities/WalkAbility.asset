@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0c9c56203c2c2b44af95f358aee3b6a, type: 3}
-  m_Name: WalkRange3
+  m_Name: WalkAbility
   m_EditorClassIdentifier: 
   _prompt: Walk up to 3 tiles away.
   _range: 7
