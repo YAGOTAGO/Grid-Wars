@@ -102,7 +102,6 @@ public class HexNode : NetworkBehaviour
     private void UpdateTheSurfaceReference(FixedString32Bytes prevVal,  FixedString32Bytes newVal)
     {
         _surface = Database.Instance.GetSurface(newVal.Value.Replace("(Clone)", "")); //Have to get rid of "clone" to make it work
-        Debug.Log(_surface.ToString());
         _surfaceRenderer.sprite = _surface.SurfaceSprite;
     }
 

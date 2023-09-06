@@ -3,9 +3,12 @@ using UnityEngine;
 public class DamageManager : MonoBehaviour
 {
 
-    //Could return a struct that contains a bunch of flags such as
-    //Whether the character target character died
-    public static AbstractCharacter Damage(DamageInfo dmgInfo)
+    /// <summary>
+    /// Potentially damages, returning true if did
+    /// </summary>
+    /// <param name="dmgInfo"></param>
+    /// <returns></returns>
+    public static int Damage(DamageInfo dmgInfo)
     {
         int damage = dmgInfo.Val;
         AbstractCharacter source = dmgInfo.Source;
@@ -14,7 +17,7 @@ public class DamageManager : MonoBehaviour
         if(target == null)
         {
             Debug.Log("Target is null in damage manager");
-            return null;
+            return 0;
         }
 
         if(source != null)
@@ -31,9 +34,10 @@ public class DamageManager : MonoBehaviour
              damage = ef.AtDamageReceive(dmgInfo);
         }
      
-        
+        damage = damage <= 0 ? 0 : damage;
+
         target.TakeDamage(damage);
         
-        return target;
+        return damage;
     }
 }
