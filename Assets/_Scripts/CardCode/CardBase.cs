@@ -6,7 +6,6 @@ using UnityEngine;
 public class CardBase : ScriptableObject
 {
     public Rarity Rarity;
-    public Sprite CardTemplate;
     public Sprite CardArt;
     public Sprite ShapeArt;
     public int Durability;

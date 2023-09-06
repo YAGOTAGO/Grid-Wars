@@ -8,11 +8,17 @@ public class CardDisplay : MonoBehaviour
 {
     private CardBase _card; //ScriptableObject we use as data to display
 
+    [Header("Card Template Art")]
+    [SerializeField] private Sprite _basicTemplate;
+    [SerializeField] private Sprite _commonTemplate;
+    [SerializeField] private Sprite _rareTemplate;
+
     [Header("Card Elements")]
     [SerializeField] private Image _cardTemplate;
     [SerializeField] private TextMeshProUGUI _nameTMP;
     [SerializeField] private TextMeshProUGUI _descripTMP;
     [SerializeField] private Image _shape;
+    [SerializeField] private TextMeshProUGUI _durabilityTMP;
     [SerializeField] private VerticalLayoutGroup _keywordLayout;
     
     [Header("Keyword Window")]
@@ -53,10 +59,17 @@ public class CardDisplay : MonoBehaviour
 
     private void UpdateDisplay()
     {
-        _cardTemplate.sprite = _card.CardTemplate;
-        _nameTMP.text = _card.Name.ToString();
+        switch(_card.Rarity)
+        {
+            case Rarity.BASIC: _cardTemplate.sprite = _basicTemplate; break;
+            case Rarity.COMMON: _cardTemplate.sprite = _commonTemplate; break;
+            case Rarity.RARE: _cardTemplate.sprite = _rareTemplate; break;
+        }
+
+        _nameTMP.text = _card.Name;
         _descripTMP.text = _card.Description;
         _shape.sprite = _card.ShapeArt;
+        _durabilityTMP.text = _card.Durability.ToString();
     }
 
     //Call this to initialize new disaplay

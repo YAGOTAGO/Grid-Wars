@@ -1411,7 +1411,7 @@ MonoBehaviour:
   _reselectButton: {fileID: 1552082169}
   _skipButton: {fileID: 1087372226}
   _undoButton: {fileID: 1904884387}
-  ClickedCharacter: {fileID: 0}
+  SelectedCharacter: {fileID: 0}
   BreakPoints: []
 --- !u!1 &648585251
 GameObject:

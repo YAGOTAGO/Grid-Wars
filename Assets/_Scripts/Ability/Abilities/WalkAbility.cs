@@ -25,7 +25,7 @@ public class WalkAbility : AbilityBase
 
     private IEnumerator WalkRoutine(HexNode target)
     {
-        AbstractCharacter character = CardSelectionManager.Instance.ClickedCharacter;
+        AbstractCharacter character = CardSelectionManager.Instance.SelectedCharacter;
 
         character.PutOnHexNode(target, false); //logic for setting surface variables
 
@@ -44,7 +44,7 @@ public class WalkAbility : AbilityBase
 
         yield return new WaitUntil(() => ActionQueue.Instance.IsQueueStopped());
 
-        LogManager.Instance.LogMovementAbility(name, CardSelectionManager.Instance.ClickedCharacter, shape.Count);
+        LogManager.Instance.LogMovementAbility(name, CardSelectionManager.Instance.SelectedCharacter, shape.Count);
     }
 
     public override TargetingType GetTargetingType()

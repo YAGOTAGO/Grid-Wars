@@ -160,7 +160,8 @@ public class DeckManager : MonoBehaviour
             _hand.Add(cardDrawn);
 
             //Instantiate card display and make it visible in canvas
-            GameObject cardDisplay = InstantiateCard(cardDrawn, DeckTransform.position);
+            Vector3 cardSpawnPosition = new(DeckTransform.position.x-50, DeckTransform.position.y-50);
+            GameObject cardDisplay = InstantiateCard(cardDrawn, cardSpawnPosition);
             
             //Find the right slot and Tween it there
             int slotIndex = OpenLeftmostSlotIndex();
@@ -209,7 +210,8 @@ public class DeckManager : MonoBehaviour
         _discard.Add(abstractCard);
 
         //Tween card to the discard deck position
-        Tween cardMove = TweenManager.Instance.CardMove(card, _discardTransform.position).OnComplete(() =>
+        Vector3 discardPosition = new(_discardTransform.position.x+50, _discardTransform.position.y-30);
+        Tween cardMove = TweenManager.Instance.CardMove(card, discardPosition).OnComplete(() =>
         {
             Destroy(card);
         });
