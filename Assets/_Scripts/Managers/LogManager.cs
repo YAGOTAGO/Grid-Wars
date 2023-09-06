@@ -17,10 +17,17 @@ public class LogManager : NetworkBehaviour
         Instance = this;
     }
 
+    public void LogDrawAbility(string abilityName, int amount)
+    {
+        string name = abilityName.Replace("Ability", "");
+        FixedString128Bytes log = $"\n drew {amount} cards using {name}.";
+        SyncLogs(log);
+    }
+
     public void LogMovementAbility(string abilityName, AbstractCharacter character ,int amount)
     {
         string name = abilityName.Replace("Ability", "");
-        FixedString128Bytes log = $"\n{character.CharacterID.Value} moved {amount} hexes using {name}.";
+        FixedString128Bytes log = $"\n#{character.CharacterID.Value} moved {amount} hexes using {name}.";
         SyncLogs(log);
     }
 

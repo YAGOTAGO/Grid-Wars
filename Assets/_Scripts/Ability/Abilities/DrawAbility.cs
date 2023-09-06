@@ -15,6 +15,7 @@ public class DrawAbility : AbilityBase
         DeckManager.Instance.DeckDraw(_drawAmount);
 
         yield return new WaitUntil(()=> ActionQueue.Instance.IsQueueStopped());
+        LogManager.Instance.LogDrawAbility(name, _drawAmount);
     }
 
     public override TargetingType GetTargetingType()

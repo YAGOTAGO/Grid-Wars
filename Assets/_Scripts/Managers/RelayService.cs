@@ -11,6 +11,7 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RelayService : NetworkBehaviour
 {
@@ -20,7 +21,7 @@ public class RelayService : NetworkBehaviour
     [SerializeField] private GameObject _buttons;
     [SerializeField] private TextMeshProUGUI _joinCodeTMP;
     [SerializeField] private TextMeshProUGUI _loadingTMP;
-
+   
     private string _joinCode;
 
     private async void Start()
@@ -38,6 +39,7 @@ public class RelayService : NetworkBehaviour
 
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
+
 
     public async void CreateRelay()
     {
