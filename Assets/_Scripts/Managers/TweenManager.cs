@@ -14,6 +14,7 @@ public class TweenManager : NetworkBehaviour
     
     [Header("Card Scale")]
     [Range(0, 3)] public float CardScaleUp;
+    [Range(0, 3)] public float CardScaleDown;
     [Range(0, 3)] public float CardScaleDuration;
     public Ease CardScaleEase;
 

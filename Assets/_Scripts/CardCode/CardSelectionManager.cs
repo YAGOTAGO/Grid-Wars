@@ -253,7 +253,7 @@ public class CardSelectionManager : NetworkBehaviour
         
         //Tween back to slot and scale card down to 1
         TweenManager.Instance.CardMove(_selectedCardObject, cardSlot.position);
-        TweenManager.Instance.CardScale(_selectedCardObject, 1f);
+        TweenManager.Instance.CardScale(_selectedCardObject, TweenManager.Instance.CardScaleDown);
 
         _selectedCardObject = null; //Unselect card
         _selectedCard = null;

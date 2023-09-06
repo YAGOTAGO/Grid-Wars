@@ -22,7 +22,6 @@ public class DeckManager : MonoBehaviour
     [SerializeField] private Transform[] _cardSlots; //Keep it to max of 7
     [SerializeField] private Transform _discardTransform;
     public Transform DeckTransform;
-    [SerializeField] private float _cardScale = 1.3f;
     private bool[] _cardSlotsFilled = new bool[7];
 
     #region Lists of cards
@@ -168,7 +167,8 @@ public class DeckManager : MonoBehaviour
             Transform cardSlot = _cardSlots[slotIndex];
             
             cardDisplay.transform.SetParent(cardSlot);
-            cardDisplay.transform.localScale = new Vector3(_cardScale, _cardScale, _cardScale); //stop any weird behaviour
+            float cardScale = TweenManager.Instance.CardScaleDown;
+            cardDisplay.transform.localScale = new Vector3(cardScale, cardScale, cardScale); //stop any weird behaviour
 
             _cardSlotsFilled[slotIndex] = true;
             _cardPrefabsInHand[cardDisplay] = slotIndex; //Cache slot index to game object
