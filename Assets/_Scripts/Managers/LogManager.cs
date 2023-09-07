@@ -17,7 +17,7 @@ public class LogManager : NetworkBehaviour
         Instance = this;
     }
 
-    public void LogDrawAbility(CardBase card, int amount)
+    public void LogDrawAbility(CardBase card)
     {
         string name = GetCardName(card);
 
