@@ -25,6 +25,14 @@ public class RelayService : NetworkBehaviour
     private static bool _signedIn = false;
     private string _joinCode;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            JoinRelay();
+        }
+    }
+
     private async void Start()
     {
         await AuthenticatePlayers(); //log in players annonymously
@@ -86,21 +94,25 @@ public class RelayService : NetworkBehaviour
         _loadingTMP.gameObject.SetActive(true);
         try
         {
+            JoinAllocation joinAllocation = await Unity.Services.Relay.RelayService.Instance.JoinAllocationAsync(_joinInput.text);
+            RelayServerData relayServerData = new(joinAllocation, "dtls");
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
+
             NetworkManager.Singleton.OnClientConnectedCallback += (ulong clientId) =>
             {
                 Debug.Log("On client connected swapping scene");
                 LoadSceneServerRPC();
             };
 
-            JoinAllocation joinAllocation = await Unity.Services.Relay.RelayService.Instance.JoinAllocationAsync(_joinInput.text);
-            RelayServerData relayServerData = new(joinAllocation, "dtls");
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartClient();
         }
         catch (RelayServiceException e)
         {
+            _loadingTMP.gameObject.SetActive(false);
+            _buttons.SetActive(true);
             Debug.Log(e);
         }
+        
     }
 
     [ServerRpc(RequireOwnership = false)]
