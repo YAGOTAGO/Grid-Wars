@@ -33,7 +33,7 @@ public class WalkAbility : AbilityBase
         yield return characterMove.WaitForCompletion();
     }
 
-    public override IEnumerator DoAbility(List<HexNode> shape)
+    public override IEnumerator DoAbility(List<HexNode> shape, CardBase card)
     {
         foreach (HexNode node in shape)
         {
@@ -44,7 +44,7 @@ public class WalkAbility : AbilityBase
 
         yield return new WaitUntil(() => ActionQueue.Instance.IsQueueStopped());
 
-        LogManager.Instance.LogMovementAbility(name, CardSelectionManager.Instance.SelectedCharacter, shape.Count);
+        LogManager.Instance.LogMovementAbility(card, CardSelectionManager.Instance.SelectedCharacter, shape.Count);
     }
 
     public override TargetingType GetTargetingType()

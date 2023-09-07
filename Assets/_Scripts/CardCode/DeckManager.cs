@@ -141,7 +141,8 @@ public class DeckManager : MonoBehaviour
 
         if (_hand.Count >= 7 || //Hand is full we cannot draw anymore
             (_deck.Count==0 && _discard.Count==0)) //If no cards in deck or discard can't draw
-        { 
+        {
+            Debug.Log($"No cards to draw hand:{_hand.Count}  deck:{_deck.Count}  discard:{_discard.Count}");
             yield break; 
         } 
 

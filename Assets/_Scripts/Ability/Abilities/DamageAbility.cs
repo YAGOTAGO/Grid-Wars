@@ -25,13 +25,13 @@ public class DamageAbility : AbilityBase
         } 
         set => _abstractShape = value; 
     }
-    public override IEnumerator DoAbility(List<HexNode> shape)
+    public override IEnumerator DoAbility(List<HexNode> shape, CardBase card)
     {
         foreach (HexNode node in shape)
         {
             DamageInfo dmgInfo = new(_damageAmount, _damageType, CardSelectionManager.Instance.SelectedCharacter, node.GetCharacterOnNode());
             int damage = DamageManager.Damage(dmgInfo);
-            LogManager.Instance.LogDamageAbility(name, dmgInfo, damage);
+            LogManager.Instance.LogDamageAbility(card, dmgInfo, damage);
             
         }
         yield break;

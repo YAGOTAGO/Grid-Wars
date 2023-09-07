@@ -58,7 +58,7 @@ public class GridManager : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator WaitForGridCoord()
     {
-        while(GridCoordTiles.Count < _tileNum.Value)
+        while(GridCoordTiles.Count < _tileNum.Value) //wait until all 
         {
             yield return null;
         }

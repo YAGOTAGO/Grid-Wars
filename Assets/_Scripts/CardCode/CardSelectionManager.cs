@@ -133,7 +133,7 @@ public class CardSelectionManager : MonoBehaviour
                             continue;
                         }
 
-                        abilities[i].DoAbility(new List<HexNode> { SelectedCharacter.GetNodeOn() }); //do ability if not skip
+                        StartCoroutine(abilities[i].DoAbility(new List<HexNode> { SelectedCharacter.GetNodeOn() }, card)); //do ability if not skip
                         ButtonsSetActive(false, false, false); //get rid of the UI stuff
                         Prompt("", false);
                         continue;
@@ -148,7 +148,7 @@ public class CardSelectionManager : MonoBehaviour
                         Prompt("", false);
                         continue;
                     }
-                    abilities[i].DoAbility(new List<HexNode> { SelectedCharacter.GetNodeOn() }); //Pass the node character is on
+                    StartCoroutine(abilities[i].DoAbility(new List<HexNode> { SelectedCharacter.GetNodeOn() }, card)); //Pass the node character is on
                     CanStopCoroutine(false);
                     ButtonsSetActive(false, false, false);
                     Prompt("", false);
@@ -179,7 +179,7 @@ public class CardSelectionManager : MonoBehaviour
                     HighlightManager.Instance.ClearTargetAndRange();
 
                     //Do ability when we confirm and wait for it to complete
-                    yield return StartCoroutine(abilities[i].DoAbility(_shape));
+                    yield return StartCoroutine(abilities[i].DoAbility(_shape, card));
                     
                     break;
                 }else if (_skip)
