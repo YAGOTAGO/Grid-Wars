@@ -41,7 +41,6 @@ public class CardSelectionManager : MonoBehaviour
         Instance = this;
         _undoButton.gameObject.SetActive(false);
         Prompt("", false);
-        
         ButtonsSetActive(false, false, false); //no buttons are active
 
         //Add listeners so buttons do things

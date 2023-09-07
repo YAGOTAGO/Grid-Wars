@@ -109,7 +109,7 @@ public class BFS
 
             if (distance >= depth)
             {
-                visited.Remove(startNode);
+                //visited.Remove(startNode);
                 return visited;
             }
 
@@ -121,7 +121,7 @@ public class BFS
             }
         }
 
-        visited.Remove(startNode);
+        //visited.Remove(startNode);
         return visited;
 
     }
