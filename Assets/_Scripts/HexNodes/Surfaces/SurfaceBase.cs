@@ -6,5 +6,5 @@ public abstract class SurfaceBase : ScriptableObject
     public abstract bool CanAbilitiesPassthrough { get; }
     public abstract Sprite SurfaceSprite { get; }
     
-    public abstract void OnTouchNode(AbstractCharacter character);
+    public abstract void OnEnterNode(AbstractCharacter character);
 }

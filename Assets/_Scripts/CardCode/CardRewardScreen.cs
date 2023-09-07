@@ -2,7 +2,9 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardRewardScreen : MonoBehaviour
 {
@@ -10,10 +12,13 @@ public class CardRewardScreen : MonoBehaviour
     public static CardRewardScreen Instance;
     [SerializeField] private List<Transform> _positions = new();
     [SerializeField] private TextMeshProUGUI _promptTmp;
+    [SerializeField] private Button _skipButton;
+    private bool _skipButtonPressed;
 
     private void Start()
     {
         Instance = this;
+        _skipButton.onClick.AddListener(() => _skipButtonPressed = true);
     }
     public void PickThreeCards(Rarity rarity)
     {
@@ -50,13 +55,27 @@ public class CardRewardScreen : MonoBehaviour
         card2.GetComponent<OnCardClick>().CardIsForReward();
         card3.GetComponent<OnCardClick>().CardIsForReward();
 
+        _skipButton.gameObject.SetActive(true);
+
         //yield until card is clicked
         yield return new WaitUntil(() =>
         (card1.GetComponent<OnCardClick>().IsCardRewardClicked()) ||
         (card2.GetComponent<OnCardClick>().IsCardRewardClicked()) ||
-        (card3.GetComponent<OnCardClick>().IsCardRewardClicked()));
+        (card3.GetComponent<OnCardClick>().IsCardRewardClicked()) ||
+        _skipButtonPressed);
 
         _promptTmp.gameObject.SetActive(false);
+        _skipButton.gameObject.SetActive(false);
+
+
+        if (_skipButtonPressed) //skip destroys everything an exits
+        {
+            _skipButtonPressed = false;
+            Destroy(card1);
+            Destroy(card2);
+            Destroy(card3);
+            yield break;
+        }
 
         //Get the card that was clicked
         GameObject chosenCard = null;

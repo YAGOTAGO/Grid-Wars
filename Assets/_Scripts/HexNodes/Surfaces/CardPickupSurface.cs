@@ -33,7 +33,7 @@ public class CardPickupSurface : SurfaceBase
     }
 
 
-    public override void OnTouchNode(AbstractCharacter character)
+    public override void OnEnterNode(AbstractCharacter character)
     {
         //queue up and animation here or something
         DeckManager.Instance.AddToDeck(_card);

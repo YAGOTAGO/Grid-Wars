@@ -20,7 +20,7 @@ public class DefaultSurface : SurfaceBase
         }
     }
 
-    public override void OnTouchNode(AbstractCharacter character)
+    public override void OnEnterNode(AbstractCharacter character)
     {
         //Default surfaces don't have touch node implementation
     }

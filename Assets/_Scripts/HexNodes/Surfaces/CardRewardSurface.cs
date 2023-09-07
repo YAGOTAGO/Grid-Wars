@@ -14,7 +14,7 @@ public class CardRewardSurface : SurfaceBase
     public override bool CanAbilitiesPassthrough => _canAbilitiesPassthrough;
     public override Sprite SurfaceSprite => _cardRewardIcon;
 
-    public override void OnTouchNode(AbstractCharacter character)
+    public override void OnEnterNode(AbstractCharacter character)
     {
         CardRewardScreen.Instance.PickThreeCards(_rarity);
         character.GetNodeOn().SetSurface(Database.Instance.GetSurface("EmptySurface")); //remove this surface on touch

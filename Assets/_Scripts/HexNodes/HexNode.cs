@@ -176,7 +176,7 @@ public class HexNode : NetworkBehaviour
 
     public void OnEnterSurface(AbstractCharacter character)
     {
-        _surface.OnTouchNode(character);
+        _surface.OnEnterNode(character);
     }
 
     private void SetCharacterOnNodeReference(int preVal, int newVal)
