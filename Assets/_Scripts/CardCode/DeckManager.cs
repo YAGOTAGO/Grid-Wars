@@ -24,6 +24,7 @@ public class DeckManager : MonoBehaviour
     public Transform DeckTransform;
     private bool[] _cardSlotsFilled = new bool[7];
 
+    [HideInInspector] public int NumOfCardsDrawn =0;
     #region Lists of cards
     public ObservableCollection<CardBase> _deck = new();
     public ObservableCollection<CardBase> _discard = new();
@@ -142,7 +143,7 @@ public class DeckManager : MonoBehaviour
         if (_hand.Count >= 7 || //Hand is full we cannot draw anymore
             (_deck.Count==0 && _discard.Count==0)) //If no cards in deck or discard can't draw
         {
-            Debug.Log($"No cards to draw hand:{_hand.Count}  deck:{_deck.Count}  discard:{_discard.Count}");
+            NumOfCardsDrawn = 0;
             yield break; 
         } 
 
@@ -154,7 +155,7 @@ public class DeckManager : MonoBehaviour
 
         for (int i = drawAmount; i>0 ; i--)
         {
-            if(_deck.Count <= 0) { yield break; }
+            //if(_deck.Count <= 0) { yield break; }
             //Get and remove card from deck list add to hand list
             CardBase cardDrawn = _deck[0];
             _deck.RemoveAt(0);
@@ -181,6 +182,8 @@ public class DeckManager : MonoBehaviour
             yield return cardMove.WaitForCompletion();
             
         }
+
+        NumOfCardsDrawn = drawAmount;
 
         yield return null;
     }

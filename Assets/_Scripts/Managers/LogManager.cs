@@ -20,7 +20,13 @@ public class LogManager : NetworkBehaviour
     public void LogDrawAbility(CardBase card, int amount)
     {
         string name = GetCardName(card);
-        FixedString128Bytes log = $"\n drew {amount} cards using <u><link={name}>{name}</link></u>.";
+
+        int numCardsDrawn = DeckManager.Instance.NumOfCardsDrawn;
+        if (numCardsDrawn == 0) { return; }
+
+        string plural = numCardsDrawn == 1 ? "card" : "cards";
+        FixedString128Bytes log = $"\n drew {numCardsDrawn} {plural} using <u><link={name}>{name}</link></u>.";
+        DeckManager.Instance.NumOfCardsDrawn = 0; //reset it for next time
         SyncLogs(log);
     }
 
