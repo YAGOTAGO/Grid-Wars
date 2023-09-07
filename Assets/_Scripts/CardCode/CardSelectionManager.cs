@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CardSelectionManager : NetworkBehaviour
+public class CardSelectionManager : MonoBehaviour
 {
     public static CardSelectionManager Instance;
     [Header("References")]

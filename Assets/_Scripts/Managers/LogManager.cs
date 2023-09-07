@@ -36,7 +36,7 @@ public class LogManager : NetworkBehaviour
         string name = abilityName.Replace("Ability", "");
         if (dmgInfo.Target == null) { return; }
         
-        FixedString128Bytes log = $"\n#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using {name}.";
+        FixedString128Bytes log = $"\n#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using <link={name}>{name}</link>.";
         //Debug.Log(Encoding.UTF8.GetByteCount(log.ToString()));
         SyncLogs(log);
     }

@@ -3870,6 +3870,7 @@ GameObject:
   - component: {fileID: 1499899627}
   - component: {fileID: 1499899626}
   - component: {fileID: 1499899628}
+  - component: {fileID: 1499899629}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -4008,6 +4009,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &1499899629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499899624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f81d70775a19f4faac4f829b623d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvasToCheck: {fileID: 1218084721}
 --- !u!1 &1506774893
 GameObject:
   m_ObjectHideFlags: 0
@@ -14237,6 +14251,7 @@ GameObject:
   - component: {fileID: 1759868483}
   - component: {fileID: 1759868486}
   - component: {fileID: 1759868484}
+  - component: {fileID: 1759868487}
   m_Layer: 0
   m_Name: Log Manager
   m_TagString: Untagged
@@ -14288,6 +14303,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _logTMP: {fileID: 1499899626}
+--- !u!114 &1759868487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759868482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b7808da4d38d04c9b818cd684bae26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 1218084721}
 --- !u!1 &1825479303
 GameObject:
   m_ObjectHideFlags: 0
