@@ -21,7 +21,8 @@ public class RelayService : NetworkBehaviour
     [SerializeField] private GameObject _buttons;
     [SerializeField] private TextMeshProUGUI _joinCodeTMP;
     [SerializeField] private TextMeshProUGUI _loadingTMP;
-   
+
+    private static bool _signedIn = false;
     private string _joinCode;
 
     private async void Start()
@@ -35,6 +36,7 @@ public class RelayService : NetworkBehaviour
         AuthenticationService.Instance.SignedIn += () =>
         {
             Debug.Log("Signed in");
+            _signedIn = true;
         };
 
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
@@ -43,6 +45,8 @@ public class RelayService : NetworkBehaviour
 
     public async void CreateRelay()
     {
+        if(!_signedIn) { return; }
+
         _buttons.SetActive(false);
         _loadingTMP.gameObject.SetActive(true);
         try
@@ -76,7 +80,7 @@ public class RelayService : NetworkBehaviour
     
     public async void JoinRelay()
     {
-        if (string.IsNullOrEmpty(_joinInput.text)) { return; }
+        if (string.IsNullOrEmpty(_joinInput.text) || !_signedIn) { return; }
         
         _buttons.SetActive(false);
         _loadingTMP.gameObject.SetActive(true);
