@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Netcode;
 
 public class Character : AbstractCharacter //may need to become network behaviour
 {
@@ -17,19 +16,19 @@ public class Character : AbstractCharacter //may need to become network behaviou
     [SerializeField] private int _startingHealth = 20;
     #endregion
 
-    private readonly Dictionary<AbstractEffect, GameObject> _effectToUIDict = new();
+    private readonly Dictionary<EffectBase, GameObject> _effectToUIDict = new();
 
     void Start()
     {
         Initialize();
-        AddEffect(new BurnEffect());
+        AddEffect(Database.Instance.GetEffectByName("BurnEffect"));
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            foreach(AbstractEffect ef in Effects)
+            foreach(EffectBase ef in Effects)
             {
                 ef.EndOfTurn(this);
             }
@@ -42,7 +41,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         PlayersUIManager.Instance.SetPlayerUI(_characterStatsUI);
     }
 
-    public override void AddEffect(AbstractEffect ef)
+    public override void AddEffect(EffectBase ef)
     {
         //Add to set if doesnt exist    
         if (!Effects.Contains(ef)) 
@@ -53,7 +52,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         }
 
         //If exists in hashset we find the effect and extend duration
-        foreach (AbstractEffect effect in Effects)
+        foreach (EffectBase effect in Effects)
         {
             //Equals is overriden so should compare type
             if (effect.Equals(ef))
@@ -69,7 +68,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     /// Removes effect from character effects list, and also their UI
     /// </summary>
     /// <param name="ef">The effect to be removed</param>
-    protected override void RemoveEffect(AbstractEffect ef)
+    protected override void RemoveEffect(EffectBase ef)
     {
         //Remove from the character set
         Effects.Remove(ef);
@@ -80,19 +79,21 @@ public class Character : AbstractCharacter //may need to become network behaviou
             _effectToUIDict.Remove(ef);
         }
 
+        //Hide any hover tips that could still be showing
+        PlayersUIManager.Instance.HideTip();
     }
 
     /// <summary>
     /// Updates the hover tooltip of the effect UI object
     /// </summary>
     /// <param name="ef">The effect we want to update the description of</param>
-    public void UpdateEffectDescrip(AbstractEffect ef)
+    public void UpdateEffectDescrip(EffectBase ef)
     {
         _effectToUIDict[ef].GetComponent<HoverTip>().SetDescription(ef.Description);
     }
 
     //Adds all the components and sets them
-    private void SetEffectUI(AbstractEffect ef)
+    private void SetEffectUI(EffectBase ef)
     {
 
         //Instatiate the UI element and assign it to the horizontal group
@@ -116,7 +117,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         }
     }
 
-    public GameObject GetEffectGameObject(AbstractEffect ef)
+    public GameObject GetEffectGameObject(EffectBase ef)
     {
         if (_effectToUIDict.TryGetValue(ef, out GameObject value))
         {
@@ -144,13 +145,13 @@ public class Character : AbstractCharacter //may need to become network behaviou
     /// Call this with effect to flash the corresponding effect in player UI, and potentially remove the effect
     /// </summary>
     /// <param name="ef"></param>
-    public void FlashEffect(AbstractEffect ef, bool destroy)
+    public void FlashEffect(EffectBase ef, bool destroy)
     {
        StartCoroutine(FlashEffectRoutine(ef, destroy));
 
     }
 
-    private IEnumerator FlashEffectRoutine(AbstractEffect ef, bool destroy)
+    private IEnumerator FlashEffectRoutine(EffectBase ef, bool destroy)
     {
         GameObject effectObj = _effectToUIDict[ef];
         if (effectObj == null) { Debug.Log("No effect for flash effect"); yield break; }

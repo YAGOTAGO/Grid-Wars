@@ -6,13 +6,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Ability", menuName = "Ability/WalkAbility")]
 public class WalkAbility : AbilityBase
 {
-    [SerializeField] private string _prompt;
     [SerializeField] private int _range;
-    
-    private AbstractShape _abstractShape;
 
-    public override string Prompt => _prompt;
+    private AbstractShape _abstractShape;
+    public override string Prompt => $"Move up to {_range} hexes.";
     public override int Range => _range;
+
 
     public override AbstractShape Shape {
         get

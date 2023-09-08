@@ -4,21 +4,14 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractEffect
+public abstract class EffectBase : ScriptableObject
 {
-    /*
-     * Abstract means derived classes MUST implement it
-     * Virtual means has default but can be overriden
-     */
-    #region Stats
+
     public abstract int Duration { get; set; }
     public abstract StatusType Type { get;}
-    #endregion
-
-    #region UI Display
     public abstract string Description { get; }
     public abstract Sprite EffectIcon { get; }
-    #endregion
+
 
     #region Hooks
     public virtual void EndOfTurn(Character character) { }

@@ -18,9 +18,8 @@ public class DamageInfo
 }
 public enum DamageType
 {
-    Fire,
-    Toxic,
     Normal,
-
+    Fire,
+    Magic
 }
 

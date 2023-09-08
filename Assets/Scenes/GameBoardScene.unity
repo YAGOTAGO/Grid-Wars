@@ -670,9 +670,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0da2e7b9f515e409ff18c676fea529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectSprites:
-  - {fileID: 21300000, guid: c99ce297a08c35c488096d64c7868a95, type: 3}
-  - {fileID: 21300000, guid: ddf5f83710277d84c899f8a168603d12, type: 3}
+  _effectScriptables:
+  - {fileID: 11400000, guid: b898dc7afaa06ae469ea8289c603d98c, type: 2}
   _surfaceScriptables:
   - {fileID: 11400000, guid: 36feb41178527894f93fb6bbb1d60bc7, type: 2}
   - {fileID: 11400000, guid: 48431b4cc907f2d4ca64685b5343449c, type: 2}
@@ -689,7 +688,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2e8c1dd3ebf7de3478f2335e24e3857f, type: 2}
   - {fileID: 11400000, guid: 5ce0aa8334a31644bbe9afd1112d45b3, type: 2}
   - {fileID: 11400000, guid: 56ca34628d1d53e45b3788f1e008a8b0, type: 2}
-  debugcheck: []
+  - {fileID: 11400000, guid: 43cdb10b8c452ad468c82c8fef6a39a1, type: 2}
 --- !u!1 &308264840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4064,6 +4063,7 @@ MonoBehaviour:
   - {fileID: 827923112}
   _discardTransform: {fileID: 800135424}
   DeckTransform: {fileID: 1150034158}
+  NumOfCardsDrawn: 0
 --- !u!4 &1506774895
 Transform:
   m_ObjectHideFlags: 0
@@ -14682,7 +14682,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1861916909}
   m_HandleRect: {fileID: 1861916908}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

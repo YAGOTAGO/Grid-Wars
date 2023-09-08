@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class AbstractCharacter : NetworkBehaviour
 {
-    public HashSet<AbstractEffect> Effects = new();
+    public HashSet<EffectBase> Effects = new();
     public NetworkVariable<int> Health = new();
     public NetworkVariable<int> CharacterID { get; private set; } = new(-1);
     public NetworkVariable<Vector3Int> HexGridPosition = new(new Vector3Int(-1,-1,-1));
@@ -30,7 +30,6 @@ public abstract class AbstractCharacter : NetworkBehaviour
 
     private void AddThisToCharacterDB()
     {
-        Database.Instance.debugcheck.Add(this);
         CharacterID.Value =  Database.Instance.PlayerCharactersDB.Add(this);
     }
 
@@ -110,8 +109,8 @@ public abstract class AbstractCharacter : NetworkBehaviour
 
     #region Abstract/Virtual Methods
     protected virtual void OnHealthChanged() { }
-    public abstract void AddEffect(AbstractEffect ef);
-    protected abstract void RemoveEffect(AbstractEffect ef);
+    public abstract void AddEffect(EffectBase ef);
+    protected abstract void RemoveEffect(EffectBase ef);
 
     /// <summary>
     /// Puts the character on given hexnode

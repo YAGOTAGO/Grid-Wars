@@ -22,14 +22,14 @@ public class DamageManager : MonoBehaviour
 
         if(source != null)
         {
-            foreach (AbstractEffect ef in source.Effects)
+            foreach (EffectBase ef in source.Effects)
             {
                 damage = ef.AtDamageGive(dmgInfo);
             }
         }
 
 
-        foreach (AbstractEffect ef in target.Effects)
+        foreach (EffectBase ef in target.Effects)
         {
              damage = ef.AtDamageReceive(dmgInfo);
         }

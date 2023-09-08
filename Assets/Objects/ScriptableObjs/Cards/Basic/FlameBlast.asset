@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
   m_Name: FlameBlast
   m_EditorClassIdentifier: 
-  Rarity: 1
-  CardTemplate: {fileID: 21300000, guid: 64af11073fb95b34fb8e201f6c18d71a, type: 3}
+  Rarity: 0
   CardArt: {fileID: 0}
   ShapeArt: {fileID: 0}
-  Durability: 2
+  Durability: 1
   IconArt: {fileID: 0}
   Name: Flame Blast
-  Description: A Dash blast of flames in a straight line
+  Description: Deal 1 damage.
   Abilities:
   - {fileID: 11400000, guid: 1599bf4ea99c560479549dd377c46c84, type: 2}
-  - {fileID: 11400000, guid: d2541a403be8b934d8c049cf2c21eb27, type: 2}
-  Keywords: 00000000
+  Keywords: 

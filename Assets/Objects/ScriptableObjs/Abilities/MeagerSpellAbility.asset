@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47f90263b4f6b7a469de9f67c5daae23, type: 3}
-  m_Name: FlameBlastAbility
+  m_Name: MeagerSpellAbility
   m_EditorClassIdentifier: 
   _targetingType: 0
-  _damageType: 0
+  _damageType: 2
   _damageAmount: 1
-  _shape: 2
-  _prompt: Select a direction to unleash the flames
-  _range: 3
+  _shape: 3
+  _prompt: Choose a target to cast meager spell on!
+  _range: 4

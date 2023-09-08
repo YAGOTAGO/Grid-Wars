@@ -5,9 +5,9 @@ using UnityEngine;
 public class Database : MonoBehaviour
 {
     public static Database Instance;
-    
-    [Header("Effect Sprites")]
-    [SerializeField] private List<Sprite> _effectSprites = new();
+
+    [Header("Effect ScripableObjects")]
+    [SerializeField] private List<EffectBase> _effectScriptables = new();
 
     [Header("Surface ScripableObjects")]
     [SerializeField] private List<SurfaceBase> _surfaceScriptables = new();
@@ -17,11 +17,10 @@ public class Database : MonoBehaviour
 
     #region Databases
     public NumberedDictionary<AbstractCharacter> PlayerCharactersDB { get; private set; } = new();
-    public List<AbstractCharacter> debugcheck = new();
-    public Dictionary<string, Sprite> EffectSpritesDB { get; private set; } = new();
-    private readonly Dictionary<string, SurfaceBase> _surfaceScriptablesDB = new();
-    private readonly Dictionary<string, CardBase> _cardScriptablesDB = new();
-    
+    private readonly Dictionary<string, SurfaceBase> _surfacesDB = new();
+    private readonly Dictionary<string, CardBase> _cardsDB = new();
+    private readonly Dictionary<string, EffectBase> _effectsDB = new();
+
     //Sorted by rarity
     private readonly List<CardBase> _basicCardsDB = new();
     private readonly List<CardBase> _commonCardsDB = new();
@@ -42,7 +41,7 @@ public class Database : MonoBehaviour
     /// <returns>A instance of a surface scriptable object</returns>
     public SurfaceBase GetSurface(string name)
     {
-        if (_surfaceScriptablesDB.TryGetValue(name, out SurfaceBase surface))
+        if (_surfacesDB.TryGetValue(name, out SurfaceBase surface))
         {
             return Instantiate(surface); //Use instantiate so each surface is unique
         }
@@ -57,9 +56,24 @@ public class Database : MonoBehaviour
     /// <returns>A instance of a card scriptable object</returns>
     public CardBase GetCardByName(string name)
     {
-        if (_cardScriptablesDB.TryGetValue(name, out CardBase card))
+        if (_cardsDB.TryGetValue(name, out CardBase card))
         {
             return Instantiate(card); //Use instantiate so each surface is unique
+        }
+        else
+        {
+            Debug.LogWarning("Did not find + " + name + "in cards DB");
+            return null;
+        }
+    }
+
+    /// <param name="name">Name of effect</param>
+    /// <returns>A instance of a card scriptable object</returns>
+    public EffectBase GetEffectByName(string name)
+    {
+        if (_effectsDB.TryGetValue(name, out EffectBase effect))
+        {
+            return Instantiate(effect); //Use instantiate so each surface is unique
         }
         else
         {
@@ -154,9 +168,9 @@ public class Database : MonoBehaviour
     private void LoadAllEffectSprites()
     {
 
-        foreach (Sprite s in _effectSprites)
+        foreach (EffectBase e in _effectScriptables)
         {
-            EffectSpritesDB[s.name] = s;
+            _effectsDB[e.name] = e;
         }
     }
 
@@ -165,7 +179,7 @@ public class Database : MonoBehaviour
 
         foreach (SurfaceBase s in _surfaceScriptables)
         {
-            _surfaceScriptablesDB[s.name] = s;
+            _surfacesDB[s.name] = s;
 
         }
     }
@@ -174,7 +188,7 @@ public class Database : MonoBehaviour
     {
         foreach (CardBase c in _cardScriptables)
         {
-            _cardScriptablesDB[c.name] = c;
+            _cardsDB[c.name] = c;
 
             switch (c.Rarity)
             {

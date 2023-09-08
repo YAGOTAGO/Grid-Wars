@@ -66,7 +66,7 @@ public class PlayersUIManager : MonoBehaviour
  
     }
 
-    private void HideTip()
+    public void HideTip()
     {
         _tipWindow.gameObject.SetActive(false);
     }
