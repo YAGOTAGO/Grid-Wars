@@ -38,5 +38,8 @@ public class CardPickupSurface : SurfaceBase
         //queue up and animation here or something
         DeckManager.Instance.AddToDeck(_card);
         character.GetNodeOn().SetSurface(Database.Instance.GetSurface("EmptySurface")); //remove this surface on touch
+        character.GetNodeOn().SetSurfaceWalkable(false); //make new surface not walkable
+
+        LogManager.Instance.LogCardPickup(_card);
     }
 }

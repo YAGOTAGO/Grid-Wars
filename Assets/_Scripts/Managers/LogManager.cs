@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -15,6 +12,20 @@ public class LogManager : NetworkBehaviour
     public void Awake()
     {
         Instance = this;
+    }
+
+    public void LogCardReward(Rarity rarity)
+    {
+        FixedString128Bytes log = $"xyz picked a {rarity} card as reward.";
+        SyncLogs(log);
+    }
+
+    public void LogCardPickup(CardBase card)
+    {
+        string name = GetCardName(card);
+
+        FixedString128Bytes log = $"picked up <u><link={name}>{name}</link></u>.";
+        SyncLogs(log);
     }
 
     public void LogDrawAbility(CardBase card)
@@ -51,7 +62,7 @@ public class LogManager : NetworkBehaviour
     {
         return card.name.Replace("(Clone)", "");
     }
-    #region Network synching
+    #region Network Synching
     private void SyncLogs(FixedString128Bytes log)
     {
         if (IsServer) //update all clients (includes server)

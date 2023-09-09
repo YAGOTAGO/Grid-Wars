@@ -19,5 +19,7 @@ public class CardRewardSurface : SurfaceBase
         CardRewardScreen.Instance.PickThreeCards(_rarity);
         character.GetNodeOn().SetSurface(Database.Instance.GetSurface("EmptySurface")); //remove this surface on touch
         character.GetNodeOn().SetSurfaceWalkable(false); //make new surface not walkable
+
+        LogManager.Instance.LogCardReward(_rarity);
     }
 }
