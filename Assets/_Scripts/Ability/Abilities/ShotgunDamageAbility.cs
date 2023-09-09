@@ -38,14 +38,14 @@ public class ShotgunDamageAbility : AbilityBase
             {
                 DamageInfo dmgInfo = new(_lineDamage, _damageType, CardSelectionManager.Instance.SelectedCharacter, character);
                 int damage = DamageManager.Damage(dmgInfo);
-                LogManager.Instance.LogDamageAbility(card, dmgInfo, damage);
+                LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
                 _firstCharacterHit = true;
             }
             else if(character != null && _firstCharacterHit)
             {
                 DamageInfo dmgInfo = new(_scatterDamage, _damageType, CardSelectionManager.Instance.SelectedCharacter, character);
                 int damage = DamageManager.Damage(dmgInfo);
-                LogManager.Instance.LogDamageAbility(card, dmgInfo, damage);
+                LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
             }
 
         }

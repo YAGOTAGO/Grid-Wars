@@ -8,12 +8,17 @@ public class LogManager : NetworkBehaviour
     public static LogManager Instance;
     [SerializeField] private TextMeshProUGUI _logTMP;
 
-
     public void Awake()
     {
         Instance = this;
     }
 
+    public void LogGenericDamage(AbstractCharacter character, int damage, string source)
+    {
+        FixedString128Bytes log = $"#{character.CharacterID} took {damage} damage from {source}.";
+        SyncLogs(log);
+    }
+        
     public void LogCardReward(Rarity rarity)
     {
         FixedString128Bytes log = $"xyz picked a {rarity} card as reward.";
@@ -48,7 +53,7 @@ public class LogManager : NetworkBehaviour
         SyncLogs(log);
     }
 
-    public void LogDamageAbility(CardBase card, DamageInfo dmgInfo, int damage)
+    public void LogCardDamageAbility(CardBase card, DamageInfo dmgInfo, int damage)
     {
         string name = GetCardName(card);
         if (dmgInfo.Target == null) { return; }

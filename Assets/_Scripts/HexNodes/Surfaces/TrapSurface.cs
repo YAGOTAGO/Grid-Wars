@@ -21,15 +21,17 @@ public class TrapSurface : SurfaceBase
             return null;
         }
     }
-
+    
     public override void OnEnterNode(AbstractCharacter character)
     {
         DamageInfo dmgInfo = new(_damage, _dmgType, null, character);
-        DamageManager.Damage(dmgInfo);
+        int damage = DamageManager.Damage(dmgInfo);
 
         HexNode node = character.GetNodeOn();
         node.SetSurface(Database.Instance.GetSurface("EmptySurface"));
         node.SetSurfaceWalkable(false);
+
+        LogManager.Instance.LogGenericDamage(character, damage, "Trap");
     }
 
 }

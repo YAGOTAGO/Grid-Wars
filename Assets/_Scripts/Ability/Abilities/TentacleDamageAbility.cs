@@ -45,7 +45,7 @@ public class TentacleDamageAbility : AbilityBase
         {
             DamageInfo dmgInfo = new(damageAmount, _damageType, CardSelectionManager.Instance.SelectedCharacter, node.GetCharacterOnNode());
             int damage = DamageManager.Damage(dmgInfo);
-            LogManager.Instance.LogDamageAbility(card, dmgInfo, damage);
+            LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
 
         }
         yield break;

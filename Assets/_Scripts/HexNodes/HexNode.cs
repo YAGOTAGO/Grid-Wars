@@ -110,10 +110,7 @@ public class HexNode : NetworkBehaviour
         GridPos.Value = gridPos;
         CubeCoord.Value = cubePos;
         SurfaceName.Value = surface.name;
-        /*_surface = surface;
-        _surfaceRenderer.sprite = _surface.SurfaceSprite;*/
         _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
-        //SetSurface(surface);
         SetSurfaceWalkable(surface.IsWalkable);
     }
 
