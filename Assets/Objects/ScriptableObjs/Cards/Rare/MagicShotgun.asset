@@ -18,7 +18,8 @@ MonoBehaviour:
   Durability: 2
   IconArt: {fileID: 0}
   Name: Magic Shotgun
-  Description: Shoot up to 3 tiles away dealing 3 damage to the first target hit
-    and 2 damage to the three hexes behind target.
-  Abilities: []
+  Description: Shoot up to 3 tiles away dealing 2 damage to the first target hit
+    and 3 damage to the three hexes behind target.
+  Abilities:
+  - {fileID: 11400000, guid: cf9252121a747b04b9c9b3525523c8df, type: 2}
   Keywords: 

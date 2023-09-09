@@ -19,7 +19,6 @@ public class ShotgunShape : AbstractShape
         Vector3 direction = displacement.normalized;
         Vector3Int directionInt = new(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y), Mathf.RoundToInt(direction.z));
 
-        Debug.Log(directionInt.ToString());
 
         foreach (HexNode node in lineShape)
         {

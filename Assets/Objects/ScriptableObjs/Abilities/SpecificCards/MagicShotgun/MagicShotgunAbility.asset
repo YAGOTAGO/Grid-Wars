@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47f90263b4f6b7a469de9f67c5daae23, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d318eef13552044c9fd2550da712ee3, type: 3}
   m_Name: MagicShotgunAbility
   m_EditorClassIdentifier: 
-  _targetingType: 0
-  _damageType: 2
-  _damageAmount: 0
-  _shape: 0
-  _prompt: 
-  _range: 0
+  _damageType: 0
+  _lineDamage: 2
+  _scatterDamage: 3
+  _prompt: Choose a direction to shoot the shotgun.
+  _range: 3
