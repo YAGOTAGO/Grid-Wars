@@ -68,7 +68,6 @@ public class CardDisplay : MonoBehaviour
 
         _nameTMP.text = _card.Name;
         _descripTMP.text = _card.Description;
-        Debug.Log(_card.Description);
         _shape.sprite = _card.ShapeArt;
         _durabilityTMP.text = _card.Durability.ToString();
     }

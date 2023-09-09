@@ -35,7 +35,6 @@ public class CardSelectionManager : MonoBehaviour
     public List<HexNode> BreakPoints = new();
     #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         Instance = this;

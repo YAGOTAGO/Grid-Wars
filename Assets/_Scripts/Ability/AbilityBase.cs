@@ -25,6 +25,7 @@ public abstract class AbilityBase : ScriptableObject
             case global::Shape.PATHFIND: return new PathfindShape();
             case global::Shape.LINE: return new LineShape();
             case global::Shape.MOUSEHEX: return new SingleHexShape();
+            case global::Shape.SHOTGUN: return new ShotgunShape();
         }
 
         Debug.LogWarning("Shape enum exists but hasnt been assigned in AbilityBase script");

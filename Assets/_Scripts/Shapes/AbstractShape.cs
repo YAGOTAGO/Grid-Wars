@@ -18,5 +18,6 @@ public enum Shape {
     CIRCLE, //Includes all neighboor nodes and center node
     PATHFIND, //path find
     LINE, //Straight line between target and source
-    MOUSEHEX //Mouse hex
+    MOUSEHEX, //Mouse hex
+    SHOTGUN, //line up to X range then 3 hexes behind
 }
