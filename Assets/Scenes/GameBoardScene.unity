@@ -681,10 +681,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb65324751ee6124b8e58463afcaa144, type: 2}
   - {fileID: 11400000, guid: 3cbe17b4a186c8d4fae4b020a0d66bce, type: 2}
   - {fileID: 11400000, guid: 46eb9c7f7c9b99447b7eae83d0b0170d, type: 2}
+  - {fileID: 11400000, guid: b9027375211da8a4d97ae5448f1469fa, type: 2}
   _cardScriptables:
   - {fileID: 11400000, guid: 6db2b7ee8e7b1744ea41522ff06920e8, type: 2}
-  - {fileID: 11400000, guid: 2e8c1dd3ebf7de3478f2335e24e3857f, type: 2}
-  - {fileID: 11400000, guid: 2e8c1dd3ebf7de3478f2335e24e3857f, type: 2}
   - {fileID: 11400000, guid: 2e8c1dd3ebf7de3478f2335e24e3857f, type: 2}
   - {fileID: 11400000, guid: 5ce0aa8334a31644bbe9afd1112d45b3, type: 2}
   - {fileID: 11400000, guid: 56ca34628d1d53e45b3788f1e008a8b0, type: 2}
@@ -692,6 +691,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f0ecd9672c30d3b4f94021bff5400158, type: 2}
   - {fileID: 11400000, guid: 9fc195a24a6336143a6f5379abb80917, type: 2}
   - {fileID: 11400000, guid: 25034ef60e517524098ae67b8eedd7da, type: 2}
+  - {fileID: 11400000, guid: 297069c4a0b792143ab408d41399246f, type: 2}
 --- !u!1 &308264840
 GameObject:
   m_ObjectHideFlags: 0
