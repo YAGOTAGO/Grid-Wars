@@ -29,12 +29,13 @@ public class ShotgunShape : AbstractShape
             else
             {
                 shape.Add(node);
+                Vector3Int cubeCoords = node.CubeCoord.Value;
 
-                if(GridManager.Instance.CubeCoordTiles.TryGetValue(node.CubeCoord.Value + directionInt, out HexNode behindNode))
+                if(GridManager.Instance.CubeCoordTiles.TryGetValue(cubeCoords + directionInt, out HexNode behindNode))
                     shape.Add(behindNode);
-                if(GridManager.Instance.CubeCoordTiles.TryGetValue(node.CubeCoord.Value + new Vector3Int(-directionInt.y, directionInt.x + directionInt.y, -directionInt.x), out HexNode leftNode))
+                if(GridManager.Instance.CubeCoordTiles.TryGetValue(cubeCoords + new Vector3Int(-directionInt.y, directionInt.x + directionInt.y, -directionInt.x), out HexNode leftNode))
                     shape.Add(leftNode);
-                if (GridManager.Instance.CubeCoordTiles.TryGetValue(node.CubeCoord.Value + new Vector3Int(directionInt.y + directionInt.x, directionInt.y + directionInt.z, directionInt.x + directionInt.z), out HexNode rightNode))
+                if (GridManager.Instance.CubeCoordTiles.TryGetValue(cubeCoords + new Vector3Int(directionInt.y + directionInt.x, directionInt.y + directionInt.z, directionInt.x + directionInt.z), out HexNode rightNode))
                     shape.Add(rightNode);
                 break;
             }

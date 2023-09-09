@@ -16,7 +16,7 @@ public class BurnEffect : EffectBase
 
     public override void EndOfTurn(Character character) 
     {
-        DamageManager.Damage(new DamageInfo(_damage, DamageType.Fire, null, character));
+        DamageManager.Damage(new DamageInfo(_damage, DamageType.FIRE, null, character));
         _duration--;
         character.UpdateEffectDescrip(this);
 

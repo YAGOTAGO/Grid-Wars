@@ -57,7 +57,7 @@ public class DeckManager : MonoBehaviour
         _discard.CollectionChanged += OnDiscardCollectionChanged;
 
         //Add cards to deck here
-        AddToDeck(Database.Instance.GetCardByName("TentacleSpell"));
+        AddToDeck(Database.Instance.GetCardByName("TidalWave"));
         AddToDeck(Database.Instance.GetCardByName("MagicShotgun"));
         AddToDeck(Database.Instance.GetCardByName("Walk"));
         AddToDeck(Database.Instance.GetCardByName("TrapMaking"));

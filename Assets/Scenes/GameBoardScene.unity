@@ -407,7 +407,9 @@ MonoBehaviour:
   CardScaleDuration: 0.5
   CardScaleEase: 1
   CharacterMoveEase: 1
-  CharacterMoveSpeed: 3.13
+  CharacterPushEase: 30
+  CharacterPushSpeed: 3.5
+  CharacterMoveSpeed: 3
 --- !u!114 &91848574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,6 +694,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9fc195a24a6336143a6f5379abb80917, type: 2}
   - {fileID: 11400000, guid: 25034ef60e517524098ae67b8eedd7da, type: 2}
   - {fileID: 11400000, guid: 297069c4a0b792143ab408d41399246f, type: 2}
+  - {fileID: 11400000, guid: 563d46e54edd69543b4d8b6236291342, type: 2}
 --- !u!1 &308264840
 GameObject:
   m_ObjectHideFlags: 0

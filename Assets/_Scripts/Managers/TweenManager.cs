@@ -20,6 +20,8 @@ public class TweenManager : NetworkBehaviour
 
     [Header("Character Movement")]
     public Ease CharacterMoveEase;
+    public Ease CharacterPushEase;
+    [Range(0, 10)] public float CharacterPushSpeed;
     [Range(0, 10)] public float CharacterMoveSpeed;
 
     private void Awake()
@@ -35,6 +37,19 @@ public class TweenManager : NetworkBehaviour
     public Tween CardScale(GameObject card, float scale)
     {
         return card.transform.DOScale(new Vector3(scale, scale), CardScaleDuration).SetEase(CardScaleEase);
+    }
+
+    public Tween CharacterPush(GameObject character, Vector3 target)
+    {
+        if (IsServer)
+        {
+            return character.transform.DOMove(target, CharacterPushSpeed).SetSpeedBased(true).SetEase(CharacterPushEase);
+        }
+        else
+        {
+            CharacterMoveServerRPC(character.GetComponent<Character>().CharacterID.Value, target);
+            return character.transform.DOMove(target, CharacterPushSpeed).SetSpeedBased(true).SetEase(CharacterPushEase);
+        }
     }
 
     public Tween CharacterMove(GameObject character, Vector3 target)
