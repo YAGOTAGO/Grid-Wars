@@ -27,6 +27,7 @@ public abstract class AbilityBase : ScriptableObject
             case global::Shape.MOUSEHEX: return new SingleHexShape();
             case global::Shape.SHOTGUN: return new ShotgunShape();
             case global::Shape.TENTACLE: return new TentacleShape();
+            case global::Shape.THREEBOLT: return new ThreeBoltsShape();
 
         }
 

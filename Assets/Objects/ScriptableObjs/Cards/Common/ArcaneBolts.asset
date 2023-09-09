@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
-  m_Name: TentacleSpell
+  m_Name: ArcaneBolts
   m_EditorClassIdentifier: 
   Rarity: 1
   CardArt: {fileID: 0}
   ShapeArt: {fileID: 0}
   Durability: 2
   IconArt: {fileID: 0}
-  Name: Tentacle Spell
-  Description: 'Move 1.<br>Deal damage equal to number of characters targeted. '
+  Name: Arcane Bolts
+  Description: Range 3<br>Deal 3 damage to all characters hit.
   Abilities:
-  - {fileID: 11400000, guid: 931c20a9d6bfb684eaed3689dcf22c0f, type: 2}
-  - {fileID: 11400000, guid: d2281bd9f4c8e0749a221780e4ccc4dd, type: 2}
+  - {fileID: 11400000, guid: 0fe2f6579ee4f89468c97b01cc4e0971, type: 2}
   Keywords: 

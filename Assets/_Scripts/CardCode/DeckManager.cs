@@ -60,7 +60,7 @@ public class DeckManager : MonoBehaviour
         AddToDeck(Database.Instance.GetCardByName("TentacleSpell"));
         AddToDeck(Database.Instance.GetCardByName("MagicShotgun"));
         AddToDeck(Database.Instance.GetCardByName("Walk"));
-        AddToDeck(Database.Instance.GetCardByName("MeagerBolt"));
+        AddToDeck(Database.Instance.GetCardByName("ArcaneBolts"));
 
 
     }

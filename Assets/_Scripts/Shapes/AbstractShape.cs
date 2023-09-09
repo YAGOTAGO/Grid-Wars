@@ -20,5 +20,6 @@ public enum Shape {
     LINE, //Straight line between target and source
     MOUSEHEX, //Mouse hex
     SHOTGUN, //line up to X range then 3 hexes behind
-    TENTACLE //3 lines coming out of character
+    TENTACLE, //3 lines coming out of character
+    THREEBOLT // 3 bolts going from mouse and directly next to left and right
 }
