@@ -13,15 +13,22 @@ public class LogManager : NetworkBehaviour
         Instance = this;
     }
 
+    public void LogPushAbility(AbstractCharacter character, CardBase card, int amountPushed)
+    {
+        string name = GetCardName(card);
+        FixedString128Bytes log = $"\n#{character.CharacterID.Value} was pushed {amountPushed} by <u><link={name}>{name}</link></u>.";
+        SyncLogs(log);
+    }
+
     public void LogGenericDamage(AbstractCharacter character, int damage, string source)
     {
-        FixedString128Bytes log = $"#{character.CharacterID} took {damage} damage from {source}.";
+        FixedString128Bytes log = $"\n#{character.CharacterID.Value} took {damage} damage from {source}.";
         SyncLogs(log);
     }
         
     public void LogCardReward(Rarity rarity)
     {
-        FixedString128Bytes log = $"xyz picked a {rarity} card as reward.";
+        FixedString128Bytes log = $"\nxyz picked a {rarity} card as reward.";
         SyncLogs(log);
     }
 
@@ -29,7 +36,7 @@ public class LogManager : NetworkBehaviour
     {
         string name = GetCardName(card);
 
-        FixedString128Bytes log = $"picked up <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"\npicked up <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 

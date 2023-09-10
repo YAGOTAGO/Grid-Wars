@@ -15,6 +15,8 @@ public class DamagePushAbility : AbilityBase
     [SerializeField] private string _prompt;
     [SerializeField] private int _range;
 
+    private int _amountPushed = 0;
+
     private AbstractShape _abstractShape;
     public override int Range { get => _range; }
     public override string Prompt => _prompt;
@@ -47,9 +49,9 @@ public class DamagePushAbility : AbilityBase
                 Vector3 direction = displacement.normalized;
                 Vector3Int directionInt = new(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y), Mathf.RoundToInt(direction.z));
 
-                HexNode currNode = node;
                 //For the push amount
-                for(int i = 0; i<_pushAmount; i++)
+                HexNode currNode = node;
+                for (int i = 0; i<_pushAmount; i++)
                 {
                     if(GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord.Value - directionInt, out HexNode nextNode))
                     {
@@ -58,20 +60,19 @@ public class DamagePushAbility : AbilityBase
                         {
                             character.PutOnHexNode(nextNode, false);
 
+                            _amountPushed++;
+
                             //Do a tween
                             Tween characterPush = TweenManager.Instance.CharacterPush(character.gameObject, nextNode.transform.position);
                             yield return characterPush.WaitForCompletion();
                         }
                     }
-                    else
-                    {
-                        Debug.Log("Not a valid tile in that direction to push to.");
-                    }
                 }
 
+                LogManager.Instance.LogPushAbility(character, card, _amountPushed);
+                _amountPushed = 0;
             }
-            
-
+           
         }
         yield break;
     }

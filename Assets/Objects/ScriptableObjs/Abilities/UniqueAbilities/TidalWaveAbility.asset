@@ -18,4 +18,4 @@ MonoBehaviour:
   _pushAmount: 2
   _shape: 7
   _prompt: Choose a direction to send the wave in.
-  _range: 1
+  _range: 2
