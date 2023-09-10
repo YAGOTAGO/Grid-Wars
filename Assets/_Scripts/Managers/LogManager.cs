@@ -13,10 +13,11 @@ public class LogManager : NetworkBehaviour
         Instance = this;
     }
 
-    public void LogPushAbility(AbstractCharacter character, CardBase card, int amountPushed)
+    public void LogPushPullAbility(AbstractCharacter character, CardBase card, int amountPushed, bool isPush)
     {
         string name = GetCardName(card);
-        FixedString128Bytes log = $"\n#{character.CharacterID.Value} was pushed {amountPushed} by <u><link={name}>{name}</link></u>.";
+        string move = isPush ? "pushed" : "pulled";
+        FixedString128Bytes log = $"\n#{character.CharacterID.Value} was {move} {amountPushed} by <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 

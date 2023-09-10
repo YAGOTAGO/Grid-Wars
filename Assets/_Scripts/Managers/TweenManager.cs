@@ -39,7 +39,7 @@ public class TweenManager : NetworkBehaviour
         return card.transform.DOScale(new Vector3(scale, scale), CardScaleDuration).SetEase(CardScaleEase);
     }
 
-    public Tween CharacterPush(GameObject character, Vector3 target)
+    public Tween CharacterPushOrPull(GameObject character, Vector3 target)
     {
         if (IsServer)
         {

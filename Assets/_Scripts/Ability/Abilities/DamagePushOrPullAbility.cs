@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/DamagePushAbility")]
-public class DamagePushAbility : AbilityBase
+[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/DamagePushOrPullAbility")]
+public class DamagePushOrPullAbility : AbilityBase
 {
     //Variables we can set in the editor
     [SerializeField] private TargetingType _targetingType;
     [SerializeField] private DamageType _damageType;
-    [SerializeField] private int _damageAmount;
-    [SerializeField] private int _pushAmount;
     [SerializeField] private Shape _shape;
-    [SerializeField] private string _prompt;
+    [SerializeField] private int _damageAmount;
+    [SerializeField] private int _displaceAmount;
     [SerializeField] private int _range;
-
-    private int _amountPushed = 0;
+    [SerializeField] private bool _isPush;
+    [SerializeField] private string _prompt;
+    
+    private int _amountMoved = 0;
 
     private AbstractShape _abstractShape;
     public override int Range { get => _range; }
@@ -41,7 +42,7 @@ public class DamagePushAbility : AbilityBase
                 int damage = DamageManager.Damage(dmgInfo);
                 LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
 
-                //Push
+                //Push/Pull
                 //Have to get the direction first
                 HexNode sourceNode = CardSelectionManager.Instance.SelectedCharacter.GetNodeOn();
 
@@ -51,26 +52,26 @@ public class DamagePushAbility : AbilityBase
 
                 //For the push amount
                 HexNode currNode = node;
-                for (int i = 0; i<_pushAmount; i++)
+                directionInt = _isPush ? -(directionInt) : directionInt; //determines which way it goes
+                for (int i = 0; i<_displaceAmount; i++)
                 {
-                    if(GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord.Value - directionInt, out HexNode nextNode))
+                    if(GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord.Value + directionInt, out HexNode nextNode))
                     {
                         currNode = nextNode;
                         if (nextNode.IsNodeWalkable())
                         {
                             character.PutOnHexNode(nextNode, false);
-
-                            _amountPushed++;
+                            _amountMoved++;
 
                             //Do a tween
-                            Tween characterPush = TweenManager.Instance.CharacterPush(character.gameObject, nextNode.transform.position);
+                            Tween characterPush = TweenManager.Instance.CharacterPushOrPull(character.gameObject, nextNode.transform.position);
                             yield return characterPush.WaitForCompletion();
                         }
                     }
                 }
 
-                LogManager.Instance.LogPushAbility(character, card, _amountPushed);
-                _amountPushed = 0;
+                LogManager.Instance.LogPushPullAbility(character, card, _amountMoved, _isPush);
+                _amountMoved = 0;
             }
            
         }

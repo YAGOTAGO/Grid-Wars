@@ -18,7 +18,8 @@ MonoBehaviour:
   Durability: 2
   IconArt: {fileID: 0}
   Name: Tidal Wave
-  Description: Range 1.<br>Damage 2.<br>Push 1.
+  Description: Move 1.<br>Range 1, Damage 2.<br>Push 1.
   Abilities:
+  - {fileID: 11400000, guid: 931c20a9d6bfb684eaed3689dcf22c0f, type: 2}
   - {fileID: 11400000, guid: 50ea21e3ce731c444bc8d761fc91e8bc, type: 2}
   Keywords: 
