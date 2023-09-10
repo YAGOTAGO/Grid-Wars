@@ -24,5 +24,6 @@ public enum Shape {
     THREEBOLT, // 3 bolts going from mouse and directly next to left and right
     WAVE, // 3 Hexes closest to mouse, can keep going
     DASH, // straight line variable length within range
-    SKIP
+    SKIP, //hex, skip, hex, so on in a straight line
+    SHOOTINGSTAR, //line and then 3 nodes at the end
 }
