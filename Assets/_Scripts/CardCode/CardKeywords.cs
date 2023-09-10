@@ -7,7 +7,7 @@ public class CardKeywords
 
     public static readonly Dictionary<Keyword, string> KeywordDescriptions = new()
     {
-        {Keyword.DASH, "<b>Dash:</b> Move up to X in one direction." },
+        {Keyword.DASH, "<b>Dash:</b> Move up to X in a straightline." },
         {Keyword.PUSH, "<b>Push:</b> Target gets moved X hexes in a straightline away from the source. Will only push if inline with source." },
         {Keyword.PULL, "<b>Pull:</b> Target gets moved X hexes in a straightline towards the source. Will only pull if inline with source." }
     };

@@ -61,6 +61,8 @@ public class DeckManager : MonoBehaviour
         AddToDeck(Database.Instance.GetCardByName("MagicShotgun"));
         AddToDeck(Database.Instance.GetCardByName("Walk"));
         AddToDeck(Database.Instance.GetCardByName("TrapMaking"));
+        AddToDeck(Database.Instance.GetCardByName("AssassinsBlade"));
+
 
 
     }
