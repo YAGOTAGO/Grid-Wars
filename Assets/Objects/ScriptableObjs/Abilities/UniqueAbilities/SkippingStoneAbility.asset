@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47f90263b4f6b7a469de9f67c5daae23, type: 3}
-  m_Name: BlasphemyAbility
+  m_Script: {fileID: 11500000, guid: f864c8fdfe3cf3e42a6f8058085ab258, type: 3}
+  m_Name: SkippingStoneAbility
   m_EditorClassIdentifier: 
   _targetingType: 1
   _damageType: 0
-  _damageAmount: 3
+  _startingDamageAmount: 1
   _shape: 9
-  _prompt: Select a target within 5 tiles.
+  _prompt: Choose a direction to throw the stone.
   _range: 5

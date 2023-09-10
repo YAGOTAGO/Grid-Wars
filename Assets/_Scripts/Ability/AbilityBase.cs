@@ -30,7 +30,7 @@ public abstract class AbilityBase : ScriptableObject
             case global::Shape.THREEBOLT: return new ThreeBoltsShape();
             case global::Shape.WAVE: return new WaveShape();
             case global::Shape.DASH: return new DashShape();
-
+            case global::Shape.SKIP: return new SkipHexShape();
         }
 
         Debug.LogWarning("Shape enum exists but hasnt been assigned in AbilityBase script");
