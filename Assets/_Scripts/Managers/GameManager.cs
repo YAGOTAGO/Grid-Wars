@@ -32,6 +32,11 @@ public class GameManager : NetworkBehaviour
         }
     }
     
+    public bool IsAlly(AbstractCharacter character)
+    {
+        return character.IsOwner;
+    }
+
     public void PopUpText(string text)
     {
         if(_popUpCoroutine != null)
@@ -116,11 +121,6 @@ public class GameManager : NetworkBehaviour
     private void SwapTurnServerRPC()
     {
         IsServersTurn.Value = true;
-    }
-
-    private void Update()
-    {
-        
     }
     
 }
