@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/DashAbility")]
+[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/Movement/DashAbility")]
 public class DashAbility : AbilityBase
 {
     [SerializeField] private int _range;

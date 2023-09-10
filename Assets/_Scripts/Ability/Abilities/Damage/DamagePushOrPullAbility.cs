@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/DamagePushOrPullAbility")]
+[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/Damage/DamagePushOrPullAbility")]
 public class DamagePushOrPullAbility : AbilityBase
 {
     //Variables we can set in the editor

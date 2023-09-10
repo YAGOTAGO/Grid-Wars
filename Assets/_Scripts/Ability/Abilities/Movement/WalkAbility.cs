@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/WalkAbility")]
+[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/Movement/WalkAbility")]
 public class WalkAbility : AbilityBase
 {
     [SerializeField] private int _range;

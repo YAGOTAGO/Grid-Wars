@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/ShotgunDamageAbility")]
+[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/Damage/ShotgunDamageAbility")]
 public class ShotgunDamageAbility : AbilityBase
 {
     //Variables we can set in the editor
