@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetingType: 0
   _damageType: 3
+  _shape: 7
   _damageAmount: 2
   _displaceAmount: 1
-  _isPush: 1
-  _shape: 7
-  _prompt: Choose a direction to send the wave in.
   _range: 1
+  _isPush: 1
+  _prompt: Choose a direction to send the wave in.

@@ -17,7 +17,7 @@ public abstract class AbstractShape
 public enum Shape { 
     CIRCLE, //Includes all neighboor nodes and center node
     PATHFIND, //path find
-    LINE, //Straight line between target and source
+    LINE, //Straight line in direction of mouse
     MOUSEHEX, //Mouse hex
     SHOTGUN, //line up to X range then 3 hexes behind
     TENTACLE, //3 lines coming out of character
