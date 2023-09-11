@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,7 +16,7 @@ public class HealthBar : MonoBehaviour
     private void Awake()
     {
         _healthBarSlider = GetComponent<Slider>();
-        
+        _healthBarSlider.wholeNumbers = true; // Ensure whole numbers only
     }
 
     private void Start()
@@ -44,7 +45,7 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth(int health)
     {
-        _healthBarSlider.value = health;
+        _healthBarSlider.DOValue(health, 1.5f).SetEase(Ease.OutElastic);
         _health = health;
         SetTMP();
     }
