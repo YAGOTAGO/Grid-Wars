@@ -17,5 +17,5 @@ MonoBehaviour:
   m_DefaultColliderType: 1
   m_TilingRules: []
   m_FlatTop: 1
-  Type: 0
-  Surface: {fileID: 11400000, guid: 36feb41178527894f93fb6bbb1d60bc7, type: 2}
+  Type: 1
+  Surface: {fileID: 11400000, guid: 11e3a3106ffd3bd48a803177b4dcc505, type: 2}

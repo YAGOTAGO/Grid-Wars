@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Surface", menuName = "Surfaces/CardPickupSurface")]
 public class CardPickupSurface : SurfaceBase
 {
-    [SerializeField] private bool _isWalkable;
-    [SerializeField] private bool _canAbilitiesPassthrough;
+    private bool _isWalkable = true;
+    private bool _canAbilitiesPassthrough = true;
     [SerializeField] private Rarity _rarity;
 
     private CardBase _card;
