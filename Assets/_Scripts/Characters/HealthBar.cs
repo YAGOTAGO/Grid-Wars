@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,8 +43,24 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth(int health)
     {
-        _healthBarSlider.DOValue(health, 1.5f).SetEase(Ease.OutElastic);
+        _healthBarSlider.wholeNumbers = false; // Ensure whole numbers only
+        if (health < _health) //lost HP so show red
+        {
+            _healthBarSlider.fillRect.GetComponent<Image>().color = Color.red;
+            _healthBarSlider.DOValue(health, 1f).SetEase(Ease.InFlash).OnComplete(() => HPBaseColor()).SetDelay(.5f);
+        }
+        else //gained HP
+        {
+            _healthBarSlider.DOValue(health, 1f).SetEase(Ease.InFlash).SetDelay(.5f).OnComplete(()=> _healthBarSlider.wholeNumbers = true);
+        }
+
         _health = health;
         SetTMP();
+    }
+
+    private void HPBaseColor()
+    {
+        _healthBarSlider.fillRect.GetComponent<Image>().color = Color.green;
+        _healthBarSlider.wholeNumbers = true;
     }
 }

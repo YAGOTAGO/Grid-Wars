@@ -18,8 +18,9 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
     private readonly Dictionary<EffectBase, GameObject> _effectToUIDict = new();
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         Initialize();
         AddEffect(Database.Instance.GetEffectByName("BurnEffect"));
     }
