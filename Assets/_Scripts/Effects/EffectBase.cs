@@ -18,14 +18,15 @@ public abstract class EffectBase : ScriptableObject
     public virtual void StartOfTurn() { }
     public virtual void OnStepNode() { }
     public virtual void OnLeaveNode() { }
-    public virtual int AtDamageGive(DamageInfo damageInfo) { return damageInfo.Val; }
-    public virtual int AtDamageReceive(DamageInfo damageInfo) { return damageInfo.Val; }
+    public virtual bool CanMove() { return true; } //modifying if can move
+    public virtual int OnMove(int moveAmount) { return moveAmount; } //modifying move amount
+    public virtual int OnDamageGive(DamageInfo damageInfo) { return damageInfo.Val; }
+    public virtual int OnDamageReceive(DamageInfo damageInfo) { return damageInfo.Val; }
     #endregion
 
     #region Helper Methods
     public void AddToDuration(int extraDur) { Duration += extraDur; }
 
-    
     #endregion
 
     /// <summary>

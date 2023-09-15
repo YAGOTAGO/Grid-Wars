@@ -24,14 +24,14 @@ public class DamageManager : MonoBehaviour
         {
             foreach (EffectBase ef in source.Effects)
             {
-                damage = ef.AtDamageGive(dmgInfo);
+                damage = ef.OnDamageGive(dmgInfo);
             }
         }
 
 
         foreach (EffectBase ef in target.Effects)
         {
-             damage = ef.AtDamageReceive(dmgInfo);
+             damage = ef.OnDamageReceive(dmgInfo);
         }
      
         damage = damage <= 0 ? 0 : damage;
