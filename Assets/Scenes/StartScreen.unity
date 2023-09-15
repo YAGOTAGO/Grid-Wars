@@ -1857,6 +1857,16 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 2050604376059984418, guid: bfda8afd8c0175846b420b3881a242f0, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 7002228065961958210, guid: 54f0d5e1ca83d5445af07f15a12ecd0e, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -2072,12 +2082,12 @@ MonoBehaviour:
   _playerPrefab: {fileID: 7146395176818553976, guid: 12fa879a0f734a74994cc2f03a35b491, type: 3}
   _sceneName: GameBoardScene
   _spawnLocations:
-  - {x: -6, y: -17, z: 0}
-  - {x: -6, y: -5, z: 0}
-  - {x: -6, y: 7, z: 0}
-  - {x: 12, y: -17, z: 0}
-  - {x: 13, y: -4, z: 0}
-  - {x: 12, y: 9, z: 0}
+  - {x: -9, y: -11, z: 0}
+  - {x: -9, y: -7, z: 0}
+  - {x: -9, y: -3, z: 0}
+  - {x: 9, y: -11, z: 0}
+  - {x: 9, y: -7, z: 0}
+  - {x: 9, y: -3, z: 0}
 --- !u!114 &1743139563
 MonoBehaviour:
   m_ObjectHideFlags: 0

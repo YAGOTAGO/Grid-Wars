@@ -92,7 +92,7 @@ public class GridManager : NetworkBehaviour
                 //Get position to instantiate at
                 Vector3 tileWorldPos = _tileMap.CellToWorld(position);
 
-                GameRuleTile tileInfo = _tileMap.GetTile<GameRuleTile>(position);
+                HexRuleTile tileInfo = _tileMap.GetTile<HexRuleTile>(position);
                 
                 SurfaceBase surface = Instantiate(tileInfo.Surface); //use instantiate so we use a copy
 

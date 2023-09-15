@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6da4f128e99aa684e8e6fff109eda79b, type: 3}
-  m_Name: CommonReward
+  m_Name: Tree
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: 95ca14d2a86f6b8488d00a0f5e4fbbe9, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: b27c9d761c70cf241b34de4b6588793b, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules: []
   m_FlatTop: 1
-  Type: 0
-  Surface: {fileID: 11400000, guid: bb65324751ee6124b8e58463afcaa144, type: 2}
+  Type: 2
+  Surface: {fileID: 11400000, guid: 7a379190edcbb4e49be9fb1034270cb6, type: 2}

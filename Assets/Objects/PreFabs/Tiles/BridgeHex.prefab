@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4659979537830759772}
   - component: {fileID: 3674591752251923956}
   m_Layer: 0
-  m_Name: WaterHex
+  m_Name: BridgeHex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ffa607e41d027d64d9ea4bb59bd0f20b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 096495e7765c98b4cbdba0a210aea0c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sprites:
-  - {fileID: 21300000, guid: ffa607e41d027d64d9ea4bb59bd0f20b, type: 3}
-  TileType: 1
+  - {fileID: 21300000, guid: 096495e7765c98b4cbdba0a210aea0c4, type: 3}
+  TileType: 3
   SurfaceName:
     m_InternalValue:
       utf8LengthInBytes: 0
