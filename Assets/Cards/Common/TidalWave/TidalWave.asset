@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
   m_Name: TidalWave
   m_EditorClassIdentifier: 
-  Rarity: 1
-  CardArt: {fileID: 0}
-  ShapeArt: {fileID: 0}
-  Durability: 2
+  CardArt: {fileID: 21300000, guid: c5d931638f5cc384aa11afe619b46967, type: 3}
   IconArt: {fileID: 0}
+  ShapeArt: {fileID: 0}
   Name: Tidal Wave
+  Rarity: 1
+  Durability: 2
   Description: Move 1.<br>Range 1, Damage 2.<br>PUSH 1.
   Abilities:
   - {fileID: 11400000, guid: 931c20a9d6bfb684eaed3689dcf22c0f, type: 2}

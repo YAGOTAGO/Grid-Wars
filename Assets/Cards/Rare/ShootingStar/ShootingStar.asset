@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
   m_Name: ShootingStar
   m_EditorClassIdentifier: 
-  Rarity: 2
-  CardArt: {fileID: 0}
-  ShapeArt: {fileID: 0}
-  Durability: 3
+  CardArt: {fileID: 21300000, guid: 87e6c6d2ba38d1a40819e8f06768f171, type: 3}
   IconArt: {fileID: 0}
+  ShapeArt: {fileID: 0}
   Name: Shooting Star
+  Rarity: 2
+  Durability: 3
   Description: Range 3.<br> Damage 1 in line.<br>Damage 3 in three last hexes.
   Abilities:
   - {fileID: 11400000, guid: c22e4de04ceccce42b3826ac4859bb79, type: 2}

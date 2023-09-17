@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
   m_Name: TrapMaking
   m_EditorClassIdentifier: 
-  Rarity: 1
-  CardArt: {fileID: 0}
-  ShapeArt: {fileID: 0}
-  Durability: 2
+  CardArt: {fileID: 21300000, guid: 1bc4cc2efad171145b4ac36ebdb46df0, type: 3}
   IconArt: {fileID: 0}
+  ShapeArt: {fileID: 0}
   Name: Trap Making
+  Rarity: 1
+  Durability: 2
   Description: Range 4.<br>Choose a location to place a trap.<br> Repeat twice.
   Abilities:
   - {fileID: 11400000, guid: 35cd800c58ddea645b86ba64fd43abe2, type: 2}
