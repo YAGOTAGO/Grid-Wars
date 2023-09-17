@@ -14,6 +14,7 @@ public class CardBase : ScriptableObject
     [Header("Info")]
     public string Name;
     public Rarity Rarity;
+    [Range(0,10)]
     public int Durability;
     [TextArea(1, 6)]
     public string Description; 

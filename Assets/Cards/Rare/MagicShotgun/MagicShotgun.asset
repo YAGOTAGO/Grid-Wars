@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
   m_Name: MagicShotgun
   m_EditorClassIdentifier: 
-  Rarity: 2
-  CardArt: {fileID: 0}
-  ShapeArt: {fileID: 0}
-  Durability: 2
+  CardArt: {fileID: 21300000, guid: db39ca83455e4bf45a0032b28fea237a, type: 3}
   IconArt: {fileID: 0}
+  ShapeArt: {fileID: 0}
   Name: Magic Shotgun
+  Rarity: 2
+  Durability: 2
   Description: Shoot up to 3 tiles away dealing 2 damage to the first target hit
     and 3 damage to the three hexes behind target.
   Abilities:
