@@ -6,12 +6,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class CardBase : ScriptableObject
 {
-    public Rarity Rarity;
+    [Header("Art")]
     public Sprite CardArt;
-    public Sprite ShapeArt;
-    public int Durability;
     public Sprite IconArt; //for the icon on ground pickup
+    public Sprite ShapeArt;
+
+    [Header("Info")]
     public string Name;
+    public Rarity Rarity;
+    public int Durability;
     public string Description; 
     public List<AbilityBase> Abilities;
     public List<Keyword> Keywords;

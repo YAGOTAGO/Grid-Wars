@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
-  m_Name: Punch
+  m_Name: ArcaneBolts
   m_EditorClassIdentifier: 
-  Rarity: 0
-  CardArt: {fileID: 0}
-  ShapeArt: {fileID: 0}
-  Durability: 1
+  CardArt: {fileID: 21300000, guid: 4e33bdac7bb4ed843bfdf85242b0e4a8, type: 3}
   IconArt: {fileID: 0}
-  Name: Punch
-  Description: Move 2. <br> Deal 2 damage to one adjacent target.
+  ShapeArt: {fileID: 0}
+  Name: Arcane Bolts
+  Rarity: 1
+  Durability: 2
+  Description: Range 3<br>Deal 3 damage to all characters hit.
   Abilities:
-  - {fileID: 11400000, guid: fc4d67754512dae46973aabe4b4a62ad, type: 2}
-  - {fileID: 11400000, guid: 68911e5474baecd4f996417312ac0ed2, type: 2}
+  - {fileID: 11400000, guid: 0fe2f6579ee4f89468c97b01cc4e0971, type: 2}
   Keywords: 

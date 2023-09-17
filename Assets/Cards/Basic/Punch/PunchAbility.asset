@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47f90263b4f6b7a469de9f67c5daae23, type: 3}
-  m_Name: KickAbility
+  m_Name: PunchAbility
   m_EditorClassIdentifier: 
   _targetingType: 0
   _damageType: 2

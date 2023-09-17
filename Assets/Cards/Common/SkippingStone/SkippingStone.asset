@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
-  m_Name: Walk
+  m_Name: SkippingStone
   m_EditorClassIdentifier: 
-  Rarity: 0
-  CardArt: {fileID: 0}
-  ShapeArt: {fileID: 0}
-  Durability: 1
+  CardArt: {fileID: 21300000, guid: 89d6eeb044132c94e8c77f927ce0f2d0, type: 3}
   IconArt: {fileID: 0}
-  Name: Walk
-  Description: Move 4.
+  ShapeArt: {fileID: 0}
+  Name: Skipping Stone
+  Rarity: 1
+  Durability: 2
+  Description: Range 5.<br>Damage 1, 2, 3, increasing with distance.
   Abilities:
-  - {fileID: 11400000, guid: c5893bd7877bc65438b03701f690e61d, type: 2}
+  - {fileID: 11400000, guid: 2e55ec12c03188b4eb798c20dbf9a839, type: 2}
   Keywords: 
