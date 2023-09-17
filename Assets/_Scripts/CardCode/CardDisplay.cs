@@ -18,6 +18,7 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nameTMP;
     [SerializeField] private TextMeshProUGUI _descripTMP;
     [SerializeField] private Image _shape;
+    [SerializeField] private Image _cardArt;
     [SerializeField] private TextMeshProUGUI _durabilityTMP;
     [SerializeField] private VerticalLayoutGroup _keywordLayout;
     
@@ -67,6 +68,7 @@ public class CardDisplay : MonoBehaviour
         }
 
         _nameTMP.text = _card.Name;
+        _cardArt.sprite = _card.CardArt;
         _descripTMP.text = _card.Description;
         _shape.sprite = _card.ShapeArt;
         _durabilityTMP.text = _card.Durability.ToString();

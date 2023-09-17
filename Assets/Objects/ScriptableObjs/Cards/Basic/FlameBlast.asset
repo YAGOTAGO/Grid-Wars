@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FlameBlast
   m_EditorClassIdentifier: 
   Rarity: 0
-  CardArt: {fileID: 0}
+  CardArt: {fileID: 21300000, guid: 88f893db4025a6940bf9ba30e354f5db, type: 3}
   ShapeArt: {fileID: 0}
   Durability: 1
   IconArt: {fileID: 0}
