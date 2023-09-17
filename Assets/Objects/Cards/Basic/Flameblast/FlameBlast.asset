@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
   m_Name: FlameBlast
   m_EditorClassIdentifier: 
-  Rarity: 0
   CardArt: {fileID: 21300000, guid: 88f893db4025a6940bf9ba30e354f5db, type: 3}
-  ShapeArt: {fileID: 21300000, guid: d5def00898a90de43bdafbe7bb289874, type: 3}
-  Durability: 1
   IconArt: {fileID: 0}
+  ShapeArt: {fileID: 0}
   Name: Flame Blast
+  Rarity: 0
+  Durability: 1
   Description: Deal 1 damage.
   Abilities:
   - {fileID: 11400000, guid: 1599bf4ea99c560479549dd377c46c84, type: 2}

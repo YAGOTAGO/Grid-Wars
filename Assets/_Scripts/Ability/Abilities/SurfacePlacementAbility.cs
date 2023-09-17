@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/TrapPlacementAbility")]
-public class TrapPlacementAbility : AbilityBase
+[CreateAssetMenu(fileName = "New Ability", menuName = "Ability/SurfacePlacementAbility")]
+public class SurfacePlacementAbility : AbilityBase
 {
     //Variables we can set in the editor
     [SerializeField] private string _prompt;
