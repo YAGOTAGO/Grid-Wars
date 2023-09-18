@@ -172,10 +172,9 @@ public class DeckManager : MonoBehaviour
             //Find the right slot and Tween it there
             int slotIndex = OpenLeftmostSlotIndex();
             Transform cardSlot = _cardSlots[slotIndex];
-            
             cardDisplay.transform.SetParent(cardSlot);
-            float cardScale = TweenManager.Instance.CardScaleDown;
-            cardDisplay.transform.localScale = new Vector3(cardScale, cardScale, cardScale); //stop any weird behaviour
+            
+            TweenManager.Instance.SetCardDefaultSize(cardDisplay.transform);
 
             _cardSlotsFilled[slotIndex] = true;
             _cardPrefabsInHand[cardDisplay] = slotIndex; //Cache slot index to game object

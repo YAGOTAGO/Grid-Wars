@@ -60,7 +60,7 @@ public class CardSelectionManager : MonoBehaviour
         }
 
         GameManager.Instance.CanClickEndTurn(false);
-
+        
         card.GetComponent<CardDisplay>().DisplayKeyword(false); //Selected card removes keyword display
 
         if (card == _selectedCardObject) //When click on same card undo selection
@@ -84,7 +84,7 @@ public class CardSelectionManager : MonoBehaviour
 
         //Tween to selection location and scale it up
         TweenManager.Instance.CardMove(_selectedCardObject, _selectionLocation.position);
-        TweenManager.Instance.CardScale(_selectedCardObject, TweenManager.Instance.CardScaleUp);
+        TweenManager.Instance.CardScale(_selectedCardObject, true);
 
         //Start that coroutine for card abilities
         _cardLoopCoroutine = StartCoroutine(CardAbilityLoop(_selectedCard));
@@ -251,7 +251,7 @@ public class CardSelectionManager : MonoBehaviour
         
         //Tween back to slot and scale card down to 1
         TweenManager.Instance.CardMove(_selectedCardObject, cardSlot.position);
-        TweenManager.Instance.CardScale(_selectedCardObject, TweenManager.Instance.CardScaleDown);
+        TweenManager.Instance.CardScale(_selectedCardObject, false);
 
         _selectedCardObject = null; //Unselect card
         _selectedCard = null;
