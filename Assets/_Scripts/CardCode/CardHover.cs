@@ -68,6 +68,11 @@ public class CardHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         eventData.selectedObject = null;
     }
 
+    public void StopCoroutine()
+    {
+        StopAllCoroutines();
+    }
+
     public void OnSelect(BaseEventData eventData)
     {
         StartCoroutine(MoveCard(true));

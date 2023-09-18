@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(CardHover))]
 public class CardDisplay : MonoBehaviour
 {
     private CardBase _card; //ScriptableObject we use as data to display
@@ -27,7 +28,12 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private int _maxWidth = 100;
     [SerializeField] private int _fontSize = 10;
     private List<GameObject> _keywordWindows = new();
+    private CardHover _cardHover;
 
+    private void Awake()
+    {
+        _cardHover = GetComponent<CardHover>();
+    }
     private void AddKeywordWindows()
     {
         foreach(Keyword keyword in _card.Keywords)
@@ -86,10 +92,17 @@ public class CardDisplay : MonoBehaviour
 
     public void DisplayKeyword(bool display)
     {
-        foreach(GameObject go in _keywordWindows)
+
+        if (!display) //stop coroutines of on hover
+        {
+            _cardHover.StopAllCoroutines();
+        }
+
+        foreach (GameObject go in _keywordWindows)
         {
             go.SetActive(display);
         }
+
     }
 
 }
