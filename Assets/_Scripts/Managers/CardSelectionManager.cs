@@ -30,7 +30,7 @@ public class CardSelectionManager : MonoBehaviour
     private List<HexNode> _shape; //Shape we last hovered
     public AbstractCharacter SelectedCharacter;
     private Coroutine _cardLoopCoroutine; //store this to cancel it later
-    private bool _canStopCoroutine = true;
+    [SerializeField]private bool _canStopCoroutine = true;
     private HexNode _priorMouseNode;
     public List<HexNode> BreakPoints = new();
     #endregion
@@ -215,7 +215,8 @@ public class CardSelectionManager : MonoBehaviour
             DeckManager.Instance.HandCardToDiscard(_selectedCardObject);
         }
 
-        //This is after cards abilities
+        //wait until action queue so cant stop coroutine until discards have been done
+        yield return new WaitUntil(ActionQueue.Instance.IsQueueStopped);
         _canStopCoroutine = true;
         GameManager.Instance.CanClickEndTurn(true);
     }
