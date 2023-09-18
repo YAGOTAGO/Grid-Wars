@@ -12,6 +12,7 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<bool> IsServersTurn = new();
 
     [SerializeField] private Button _endTurnButton;
+    [SerializeField] private GameObject _popUpGO;
     [SerializeField] private TextMeshProUGUI _popUpTMP;
     private Coroutine _popUpCoroutine;
 
@@ -19,7 +20,7 @@ public class GameManager : NetworkBehaviour
     {
         Instance = this;
         _endTurnButton.onClick.AddListener(OnEndTurnButtonClick);
-        _popUpTMP.gameObject.SetActive(false);
+        _popUpGO.SetActive(false);
     }
 
     public override void OnNetworkSpawn()
@@ -47,14 +48,15 @@ public class GameManager : NetworkBehaviour
         _popUpCoroutine = StartCoroutine(PopUpCoroutine(text));
 
     }
+
     private IEnumerator PopUpCoroutine(string text)
     {
-        _popUpTMP.gameObject.SetActive(true);
+        _popUpGO.SetActive(true);
         _popUpTMP.text = text;
           
         yield return new WaitForSeconds(3f);
 
-        _popUpTMP.gameObject.SetActive(false);
+        _popUpGO.SetActive(false);
     }
 
     public void CanClickEndTurn(bool canClick)
