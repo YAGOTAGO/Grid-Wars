@@ -25,25 +25,24 @@ public class SkipHexShape : AbstractShape
         if (displacement == Vector3Int.zero) { return nodesInDirection; }
 
         HexNode currNode = playerNode;
-        for (int i = 0; i < range; i++)
+        for (int i = 0; i < range; i+=2) //everyother i
         {
             if (GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord.Value + directionInt, out HexNode nextNode))
             {
-
                 currNode = nextNode;
-                if (i % 2 == 0)
-                {
-                    nodesInDirection.Add(currNode);
-                }
-                
+                nodesInDirection.Add(currNode);
             }
             else
             {
                 break;
             }
-
         }
 
         return nodesInDirection;
+    }
+
+    public override List<HexNode> Range(HexNode startNode, AbilityBase ability)
+    {
+        return new LineShape().Range(startNode, ability);
     }
 }

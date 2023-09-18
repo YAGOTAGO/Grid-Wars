@@ -18,8 +18,7 @@ public class LineShape : AbstractShape
         Vector3 direction = displacement.normalized;
         Vector3Int directionInt = new(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y), Mathf.RoundToInt(direction.z));
 
-        //Check if targeting is normal
-        bool isTargNormal = ability.GetTargetingType() == TargetingType.NORMAL;
+        TargetingType targetingType = ability.GetTargetingType();
         int range = ability.Range;
 
         // Mouse is on the same node as player, return empty list
@@ -32,12 +31,17 @@ public class LineShape : AbstractShape
             {
                 currNode = nextNode;
 
-                if (isTargNormal && !currNode.CanAbilitiesPassthrough()) //if type is normal and node cannot be passthrough then we do not add it
+                if (targetingType == TargetingType.NORMAL && !currNode.CanAbilitiesPassthrough()) //if type is normal and node cannot be passthrough then we do not add it
                 {
                     break;
                 }
 
-                nodesInDirection.Add(currNode);
+                if(targetingType == TargetingType.WALKABLE && !currNode.IsNodeWalkable()) //if walkable and node is not walkable then we dont add
+                {
+                    break;
+                }
+
+                nodesInDirection.Add(currNode); //if aireal targeting then always add
             }
             else
             {
@@ -49,4 +53,18 @@ public class LineShape : AbstractShape
         return nodesInDirection;
     }
 
+    public override List<HexNode> Range(HexNode startNode, AbilityBase ability)
+    {
+        List<HexNode> nodesRange = new();
+
+        foreach (Vector3Int side in cuberCoordSides)
+        {
+            if (GridManager.Instance.CubeCoordTiles.TryGetValue(startNode.CubeCoord.Value + side, out HexNode outputNode))
+            {
+                nodesRange.AddRange(GetShape(outputNode, ability));
+            }
+        }
+
+        return nodesRange;
+    }
 }

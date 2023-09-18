@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class ShootingStarShape : AbstractShape
 {
+    readonly LineShape lineShape = new();
     public override List<HexNode> GetShape(HexNode mouseNode, AbilityBase ability)
     {
-        LineShape lineShape = new();
         List<HexNode> shape = lineShape.GetShape(mouseNode, ability);
 
         HexNode selectedCharacterNode = CardSelectionManager.Instance.SelectedCharacter.GetNodeOn();
@@ -32,5 +32,10 @@ public class ShootingStarShape : AbstractShape
             shape.Add(rightNode);
 
         return shape;
+    }
+
+    public override List<HexNode> Range(HexNode startNode, AbilityBase ability)
+    {
+        return lineShape.Range(startNode, ability);
     }
 }

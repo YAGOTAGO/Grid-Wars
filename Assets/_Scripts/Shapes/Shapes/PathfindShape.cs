@@ -63,9 +63,13 @@ public class PathfindShape : AbstractShape
         }
 
         Debug.Log("Error unreacheable");
-
         return null;
 
+    }
+
+    public override List<HexNode> Range(HexNode startNode, AbilityBase ability)
+    {
+        return BFS.TargTypeBFS(startNode, ability);
     }
 }
 

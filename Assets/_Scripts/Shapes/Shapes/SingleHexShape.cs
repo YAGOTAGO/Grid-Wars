@@ -8,4 +8,9 @@ public class SingleHexShape : AbstractShape
     {
         return new List<HexNode>() { mouseNode };
     }
+
+    public override List<HexNode> Range(HexNode startNode, AbilityBase ability)
+    {
+        return BFS.TargTypeBFS(startNode, ability);
+    }
 }

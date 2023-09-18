@@ -97,7 +97,7 @@ public class CardSelectionManager : MonoBehaviour
         yield return new WaitUntil(() => CharacterClicked()); //wait until character is selected
 
         List<AbilityBase> abilities = card.Abilities;
-        HashSet<HexNode> range = new();
+        List<HexNode> range = new();
 
         for (int i = 0; i < abilities.Count; i++) //iterate over all abilities in the card
         {
@@ -111,13 +111,9 @@ public class CardSelectionManager : MonoBehaviour
             switch (tarType)
             {
                 case TargetingType.AIREAL:
-                    range = BFS.BFSAll(SelectedCharacter.GetNodeOn(), abilities[i].Range);
-                    break;
                 case TargetingType.NORMAL:
-                    range = BFS.BFSNormalAbilties(SelectedCharacter.GetNodeOn(), abilities[i].Range);
-                    break;
                 case TargetingType.WALKABLE:
-                    range = BFS.BFSWalkable(SelectedCharacter.GetNodeOn(), abilities[i].Range);
+                    range = abilities[i].Shape.Range(SelectedCharacter.GetNodeOn(), abilities[i]);
                     break;
                 case TargetingType.NONE:
                 case TargetingType.SELF:
@@ -228,6 +224,8 @@ public class CardSelectionManager : MonoBehaviour
         //If we can cancel coroutine
         if(!_canStopCoroutine){ return; }
 
+        Debug.Log("Inside undo");
+
         _canStopCoroutine = false; //can't stop coroutine until move is done
 
         StopCoroutine(_cardLoopCoroutine);
@@ -268,7 +266,7 @@ public class CardSelectionManager : MonoBehaviour
         return false;
     }
 
-    private bool ShowShape(AbilityBase ability, HashSet<HexNode> range)
+    private bool ShowShape(AbilityBase ability, List<HexNode> range)
     {
         HexNode mouseNode = MouseManager.Instance.NodeMouseIsOver;
 

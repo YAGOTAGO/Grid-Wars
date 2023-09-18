@@ -46,4 +46,8 @@ public class ShotgunShape : AbstractShape
         
     }
 
+    public override List<HexNode> Range(HexNode startNode, AbilityBase ability)
+    {
+        return new LineShape().Range(startNode, ability);
+    }
 }

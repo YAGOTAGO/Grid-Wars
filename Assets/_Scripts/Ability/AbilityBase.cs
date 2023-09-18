@@ -11,7 +11,6 @@ public abstract class AbilityBase : ScriptableObject
     public abstract TargetingType GetTargetingType();
     public virtual int Range { get => -1; }
 
-
     public List<HexNode> GetShape(HexNode mouseNode)
     {
         return Shape.GetShape(mouseNode, this);

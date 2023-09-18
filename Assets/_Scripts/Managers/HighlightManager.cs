@@ -73,7 +73,7 @@ public class HighlightManager : MonoBehaviour
         }
     }
 
-    public void HighlightRangeSet(HashSet<HexNode> visited)
+    public void HighlightRangeSet(List<HexNode> visited)
     {
         foreach (HexNode node in visited)
         {

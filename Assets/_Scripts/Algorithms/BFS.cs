@@ -13,10 +13,10 @@ public class BFS
     /// <param name="depth">How far BFS should go</param>
     /// <param name="paintMoves">Whether or not to highlight Moves map with bfs result</param>
     /// <returns>A Set of walkable nodes that were found in BFS</returns>
-    public static HashSet<HexNode> BFSWalkable(HexNode startNode, int depth)
+    public static List<HexNode> BFSWalkable(HexNode startNode, int depth)
     {
 
-        HashSet<HexNode> visited = new();
+        List<HexNode> visited = new();
         Queue<HexNode> fronteir = new();
 
         fronteir.Enqueue(startNode);
@@ -52,10 +52,10 @@ public class BFS
     /// <param name="startNode">Starting HexNode</param>
     /// <param name="depth">How far the range is</param>
     /// <returns>A set of nodes which abilities can pass through</returns>
-    public static HashSet<HexNode> BFSNormalAbilties(HexNode startNode, int depth)
+    public static List<HexNode> BFSNormal(HexNode startNode, int depth)
     {
 
-        HashSet<HexNode> visited = new();
+        List<HexNode> visited = new();
         Queue<HexNode> fronteir = new();
 
         fronteir.Enqueue(startNode);
@@ -92,10 +92,10 @@ public class BFS
     /// <param name="startNode">Start Node</param>
     /// <param name="depth"> Depth of BFS</param>
     /// <returns>A set of nodes that are in depth</returns>
-    public static HashSet<HexNode> BFSAll(HexNode startNode, int depth)
+    public static List<HexNode> BFSAireal(HexNode startNode, int depth)
     {
 
-        HashSet<HexNode> visited = new();
+        List<HexNode> visited = new();
         Queue<HexNode> fronteir = new();
 
         fronteir.Enqueue(startNode);
@@ -124,6 +124,34 @@ public class BFS
         //visited.Remove(startNode);
         return visited;
 
+    }
+
+    /// <summary>
+    /// Chooses BFS by targeting type
+    /// </summary>
+    /// <param name="startNode"></param>
+    /// <param name="ability"></param>
+    /// <returns></returns>
+    public static List<HexNode> TargTypeBFS(HexNode startNode, AbilityBase ability)
+    {
+
+        if (ability.GetTargetingType() == TargetingType.WALKABLE)
+        {
+            return BFSWalkable(startNode, ability.Range);
+        }
+
+        if (ability.GetTargetingType() == TargetingType.NORMAL)
+        {
+            return BFSNormal(startNode, ability.Range);
+        }
+
+        if (ability.GetTargetingType() == TargetingType.AIREAL)
+        {
+            return BFSAireal(startNode, ability.Range);
+        }
+
+        Debug.Log("Not valid targeting type for Single Hex Shape");
+        return null;
     }
 }
 

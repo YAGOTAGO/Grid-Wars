@@ -98,4 +98,9 @@ public class WaveShape : AbstractShape
 
         return nodesInDirection;
     }
+
+    public override List<HexNode> Range(HexNode startNode, AbilityBase ability)
+    {
+        return BFS.TargTypeBFS(startNode, ability);
+    }
 }
