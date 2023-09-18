@@ -228,6 +228,8 @@ public class CardSelectionManager : MonoBehaviour
         //If we can cancel coroutine
         if(!_canStopCoroutine){ return; }
 
+        _canStopCoroutine = false; //can't stop coroutine until move is done
+
         StopCoroutine(_cardLoopCoroutine);
         GameManager.Instance.CanClickEndTurn(true);
 
@@ -250,7 +252,7 @@ public class CardSelectionManager : MonoBehaviour
         Transform cardSlot = DeckManager.Instance.GetSlotTransformFromCard(_selectedCardObject);
         
         //Tween back to slot and scale card down to 1
-        TweenManager.Instance.CardMove(_selectedCardObject, cardSlot.position);
+        TweenManager.Instance.CardMove(_selectedCardObject, cardSlot.position).OnComplete(()=> _canStopCoroutine = true); //can stop coroutine after card move done
         TweenManager.Instance.CardScale(_selectedCardObject, false);
 
         _selectedCardObject = null; //Unselect card
