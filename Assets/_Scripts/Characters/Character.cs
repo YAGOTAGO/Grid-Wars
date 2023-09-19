@@ -36,6 +36,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         node.SetSurfaceWalkable(true);
         node.SetCharacterOnNode(-1);
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))

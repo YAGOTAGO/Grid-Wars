@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerSpawner : NetworkBehaviour
 {
-
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private string _sceneName; //the scene which we want the characters to spawn in
     [SerializeField] private List<Vector3Int> _spawnLocations = new();

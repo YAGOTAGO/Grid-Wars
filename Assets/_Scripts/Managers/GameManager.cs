@@ -33,11 +33,6 @@ public class GameManager : NetworkBehaviour
         }
     }
     
-    public bool IsAlly(AbstractCharacter character)
-    {
-        return character.IsOwner;
-    }
-
     public void PopUpText(string text)
     {
         if(_popUpCoroutine != null)
