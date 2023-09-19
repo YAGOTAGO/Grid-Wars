@@ -18,7 +18,7 @@ public class BurnEffect : EffectBase
     {
         DamageManager.Damage(new DamageInfo(_damage, DamageType.FIRE, null, character));
         _duration--;
-        character.UpdateEffectDescrip(this);
+        character.UpdateEffectDescription(this);
 
         if (_duration <= 0) 
         { 

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41999926ab055e6468f129d2d2e76df3, type: 3}
   m_Name: RandomRewardSurface
   m_EditorClassIdentifier: 
-  _commonRewardIcon: {fileID: 0}
-  _rareRewardIcon: {fileID: 0}
-  _epicRewardIcon: {fileID: 0}
+  _commonRewardIcon: {fileID: 21300000, guid: 46cbda966d36b8d4caf1fa6b6f14fe6b, type: 3}
+  _rareRewardIcon: {fileID: 21300000, guid: 4a44897fbbb1242499c4de2a04885692, type: 3}
+  _epicRewardIcon: {fileID: 21300000, guid: e248df7fe9a74854c90e50e4f037a158, type: 3}
   _commonChance: 50
   _rareChance: 30

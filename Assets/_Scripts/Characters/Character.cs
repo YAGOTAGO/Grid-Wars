@@ -59,7 +59,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
             if (effect.Equals(ef))
             {
                 effect.AddToDuration(ef.Duration);
-                UpdateEffectDescrip(effect);
+                UpdateEffectDescription(effect);
             }
         }
 
@@ -88,7 +88,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     /// Updates the hover tooltip of the effect UI object
     /// </summary>
     /// <param name="ef">The effect we want to update the description of</param>
-    public void UpdateEffectDescrip(EffectBase ef)
+    public void UpdateEffectDescription(EffectBase ef)
     {
         _effectToUIDict[ef].GetComponent<HoverTip>().SetDescription(ef.Description);
     }

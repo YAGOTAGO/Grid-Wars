@@ -14,7 +14,6 @@ public class GridManager : NetworkBehaviour
     private Grid _grid; //used to put all tiles under
     private NetworkVariable<int> _tileNum = new(0); //to name tiles in editor
 
-
     [Header("Tile Prefabs")]
     private Dictionary<TileType, HexNode> _prefabDict;
     [SerializeField] private Tilemap _tileMap; //the map we will copy

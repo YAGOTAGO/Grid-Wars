@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6da4f128e99aa684e8e6fff109eda79b, type: 3}
-  m_Name: Tree
+  m_Name: RandomChestTile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: 5f5808d563a9bb5419d68b036033717e, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 20bd366b88d3f4e4384767c4d2b335ce, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules: []
   m_FlatTop: 1
-  Type: 2
-  Surface: {fileID: 11400000, guid: 7a379190edcbb4e49be9fb1034270cb6, type: 2}
+  Type: 0
+  Surface: {fileID: 11400000, guid: cd51f5786ab703b458c8c6818fa834fe, type: 2}
