@@ -8,6 +8,9 @@ public class LogManager : NetworkBehaviour
     public static LogManager Instance;
     [SerializeField] private TextMeshProUGUI _logTMP;
 
+    private string _enemyIcon = "<sprite index=0> ";
+    private string _allyIcon = "<sprite index=1> ";
+
     public void Awake()
     {
         Instance = this;
@@ -17,19 +20,19 @@ public class LogManager : NetworkBehaviour
     {
         string name = GetCardName(card);
         string move = isPush ? "pushed" : "pulled";
-        FixedString128Bytes log = $"\n#{character.CharacterID.Value} was {move} {amountPushed} by <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} was {move} {amountPushed} by <u><link={name}>{name}</link></u>.\n";
         SyncLogs(log);
     }
 
     public void LogGenericDamage(AbstractCharacter character, int damage, string source)
     {
-        FixedString128Bytes log = $"\n#{character.CharacterID.Value} took {damage} damage from {source}.";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} took {damage} damage from {source}.\n";
         SyncLogs(log);
     }
         
     public void LogCardReward(Rarity rarity)
     {
-        FixedString128Bytes log = $"\nxyz picked a {rarity} card as reward.";
+        FixedString128Bytes log = $"xyz picked a {rarity} card as reward.\n";
         SyncLogs(log);
     }
 
@@ -37,7 +40,7 @@ public class LogManager : NetworkBehaviour
     {
         string name = GetCardName(card);
 
-        FixedString128Bytes log = $"\npicked up <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"picked up <u><link={name}>{name}</link></u>.\n";
         SyncLogs(log);
     }
 
@@ -49,7 +52,7 @@ public class LogManager : NetworkBehaviour
         if (numCardsDrawn == 0) { return; }
 
         string plural = numCardsDrawn == 1 ? "card" : "cards";
-        FixedString128Bytes log = $"\n drew {numCardsDrawn} {plural} using <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $" drew {numCardsDrawn} {plural} using <u><link={name}>{name}</link></u>.\n";
         DeckManager.Instance.NumOfCardsDrawn = 0; //reset it for next time
         SyncLogs(log);
     }
@@ -57,7 +60,7 @@ public class LogManager : NetworkBehaviour
     public void LogMovementAbility(CardBase card, AbstractCharacter character ,int amount)
     {
         string name = GetCardName(card);
-        FixedString128Bytes log = $"\n#{character.CharacterID.Value} moved {amount} hexes using <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} moved {amount} hexes using <u><link={name}>{name}</link></u>.\n";
         SyncLogs(log);
     }
 
@@ -66,7 +69,7 @@ public class LogManager : NetworkBehaviour
         string name = GetCardName(card);
         if (dmgInfo.Target == null) { return; }
         
-        FixedString128Bytes log = $"\n#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.\n";
         //Debug.Log(Encoding.UTF8.GetByteCount(log.ToString()));
         SyncLogs(log);
     }
@@ -78,12 +81,14 @@ public class LogManager : NetworkBehaviour
     #region Network Synching
     private void SyncLogs(FixedString128Bytes log)
     {
-        if (IsServer) //update all clients (includes server)
+        if (IsServer) //update other client
         {
+            _logTMP.text += _allyIcon + log;
             UpdateLogManagerClientRPC(log);
         }
         else //Send rpc that will then update all clients
         {
+            _logTMP.text += _allyIcon + log;
             UpdateLogManagerServerRPC(log);
         }
     }
@@ -91,13 +96,16 @@ public class LogManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UpdateLogManagerServerRPC(FixedString128Bytes logString)
     {
-        UpdateLogManagerClientRPC(logString);
+        _logTMP.text += _enemyIcon + logString;
     }
 
     [ClientRpc]
     public void UpdateLogManagerClientRPC(FixedString128Bytes logString)
     {
-        _logTMP.text += logString;
+        if(!IsServer) 
+        {
+            _logTMP.text += _enemyIcon + logString;
+        } 
     }
     #endregion
 }
