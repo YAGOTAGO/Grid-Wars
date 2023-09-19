@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -68,16 +68,15 @@ public class CardDisplay : MonoBehaviour
     {
         switch(_card.Rarity)
         {
-            case Rarity.BASIC: _cardTemplate.sprite = _basicTemplate; break;
-            case Rarity.COMMON: _cardTemplate.sprite = _commonTemplate; break;
-            case Rarity.RARE: _cardTemplate.sprite = _rareTemplate; break;
+            case Rarity.BASIC: _cardTemplate.sprite = _basicTemplate; _durabilityTMP.text = "∞"; break;
+            case Rarity.COMMON: _cardTemplate.sprite = _commonTemplate; _durabilityTMP.text = _card.Durability.ToString(); break;
+            case Rarity.RARE: _cardTemplate.sprite = _rareTemplate; _durabilityTMP.text = _card.Durability.ToString(); break;
         }
 
         _nameTMP.text = _card.Name;
         _cardArt.sprite = _card.CardArt;
         _descripTMP.text = _card.Description;
         _shape.sprite = _card.ShapeArt;
-        _durabilityTMP.text = _card.Durability.ToString();
     }
 
     //Call this to initialize new disaplay
