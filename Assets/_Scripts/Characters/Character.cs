@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,16 @@ public class Character : AbstractCharacter //may need to become network behaviou
         AddEffect(Database.Instance.GetEffectByName("BurnEffect"));
     }
 
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        Destroy(_characterStatsUI);
+
+        //Free up the hexnode
+        HexNode node = GetNodeOn();
+        node.SetSurfaceWalkable(true);
+        node.SetCharacterOnNode(-1);
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
@@ -114,8 +125,23 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
         if (Health.Value <= 0)
         {
-            Destroy(this);
+            if(IsServer)
+            {
+                GetComponent<NetworkObject>().Despawn();
+            }
+            else
+            {
+                DespawnServerRPC();
+            }
+            
         }
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DespawnServerRPC()
+    {
+        GetComponent<NetworkObject>().Despawn();
     }
 
     public GameObject GetEffectGameObject(EffectBase ef)
