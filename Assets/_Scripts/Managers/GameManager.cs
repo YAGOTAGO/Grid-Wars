@@ -35,6 +35,11 @@ public class GameManager : NetworkBehaviour
             ButtonColorUpdateClientRPC();
         }
     }
+
+    public bool IsAlly(AbstractCharacter character)
+    {
+        return Allies.Contains(character.CharacterID.Value);
+    }
     
     public void PopUpText(string text)
     {
