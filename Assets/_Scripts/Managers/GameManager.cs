@@ -16,6 +16,9 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI _popUpTMP;
     private Coroutine _popUpCoroutine;
 
+    public List<int> Allies = new();
+    public List<int> Enemies = new();
+
     private void Awake()
     {
         Instance = this;
