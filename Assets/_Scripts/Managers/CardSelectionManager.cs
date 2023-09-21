@@ -32,7 +32,6 @@ public class CardSelectionManager : MonoBehaviour
     private Coroutine _cardLoopCoroutine; //store this to cancel it later
     [SerializeField]private bool _canStopCoroutine = true;
     private HexNode _priorMouseNode;
-    public List<HexNode> BreakPoints = new();
     #endregion
 
     void Start()
@@ -283,7 +282,6 @@ public class CardSelectionManager : MonoBehaviour
             if (_shape.Contains(mouseNode) && NodeClicked()) //Have to check if target is valid based on type
             {
                 _priorMouseNode = mouseNode;
-                BreakPoints.Clear();
                 return true;
             }
         }

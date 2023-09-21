@@ -87,10 +87,13 @@ public class RandomRewardSurface : SurfaceBase
 
     public override void OnEnterNode(AbstractCharacter character)
     {
-        CardRewardScreen.Instance.PickThreeCards(Rarity);
+        if (GameManager.Instance.IsItMyTurn()) //only pick card if is your turn
+        {
+            CardRewardScreen.Instance.PickThreeCards(Rarity);
+            LogManager.Instance.LogCardReward(Rarity);
+        }
+
         character.GetNodeOn().SetSurface(Database.Instance.GetSurface("EmptySurface")); //remove this surface on touch
         character.GetNodeOn().SetSurfaceWalkable(false); //make new surface not walkable
-
-        LogManager.Instance.LogCardReward(Rarity);
     }
 }

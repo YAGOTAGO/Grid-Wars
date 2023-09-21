@@ -66,23 +66,4 @@ public class PathFinding
 
     }
         
-    public static List<HexNode> FindPathBreakpoints(HexNode startNode, HexNode targetNode, List<HexNode> breakpoints)
-    {
-        if (breakpoints.Count == 0) { return FindPath(startNode, targetNode); }
-
-        List<HexNode> pathToFirstBreakpoint = FindPath(startNode, breakpoints[0]);
-        HexNode currentBreakpoint = breakpoints[0];
-
-        for (int i = 1; i < breakpoints.Count; i++)
-        {
-            List<HexNode> tempPath = FindPath(currentBreakpoint, breakpoints[i]);
-            pathToFirstBreakpoint.AddRange(tempPath.GetRange(1, tempPath.Count - 1));
-            currentBreakpoint = breakpoints[i];
-        }
-
-        List<HexNode> pathFromLastBreakpointToTarget = FindPath(currentBreakpoint, targetNode);
-        pathToFirstBreakpoint.AddRange(pathFromLastBreakpointToTarget.GetRange(1, pathFromLastBreakpointToTarget.Count - 1));
-
-        return pathToFirstBreakpoint;
-    }
 }

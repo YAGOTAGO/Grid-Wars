@@ -8,8 +8,8 @@ public class LogManager : NetworkBehaviour
     public static LogManager Instance;
     [SerializeField] private TextMeshProUGUI _logTMP;
 
-    private string _enemyIcon = "<sprite index=0> ";
-    private string _allyIcon = "<sprite index=1> ";
+    private const string _enemyIcon = "<sprite index=0> ";
+    private const string _allyIcon = "<sprite index=1> ";
 
     public void Awake()
     {
@@ -75,7 +75,6 @@ public class LogManager : NetworkBehaviour
         if (dmgInfo.Target == null) { return; }
         
         FixedString128Bytes log = $"#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.";
-        //Debug.Log(Encoding.UTF8.GetByteCount(log.ToString()));
         SyncLogs(log);
     }
 

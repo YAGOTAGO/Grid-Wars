@@ -68,10 +68,6 @@ public class ActionQueue : MonoBehaviour
         _isQueueRunning = false;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns>Returns true when queue is not running</returns>
     public bool IsQueueStopped()
     {
         return !_isQueueRunning;
