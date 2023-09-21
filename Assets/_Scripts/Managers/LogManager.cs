@@ -88,12 +88,12 @@ public class LogManager : NetworkBehaviour
     {
         if (IsServer) //update other client
         {
-            _logTMP.text += _allyIcon + log;
+            _logTMP.text += _allyIcon + log + "\n";
             UpdateLogManagerClientRPC(log);
         }
         else //Send rpc that will then update all clients
         {
-            _logTMP.text += _allyIcon + log;
+            _logTMP.text += _allyIcon + log + "\n";
             UpdateLogManagerServerRPC(log);
         }
     }
