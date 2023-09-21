@@ -21,8 +21,36 @@ public class HighlightManager : NetworkBehaviour
 
     public void ClearTargetAndRange()
     {
+        if (IsServer)
+        {
+            ClearRangeMap();
+            ClearTargetMap();
+            ClearTargetRangeClientRPC(); //server can execute on all clients
+        }
+        else
+        {
+            ClearRangeMap();
+            ClearTargetMap();
+            ClearTargeRangeServerRPC(); //client has to ask server to execute
+        }
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ClearTargeRangeServerRPC()
+    {
         ClearRangeMap();
         ClearTargetMap();
+    }
+
+    [ClientRpc]
+    private void ClearTargetRangeClientRPC()
+    {
+        if(!IsServer)
+        {
+            ClearRangeMap();
+            ClearTargetMap();
+        }
     }
 
     public void ClearTargetMap()
@@ -47,16 +75,40 @@ public class HighlightManager : NetworkBehaviour
     #endregion
 
     //Highlights tile at grid pos
-    private void RangeHighlight(Vector3Int cellPos)
+    private void RangeHighlight(Vector3Int gridPos)
     {
-        _rangeMap.SetTile(cellPos, _hoverTile);
+        if(IsServer)
+        {
+            _rangeMap.SetTile(gridPos, _hoverTile);
+            RangeHighlightClientRPC(gridPos);
+        }
+        else
+        {
+            _rangeMap.SetTile(gridPos, _hoverTile);
+            RangeHighlightServerRPC(gridPos);
+        }
     }
         
     private void TargetHighlight(Vector3Int pos)
     {
         _targetMap.SetTile(pos, _targetTile);
     }
-    
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RangeHighlightServerRPC(Vector3Int pos)
+    {
+        _rangeMap.SetTile(pos, _hoverTile);
+    }
+
+    [ClientRpc]
+    private void RangeHighlightClientRPC(Vector3Int pos)
+    {
+        if(!IsServer)
+        {
+            _rangeMap.SetTile(pos, _hoverTile);
+        }
+    }
+
     public void HighlightHover(HexNode hex, bool highlight)
     {
         Vector3Int currGridPos = hex.GridPos.Value;
