@@ -27,7 +27,6 @@ public class CardRewardScreen : MonoBehaviour
 
     private IEnumerator CardRewards(Rarity rarity)
     {
-
         _promptTmp.gameObject.SetActive(true);
         _promptTmp.text = "Pick 1 of these 3 "+ rarity.ToString() +" cards to add to your deck.";
 
@@ -50,18 +49,23 @@ public class CardRewardScreen : MonoBehaviour
         card2.transform.SetParent(_positions[1]);
         card3.transform.SetParent(_positions[2]);
 
+        //Access the card clicked component
+        OnCardClick card1CardClick = card1.GetComponent<OnCardClick>();
+        OnCardClick card2CardClick = card2.GetComponent<OnCardClick>();
+        OnCardClick card3CardClick = card3.GetComponent<OnCardClick>();
+
         //Makes it so the card on click event is for rewards and not actions
-        card1.GetComponent<OnCardClick>().CardIsForReward();
-        card2.GetComponent<OnCardClick>().CardIsForReward();
-        card3.GetComponent<OnCardClick>().CardIsForReward();
+        card1CardClick.CardIsForReward();
+        card2CardClick.CardIsForReward();
+        card3CardClick.CardIsForReward();
 
         _skipButton.gameObject.SetActive(true);
 
         //yield until card is clicked
         yield return new WaitUntil(() =>
-        (card1.GetComponent<OnCardClick>().IsCardRewardClicked()) ||
-        (card2.GetComponent<OnCardClick>().IsCardRewardClicked()) ||
-        (card3.GetComponent<OnCardClick>().IsCardRewardClicked()) ||
+        (card1CardClick.IsCardRewardClicked()) ||
+        (card2CardClick.IsCardRewardClicked()) ||
+        (card3CardClick.IsCardRewardClicked()) ||
         _skipButtonPressed);
 
         _promptTmp.gameObject.SetActive(false);
@@ -79,9 +83,9 @@ public class CardRewardScreen : MonoBehaviour
 
         //Get the card that was clicked
         GameObject chosenCard = null;
-        if (card1.GetComponent<OnCardClick>().IsCardRewardClicked()) { chosenCard = card1; Destroy(card2); Destroy(card3); }
-        else if (card2.GetComponent<OnCardClick>().IsCardRewardClicked()) { chosenCard = card2; Destroy(card1); Destroy(card3); }
-        else if (card3.GetComponent<OnCardClick>().IsCardRewardClicked()) { chosenCard = card3; Destroy(card1); Destroy(card2); }
+        if (card1CardClick.IsCardRewardClicked()) { chosenCard = card1; Destroy(card2); Destroy(card3); }
+        else if (card2CardClick.IsCardRewardClicked()) { chosenCard = card2; Destroy(card1); Destroy(card3); }
+        else if (card3CardClick.IsCardRewardClicked()) { chosenCard = card3; Destroy(card1); Destroy(card2); }
 
         //tween card to the deck and then add it to the deck
         Tween cardMove = TweenManager.Instance.CardMove(chosenCard, DeckManager.Instance.DeckTransform.position).OnComplete(() =>

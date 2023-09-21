@@ -108,6 +108,9 @@ public class GameManager : NetworkBehaviour
     private void OnServerTurnValueChanged(bool prevVal,  bool newVal)
     {
         ButtonColorUpdate();
+
+        //start timer
+
     }
 
     private void OnEndTurnButtonClick()

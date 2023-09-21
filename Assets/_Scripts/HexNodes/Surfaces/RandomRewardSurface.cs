@@ -23,7 +23,7 @@ public class RandomRewardSurface : SurfaceBase
 
     private void OnDestroy()
     {
-        if (!Application.isPlaying)
+        if (SurfaceSync.Instance != null)
         {
             SurfaceSync.Instance.RemoveRarity(ID);
         }

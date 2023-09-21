@@ -7,11 +7,8 @@ public class ActionQueue : MonoBehaviour
 {
 
     public static ActionQueue Instance;
-
-    #region Coroutine Queue
     private readonly Queue<Func<IEnumerator>> methodQueue = new();
     private bool _isQueueRunning = false;
-    #endregion
 
     private void Awake()
     {
