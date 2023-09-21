@@ -18,32 +18,43 @@ public class RandomRewardSurface : SurfaceBase
 
     private bool _isWalkable = true;
     private bool _canAbilitiesPassthrough = true;
-
     private Rarity _rarity;
+    private int ID => (int)NodeOn.NetworkObject.NetworkObjectId;
 
+    private void OnDestroy()
+    {
+        SurfaceSync.Instance.RemoveRarity(ID);
+    }
+    
     protected Rarity Rarity
     {
         get
         {
-            if (_rarity == default)
+            if (!SurfaceSync.Instance.ContainsID(ID))
             {
                 int random = Random.Range(1, 101);
-
                 if(random <= _commonChance)
                 {
+                    SurfaceSync.Instance.SetRarity(ID, Rarity.COMMON);
                     _rarity = Rarity.COMMON;
                     return _rarity;
                 }
                 if(random <= (_commonChance + _rareChance))
                 {
+                    SurfaceSync.Instance.SetRarity(ID, Rarity.RARE);
                     _rarity = Rarity.RARE;
                     return _rarity;
                 }
                 if (random <= 100)
                 {
+                    SurfaceSync.Instance.SetRarity(ID, Rarity.EPIC);
                     _rarity = Rarity.EPIC;
                     return _rarity;
                 }
+            }
+            else
+            {
+                _rarity = SurfaceSync.Instance.GetRarity(ID);
             }
             return _rarity;
         }

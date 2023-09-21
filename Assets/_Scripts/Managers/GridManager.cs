@@ -12,21 +12,21 @@ public class GridManager : NetworkBehaviour
     public Dictionary<Vector3Int, HexNode> GridCoordTiles { get; private set; } = new(); //know which tile by position
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
     private Grid _grid; //used to put all tiles under
-    private NetworkVariable<int> _tileNum = new(0); //to name tiles in editor
+    private NetworkVariable<int> _tileNum = new(0); //used to yield
 
     [Header("Tile Prefabs")]
     private Dictionary<TileType, HexNode> _prefabDict;
     [SerializeField] private Tilemap _tileMap; //the map we will copy
     [SerializeField] private List<HexNode> _prefabs;
-
-    void Awake()
+    
+    public void Awake()
     {
         Instance = this;
         _grid = GetComponent<Grid>();
         
     }
 
-    void Start()
+    public void Start()
     {
         InitDict();
 

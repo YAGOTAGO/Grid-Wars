@@ -101,7 +101,12 @@ public class HexNode : NetworkBehaviour
     /// <param name="newVal"></param>
     private void UpdateTheSurfaceReference(FixedString32Bytes prevVal,  FixedString32Bytes newVal)
     {
+        if(_surface!= null)
+        {
+            Destroy(_surface);
+        }
         _surface = Database.Instance.GetSurface(newVal.Value.Replace("(Clone)", "")); //Have to get rid of "clone" to make it work
+        _surface.NodeOn = this;
         _surfaceRenderer.sprite = _surface.SurfaceSprite;
     }
 
@@ -124,7 +129,7 @@ public class HexNode : NetworkBehaviour
         {
             SurfaceName.Value = surface.name;
         }
-        else if(!IsServer && IsClient)
+        else
         {
             SetSurfaceServerRPC(surface.name);
         }
@@ -216,13 +221,11 @@ public class HexNode : NetworkBehaviour
         {
             return _characterOnNode;
         }
-        else if(!IsServer && IsClient)
+        else
         {
             return Database.Instance.PlayerCharactersDB.Get(_characterOnNodeID.Value);
         }
 
-        Debug.LogWarning("Get Character On Node failed no server or clients");
-        return null;
     }
 
     //So we can globally know what player is hovering over
