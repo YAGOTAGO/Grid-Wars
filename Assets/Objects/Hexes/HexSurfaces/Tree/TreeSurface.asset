@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa94d14f7359494e8df5db2770026b0, type: 3}
   m_Name: TreeSurface
   m_EditorClassIdentifier: 
+  NodeOn: {fileID: 0}
   _isWalkable: 0
   _canAbilitiesPassthrough: 0
   _surfaceSprites:
   - {fileID: 21300000, guid: 6f2772fd96124fb45aa711cd05ae85d3, type: 3}
+  - {fileID: 21300000, guid: 0b50523121135eb46b83007c7e2b224e, type: 3}
+  - {fileID: 21300000, guid: d0f905a735aa683478b10bb381e91134, type: 3}
