@@ -59,6 +59,7 @@ public class CardHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         StartCoroutine(KeywordTimer());
         eventData.selectedObject = gameObject;
+        transform.parent.SetAsLastSibling();
     }
 
     public void OnPointerExit(PointerEventData eventData)

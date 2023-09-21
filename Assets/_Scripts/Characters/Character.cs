@@ -31,6 +31,9 @@ public class Character : AbstractCharacter //may need to become network behaviou
         base.OnNetworkDespawn();
         Destroy(_characterStatsUI);
 
+        //Remove ourselves from DB
+        Database.Instance.PlayerCharactersDB.Remove(CharacterID.Value);
+
         //Free up the hexnode
         HexNode node = GetNodeOn();
         node.SetSurfaceWalkable(true);
