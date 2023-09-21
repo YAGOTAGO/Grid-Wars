@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetingType: 0
   _damageType: 0
-  _damageAmount: 1
+  _damageAmount: 20
   _shape: 2
   _prompt: Select a direction to unleash the flames
   _range: 3

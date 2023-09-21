@@ -29,9 +29,14 @@ public class Character : AbstractCharacter //may need to become network behaviou
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
+        
+        //Log event
+        LogManager.Instance.LogOnSlain(this);
+        
+        //Remove stats UI
         Destroy(_characterStatsUI);
 
-        //Remove ourselves from DB
+        //Remove Character from DB
         Database.Instance.PlayerCharactersDB.Remove(CharacterID.Value);
 
         //Free up the hexnode
@@ -163,11 +168,11 @@ public class Character : AbstractCharacter //may need to become network behaviou
     {
         if(highlight)
         {
-            HighlightManager.Instance.RangeHighlight(GetNodeOn().GridPos.Value);
+            HighlightManager.Instance.CharacterHighlight(GetNodeOn().GridPos.Value);
         }
         else
         {
-            HighlightManager.Instance.RangeUnhighlight(GetNodeOn().GridPos.Value);
+            HighlightManager.Instance.CharacterUnhighlight(GetNodeOn().GridPos.Value);
         }
     }
 

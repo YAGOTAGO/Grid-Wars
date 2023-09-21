@@ -16,23 +16,28 @@ public class LogManager : NetworkBehaviour
         Instance = this;
     }
 
+    public void LogOnSlain(AbstractCharacter character)
+    {
+        FixedString128Bytes log = $"#{character.CharacterID.Value} was slain.";
+        SyncLogs(log);
+    }
     public void LogPushPullAbility(AbstractCharacter character, CardBase card, int amountPushed, bool isPush)
     {
         string name = GetCardName(card);
         string move = isPush ? "pushed" : "pulled";
-        FixedString128Bytes log = $"#{character.CharacterID.Value} was {move} {amountPushed} by <u><link={name}>{name}</link></u>.\n";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} was {move} {amountPushed} by <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 
     public void LogGenericDamage(AbstractCharacter character, int damage, string source)
     {
-        FixedString128Bytes log = $"#{character.CharacterID.Value} took {damage} damage from {source}.\n";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} took {damage} damage from {source}.";
         SyncLogs(log);
     }
         
     public void LogCardReward(Rarity rarity)
     {
-        FixedString128Bytes log = $"xyz picked a {rarity} card as reward.\n";
+        FixedString128Bytes log = $"xyz picked a {rarity} card as reward.";
         SyncLogs(log);
     }
 
@@ -40,7 +45,7 @@ public class LogManager : NetworkBehaviour
     {
         string name = GetCardName(card);
 
-        FixedString128Bytes log = $"picked up <u><link={name}>{name}</link></u>.\n";
+        FixedString128Bytes log = $"picked up <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 
@@ -52,7 +57,7 @@ public class LogManager : NetworkBehaviour
         if (numCardsDrawn == 0) { return; }
 
         string plural = numCardsDrawn == 1 ? "card" : "cards";
-        FixedString128Bytes log = $" drew {numCardsDrawn} {plural} using <u><link={name}>{name}</link></u>.\n";
+        FixedString128Bytes log = $" drew {numCardsDrawn} {plural} using <u><link={name}>{name}</link></u>.";
         DeckManager.Instance.NumOfCardsDrawn = 0; //reset it for next time
         SyncLogs(log);
     }
@@ -60,7 +65,7 @@ public class LogManager : NetworkBehaviour
     public void LogMovementAbility(CardBase card, AbstractCharacter character ,int amount)
     {
         string name = GetCardName(card);
-        FixedString128Bytes log = $"#{character.CharacterID.Value} moved {amount} hexes using <u><link={name}>{name}</link></u>.\n";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} moved {amount} hexes using <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 
@@ -69,7 +74,7 @@ public class LogManager : NetworkBehaviour
         string name = GetCardName(card);
         if (dmgInfo.Target == null) { return; }
         
-        FixedString128Bytes log = $"#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.\n";
+        FixedString128Bytes log = $"#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.";
         //Debug.Log(Encoding.UTF8.GetByteCount(log.ToString()));
         SyncLogs(log);
     }
@@ -96,7 +101,7 @@ public class LogManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void UpdateLogManagerServerRPC(FixedString128Bytes logString)
     {
-        _logTMP.text += _enemyIcon + logString;
+        _logTMP.text += _enemyIcon + logString + "\n";
     }
 
     [ClientRpc]
@@ -104,7 +109,7 @@ public class LogManager : NetworkBehaviour
     {
         if(!IsServer) 
         {
-            _logTMP.text += _enemyIcon + logString;
+            _logTMP.text += _enemyIcon + logString + "\n";
         } 
     }
     #endregion

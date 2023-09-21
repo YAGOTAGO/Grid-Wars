@@ -43,6 +43,7 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth(int health)
     {
+        if (health <= 0) { return; } //character destroyed so no need to do anything
         _healthBarSlider.wholeNumbers = false; // Ensure whole numbers only
         if (health < _health) //lost HP so show red
         {

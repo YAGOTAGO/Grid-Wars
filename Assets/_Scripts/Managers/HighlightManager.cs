@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class HighlightManager : MonoBehaviour
+public class HighlightManager : NetworkBehaviour
 {
     public static HighlightManager Instance;
 
@@ -16,15 +17,7 @@ public class HighlightManager : MonoBehaviour
     [SerializeField] private Tilemap _rangeMap;
     [SerializeField] private Tilemap _targetMap;
 
-    //For highlighting
-    private HexNode _priorNode;
-
     private void Awake(){ Instance = this; }
-
-    private void Update()
-    {
-        Highlight();
-    }
 
     public void ClearTargetAndRange()
     {
@@ -36,44 +29,49 @@ public class HighlightManager : MonoBehaviour
     {
         _targetMap.ClearAllTiles();
     }
-
-    //Highlights tile at grid pos
-    public void RangeHighlight(Vector3Int cellPos)
-    {
-        _rangeMap.SetTile(cellPos, _hoverTile);
-    }
-
-    public void RangeUnhighlight(Vector3Int cellPos)
-    {
-        _rangeMap.SetTile(cellPos, null);
-    }
-    public void TargetHighlight(Vector3Int pos)
-    {
-        _targetMap.SetTile(pos, _targetTile);
-    }
-
-    //Clears all tiles
-    public void ClearRangeMap()
+    private void ClearRangeMap()
     {
         _rangeMap.ClearAllTiles();
     }
 
-    //Highlights on hover
-    private void Highlight()
+    #region character highlighting
+    public void CharacterHighlight(Vector3Int cellPos)
     {
-        HexNode curr = MouseManager.Instance.NodeMouseIsOver;
-        if(curr == null) { return; }
-        Vector3Int currGridPos = curr.GridPos.Value;
+        _rangeMap.SetTile(cellPos, _hoverTile);
+    }
 
-        if (curr !=_priorNode)
+    public void CharacterUnhighlight(Vector3Int cellPos)
+    {
+        _rangeMap.SetTile(cellPos, null);
+    }
+    #endregion
+
+    //Highlights tile at grid pos
+    private void RangeHighlight(Vector3Int cellPos)
+    {
+        _rangeMap.SetTile(cellPos, _hoverTile);
+    }
+        
+    private void TargetHighlight(Vector3Int pos)
+    {
+        _targetMap.SetTile(pos, _targetTile);
+    }
+    
+    public void HighlightHover(HexNode hex, bool highlight)
+    {
+        Vector3Int currGridPos = hex.GridPos.Value;
+
+        if (highlight)
         {
-            if(_priorNode != null){ _hoverMap.SetTile(_priorNode.GridPos.Value, null); }// Remove old hoverTile
             _hoverMap.SetTile(currGridPos, _hoverTile);
-            _priorNode = curr;
+        }
+        else
+        {
+            _hoverMap.SetTile(currGridPos, null);
         }
     }
 
-    public void HighlightRangeSet(List<HexNode> visited)
+    public void HighlightRangeList(List<HexNode> visited)
     {
         foreach (HexNode node in visited)
         {

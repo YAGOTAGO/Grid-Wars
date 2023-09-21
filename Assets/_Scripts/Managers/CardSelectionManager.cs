@@ -150,7 +150,7 @@ public class CardSelectionManager : MonoBehaviour
                     continue;
             }
 
-            HighlightManager.Instance.HighlightRangeSet(range);
+            HighlightManager.Instance.HighlightRangeList(range);
 
             yield return null; //have to wait a frame before trying to detect click again
 

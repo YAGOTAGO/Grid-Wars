@@ -231,7 +231,13 @@ public class HexNode : NetworkBehaviour
         if (!EventSystem.current.IsPointerOverGameObject())
         {
             MouseManager.Instance.NodeMouseIsOver = this;
+            HighlightManager.Instance.HighlightHover(this, true);
         }
+    }
+
+    private void OnMouseExit()
+    {
+        HighlightManager.Instance.HighlightHover(this, false);
     }
 }
 
