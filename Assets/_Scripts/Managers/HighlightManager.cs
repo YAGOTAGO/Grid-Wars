@@ -19,28 +19,26 @@ public class HighlightManager : NetworkBehaviour
 
     private void Awake(){ Instance = this; }
 
+    #region TileMaps Clear
     public void ClearTargetAndRange()
     {
+        Debug.Log("Clear both called");
         if (IsServer)
         {
-            ClearRangeMap();
-            ClearTargetMap();
-            ClearTargetRangeClientRPC(); //server can execute on all clients
+            ClearTiles();
+            ClearTargetRangeClientRPC();
         }
         else
         {
-            ClearRangeMap();
-            ClearTargetMap();
-            ClearTargeRangeServerRPC(); //client has to ask server to execute
+            ClearTiles();
+            ClearTargeRangeServerRPC();
         }
-
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void ClearTargeRangeServerRPC()
     {
-        ClearRangeMap();
-        ClearTargetMap();
+        ClearTiles();
     }
 
     [ClientRpc]
@@ -48,21 +46,49 @@ public class HighlightManager : NetworkBehaviour
     {
         if(!IsServer)
         {
-            ClearRangeMap();
-            ClearTargetMap();
+            ClearTiles();
         }
+    }
+
+    private void ClearTiles()
+    {
+        _rangeMap.ClearAllTiles();
+        _targetMap.ClearAllTiles();
     }
 
     public void ClearTargetMap()
     {
-        _targetMap.ClearAllTiles();
-    }
-    private void ClearRangeMap()
-    {
-        _rangeMap.ClearAllTiles();
+        Debug.Log("Clear just target map");
+        if (IsServer)
+        {
+            _targetMap.ClearAllTiles();
+            ClearTargetClientRPC();
+        }
+        else
+        {
+            _targetMap.ClearAllTiles();
+            ClearTargetServerRPC();
+        }
+        
     }
 
-    #region character highlighting
+    [ClientRpc]
+    private void ClearTargetClientRPC()
+    {
+        if (!IsServer)
+        {
+            _targetMap.ClearAllTiles();
+        }
+    }
+
+    [ServerRpc(RequireOwnership =false)]
+    private void ClearTargetServerRPC()
+    {
+        _targetMap.ClearAllTiles();
+    }
+
+    #endregion
+    #region Character Highlighting
     public void CharacterHighlight(Vector3Int cellPos)
     {
         _rangeMap.SetTile(cellPos, _hoverTile);
@@ -74,9 +100,10 @@ public class HighlightManager : NetworkBehaviour
     }
     #endregion
 
-    //Highlights tile at grid pos
+    #region Range Highlighting
     private void RangeHighlight(Vector3Int gridPos)
     {
+        Debug.Log("Range highlight");
         if(IsServer)
         {
             _rangeMap.SetTile(gridPos, _hoverTile);
@@ -89,11 +116,6 @@ public class HighlightManager : NetworkBehaviour
         }
     }
         
-    private void TargetHighlight(Vector3Int pos)
-    {
-        _targetMap.SetTile(pos, _targetTile);
-    }
-
     [ServerRpc(RequireOwnership = false)]
     private void RangeHighlightServerRPC(Vector3Int pos)
     {
@@ -108,7 +130,40 @@ public class HighlightManager : NetworkBehaviour
             _rangeMap.SetTile(pos, _hoverTile);
         }
     }
+    #endregion
 
+    #region Target Highlighting
+    private void TargetHighlight(Vector3Int gridPos)
+    {
+        Debug.Log("Target highlight");
+        if (IsServer)
+        {
+            _targetMap.SetTile(gridPos, _targetTile);
+            TargetHighlightClientRPC(gridPos);
+        }
+        else
+        {
+            _targetMap.SetTile(gridPos, _targetTile);
+            TargetHighlightServerRPC(gridPos);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void TargetHighlightServerRPC(Vector3Int pos)
+    {
+        _targetMap.SetTile(pos, _targetTile);
+    }
+
+    [ClientRpc]
+    private void TargetHighlightClientRPC(Vector3Int pos)
+    {
+        if (!IsServer)
+        {
+            _targetMap.SetTile(pos, _targetTile);
+        }
+    }
+
+    #endregion
     public void HighlightHover(HexNode hex, bool highlight)
     {
         Vector3Int currGridPos = hex.GridPos.Value;

@@ -225,8 +225,6 @@ public class CardSelectionManager : MonoBehaviour
         //If we can cancel coroutine
         if(!_canStopCoroutine){ return; }
 
-        Debug.Log("Inside undo");
-
         _canStopCoroutine = false; //can't stop coroutine until move is done
 
         StopCoroutine(_cardLoopCoroutine);
