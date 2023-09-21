@@ -12,7 +12,7 @@ public class CardSelectionManager : MonoBehaviour
     public static CardSelectionManager Instance;
     [Header("References")]
     [SerializeField] private Transform _selectionLocation;
-    [SerializeField] private TextMeshProUGUI _promptTMP;
+    [SerializeField] private TextMeshPro _promptTMP;
 
     [Header("Buttons")]
     [SerializeField] private Button _confirmButton;

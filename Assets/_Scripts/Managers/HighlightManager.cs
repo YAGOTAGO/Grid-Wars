@@ -22,7 +22,6 @@ public class HighlightManager : NetworkBehaviour
     #region TileMaps Clear
     public void ClearTargetAndRange()
     {
-        Debug.Log("Clear both called");
         if (IsServer)
         {
             ClearTiles();
@@ -58,7 +57,6 @@ public class HighlightManager : NetworkBehaviour
 
     public void ClearTargetMap()
     {
-        Debug.Log("Clear just target map");
         if (IsServer)
         {
             _targetMap.ClearAllTiles();
@@ -103,7 +101,6 @@ public class HighlightManager : NetworkBehaviour
     #region Range Highlighting
     private void RangeHighlight(Vector3Int gridPos)
     {
-        Debug.Log("Range highlight");
         if(IsServer)
         {
             _rangeMap.SetTile(gridPos, _hoverTile);
@@ -135,7 +132,6 @@ public class HighlightManager : NetworkBehaviour
     #region Target Highlighting
     private void TargetHighlight(Vector3Int gridPos)
     {
-        Debug.Log("Target highlight");
         if (IsServer)
         {
             _targetMap.SetTile(gridPos, _targetTile);
