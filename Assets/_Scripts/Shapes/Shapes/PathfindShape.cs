@@ -6,10 +6,8 @@ using UnityEngine;
 
 public class PathfindShape : AbstractShape
 {
-    public override List<HexNode> GetShape(HexNode targetNode, AbilityBase ability)
+    public override List<HexNode> GetShape(HexNode targetNode, HexNode startNode, AbilityBase ability)
     {
-
-        HexNode startNode = CardSelectionManager.Instance.SelectedCharacter.GetNodeOn();
 
         List<HexNode> toSearch = new() { startNode };
         List<HexNode> processed = new();
@@ -71,5 +69,6 @@ public class PathfindShape : AbstractShape
     {
         return BFS.TargTypeBFS(startNode, ability);
     }
+
 }
 

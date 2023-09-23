@@ -20,14 +20,6 @@ public class RandomRewardSurface : SurfaceBase
     private bool _canAbilitiesPassthrough = true;
     private Rarity _rarity;
     private int ID => (int)NodeOn.NetworkObject.NetworkObjectId;
-
-    private void OnDestroy()
-    {
-        if (SurfaceSync.Instance != null)
-        {
-            SurfaceSync.Instance.RemoveRarity(ID);
-        }
-    }
     
     protected Rarity Rarity
     {

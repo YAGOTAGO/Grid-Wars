@@ -6,14 +6,12 @@ using UnityEngine;
 public class ShootingStarShape : AbstractShape
 {
     readonly LineShape lineShape = new();
-    public override List<HexNode> GetShape(HexNode mouseNode, AbilityBase ability)
+    public override List<HexNode> GetShape(HexNode mouseNode, HexNode startingNode, AbilityBase ability)
     {
-        List<HexNode> shape = lineShape.GetShape(mouseNode, ability);
-
-        HexNode selectedCharacterNode = CardSelectionManager.Instance.SelectedCharacter.GetNodeOn();
+        List<HexNode> shape = lineShape.GetShape(mouseNode, startingNode, ability);
 
         // Calculate the direction from the selected character's node to the target character's node.
-        Vector3 displacement = mouseNode.CubeCoord.Value - selectedCharacterNode.CubeCoord.Value;
+        Vector3 displacement = mouseNode.CubeCoord.Value - startingNode.CubeCoord.Value;
         Vector3 direction = displacement.normalized;
         Vector3Int directionInt = new(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y), Mathf.RoundToInt(direction.z));
 

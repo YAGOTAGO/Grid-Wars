@@ -2,7 +2,6 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -27,13 +26,18 @@ public class CardSelectionManager : MonoBehaviour
     private GameObject _selectedCardObject; //game object so we can potentially destroy card
     private CardBase _selectedCard; //The information of what the card does
     private HexNode _clickedNode; //Node we clicked on
-    private List<HexNode> _shape; //Shape we last hovered
+    private List<HexNode> _shape = new(); //Shape we last hovered
     public AbstractCharacter SelectedCharacter;
     private Coroutine _cardLoopCoroutine; //store this to cancel it later
     [SerializeField]private bool _canStopCoroutine = true;
     private HexNode _priorMouseNode;
     #endregion
 
+    #region Walkable Shape
+    private List<HexNode> _walkShape = new();
+    private HexNode _walkHexSelected;
+    private bool _isWalkNodeClicked = false;
+    #endregion
     void Start()
     {
         Instance = this;
@@ -174,7 +178,7 @@ public class CardSelectionManager : MonoBehaviour
 
                     //Do ability when we confirm and wait for it to complete
                     yield return StartCoroutine(abilities[i].DoAbility(_shape, card));
-                    
+
                     break;
                 }else if (_skip)
                 {
@@ -274,9 +278,11 @@ public class CardSelectionManager : MonoBehaviour
 
             if(mouseNode != _priorMouseNode) //only find shape if mouse node changes
             {
+                
                 HighlightManager.Instance.ClearTargetMap(); //Clear any prior shape
-                _shape = ability.GetShape(mouseNode);
+                _shape = ability.GetShape(mouseNode, SelectedCharacter.GetNodeOn());
                 HighlightManager.Instance.HighlightTargetList(_shape);
+               
             }
 
             if (_shape.Contains(mouseNode) && NodeClicked()) //Have to check if target is valid based on type

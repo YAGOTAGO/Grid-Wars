@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class ThreeBoltsShape : AbstractShape
 {
-
-    public override List<HexNode> GetShape(HexNode mouseNode, AbilityBase ability)
+    public override List<HexNode> GetShape(HexNode mouseNode, HexNode startingNode, AbilityBase ability)
     {
         //Cubic coords
         List<HexNode> nodesInDirection = new();
-        HexNode playerNode = CardSelectionManager.Instance.SelectedCharacter.GetNodeOn();
 
-        Vector3Int playerCubeCoord = playerNode.CubeCoord.Value;//start
+        Vector3Int playerCubeCoord = startingNode.CubeCoord.Value;//start
         Vector3Int mouseCubeCoord = mouseNode.CubeCoord.Value; //target
 
         //Displacements, and distance
@@ -26,7 +24,7 @@ public class ThreeBoltsShape : AbstractShape
         // Mouse is on the same node as player, return empty list
         if (displacement == Vector3Int.zero) { return nodesInDirection; }
 
-        HexNode currNode = playerNode;
+        HexNode currNode = startingNode;
         for (int i = 0; i < range; i++)
         {
             if (GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord.Value + directionInt, out HexNode nextNode))
@@ -53,7 +51,7 @@ public class ThreeBoltsShape : AbstractShape
         }
 
         //left bolt
-        currNode = playerNode;
+        currNode = startingNode;
         for (int i = 0; i < range; i++)
         {
             if (GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord.Value + new Vector3Int(directionInt.x + directionInt.z, directionInt.x + directionInt.y, directionInt.y + directionInt.z), out HexNode nextNode))
@@ -79,7 +77,7 @@ public class ThreeBoltsShape : AbstractShape
         }
 
         //right bolt
-        currNode = playerNode;
+        currNode = startingNode;
         for (int i = 0; i < range; i++)
         {
             if (GridManager.Instance.CubeCoordTiles.TryGetValue(currNode.CubeCoord.Value + new Vector3Int(directionInt.x + directionInt.y, directionInt.y + directionInt.z, directionInt.x + directionInt.z), out HexNode nextNode))

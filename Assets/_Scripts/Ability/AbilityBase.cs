@@ -7,13 +7,12 @@ public abstract class AbilityBase : ScriptableObject
 {
     public abstract IEnumerator DoAbility(List<HexNode> shape, CardBase card); //Will do its ability using given hexnode if needed
     public abstract string Prompt { get; } //What to tell the player before confirming
-    public virtual AbstractShape Shape { get; set; }
     public abstract TargetingType GetTargetingType();
+    public virtual AbstractShape Shape { get; set; }
     public virtual int Range { get => -1; }
-
-    public List<HexNode> GetShape(HexNode mouseNode)
+    public List<HexNode> GetShape(HexNode mouseNode, HexNode startNode)
     {
-        return Shape.GetShape(mouseNode, this);
+        return Shape.GetShape(mouseNode, startNode, this);
     }
 
     public AbstractShape EnumToShape(Shape shapeEnum)

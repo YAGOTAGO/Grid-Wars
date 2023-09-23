@@ -12,7 +12,7 @@ public abstract class AbstractShape
     protected static Vector3Int downLeft = new(0, 1, -1);
 
     protected List<Vector3Int> cuberCoordSides = new() { up, down, upRight, downRight, upLeft, downLeft};
-    public abstract List<HexNode> GetShape(HexNode mouseNode, AbilityBase ability);
+    public abstract List<HexNode> GetShape(HexNode mouseNode, HexNode startingNode, AbilityBase ability);
     
     /// <summary>
     /// Will give the nodes that the ability can potentially target
@@ -22,6 +22,7 @@ public abstract class AbstractShape
     /// <returns>A set of nodes that are the range</returns>
     public abstract List<HexNode> Range(HexNode startNode, AbilityBase ability);
     public virtual void RotateShape() { } //does nothing unless implemented
+
 }
 
 public enum Shape { 
