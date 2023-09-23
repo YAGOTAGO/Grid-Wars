@@ -161,6 +161,7 @@ public class CardSelectionManager : MonoBehaviour
             //loops if click reselect button
             while (true)
             {
+                if (abilities[i].IsSpecialPathfind) { AdditivePrompt("May right click to add breakpoints.");  }
                 yield return new WaitUntil(() => ShowShape(abilities[i], range)); //Show the shape and wait until player makes a selection
 
                 //Ask to confirm or reselect
@@ -396,6 +397,10 @@ public class CardSelectionManager : MonoBehaviour
         _skip = false;
     }
 
+    private void AdditivePrompt(string prompt)
+    {
+        _promptTMP.text += "\n" + prompt;
+    }
     private void Prompt(string text, bool setActive)
     {
         _promptTMP.text = text;
