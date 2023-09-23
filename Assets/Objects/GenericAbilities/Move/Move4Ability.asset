@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0c9c56203c2c2b44af95f358aee3b6a, type: 3}
   m_Name: Move4Ability
   m_EditorClassIdentifier: 
-  _prompt: Move up to 4 tiles away.
-  _range: 4
+  _range: 8

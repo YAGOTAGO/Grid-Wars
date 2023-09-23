@@ -12,7 +12,7 @@ public class WalkAbility : AbilityBase
     public override string Prompt => $"Move up to {_range} hexes.";
     public override int Range => _range;
 
-
+    public override bool IsSpecialPathfind { get => true; }
     public override AbstractShape Shape {
         get
         {

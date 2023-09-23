@@ -36,7 +36,6 @@ public class CardSelectionManager : MonoBehaviour
     #region Walkable Shape
     private List<HexNode> _walkShape = new();
     private HexNode _walkHexSelected;
-    private bool _isWalkNodeClicked = false;
     #endregion
     void Start()
     {
@@ -179,6 +178,7 @@ public class CardSelectionManager : MonoBehaviour
                     //Do ability when we confirm and wait for it to complete
                     yield return StartCoroutine(abilities[i].DoAbility(_shape, card));
 
+                    _shape.Clear();
                     break;
                 }else if (_skip)
                 {
@@ -186,10 +186,12 @@ public class CardSelectionManager : MonoBehaviour
                     Prompt("", false);
                     CanStopCoroutine(false);
                     HighlightManager.Instance.ClearTargetAndRange();
+                    _shape.Clear();
                     break;
                 }
                 else
                 {
+                    _shape.Clear();
                     Prompt("", false);
                     ButtonsSetActive(false, false, false); //this is not redudant KEEP IT
                 }
@@ -271,23 +273,83 @@ public class CardSelectionManager : MonoBehaviour
     private bool ShowShape(AbilityBase ability, List<HexNode> range)
     {
         HexNode mouseNode = MouseManager.Instance.NodeMouseIsOver;
-
+        List<HexNode> temp = new();
         //If mouse node is within the range then we show the shape
         if (range.Contains(mouseNode))
         {
-
-            if(mouseNode != _priorMouseNode) //only find shape if mouse node changes
+            if (ability.IsSpecialPathfind && Input.GetMouseButtonDown(1)) //store the node we clicked
             {
-                
-                HighlightManager.Instance.ClearTargetMap(); //Clear any prior shape
-                _shape = ability.GetShape(mouseNode, SelectedCharacter.GetNodeOn());
-                HighlightManager.Instance.HighlightTargetList(_shape);
-               
+                _walkHexSelected = mouseNode;
+                foreach (HexNode node in _walkShape) //add node to shape if doesnt contain it
+                {
+                    if (!_shape.Contains(node))
+                    {
+                        _shape.Add(node);
+                    }
+                }
+
+                _walkShape = null; //so we dont remove what is already in shape
+            }
+            if (mouseNode != _priorMouseNode) //only find shape if mouse node changes
+            {
+                if (ability.IsSpecialPathfind)
+                {
+                    HighlightManager.Instance.ClearTargetMap(); //Clear any prior shape
+
+                    //Remove nodes, if walk shape is null means we dont want to remove nodes in there
+                    if(_walkShape != null)
+                    {
+                        List<HexNode> nodesToRemove = new();
+                        foreach (HexNode node in temp)
+                        {
+                            if (_walkShape.Contains(node) && !_shape.Contains(node))
+                            {
+                                nodesToRemove.Add(node);
+                            }
+                        }
+                        foreach (HexNode nodeToRemove in nodesToRemove)
+                        {
+                            temp.Remove(nodeToRemove);
+                        }
+                    }
+                    
+                    if(_walkHexSelected == null) { _walkHexSelected = SelectedCharacter.GetNodeOn(); }
+                    _walkShape = ability.GetShape(mouseNode, _walkHexSelected);
+
+                    foreach (HexNode node in _shape)
+                    {
+                        if (!temp.Contains(node) && temp.Count < ability.Range)
+                        {
+                            temp.Add(node);
+                        }
+                    }
+
+                    foreach (HexNode node in _walkShape)
+                    {
+                        if (!temp.Contains(node) && temp.Count<ability.Range)
+                        {
+                            temp.Add(node);
+                        }
+                    }
+                    
+                    HighlightManager.Instance.HighlightTargetList(temp);
+                }
+                else
+                {
+                    HighlightManager.Instance.ClearTargetMap(); //Clear any prior shape
+                    _shape = ability.GetShape(mouseNode, SelectedCharacter.GetNodeOn());
+                    HighlightManager.Instance.HighlightTargetList(_shape);
+
+                }
+
             }
 
-            if (_shape.Contains(mouseNode) && NodeClicked()) //Have to check if target is valid based on type
+            //Select logic
+            if (_shape.Contains(mouseNode) && NodeClicked())
             {
                 _priorMouseNode = mouseNode;
+                _walkHexSelected = null; //so next time around is starting in correct place
+                _walkShape = null;
                 return true;
             }
         }
