@@ -6,15 +6,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class MainMenuButton : NetworkBehaviour
+public class DisconnectClientOnLoad : NetworkBehaviour
 {
-    private Button _button;
-    [SerializeField] private SceneAsset _sceneToLoad;
+  
     private void Awake()
     {
-        _button = GetComponent<Button>();
-        _button.onClick.AddListener(() => GoToMainMenu());
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += Disconnect;
     }
 
@@ -33,12 +29,7 @@ public class MainMenuButton : NetworkBehaviour
         }
 
     }
-    private void GoToMainMenu()
-    {
-        
-        //Load the main menu
-        SceneManager.LoadScene(_sceneToLoad.name, LoadSceneMode.Single);
-    }
+
 
    
 }

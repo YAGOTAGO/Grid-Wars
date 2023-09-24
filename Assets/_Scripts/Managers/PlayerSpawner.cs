@@ -23,7 +23,7 @@ public class PlayerSpawner : NetworkBehaviour
         } 
         else
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         
     }
