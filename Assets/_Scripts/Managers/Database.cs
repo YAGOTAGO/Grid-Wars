@@ -17,6 +17,9 @@ public class Database : MonoBehaviour
 
     #region Databases
     public NumberedDictionary<AbstractCharacter> CharactersDB { get; private set; } = new();
+    public List<int> AllyPlayers = new();
+    public List<int> Allies = new();
+    public List<int> Enemies = new();
     private readonly Dictionary<string, SurfaceBase> _surfacesDB = new();
     private readonly Dictionary<string, CardBase> _cardsDB = new();
     private readonly Dictionary<string, EffectBase> _effectsDB = new();
@@ -35,6 +38,11 @@ public class Database : MonoBehaviour
         LoadAllEffectSprites();
         LoadAllSurfaceScriptables();
         LoadAllCardScriptables();
+    }
+
+    public bool IsAlly(AbstractCharacter character)
+    {
+        return Allies.Contains(character.CharacterID.Value);
     }
 
     /// <param name="name">Name of surface</param>

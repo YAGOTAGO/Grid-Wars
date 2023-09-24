@@ -36,11 +36,11 @@ public abstract class AbstractCharacter : NetworkBehaviour
     {
         if(IsOwner)
         {
-            GameManager.Instance.Allies.Remove(CharacterID.Value);
+            Database.Instance.Allies.Remove(CharacterID.Value);
         }
         else
         {
-            GameManager.Instance.Enemies.Remove(CharacterID.Value);
+            Database.Instance.Enemies.Remove(CharacterID.Value);
         }
     }
     private void SetAllyEnemy(int prevVal, int newVal)
@@ -53,11 +53,11 @@ public abstract class AbstractCharacter : NetworkBehaviour
     {
         if (IsOwner)
         {
-            GameManager.Instance.Allies.Add(CharacterID.Value);
+            Database.Instance.Allies.Add(CharacterID.Value);
         }
         else
         {
-            GameManager.Instance.Enemies.Add(CharacterID.Value);
+            Database.Instance.Enemies.Add(CharacterID.Value);
         }
     }
 

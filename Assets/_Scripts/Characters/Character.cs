@@ -41,7 +41,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         Database.Instance.CharactersDB.Remove(CharacterID.Value);
         RemoveAllyPlayers();
 
-        if(GameManager.Instance.AllyPlayers.Count == 0) //means you have lost
+        if(Database.Instance.AllyPlayers.Count == 0) //means you have lost
         {
             GameManager.Instance.IsWinner = false;
             GameManager.Instance.LoadEndSceneServerRPC();
@@ -73,7 +73,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     {
         if (IsOwner)
         {
-            GameManager.Instance.AllyPlayers.Add(CharacterID.Value);
+            Database.Instance.AllyPlayers.Add(CharacterID.Value);
         }
     }
 
@@ -81,7 +81,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     {
         if(IsOwner) 
         {
-            GameManager.Instance.AllyPlayers.Remove(CharacterID.Value);
+            Database.Instance.AllyPlayers.Remove(CharacterID.Value);
         }
 
     }

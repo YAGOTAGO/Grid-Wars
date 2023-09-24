@@ -16,19 +16,11 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private GameObject _popUpGO;
     [SerializeField] private TextMeshProUGUI _popUpTMP;
     private Coroutine _popUpCoroutine;
-    public List<int> AllyPlayers = new();
-    public List<int> Allies = new();
-    public List<int> Enemies = new();
-
+    
     private void Awake()
     {
         Instance = this;
         _popUpGO.SetActive(false);
-    }
-
-    public bool IsAlly(AbstractCharacter character)
-    {
-        return Allies.Contains(character.CharacterID.Value);
     }
     
     public void PopUpText(string text)
