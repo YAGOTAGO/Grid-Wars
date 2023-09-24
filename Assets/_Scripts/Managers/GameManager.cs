@@ -12,7 +12,10 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
     public GameState State= GameState.StartState;
+    [SerializeField] private GameObject _loadScreenObject; 
+    
     public bool IsWinner = true; //true by default loser swaps scene and sets this to false
+    
     [SerializeField] private SceneAsset _endScene;
 
     private void Awake()
@@ -29,11 +32,36 @@ public class GameManager : NetworkBehaviour
             case GameState.LoadGrid: LoadGrid(); break;
             case GameState.InitNeighboors: InitHexNeighboorsClientRPC(); break;
             case GameState.LoadCharacters: SpawnCharacters(); break;
-            
+            case GameState.EndLoadScreen: EndLoadScreen(); break;
         }
 
     }
 
+    private void EndLoadScreen()
+    {
+        if (IsServer)
+        {
+            _loadScreenObject.SetActive(false);
+            EndLoadScreenClientRPC();
+        }
+        else
+        {
+            _loadScreenObject.SetActive(false);
+            EndLoadScreenServerRPC();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void EndLoadScreenServerRPC()
+    {
+        _loadScreenObject.SetActive(false);
+    }
+
+    [ClientRpc]
+    private void EndLoadScreenClientRPC()
+    {
+        _loadScreenObject.SetActive(false);
+    }
     private void SpawnCharacters()
     {
         if(IsServer)
@@ -44,6 +72,7 @@ public class GameManager : NetworkBehaviour
         {
             SpawnCharactersServerRPC();
         }
+        ChangeState(GameState.EndLoadScreen);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -80,6 +109,7 @@ public enum GameState
     LoadGrid = 1,
     InitNeighboors = 2,
     LoadCharacters = 3,
-    EndGame =4,
+    EndLoadScreen = 4,
+    EndGame =5,
 }
 

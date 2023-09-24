@@ -52,7 +52,6 @@ public class Character : AbstractCharacter //may need to become network behaviou
         node.SetSurfaceWalkable(true);
         node.SetCharacterOnNode(-1);
 
-        Debug.Log("Destroyed character");
     }
 
     private void Update()
