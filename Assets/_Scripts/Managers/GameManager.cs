@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
+    public GameState State;
     public bool IsWinner = true; //true by default loser swaps scene and sets this to false
     [SerializeField] private SceneAsset _endScene;
     
@@ -18,11 +19,41 @@ public class GameManager : NetworkBehaviour
     {
         Instance = this;
     }
-    
+
+    private void Start()
+    {
+        ChangeState(GameState.Starting);
+    }
+
+    public void ChangeState(GameState newState)
+    {
+
+        State = newState;
+        switch(newState)
+        {
+
+        }
+
+    }
+
+
+
+
+
     [ServerRpc(RequireOwnership = false)]
     public void LoadEndSceneServerRPC()
     {
         NetworkManager.Singleton.SceneManager.LoadScene(_endScene.name, LoadSceneMode.Single);
     }
-    
+
 }
+
+public enum GameState 
+{
+    Starting = 0,
+    LoadGrid = 1,
+    LoadSurfaces=2,
+    LoadCharacters = 3,
+    EndGame =4,
+}
+
