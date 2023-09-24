@@ -16,11 +16,11 @@ public class EndTurnButton : NetworkBehaviour
     {
         Instance = this;
         _button = GetComponent<Button>();
-        _button.onClick.AddListener(OnEndTurnButtonClick);
     }
 
     public override void OnNetworkSpawn()
     {
+        _button.onClick.AddListener(OnEndTurnButtonClick);
         IsServersTurn.OnValueChanged += OnServerTurnValueChanged;
         if (IsServer)
         {
@@ -49,21 +49,19 @@ public class EndTurnButton : NetworkBehaviour
     }
     private void OnEndTurnButtonClick()
     {
-        bool isServersTurn = IsServersTurn.Value;
-
-        if (IsServer && isServersTurn) //Server and is your turn
+        if (IsServer && IsServersTurn.Value) //Server and is your turn
         {
             IsServersTurn.Value = false;
         }
-        else if (!IsServer && isServersTurn)
+        else if (!IsServer && !IsServersTurn.Value)
         {
             SwapTurnServerRPC();
         }
     }
+
     public void OnServerTurnValueChanged(bool prevVal, bool newVal)
     {
         ButtonColorUpdate();
-
     }
 
     private void ButtonColorUpdate()

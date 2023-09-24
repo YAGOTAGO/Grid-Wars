@@ -59,7 +59,7 @@ public class CardSelectionManager : MonoBehaviour
 
         if (!EndTurnButton.Instance.IsItMyTurn())
         {
-            GameManager.Instance.PopUpText("It is NOT your turn.");
+            PopUp.Instance.PopUpText("It is NOT your turn.");
             return;
         }
 
@@ -366,7 +366,7 @@ public class CardSelectionManager : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.PopUpText("You do NOT own this character");
+                PopUp.Instance.PopUpText("You do NOT own this character");
                 return false;
             }
         }
