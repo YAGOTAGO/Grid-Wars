@@ -41,24 +41,22 @@ public class Character : AbstractCharacter //may need to become network behaviou
         Database.Instance.CharactersDB.Remove(CharacterID.Value);
         RemoveAllyPlayers();
 
-        if(Database.Instance.AllyPlayers.Count == 0) //means you have lost
-        {
-            GameManager.Instance.IsWinner = false;
-            GameManager.Instance.LoadEndSceneServerRPC();
-        }
-
         //Free up the hexnode
         HexNode node = GetNodeOn();
         node.SetSurfaceWalkable(true);
         node.SetCharacterOnNode(-1);
-
+        
+        if (Database.Instance.AllyPlayers.Count == 0) //means you have lost
+        {
+            GameManager.Instance.ChangeState(GameState.EndGame);
+        }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            GameManager.Instance.LoadEndSceneServerRPC();
+            GameManager.Instance.ChangeState(GameState.EndGame);
         }
     }
     private void Initialize()

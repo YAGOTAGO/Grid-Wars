@@ -12,16 +12,15 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
     public GameState State= GameState.StartState;
-    [SerializeField] private GameObject _loadScreenObject; 
-    
-    public bool IsWinner = true; //true by default loser swaps scene and sets this to false
-    
+    [SerializeField] private GameObject _loadScreenObject;
     [SerializeField] private SceneAsset _endScene;
+    public bool IsWinner = true; //true by default loser swaps scene and sets this to false
 
     private void Awake()
     {
         Instance = this;
     }
+
     private void Start()=> ChangeState(GameState.LoadGrid);
 
     public void ChangeState(GameState state)
@@ -33,8 +32,38 @@ public class GameManager : NetworkBehaviour
             case GameState.InitNeighboors: InitHexNeighboorsClientRPC(); break;
             case GameState.LoadCharacters: SpawnCharacters(); break;
             case GameState.EndLoadScreen: EndLoadScreen(); break;
+            case GameState.EndGame: EndGameClientRPC(); break;
         }
 
+    }
+
+    [ClientRpc]
+    private void EndGameClientRPC()
+    {
+        //Find out if won
+        if(Database.Instance.AllyPlayers.Count == 0)
+        {
+            IsWinner=false;
+        }
+        else
+        {
+            IsWinner= true;
+        }
+
+        if(IsServer)
+        {
+            NetworkManager.Singleton.Shutdown();
+            //while (NetworkManager.Singleton.ShutdownInProgress) ;
+
+        }
+
+        //After leaving network we go to end game scene
+        SceneManager.LoadScene(_endScene.name);
+        
+        if (NetworkManager.Singleton != null)
+        {
+            Destroy(NetworkManager.Singleton.gameObject);
+        }
     }
 
     private void EndLoadScreen()
@@ -95,21 +124,15 @@ public class GameManager : NetworkBehaviour
         StartCoroutine(GridManager.Instance.InitNeighboors());
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void LoadEndSceneServerRPC()
-    {
-        NetworkManager.Singleton.SceneManager.LoadScene(_endScene.name, LoadSceneMode.Single);
-    }
-
 }
 
 public enum GameState 
 {
-    StartState =0,
+    StartState = 0,
     LoadGrid = 1,
     InitNeighboors = 2,
     LoadCharacters = 3,
     EndLoadScreen = 4,
-    EndGame =5,
+    EndGame = 5,
 }
 
