@@ -48,7 +48,11 @@ public class GridManager : NetworkBehaviour
 
     private void ClientUpdateNeighboors(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        StartCoroutine(WaitForGridCoord());
+        if(sceneName == PlayerSpawner.Instance.GameScene.name)
+        {
+            StartCoroutine(WaitForGridCoord());
+        }
+        
     }
 
     /// <summary>

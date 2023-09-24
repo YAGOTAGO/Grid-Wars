@@ -2,19 +2,30 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerSpawner : NetworkBehaviour
 {
+    public static PlayerSpawner Instance;
     [SerializeField] private GameObject _playerPrefab;
-    [SerializeField] private string _sceneName; //the scene which we want the characters to spawn in
+    [SerializeField] public SceneAsset GameScene; //the scene which we want the characters to spawn in
     [SerializeField] private List<Vector3Int> _spawnLocations = new();
 
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+        if(Instance == null) 
+        { 
+            Instance = this;
+            DontDestroyOnLoad(this);
+        } 
+        else
+        {
+            Destroy(this);
+        }
+        
     }
     public override void OnNetworkSpawn()
     {
@@ -26,7 +37,7 @@ public class PlayerSpawner : NetworkBehaviour
     {
         int positionIndex = 0;
         
-        if(sceneName == _sceneName)
+        if(sceneName == GameScene.name)
         {
             if (IsServer)
             {
@@ -44,13 +55,8 @@ public class PlayerSpawner : NetworkBehaviour
                     characterGO2.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
                     characterGO3.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
 
-                    //character1.CharacterID.Value = positionIndex;
                     character1.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
-
-                    //character2.CharacterID.Value = positionIndex;
                     character2.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
-
-                    //character3.CharacterID.Value = positionIndex;
                     character3.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
                     
                 }

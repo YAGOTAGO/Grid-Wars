@@ -1426,7 +1426,6 @@ MonoBehaviour:
   _undoButton: {fileID: 1904884387}
   SelectedCharacter: {fileID: 0}
   _canStopCoroutine: 1
-  BreakPoints: []
 --- !u!1 &648585251
 GameObject:
   m_ObjectHideFlags: 0
@@ -3824,6 +3823,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 830400e332e09434a90ade8a4fb5cf78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectsDebug: 
+  RarityDebug: 
 --- !u!114 &1351942866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3909,9 +3910,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsServersTurn:
     m_InternalValue: 0
+  IsWinner: 1
+  _endScene: {fileID: 102900000, guid: 8bdd00bf86bed1746a439a338ad24283, type: 3}
   _endTurnButton: {fileID: 409203432}
   _popUpGO: {fileID: 1073978238}
   _popUpTMP: {fileID: 1058797326}
+  AllyPlayers: 
   Allies: 
   Enemies: 
 --- !u!4 &1416620741

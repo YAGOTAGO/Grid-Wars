@@ -16,14 +16,15 @@ public class Character : AbstractCharacter //may need to become network behaviou
     [SerializeField] private GameObject _effectUIPrefab;
     [SerializeField] private int _startingHealth = 20;
     #endregion
-
+    
     private readonly Dictionary<EffectBase, GameObject> _effectToUIDict = new();
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         Initialize();
-        AddEffect(Database.Instance.GetEffectByName("BurnEffect"));
+        AddAllyPlayers();
+        //AddEffect(Database.Instance.GetEffectByName("BurnEffect"));
     }
 
     public override void OnNetworkDespawn()
@@ -37,22 +38,28 @@ public class Character : AbstractCharacter //may need to become network behaviou
         Destroy(_characterStatsUI);
 
         //Remove Character from DB
-        Database.Instance.PlayerCharactersDB.Remove(CharacterID.Value);
+        Database.Instance.CharactersDB.Remove(CharacterID.Value);
+        RemoveAllyPlayers();
+
+        if(GameManager.Instance.AllyPlayers.Count == 0) //means you have lost
+        {
+            GameManager.Instance.IsWinner = false;
+            GameManager.Instance.LoadEndSceneServerRPC();
+        }
 
         //Free up the hexnode
         HexNode node = GetNodeOn();
         node.SetSurfaceWalkable(true);
         node.SetCharacterOnNode(-1);
+
+        Debug.Log("Destroyed character");
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            foreach(EffectBase ef in Effects)
-            {
-                ef.EndOfTurn(this);
-            }
+            GameManager.Instance.LoadEndSceneServerRPC();
         }
     }
     private void Initialize()
@@ -62,6 +69,22 @@ public class Character : AbstractCharacter //may need to become network behaviou
         PlayersUIManager.Instance.SetPlayerUI(_characterStatsUI);
     }
 
+    private void AddAllyPlayers()
+    {
+        if (IsOwner)
+        {
+            GameManager.Instance.AllyPlayers.Add(CharacterID.Value);
+        }
+    }
+
+    private void RemoveAllyPlayers()
+    {
+        if(IsOwner) 
+        {
+            GameManager.Instance.AllyPlayers.Remove(CharacterID.Value);
+        }
+
+    }
     public override void AddEffect(EffectBase ef)
     {
         //Add to set if doesnt exist    

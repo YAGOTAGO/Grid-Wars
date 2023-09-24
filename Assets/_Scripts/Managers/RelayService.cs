@@ -15,7 +15,6 @@ using UnityEngine.UI;
 
 public class RelayService : NetworkBehaviour
 {
-
     private readonly int _maxPlayers = 1; //Doesn't include the host
     [SerializeField] private TMP_InputField _joinInput; 
     [SerializeField] private GameObject _buttons;
@@ -35,7 +34,10 @@ public class RelayService : NetworkBehaviour
 
     private async void Start()
     {
-        await AuthenticatePlayers(); //log in players annonymously
+        if(!_signedIn)
+        {
+            await AuthenticatePlayers(); //log in players annonymously
+        }
     }
 
     private static async Task AuthenticatePlayers()

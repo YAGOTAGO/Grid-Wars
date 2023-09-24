@@ -28,8 +28,21 @@ public abstract class AbstractCharacter : NetworkBehaviour
         Health.OnValueChanged -= HealthChange;
         HexGridPosition.OnValueChanged -= UpdateNodeOn;
         CharacterID.OnValueChanged -= SetAllyEnemy;
+        UnsetAllyEnemy();
     }
 
+    #region Caching characters
+    private void UnsetAllyEnemy()
+    {
+        if(IsOwner)
+        {
+            GameManager.Instance.Allies.Remove(CharacterID.Value);
+        }
+        else
+        {
+            GameManager.Instance.Enemies.Remove(CharacterID.Value);
+        }
+    }
     private void SetAllyEnemy(int prevVal, int newVal)
     {
         SetAllyEnemyClientRPC();   
@@ -50,9 +63,10 @@ public abstract class AbstractCharacter : NetworkBehaviour
 
     private void AddThisToCharacterDB()
     {
-        CharacterID.Value =  Database.Instance.PlayerCharactersDB.Add(this);
+        CharacterID.Value =  Database.Instance.CharactersDB.Add(this);
     }
-
+    #endregion 
+    
     private void HealthChange(int prevVal, int newVal)
     {
         OnHealthChanged();
@@ -123,9 +137,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
     {
         Health.Value -= damage;
     }
-
     #endregion
-
 
     #region Abstract/Virtual Methods
     protected virtual void OnHealthChanged() { }

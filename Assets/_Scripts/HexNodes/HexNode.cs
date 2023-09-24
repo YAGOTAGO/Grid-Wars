@@ -189,7 +189,7 @@ public class HexNode : NetworkBehaviour
         }
         else if(newVal >= 0 && newVal<=6)
         {
-            _characterOnNode = Database.Instance.PlayerCharactersDB.Get(newVal);
+            _characterOnNode = Database.Instance.CharactersDB.Get(newVal);
         }
     }
 
@@ -223,7 +223,7 @@ public class HexNode : NetworkBehaviour
         }
         else
         {
-            return Database.Instance.PlayerCharactersDB.Get(_characterOnNodeID.Value);
+            return Database.Instance.CharactersDB.Get(_characterOnNodeID.Value);
         }
 
     }
