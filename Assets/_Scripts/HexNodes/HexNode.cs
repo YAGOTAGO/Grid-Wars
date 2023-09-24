@@ -23,8 +23,8 @@ public class HexNode : NetworkBehaviour
     private SpriteRenderer _surfaceRenderer; //where the surface sprite is displayed
     private SpriteRenderer _hexRenderer; //where hex art is displayed
 
-    [HideInInspector] public NetworkVariable<Vector3Int> GridPos { get; private set; } = new();//Unity grid x, y, z
-    [HideInInspector] public NetworkVariable<Vector3Int> CubeCoord { get; private set; } = new();//Unity grid converted into cube coords
+    [HideInInspector] public NetworkVariable<Vector3Int> GridPos = new(new Vector3Int(-100, -100, -100)); //set negative so that value will trigger on change
+    [HideInInspector] public NetworkVariable<Vector3Int> CubeCoord = new(new Vector3Int(-100, -100, -100)); 
 
     private AbstractCharacter _characterOnNode;
     private NetworkVariable<int> _characterOnNodeID = new(-1); //-1 because needs to detect change
@@ -45,7 +45,6 @@ public class HexNode : NetworkBehaviour
     public void CacheNeighbors()
     {   
         Neighboors = GridManager.Instance.GridCoordTiles.Where(t => HexDistance.GetDistance(this, t.Value) == 1).Select(t => t.Value).ToList();
-    
     }
 
     public void SetG(float g){G = g;}
@@ -59,39 +58,38 @@ public class HexNode : NetworkBehaviour
         _hexRenderer = GetComponent<SpriteRenderer>();
         _surfaceRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
-
-    /// <summary>
-    /// Updates the grid manager with hexnodes for the client
-    /// </summary>
-    private void ClientUpdateGridManager(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    private void UpdateGridPos(Vector3Int prevVal, Vector3Int newVal)
     {
-        GridManager.Instance.GridCoordTiles[GridPos.Value] = this;
-        GridManager.Instance.CubeCoordTiles[CubeCoord.Value] = this;
+        GridManager.Instance.GridCoordTiles[newVal] = this;
+        GridManager.Instance.DebugGrid.Add(this);
+    }
+    private void UpdateCubeCoord(Vector3Int prevVal, Vector3Int newVal)
+    {
+        GridManager.Instance.CubeCoordTiles[newVal] = this;
+        GridManager.Instance.DebugCube.Add(this);
     }
 
     public override void OnNetworkSpawn()
     {
+        GridPos.OnValueChanged += UpdateGridPos;
+        CubeCoord.OnValueChanged += UpdateCubeCoord;
         _characterOnNodeID.OnValueChanged += SetCharacterOnNodeReference;
         _surfaceWalkable.OnValueChanged += UpdateTheSurfaceWalkable; //both server and client
         SurfaceName.OnValueChanged += UpdateTheSurfaceReference;
 
         if (!IsServer && IsClient) //Non host clients
         {    
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += ClientUpdateGridManager;
             _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
         }
     }
 
     public override void OnNetworkDespawn()
     {
+        GridPos.OnValueChanged -= UpdateGridPos;
+        CubeCoord.OnValueChanged -= UpdateCubeCoord;
         _surfaceWalkable.OnValueChanged -= UpdateTheSurfaceWalkable;
         _characterOnNodeID.OnValueChanged -= SetCharacterOnNodeReference;
         SurfaceName.OnValueChanged -= UpdateTheSurfaceReference;
-
-        if (!IsServer && IsClient) //Non host clients
-        {    
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= ClientUpdateGridManager;
-        }
     }
 
     /// <summary>

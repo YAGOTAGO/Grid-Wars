@@ -10,9 +10,11 @@ public class GridManager : NetworkBehaviour
 {
     public static GridManager Instance;
     public Dictionary<Vector3Int, HexNode> GridCoordTiles { get; private set; } = new(); //know which tile by position
+    public List<HexNode> DebugGrid = new();
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
+    public List<HexNode> DebugCube = new();
     private Grid _grid; //used to put all tiles under
-    private NetworkVariable<int> _tileNum = new(0); //used to yield
+    private readonly int _tileNum = 349; //number of tiles
 
     [Header("Tile Prefabs")]
     private Dictionary<TileType, HexNode> _prefabDict;
@@ -23,57 +25,8 @@ public class GridManager : NetworkBehaviour
     {
         Instance = this;
         _grid = GetComponent<Grid>();
-        
-    }
-
-    public void Start()
-    {
         InitDict();
-
-        if (IsServer)
-        {
-            InitBoard();
-            InitNeighboors(); //caches the neighboors in each tile
-        }
     }
-
-    public override void OnNetworkSpawn()
-    {
-        if(!IsServer && IsClient) //Non server, client
-        {
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += ClientUpdateNeighboors;
-        }
-        
-    }
-
-    private void ClientUpdateNeighboors(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
-    {
-        if(sceneName == PlayerSpawner.Instance.GameScene.name)
-        {
-            StartCoroutine(WaitForGridCoord());
-        }
-        
-    }
-
-    /// <summary>
-    /// Waits until the grid has all the hexes in it
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator WaitForGridCoord()
-    {
-        while(GridCoordTiles.Count < _tileNum.Value) //wait until all 
-        {
-            yield return null;
-        }
-
-        InitNeighboors();
-    }
-
-    private void InitNeighboors()
-    {
-        foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
-    }
-    
     private void InitDict()
     {
         _prefabDict = new Dictionary<TileType, HexNode>();
@@ -81,10 +34,25 @@ public class GridManager : NetworkBehaviour
         {
             _prefabDict[prefab.TileType] = prefab;
         }
-
     }
 
-    private void InitBoard()
+    /// <summary>
+    /// Waits until the grid has all the hexes in it
+    /// </summary>
+    /// <returns></returns>
+    public bool BoardLoad()
+    {
+        return GridCoordTiles.Count >= _tileNum && CubeCoordTiles.Count >= _tileNum;
+    }
+
+    public IEnumerator InitNeighboors()
+    {
+        yield return new WaitUntil(BoardLoad);
+        if (IsClient && !IsServer) { GameManager.Instance.ChangeState(GameState.LoadCharacters); }
+        foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
+    }
+    
+    public void InitBoard()
     {
 
         foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
@@ -106,15 +74,11 @@ public class GridManager : NetworkBehaviour
                 //Cache cube and grid pos
                 Vector3Int cubePos = HexDistance.UnityCellToCube(position);//calculate cube pos
                 tile.ServerInitHex(position, cubePos, surface); //Init Tile with grid and cube pos and the surface
-                GridCoordTiles[position] = tile; //So we can lookup tile later from dict
-                CubeCoordTiles[cubePos] = tile;
+                //GridCoordTiles[position] = tile; //So we can lookup tile later from dict
+                //CubeCoordTiles[cubePos] = tile;
 
                 //organizes look in editor
                 tile.transform.SetParent(_grid.transform); 
-
-                //Name to help debugging
-                tile.name = tileInfo.Type.ToString() + _tileNum.Value;
-                _tileNum.Value++;
             }
 
         }

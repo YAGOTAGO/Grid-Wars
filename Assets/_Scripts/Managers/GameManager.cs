@@ -11,34 +11,60 @@ using UnityEngine.UI;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
-    public GameState State;
+    public GameState State= GameState.StartState;
     public bool IsWinner = true; //true by default loser swaps scene and sets this to false
     [SerializeField] private SceneAsset _endScene;
-    
+
     private void Awake()
     {
         Instance = this;
     }
+    private void Start()=> ChangeState(GameState.LoadGrid);
 
-    private void Start()
+    public void ChangeState(GameState state)
     {
-        ChangeState(GameState.Starting);
-    }
-
-    public void ChangeState(GameState newState)
-    {
-
-        State = newState;
-        switch(newState)
+        State = state;
+        switch(state)
         {
-
+            case GameState.LoadGrid: LoadGrid(); break;
+            case GameState.InitNeighboors: InitHexNeighboorsClientRPC(); break;
+            case GameState.LoadCharacters: SpawnCharacters(); break;
+            
         }
 
     }
 
+    private void SpawnCharacters()
+    {
+        if(IsServer)
+        {
+            PlayerSpawner.Instance.SpawnCharacters();
+        }
+        else
+        {
+            SpawnCharactersServerRPC();
+        }
+    }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnCharactersServerRPC() 
+    {
+        PlayerSpawner.Instance.SpawnCharacters();
+    }
+    private void LoadGrid()
+    {
+        if(IsServer) 
+        {
+            GridManager.Instance.InitBoard();
+            ChangeState(GameState.InitNeighboors);
+        }
+    }
 
-
+    [ClientRpc]
+    private void InitHexNeighboorsClientRPC()
+    {
+        StartCoroutine(GridManager.Instance.InitNeighboors());
+    }
 
     [ServerRpc(RequireOwnership = false)]
     public void LoadEndSceneServerRPC()
@@ -50,9 +76,9 @@ public class GameManager : NetworkBehaviour
 
 public enum GameState 
 {
-    Starting = 0,
+    StartState =0,
     LoadGrid = 1,
-    LoadSurfaces=2,
+    InitNeighboors = 2,
     LoadCharacters = 3,
     EndGame =4,
 }
