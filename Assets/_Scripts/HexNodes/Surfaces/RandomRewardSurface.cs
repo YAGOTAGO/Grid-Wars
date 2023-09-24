@@ -79,7 +79,7 @@ public class RandomRewardSurface : SurfaceBase
 
     public override void OnEnterNode(AbstractCharacter character)
     {
-        if (GameManager.Instance.IsItMyTurn()) //only pick card if is your turn
+        if (EndTurnButton.Instance.IsItMyTurn()) //only pick card if is your turn
         {
             CardRewardScreen.Instance.PickThreeCards(Rarity);
             LogManager.Instance.LogCardReward(Rarity);

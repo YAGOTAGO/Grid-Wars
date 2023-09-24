@@ -57,13 +57,13 @@ public class CardSelectionManager : MonoBehaviour
     {
         if (!_canStopCoroutine) { return; } //Stops selecting a new card after an action has taken place
 
-        if (!GameManager.Instance.IsItMyTurn())
+        if (!EndTurnButton.Instance.IsItMyTurn())
         {
             GameManager.Instance.PopUpText("It is NOT your turn.");
             return;
         }
 
-        GameManager.Instance.CanClickEndTurn(false);
+        EndTurnButton.Instance.CanClickEndTurn(false);
         
         card.GetComponent<CardDisplay>().DisplayKeyword(false); //Selected card removes keyword display
 
@@ -226,7 +226,7 @@ public class CardSelectionManager : MonoBehaviour
         //wait until action queue so cant stop coroutine until discards have been done
         yield return new WaitUntil(ActionQueue.Instance.IsQueueStopped);
         _canStopCoroutine = true;
-        GameManager.Instance.CanClickEndTurn(true);
+        EndTurnButton.Instance.CanClickEndTurn(true);
     }
     private void Undo()
     {
@@ -236,7 +236,7 @@ public class CardSelectionManager : MonoBehaviour
         _canStopCoroutine = false; //can't stop coroutine until move is done
 
         StopCoroutine(_cardLoopCoroutine);
-        GameManager.Instance.CanClickEndTurn(true);
+        EndTurnButton.Instance.CanClickEndTurn(true);
 
         //Get rid of reselect and confirm buttons
         ButtonsSetActive(false, false, false);

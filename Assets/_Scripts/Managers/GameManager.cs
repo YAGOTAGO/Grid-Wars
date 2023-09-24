@@ -11,14 +11,11 @@ using UnityEngine.UI;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
-    public NetworkVariable<bool> IsServersTurn = new();
     public bool IsWinner = true; //true by default loser swaps scene and sets this to false
     [SerializeField] private SceneAsset _endScene;
-    [SerializeField] private Button _endTurnButton;
     [SerializeField] private GameObject _popUpGO;
     [SerializeField] private TextMeshProUGUI _popUpTMP;
     private Coroutine _popUpCoroutine;
-
     public List<int> AllyPlayers = new();
     public List<int> Allies = new();
     public List<int> Enemies = new();
@@ -26,18 +23,7 @@ public class GameManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
-        _endTurnButton.onClick.AddListener(OnEndTurnButtonClick);
         _popUpGO.SetActive(false);
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        IsServersTurn.OnValueChanged += OnServerTurnValueChanged;
-        if (IsServer)
-        {
-            IsServersTurn.Value = UnityEngine.Random.Range(0f, 1f) < 0.5f; //randomize who goes first
-            ButtonColorUpdateClientRPC();
-        }
     }
 
     public bool IsAlly(AbstractCharacter character)
@@ -65,76 +51,8 @@ public class GameManager : NetworkBehaviour
 
         _popUpGO.SetActive(false);
     }
-
-    public void CanClickEndTurn(bool canClick)
-    {
-        _endTurnButton.interactable = canClick;
-        
-        if (!canClick)
-        {
-            _endTurnButton.image.color = Color.grey;
-        }
-        else
-        {
-            ButtonColorUpdate();
-        }
-    }
-
-    [ClientRpc]
-    private void ButtonColorUpdateClientRPC()
-    {
-        ButtonColorUpdate();
-    }
-
-    public bool IsItMyTurn()
-    {
-        if (IsServer) 
-        { 
-            return IsServersTurn.Value; 
-        } 
-        else 
-        { 
-            return !IsServersTurn.Value; 
-        }
-    }
     
-    private void ButtonColorUpdate()
-    {
-        if (IsItMyTurn())
-        {
-            _endTurnButton.image.color = Color.green;
-        }
-        else
-        {
-            _endTurnButton.image.color = Color.red;
-        }
-    }
-    private void OnServerTurnValueChanged(bool prevVal,  bool newVal)
-    {
-        ButtonColorUpdate();
-
-        //start timer
-
-    }
-
-    private void OnEndTurnButtonClick()
-    {
-        if (IsServer && IsServersTurn.Value) //Server and is your turn
-        {
-            IsServersTurn.Value = false;
-        }
-        else if(!IsServer && !IsServersTurn.Value)
-        {
-            SwapTurnServerRPC();
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void SwapTurnServerRPC()
-    {
-        IsServersTurn.Value = true;
-    }
-
+    
     [ServerRpc(RequireOwnership = false)]
     public void LoadEndSceneServerRPC()
     {

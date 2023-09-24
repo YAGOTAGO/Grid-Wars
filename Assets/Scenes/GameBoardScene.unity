@@ -927,6 +927,8 @@ GameObject:
   - component: {fileID: 409203434}
   - component: {fileID: 409203433}
   - component: {fileID: 409203432}
+  - component: {fileID: 409203436}
+  - component: {fileID: 409203435}
   m_Layer: 5
   m_Name: End Turn Button
   m_TagString: Untagged
@@ -1037,6 +1039,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409203430}
   m_CullTransparentMesh: 1
+--- !u!114 &409203435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409203430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 4204192782
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &409203436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409203430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725b3c620377edc44b283b918b4cfedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &432685573
 GameObject:
   m_ObjectHideFlags: 0
@@ -3912,7 +3942,6 @@ MonoBehaviour:
     m_InternalValue: 0
   IsWinner: 1
   _endScene: {fileID: 102900000, guid: 8bdd00bf86bed1746a439a338ad24283, type: 3}
-  _endTurnButton: {fileID: 409203432}
   _popUpGO: {fileID: 1073978238}
   _popUpTMP: {fileID: 1058797326}
   AllyPlayers: 
