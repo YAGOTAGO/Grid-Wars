@@ -159,7 +159,7 @@ MonoBehaviour:
   _cardArt: {fileID: 9098262884288031103}
   _durabilityTMP: {fileID: 6061145471169123176}
   _keywordLayout: {fileID: 9109660203847100341}
-  _keywordWindow: {fileID: 5879003801570251382, guid: 9b21ac918ff8dac4495ae98237e027c0, type: 3}
+  _keywordWindow: {fileID: 5879003801570251382, guid: bf5c8ab3e85f3af4e9b213c128fc6e4c, type: 3}
   _maxWidth: 100
   _fontSize: 10
 --- !u!114 &3934577231500278071
