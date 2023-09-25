@@ -53,13 +53,12 @@ public class GameManager : NetworkBehaviour
         if(IsServer)
         {
             NetworkManager.Singleton.Shutdown();
-            //while (NetworkManager.Singleton.ShutdownInProgress) ;
-
         }
 
         //After leaving network we go to end game scene
         SceneManager.LoadScene(_endScene.name);
         
+        //Cleanup the network manager
         if (NetworkManager.Singleton != null)
         {
             Destroy(NetworkManager.Singleton.gameObject);

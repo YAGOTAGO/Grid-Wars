@@ -8,7 +8,9 @@ using UnityEngine;
 public class PlayerSpawner : NetworkBehaviour
 {
     public static PlayerSpawner Instance;
-    [SerializeField] private GameObject _playerPrefab;
+    [SerializeField] private Character _monkPrefab;
+    [SerializeField] private Character _clericPrefab;
+    [SerializeField] private Character _wizardPrefab;
     [SerializeField] private List<Vector3Int> _spawnLocations = new();
 
     private void Awake()
@@ -24,21 +26,21 @@ public class PlayerSpawner : NetworkBehaviour
         {
             foreach(ulong clientId in NetworkManager.ConnectedClientsIds)
             {
-                GameObject characterGO1 = Instantiate(_playerPrefab);
-                GameObject characterGO2 = Instantiate(_playerPrefab);
-                GameObject characterGO3 = Instantiate(_playerPrefab);
+                GameObject monkGO = Instantiate(_monkPrefab.gameObject);
+                GameObject clericGO = Instantiate(_clericPrefab.gameObject);
+                GameObject wizardGO = Instantiate(_wizardPrefab.gameObject);
 
-                Character character1 = characterGO1.GetComponent<Character>();
-                Character character2 = characterGO2.GetComponent<Character>();
-                Character character3 = characterGO3.GetComponent<Character>();
+                Character monkCharacter = monkGO.GetComponent<Character>();
+                Character clericCharacter = clericGO.GetComponent<Character>();
+                Character wizardCharacter = wizardGO.GetComponent<Character>();
 
-                characterGO1.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
-                characterGO2.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
-                characterGO3.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+                monkGO.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+                clericGO.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
+                wizardGO.GetComponent<NetworkObject>().SpawnWithOwnership(clientId);
 
-                character1.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
-                character2.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
-                character3.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
+                monkCharacter.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
+                clericCharacter.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
+                wizardCharacter.PutOnHexNode(GridManager.Instance.GridCoordTiles[_spawnLocations[positionIndex++]], true);
                     
             }
 

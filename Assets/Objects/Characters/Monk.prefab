@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 7146395176818553979}
   - component: {fileID: 7146395176818553969}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Monk
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -370,7 +370,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.93725497, g: 0.73333335, b: 0.5803922, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -392,10 +392,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2699ccecc01c70458482078453a3700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health:
+    m_InternalValue: 0
+  HexGridPosition:
+    m_InternalValue: {x: -1, y: -1, z: -1}
   _effectsUIGroup: {fileID: 7146395176887563526}
   _healthBar: {fileID: 7146395176905388865}
   _characterStatsUI: {fileID: 7146395176721374659}
   _effectUIPrefab: {fileID: 3834171814173998123, guid: 9f7b01a8318faf74e9de3c5508271f40, type: 3}
+  _startingHealth: 20
 --- !u!1 &7146395176887563526
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,7 +644,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9531360d58bcf0e4897afe151a478b9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e71fdf1d02f52f840a40d23a9b4c402c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
