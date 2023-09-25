@@ -236,7 +236,8 @@ public class CardSelectionManager : MonoBehaviour
         _canStopCoroutine = false; //can't stop coroutine until move is done
 
         ClearSpecialPathfind(); //in case there was special pathfind ongoing we clear it up
-        
+        _shape.Clear();
+
         StopCoroutine(_cardLoopCoroutine);
         EndTurnButton.Instance.CanClickEndTurn(true);
 

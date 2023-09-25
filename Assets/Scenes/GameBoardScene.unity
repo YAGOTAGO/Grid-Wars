@@ -1616,7 +1616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tipWindowPrefab: {fileID: 5879003801570251382, guid: 9b21ac918ff8dac4495ae98237e027c0, type: 3}
-  MaxWidth: 150
+  MaxWidth: 200
   _UICanvas: {fileID: 1218084721}
   _UIPlayerHorizontalGroup: {fileID: 1235210819}
 --- !u!1 &790632167

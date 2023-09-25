@@ -32,9 +32,27 @@ public class GameManager : NetworkBehaviour
             case GameState.InitNeighboors: InitHexNeighboorsClientRPC(); break;
             case GameState.LoadCharacters: SpawnCharacters(); break;
             case GameState.EndLoadScreen: EndLoadScreen(); break;
-            case GameState.EndGame: EndGameClientRPC(); break;
+            case GameState.EndGame: EndGame(); break;
         }
 
+    }
+
+    private void EndGame()
+    {
+        if(IsServer)
+        {
+            EndGameClientRPC();
+        }
+        else
+        {
+            EndGameServerRPC();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void EndGameServerRPC()
+    {
+        EndGameClientRPC();
     }
 
     [ClientRpc]
@@ -43,7 +61,7 @@ public class GameManager : NetworkBehaviour
         //Find out if won
         if(Database.Instance.AllyPlayers.Count == 0)
         {
-            IsWinner=false;
+            IsWinner = false;
         }
         else
         {

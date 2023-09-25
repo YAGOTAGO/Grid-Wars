@@ -24,9 +24,10 @@ public abstract class EffectBase : ScriptableObject
     public virtual int OnDamageReceive(DamageInfo damageInfo) { return damageInfo.Val; }
     #endregion
 
-    #region Helper Methods
+    #region Helper Methods/ vars
     public void AddToDuration(int extraDur) { Duration += extraDur; }
 
+    protected string passive = "<color=#FFA500>Passive:</color>";
     #endregion
 
     /// <summary>
