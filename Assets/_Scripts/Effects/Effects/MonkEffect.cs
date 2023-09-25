@@ -14,6 +14,14 @@ public class MonkEffect : EffectBase
 
     public override int OnMove(int moveAmount)
     {
-        return moveAmount + 1;
+        if (CardSelectionManager.Instance.SelectedCard.Class == Class.Monk)
+        {
+            return moveAmount + 1;
+        }
+        else
+        {
+            return moveAmount;
+        }
+            
     }
 }

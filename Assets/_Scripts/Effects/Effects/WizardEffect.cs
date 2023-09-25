@@ -10,8 +10,17 @@ public class WizardEffect : EffectBase
     public override string Description => $"{passive} The Wizard deals +1 damage.";
     public override Sprite EffectIcon => _effectIcon;
 
+    //Deals +1 on all wizard class cards
     public override int OnDamageDeal(DamageInfo damageInfo)
     {
-        return damageInfo.Val + 1;
+        if(CardSelectionManager.Instance.SelectedCard.Class == Class.Wizard)
+        {
+            return damageInfo.Val + 1;
+        }
+        else
+        {
+            return damageInfo.Val;
+        }
+        
     }
 }

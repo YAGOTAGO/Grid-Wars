@@ -14,12 +14,14 @@ public class CardBase : ScriptableObject
     [Header("Info")]
     public string Name;
     public Rarity Rarity;
+    public Class Class;
     [Range(0,10)]
     public int Durability;
     [TextArea(1, 6)]
     public string Description; 
     public List<AbilityBase> Abilities;
     public List<Keyword> Keywords;
+
 }
 
 public enum Rarity

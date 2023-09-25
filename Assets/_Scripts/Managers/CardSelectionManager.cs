@@ -25,7 +25,7 @@ public class CardSelectionManager : MonoBehaviour
 
     #region Card Ability Loop
     private GameObject _selectedCardObject; //game object so we can potentially destroy card
-    private CardBase _selectedCard; //The information of what the card does
+    public CardBase SelectedCard; //The information of what the card does
     private HexNode _clickedNode; //Node we clicked on
     private List<HexNode> _shape = new(); //Shape we last hovered
     public AbstractCharacter SelectedCharacter;
@@ -84,14 +84,14 @@ public class CardSelectionManager : MonoBehaviour
 
         //Card will no longer grow when hovered
         card.GetComponent<CardHover>().enabled = false;
-        _selectedCard = _selectedCardObject.GetComponent<CardDisplay>().GetCard();
+        SelectedCard = _selectedCardObject.GetComponent<CardDisplay>().GetCard();
 
         //Tween to selection location and scale it up
         TweenManager.Instance.CardMove(_selectedCardObject, _selectionLocation.position);
         TweenManager.Instance.CardScale(_selectedCardObject, true);
 
         //Start that coroutine for card abilities
-        _cardLoopCoroutine = StartCoroutine(CardAbilityLoop(_selectedCard));
+        _cardLoopCoroutine = StartCoroutine(CardAbilityLoop(SelectedCard));
 
     }
 
@@ -264,7 +264,7 @@ public class CardSelectionManager : MonoBehaviour
         TweenManager.Instance.CardScale(_selectedCardObject, false);
 
         _selectedCardObject = null; //Unselect card
-        _selectedCard = null;
+        SelectedCard = null;
     }
 
     private bool ButtonsClicked()
