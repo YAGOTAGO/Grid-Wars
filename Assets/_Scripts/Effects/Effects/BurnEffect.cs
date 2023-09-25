@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Effect", menuName = "Effects/BurnEffect")]
+[CreateAssetMenu(fileName = "New Effect", menuName = "Effects/Debuff/BurnEffect")]
 public class BurnEffect : EffectBase
 {
     [SerializeField] private int _duration;

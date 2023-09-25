@@ -235,6 +235,8 @@ public class CardSelectionManager : MonoBehaviour
 
         _canStopCoroutine = false; //can't stop coroutine until move is done
 
+        ClearSpecialPathfind(); //in case there was special pathfind ongoing we clear it up
+        
         StopCoroutine(_cardLoopCoroutine);
         EndTurnButton.Instance.CanClickEndTurn(true);
 
@@ -300,9 +302,7 @@ public class CardSelectionManager : MonoBehaviour
             {
                 _shape = _shape.Union(_walkTemp).ToList();
                 _priorMouseNode = mouseNode;
-                _walkHex = null;
-                _walkShape.Clear();
-                _walkTemp.Clear();
+                ClearSpecialPathfind();
                 return true;
             }
         }
@@ -326,6 +326,12 @@ public class CardSelectionManager : MonoBehaviour
         return false;
     }
 
+    private void ClearSpecialPathfind()
+    {
+        _walkHex = null;
+        _walkShape.Clear();
+        _walkTemp.Clear();
+    }
     private void HandleSpecialPathfind(AbilityBase ability, HexNode mouseNode)
     {
         HighlightManager.Instance.ClearTargetMap();

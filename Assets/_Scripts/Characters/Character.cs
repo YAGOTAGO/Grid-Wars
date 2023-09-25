@@ -15,6 +15,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     [SerializeField] private GameObject _characterStatsUI; //UI object that holds everything else
     [SerializeField] private GameObject _effectUIPrefab;
     [SerializeField] private int _startingHealth = 20;
+    [SerializeField] private EffectBase _startingEffect;
     #endregion
     
     private readonly Dictionary<EffectBase, GameObject> _effectToUIDict = new();
@@ -24,7 +25,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         base.OnNetworkSpawn();
         Initialize();
         AddAllyPlayers();
-        //AddEffect(Database.Instance.GetEffectByName("BurnEffect"));
+        AddEffect(_startingEffect);
     }
 
     public override void OnNetworkDespawn()

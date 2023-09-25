@@ -14,7 +14,7 @@ public class DamageAbility : AbilityBase
     [SerializeField] private int _range;
 
     private AbstractShape _abstractShape;
-    public override int Range { get => _range; }
+    public override int Range => _range;
     public override string Prompt => _prompt;
     public override AbstractShape Shape 
     {

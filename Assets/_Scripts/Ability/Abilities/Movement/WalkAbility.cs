@@ -9,10 +9,23 @@ public class WalkAbility : AbilityBase
     [SerializeField] private int _range;
 
     private AbstractShape _abstractShape;
-    public override string Prompt => $"Move up to {_range} hexes.";
-    public override int Range => _range;
+    public override string Prompt => $"Move up to {Range} hexes.";
+    public override int Range => GetRange();
+    public override bool IsSpecialPathfind => true;
 
-    public override bool IsSpecialPathfind { get => true; }
+    //Takes into consideration any movement effects
+    private int GetRange()
+    {
+        AbstractCharacter character = CardSelectionManager.Instance.SelectedCharacter;
+        int range = _range;
+        foreach(EffectBase ef in character.Effects)
+        {
+            if (!ef.CanMove()) { return 0; } //any effect makes us unable to move then return 0 range
+            range = ef.OnMove(range);
+        }
+        return range;
+    }
+
     public override AbstractShape Shape {
         get
         {
@@ -40,7 +53,6 @@ public class WalkAbility : AbilityBase
         }
 
         //Wait until queue is done
-
         yield return new WaitUntil(() => ActionQueue.Instance.IsQueueStopped());
 
         LogManager.Instance.LogMovementAbility(card, CardSelectionManager.Instance.SelectedCharacter, shape.Count);

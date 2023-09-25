@@ -10,13 +10,11 @@ public class DamageManager : MonoBehaviour
     /// <returns></returns>
     public static int Damage(DamageInfo dmgInfo)
     {
-        int damage = dmgInfo.Val;
         AbstractCharacter source = dmgInfo.Source;
         AbstractCharacter target = dmgInfo.Target; 
 
         if(target == null)
         {
-            Debug.Log("Target is null in damage manager");
             return 0;
         }
 
@@ -24,20 +22,19 @@ public class DamageManager : MonoBehaviour
         {
             foreach (EffectBase ef in source.Effects)
             {
-                damage = ef.OnDamageGive(dmgInfo);
+                dmgInfo.Val = ef.OnDamageDeal(dmgInfo);
             }
         }
 
-
         foreach (EffectBase ef in target.Effects)
         {
-             damage = ef.OnDamageReceive(dmgInfo);
+             dmgInfo.Val = ef.OnDamageReceive(dmgInfo);
         }
-     
-        damage = damage <= 0 ? 0 : damage;
 
-        target.TakeDamage(damage);
+        dmgInfo.Val = dmgInfo.Val <= 0 ? 0 : dmgInfo.Val;
+
+        target.TakeDamage(dmgInfo.Val);
         
-        return damage;
+        return dmgInfo.Val;
     }
 }

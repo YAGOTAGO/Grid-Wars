@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class EffectBase : ScriptableObject
 {
 
-    public abstract int Duration { get; set; }
+    public virtual int Duration { get; set; } //not all effects need duration
     public abstract StatusType Type { get;}
     public abstract string Description { get; }
     public abstract Sprite EffectIcon { get; }
@@ -20,7 +20,7 @@ public abstract class EffectBase : ScriptableObject
     public virtual void OnLeaveNode() { }
     public virtual bool CanMove() { return true; } //modifying if can move
     public virtual int OnMove(int moveAmount) { return moveAmount; } //modifying move amount
-    public virtual int OnDamageGive(DamageInfo damageInfo) { return damageInfo.Val; }
+    public virtual int OnDamageDeal(DamageInfo damageInfo) { return damageInfo.Val; }
     public virtual int OnDamageReceive(DamageInfo damageInfo) { return damageInfo.Val; }
     #endregion
 
@@ -53,6 +53,7 @@ public abstract class EffectBase : ScriptableObject
 
 public enum StatusType
 {
-    BUFF,
-    DEBUFF
+    BUFF = 0, //buff given or applied
+    DEBUFF = 1, //negative effects
+    INNATE = 2//effects character comes with
 }

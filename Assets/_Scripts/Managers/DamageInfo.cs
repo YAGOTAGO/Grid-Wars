@@ -1,7 +1,7 @@
 
 public class DamageInfo
 {
-    public int Val { get; private set; }
+    public int Val;
     public DamageType Type { get; private set; }
 
     public AbstractCharacter Source { get; private set; }
@@ -9,10 +9,10 @@ public class DamageInfo
 
     public DamageInfo(int dmg, DamageType type, AbstractCharacter source, AbstractCharacter target)
     {
-        this.Type = type;
-        this.Val = dmg;
-        this.Source = source;
-        this.Target = target;
+        Type = type;
+        Val = dmg;
+        Source = source;
+        Target = target;
     }
 
 }
