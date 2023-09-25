@@ -24,7 +24,6 @@ public class CardPickupSurface : SurfaceBase
                 switch(_rarity)
                 {
                     case Rarity.COMMON: _card = Database.Instance.GetRandomCommonCard(); break;
-                    case Rarity.EPIC: _card = Database.Instance.GetRandomEpicCard(); break;
                     case Rarity.RARE: _card = Database.Instance.GetRandomRareCard(); break;
                 }
             }

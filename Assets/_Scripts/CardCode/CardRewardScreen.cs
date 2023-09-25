@@ -35,7 +35,6 @@ public class CardRewardScreen : MonoBehaviour
         switch (rarity)
         {
             case Rarity.COMMON: cards = Database.Instance.GetDifferentCommons(3); break;
-            case Rarity.EPIC: cards = Database.Instance.GetDifferentEpics(3); break;
             case Rarity.RARE: cards = Database.Instance.GetDifferentRares(3); break;
         }
 

@@ -28,7 +28,6 @@ public class Database : MonoBehaviour
     private readonly List<CardBase> _basicCardsDB = new();
     private readonly List<CardBase> _commonCardsDB = new();
     private readonly List<CardBase> _rareCardsDB = new();
-    private readonly List<CardBase> _epicCardsDB = new();
     #endregion
 
     private void Awake()
@@ -144,32 +143,7 @@ public class Database : MonoBehaviour
 
         return selectedCards;
     }
-    public CardBase GetRandomEpicCard()
-    {
-        if (_epicCardsDB.Count == 0) { Debug.LogWarning("No cards in epic card database"); return null; }
-        return Instantiate(_epicCardsDB[Random.Range(0, _epicCardsDB.Count)]);
-    }
-
-    public List<CardBase> GetDifferentEpics(int amount)
-    {
-        if (_epicCardsDB.Count == 0) { Debug.LogWarning("No cards in epic card database"); return null; }
-        if (amount > _epicCardsDB.Count) { Debug.LogWarning("Not enought epic cards to pull from"); return null; }
-
-        List<CardBase> selectedCards = new();
-        List<int> selectedIndices = new();
-
-        while (selectedCards.Count < amount)
-        {
-            int randomIndex = Random.Range(0, _epicCardsDB.Count);
-            if (!selectedIndices.Contains(randomIndex))
-            {
-                selectedIndices.Add(randomIndex);
-                selectedCards.Add(Instantiate(_epicCardsDB[randomIndex]));
-            }
-        }
-
-        return selectedCards;
-    }
+    
     #endregion
 
     #region Load Database
@@ -203,7 +177,6 @@ public class Database : MonoBehaviour
                 case Rarity.BASIC: _basicCardsDB.Add(c); break;
                 case Rarity.COMMON: _commonCardsDB.Add(c);break;
                 case Rarity.RARE: _rareCardsDB.Add(c); break;
-                case Rarity.EPIC: _epicCardsDB.Add(c); break;
             }
         }
     }

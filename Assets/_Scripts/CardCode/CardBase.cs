@@ -29,7 +29,6 @@ public enum Rarity
     BASIC =0, //Basic cards can't lose durability and start in hand
     COMMON =1, //Frequently found
     RARE = 2, //maybe sometimes in treasure chests
-    EPIC =3// maybe unique to events, or certain npcs
 }
 
 public enum Class 

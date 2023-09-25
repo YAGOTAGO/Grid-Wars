@@ -31,13 +31,18 @@ public class RandomHexDamageAbility : AbilityBase
     {
         ShuffleList(shape);
 
-        for(int i=0; i<_numHexesToDamage; i++)
+        for (int i = 0; i < _numHexesToDamage; i++)
         {
+            //Highlight all hexes and then deal damage
+            HighlightManager.Instance.HighlightTargetList(new List<HexNode> { shape[i] });
+            yield return new WaitForSeconds(.1f);
+            
             DamageInfo dmgInfo = new(_damageAmount, _damageType, CardSelectionManager.Instance.SelectedCharacter, shape[i].GetCharacterOnNode());
             int damage = DamageManager.Damage(dmgInfo);
             LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
-
         }
+
+        HighlightManager.Instance.ClearTargetMap();
         yield break;
     }
 

@@ -13,8 +13,6 @@ public class RandomRewardSurface : SurfaceBase
     [Header("Distributions")]
     [Range(0, 100)]
     [SerializeField] private int _commonChance;
-    [Range(0, 100)]
-    [SerializeField] private int _rareChance;
 
     private bool _isWalkable = true;
     private bool _canAbilitiesPassthrough = true;
@@ -34,16 +32,10 @@ public class RandomRewardSurface : SurfaceBase
                     _rarity = Rarity.COMMON;
                     return _rarity;
                 }
-                if(random <= (_commonChance + _rareChance))
+                else
                 {
                     SurfaceSync.Instance.SetRarity(ID, Rarity.RARE);
                     _rarity = Rarity.RARE;
-                    return _rarity;
-                }
-                if (random <= 100)
-                {
-                    SurfaceSync.Instance.SetRarity(ID, Rarity.EPIC);
-                    _rarity = Rarity.EPIC;
                     return _rarity;
                 }
             }
@@ -69,7 +61,6 @@ public class RandomRewardSurface : SurfaceBase
                 {
                     case Rarity.COMMON: _surfaceSprite = _commonRewardIcon; break;
                     case Rarity.RARE: _surfaceSprite = _rareRewardIcon; break;
-                    case Rarity.EPIC: _surfaceSprite = _epicRewardIcon; break;
                 }
             }
             
