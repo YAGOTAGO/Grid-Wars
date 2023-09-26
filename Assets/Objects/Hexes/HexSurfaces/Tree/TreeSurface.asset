@@ -16,7 +16,6 @@ MonoBehaviour:
   _isWalkable: 0
   _canAbilitiesPassthrough: 0
   _surfaceSprites:
-  - {fileID: 21300000, guid: 76469790cc7b1814f9d5318a60236ba5, type: 3}
   - {fileID: 21300000, guid: 0dd2a3466c0818a42b6b28303932ca6e, type: 3}
   - {fileID: 21300000, guid: d4b43d745061b2e4e91f3a6977ea9961, type: 3}
   - {fileID: 21300000, guid: 7f5812c394e98e048908317c4666c14c, type: 3}
