@@ -8,7 +8,7 @@ public class SurfaceSync : NetworkBehaviour
 {
     public static SurfaceSync Instance;
     private NetworkList<int> _objectIds;
-    private NetworkList<int> _rarity;
+    private NetworkList<int> _class;
 
     public List<int> ObjectsDebug;
     public List<int> RarityDebug;
@@ -16,7 +16,7 @@ public class SurfaceSync : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
-        _rarity = new();
+        _class = new();
         _objectIds = new();
     }
 
@@ -25,18 +25,18 @@ public class SurfaceSync : NetworkBehaviour
         return _objectIds.Contains(id);
     }
 
-    public void SetRarity(int id, Rarity rarity)
+    public void SetClass(int id, Class classType)
     {
         if(IsServer)
         {
             ObjectsDebug.Add(id);
-            RarityDebug.Add((int)rarity);
+            RarityDebug.Add((int)classType);
             _objectIds.Add(id);
-            _rarity.Add((int)rarity);
+            _class.Add((int)classType);
         }
         else
         {
-            SetRarityServerRPC(id, (int)rarity);
+            SetRarityServerRPC(id, (int)classType);
         }
         
     }
@@ -47,13 +47,13 @@ public class SurfaceSync : NetworkBehaviour
         ObjectsDebug.Add(id);
         RarityDebug.Add(rarity);
         _objectIds.Add(id);
-        _rarity.Add(rarity);
+        _class.Add(rarity);
     }
 
-    public Rarity GetRarity(int id)
+    public Class GetClass(int id)
     {
         int index = _objectIds.IndexOf(id);
-        return (Rarity)_rarity[index];
+        return (Class)_class[index];
     }
 /*
     public void RemoveRarity(int id)

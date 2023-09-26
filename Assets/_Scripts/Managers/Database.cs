@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Database : MonoBehaviour
 {
@@ -17,26 +21,30 @@ public class Database : MonoBehaviour
 
     #region Databases
     public NumberedDictionary<AbstractCharacter> CharactersDB { get; private set; } = new();
-    public List<int> AllyPlayers = new();
-    public List<int> Allies = new();
-    public List<int> Enemies = new();
+    [HideInInspector]public List<int> AllyPlayers = new();
+    [HideInInspector] public List<int> Allies = new();
+    [HideInInspector] public List<int> Enemies = new();
     private readonly Dictionary<string, SurfaceBase> _surfacesDB = new();
     private readonly Dictionary<string, CardBase> _cardsDB = new();
     private readonly Dictionary<string, EffectBase> _effectsDB = new();
 
     //Sorted by rarity
-    private readonly List<CardBase> _basicCardsDB = new();
-    private readonly List<CardBase> _commonCardsDB = new();
-    private readonly List<CardBase> _rareCardsDB = new();
+    [Header("Card Distributions")]
+    [Range(0, 100)]
+    [SerializeField] private int _commonCardChance;
+    private readonly List<CardBase> _wizardCardsDB = new();
+    private readonly List<CardBase> _monkCardsDB = new();
+    private readonly List<CardBase> _clericCardsDB = new();
+    private Dictionary<Class, Dictionary<Rarity, List<CardBase>>> _cardsByClassAndRarityDB = new();
     #endregion
 
     private void Awake()
     {
         Instance = this;
-
-        LoadAllEffectSprites();
         LoadAllSurfaceScriptables();
+        LoadAllEffectSprites();
         LoadAllCardScriptables();
+        LoadClassAndRarityDB();
     }
 
     public bool IsAlly(AbstractCharacter character)
@@ -46,7 +54,7 @@ public class Database : MonoBehaviour
 
     /// <param name="name">Name of surface</param>
     /// <returns>A instance of a surface scriptable object</returns>
-    public SurfaceBase GetSurface(string name)
+    public SurfaceBase GetSurfaceByName(string name)
     {
         if (_surfacesDB.TryGetValue(name, out SurfaceBase surface))
         {
@@ -54,7 +62,7 @@ public class Database : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Did not find + " + name + "in Surfaces DB");
+            Debug.LogWarning($"Did not find {name} in Surfaces DB");
             return null;
         }
     }
@@ -69,7 +77,7 @@ public class Database : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Did not find + " + name + "in cards DB");
+            Debug.LogWarning($"Did not find {name} in cards DB");
             return null;
         }
     }
@@ -84,66 +92,50 @@ public class Database : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Did not find + " + name + "in cards DB");
+            Debug.LogWarning($"Did not find {name} in cards DB");
             return null;
         }
     }
 
     #region GetRandomCards
-    public CardBase GetRandomCommonCard()
+    public List<CardBase> GetDifferentClassCards(int amount, Class classType)
     {
-        if(_commonCardsDB.Count == 0) { Debug.LogWarning("No cards in common card database"); return null; }
-        return Instantiate(_commonCardsDB[Random.Range(0, _commonCardsDB.Count)]);
-    }
-
-    public List<CardBase> GetDifferentCommons(int amount)
-    {
-        if (_commonCardsDB.Count == 0) { Debug.LogWarning("No cards in common card database"); return null; }
-        if(amount > _commonCardsDB.Count) { Debug.LogWarning("Not enought common cards to pull from"); return null; }
-
-        List<CardBase> selectedCards = new();
-        List<int> selectedIndices = new();
-
-        while(selectedCards.Count < amount) 
-        {
-            int randomIndex = Random.Range(0, _commonCardsDB.Count);
-            if (!selectedIndices.Contains(randomIndex))
-            {
-                selectedIndices.Add(randomIndex);
-                selectedCards.Add(Instantiate(_commonCardsDB[randomIndex]));
-            }
-        }
+        List<CardBase> cardsDB;
         
-        return selectedCards;
-    }
+        switch (classType) 
+        {
+            case Class.Cleric: cardsDB = _clericCardsDB; break;
+            case Class.Monk: cardsDB = _monkCardsDB; break;
+            case Class.Wizard: cardsDB = _wizardCardsDB; break;
+            default: cardsDB = new(); Debug.LogWarning("GetDifferentClassCards in database didn't find class."); return null;    
+        }
 
-    public CardBase GetRandomRareCard()
-    {
-        if (_rareCardsDB.Count == 0) { Debug.LogWarning("No cards in rare card database"); return null; }
-        return Instantiate(_rareCardsDB[Random.Range(0, _rareCardsDB.Count)]);
-    }
+        //Warnings if things go wrong
+        if (cardsDB.Count == 0) { Debug.LogWarning($"No cards in {classType} card database"); return null; }
+        if(amount > cardsDB.Count) { Debug.LogWarning($"Not enough {classType} cards to pull from"); return null; }
 
-    public List<CardBase> GetDifferentRares(int amount)
-    {
-        if (_rareCardsDB.Count == 0) { Debug.LogWarning("No cards in rare card database"); return null; }
-        if (amount > _rareCardsDB.Count) { Debug.LogWarning("Not enought rare cards to pull from"); return null; }
-
-        List<CardBase> selectedCards = new();
-        List<int> selectedIndices = new();
+        List<CardBase> selectedCards = new(); //contains instatiated version
+        List<CardBase> alreadyPicked = new(); //contains direct references
 
         while (selectedCards.Count < amount)
         {
-            int randomIndex = Random.Range(0, _rareCardsDB.Count);
-            if (!selectedIndices.Contains(randomIndex))
+            // Determine rarity based on probabilities
+            float rarityRoll = UnityEngine.Random.Range(0f, 100f);
+            Rarity rarity = rarityRoll < _commonCardChance ? Rarity.COMMON : Rarity.RARE;
+
+            // Filter cards by the determined rarity
+            List<CardBase> availableCards = _cardsByClassAndRarityDB[classType][rarity].Where(card=> !alreadyPicked.Contains(card)).ToList();
+
+            if (availableCards.Count > 0)
             {
-                selectedIndices.Add(randomIndex);
-                selectedCards.Add(Instantiate(_rareCardsDB[randomIndex]));
+                int randomIndex = UnityEngine.Random.Range(0, availableCards.Count);
+                selectedCards.Add(Instantiate(availableCards[randomIndex]));
+                alreadyPicked.Add(availableCards[randomIndex]);
             }
         }
 
         return selectedCards;
     }
-    
     #endregion
 
     #region Load Database
@@ -172,13 +164,37 @@ public class Database : MonoBehaviour
         {
             _cardsDB[c.name] = c;
 
-            switch (c.Rarity)
+            switch (c.Class)
             {
-                case Rarity.BASIC: _basicCardsDB.Add(c); break;
-                case Rarity.COMMON: _commonCardsDB.Add(c);break;
-                case Rarity.RARE: _rareCardsDB.Add(c); break;
+                case Class.Wizard: _wizardCardsDB.Add(c); break;
+                case Class.Monk: _monkCardsDB.Add(c);break;
+                case Class.Cleric: _clericCardsDB.Add(c); break;
             }
         }
+    }
+
+    private void LoadClassAndRarityDB()
+    {
+        List<CardBase> cardsDB; //which class cards
+
+        foreach (Class classType in Enum.GetValues(typeof(Class)))
+        {
+            switch (classType)
+            {
+                case Class.Cleric: cardsDB = _clericCardsDB; break;
+                case Class.Monk: cardsDB = _monkCardsDB; break;
+                case Class.Wizard: cardsDB = _wizardCardsDB; break;
+                default: cardsDB = new(); Debug.LogWarning("GetDifferentClassCards in database didn't find class."); break;
+            }
+
+            _cardsByClassAndRarityDB[classType] = new();
+            foreach (Rarity rarity in Enum.GetValues(typeof(Rarity)))
+            {
+                _cardsByClassAndRarityDB[classType][rarity] = new();
+                _cardsByClassAndRarityDB[classType][rarity] = cardsDB.Where(card => card.Rarity == rarity).ToList();
+            }
+        }
+
     }
     #endregion
     

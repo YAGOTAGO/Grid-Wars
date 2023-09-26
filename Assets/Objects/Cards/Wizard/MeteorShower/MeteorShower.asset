@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
+  m_Name: MeteorShower
+  m_EditorClassIdentifier: 
+  CardArt: {fileID: 21300000, guid: 776375259bf5e7c4f83d820cb18b5ce8, type: 3}
+  IconArt: {fileID: 0}
+  ShapeArt: {fileID: 0}
+  Name: Meteor Shower
+  Rarity: 1
+  Class: 1
+  Durability: 4
+  Description: Range 4.<br>Damage 3 in four random hexes in the shape.
+  Abilities:
+  - {fileID: 11400000, guid: 9f096a5df68430c48958e854fbfa6638, type: 2}
+  Keywords: 

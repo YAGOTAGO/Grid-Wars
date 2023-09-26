@@ -28,7 +28,7 @@ public class TrapSurface : SurfaceBase
         int damage = DamageManager.Damage(dmgInfo);
 
         HexNode node = character.GetNodeOn();
-        node.SetSurface(Database.Instance.GetSurface("EmptySurface"));
+        node.SetSurface(Database.Instance.GetSurfaceByName("EmptySurface"));
         node.SetSurfaceWalkable(false);
 
         LogManager.Instance.LogGenericDamage(character, damage, "Trap");

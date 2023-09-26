@@ -10,7 +10,7 @@ public class CardRewardScreen : MonoBehaviour
 {
 
     public static CardRewardScreen Instance;
-    [SerializeField] private List<Transform> _positions = new();
+    [SerializeField] private List<Transform> _transforms = new();
     [SerializeField] private TextMeshProUGUI _promptTmp;
     [SerializeField] private Button _skipButton;
     private bool _skipButtonPressed;
@@ -20,33 +20,30 @@ public class CardRewardScreen : MonoBehaviour
         Instance = this;
         _skipButton.onClick.AddListener(() => _skipButtonPressed = true);
     }
-    public void PickThreeCards(Rarity rarity)
+    public void PickThreeCards(Class classType)
     {
-        ActionQueue.Instance.EnqueueToFront(()=>CardRewards(rarity));
+        ActionQueue.Instance.EnqueueToFront(()=>CardRewards(classType));
     }
 
-    private IEnumerator CardRewards(Rarity rarity)
+    private IEnumerator CardRewards(Class classType)
     {
         _promptTmp.gameObject.SetActive(true);
-        _promptTmp.text = "Pick 1 of these 3 "+ rarity.ToString() +" cards to add to your deck.";
+        _promptTmp.text = $"Pick 1 of these 3 {classType} cards to add to your deck.";
 
         //Get the cards we are going to show
-        List<CardBase> cards = new();
-        switch (rarity)
-        {
-            case Rarity.COMMON: cards = Database.Instance.GetDifferentCommons(3); break;
-            case Rarity.RARE: cards = Database.Instance.GetDifferentRares(3); break;
-        }
+        List<CardBase> cards = Database.Instance.GetDifferentClassCards(3, classType);
+        
+        Utils.PrintList(cards);
 
         //Instantiate and wait for cards to be clicked
-        GameObject card1 = DeckManager.Instance.InstantiateCard(cards[0], _positions[0].position);
-        GameObject card2 = DeckManager.Instance.InstantiateCard(cards[1], _positions[1].position);
-        GameObject card3 = DeckManager.Instance.InstantiateCard(cards[2], _positions[2].position);
+        GameObject card1 = DeckManager.Instance.InstantiateCard(cards[0], _transforms[0].position);
+        GameObject card2 = DeckManager.Instance.InstantiateCard(cards[1], _transforms[1].position);
+        GameObject card3 = DeckManager.Instance.InstantiateCard(cards[2], _transforms[2].position);
 
         //Parent the cards to this gameobject to be visible
-        card1.transform.SetParent(_positions[0]);
-        card2.transform.SetParent(_positions[1]);
-        card3.transform.SetParent(_positions[2]);
+        card1.transform.SetParent(_transforms[0]);
+        card2.transform.SetParent(_transforms[1]);
+        card3.transform.SetParent(_transforms[2]);
 
         //Access the card clicked component
         OnCardClick card1CardClick = card1.GetComponent<OnCardClick>();
@@ -67,10 +64,9 @@ public class CardRewardScreen : MonoBehaviour
         (card3CardClick.IsCardRewardClicked()) ||
         _skipButtonPressed);
 
-        _promptTmp.gameObject.SetActive(false);
         _skipButton.gameObject.SetActive(false);
-
-
+        _promptTmp.gameObject.SetActive(false);
+        
         if (_skipButtonPressed) //skip destroys everything an exits
         {
             _skipButtonPressed = false;

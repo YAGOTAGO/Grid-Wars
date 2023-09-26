@@ -402,6 +402,8 @@ MonoBehaviour:
   _effectUIPrefab: {fileID: 3834171814173998123, guid: 9f7b01a8318faf74e9de3c5508271f40, type: 3}
   _startingHealth: 20
   _startingEffect: {fileID: 11400000, guid: 405c5cf35afc0224583ef1e62e252a10, type: 2}
+  CharacterClass: 1
+  RewardIcon: {fileID: 21300000, guid: 46cbda966d36b8d4caf1fa6b6f14fe6b, type: 3}
 --- !u!1 &7146395176887563526
 GameObject:
   m_ObjectHideFlags: 0

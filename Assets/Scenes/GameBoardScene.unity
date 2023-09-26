@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2506446
 RectTransform:
   m_ObjectHideFlags: 0
@@ -175,14 +175,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.36628112, b: 0.5566038, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 71527710cda291b4cab19c16e32addd9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -753,15 +753,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _effectScriptables:
   - {fileID: 11400000, guid: b898dc7afaa06ae469ea8289c603d98c, type: 2}
+  - {fileID: 11400000, guid: 405c5cf35afc0224583ef1e62e252a10, type: 2}
+  - {fileID: 11400000, guid: ff20fa854d532f34d84476759690ad88, type: 2}
   _surfaceScriptables:
   - {fileID: 11400000, guid: 36feb41178527894f93fb6bbb1d60bc7, type: 2}
   - {fileID: 11400000, guid: 48431b4cc907f2d4ca64685b5343449c, type: 2}
   - {fileID: 11400000, guid: 7a379190edcbb4e49be9fb1034270cb6, type: 2}
   - {fileID: 11400000, guid: 11e3a3106ffd3bd48a803177b4dcc505, type: 2}
-  - {fileID: 11400000, guid: ef3d25e93ea771346baa43b7c518952b, type: 2}
-  - {fileID: 11400000, guid: bb65324751ee6124b8e58463afcaa144, type: 2}
-  - {fileID: 11400000, guid: 3cbe17b4a186c8d4fae4b020a0d66bce, type: 2}
-  - {fileID: 11400000, guid: 46eb9c7f7c9b99447b7eae83d0b0170d, type: 2}
   - {fileID: 11400000, guid: b9027375211da8a4d97ae5448f1469fa, type: 2}
   - {fileID: 11400000, guid: cd51f5786ab703b458c8c6818fa834fe, type: 2}
   _cardScriptables:
@@ -781,6 +779,7 @@ MonoBehaviour:
   AllyPlayers: 
   Allies: 
   Enemies: 
+  _commonCardChance: 90
 --- !u!1 &308264840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,6 +1537,7 @@ MonoBehaviour:
   _reselectButton: {fileID: 1552082169}
   _skipButton: {fileID: 1087372226}
   _undoButton: {fileID: 1904884387}
+  SelectedCard: {fileID: 0}
   SelectedCharacter: {fileID: 0}
   _canStopCoroutine: 1
 --- !u!1 &648585251
@@ -2009,7 +2009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21353e1722c08334a92c9fd7aa8bbdda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _positions:
+  _transforms:
   - {fileID: 196468631}
   - {fileID: 1192141519}
   - {fileID: 541861594}
@@ -3428,9 +3428,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd9935d618b8d54382bb42b27dd7cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monkPrefab: {fileID: 7146395176818553969, guid: 12fa879a0f734a74994cc2f03a35b491, type: 3}
-  _clericPrefab: {fileID: 7146395176818553969, guid: e49dfb8db3f7f9e40aa4e6861dc93a80, type: 3}
-  _wizardPrefab: {fileID: 7146395176818553969, guid: 7500d409a9021f3438c0e7614bbcaa1f, type: 3}
+  CharacterList:
+  - {fileID: 7146395176818553969, guid: 12fa879a0f734a74994cc2f03a35b491, type: 3}
+  - {fileID: 7146395176818553969, guid: 7500d409a9021f3438c0e7614bbcaa1f, type: 3}
+  - {fileID: 7146395176818553969, guid: e49dfb8db3f7f9e40aa4e6861dc93a80, type: 3}
   _spawnLocations:
   - {x: -9, y: -11, z: 0}
   - {x: -9, y: -7, z: 0}

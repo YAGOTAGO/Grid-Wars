@@ -35,9 +35,9 @@ public class LogManager : NetworkBehaviour
         SyncLogs(log);
     }
         
-    public void LogCardReward(Rarity rarity)
+    public void LogCardReward(Class classType)
     {
-        FixedString128Bytes log = $"xyz picked a {rarity} card as reward.";
+        FixedString128Bytes log = $"xyz picked a {classType} card as reward.";
         SyncLogs(log);
     }
 

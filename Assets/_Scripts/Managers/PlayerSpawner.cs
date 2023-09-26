@@ -8,9 +8,7 @@ using UnityEngine;
 public class PlayerSpawner : NetworkBehaviour
 {
     public static PlayerSpawner Instance;
-    [SerializeField] private Character _monkPrefab;
-    [SerializeField] private Character _clericPrefab;
-    [SerializeField] private Character _wizardPrefab;
+    public List<Character> CharacterList = new(); //list of characters
     [SerializeField] private List<Vector3Int> _spawnLocations = new();
 
     private void Awake()
@@ -26,9 +24,9 @@ public class PlayerSpawner : NetworkBehaviour
         {
             foreach(ulong clientId in NetworkManager.ConnectedClientsIds)
             {
-                GameObject monkGO = Instantiate(_monkPrefab.gameObject);
-                GameObject clericGO = Instantiate(_clericPrefab.gameObject);
-                GameObject wizardGO = Instantiate(_wizardPrefab.gameObject);
+                GameObject monkGO = Instantiate(CharacterList[0].gameObject);
+                GameObject clericGO = Instantiate(CharacterList[1].gameObject);
+                GameObject wizardGO = Instantiate(CharacterList[2].gameObject);
 
                 Character monkCharacter = monkGO.GetComponent<Character>();
                 Character clericCharacter = clericGO.GetComponent<Character>();

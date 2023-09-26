@@ -7,15 +7,18 @@ using UnityEngine.UI;
 
 public class Character : AbstractCharacter //may need to become network behaviour
 {
-   
     #region Visuals
     [Header("Visuals")]
     [SerializeField] private GameObject _effectsUIGroup; //This contains the horizontal layout group UI
     [SerializeField] private HealthBar _healthBar; //info about player healthbar
     [SerializeField] private GameObject _characterStatsUI; //UI object that holds everything else
     [SerializeField] private GameObject _effectUIPrefab;
+    
+    [Header("Character specific")]
     [SerializeField] private int _startingHealth = 20;
-    [SerializeField] private EffectBase _startingEffect;
+    [SerializeField] private EffectBase _startingEffect; //Passive for the unique character
+    public Class CharacterClass; 
+    public Sprite RewardIcon; //icon to display on ground for rewards
     #endregion
     
     private readonly Dictionary<EffectBase, GameObject> _effectToUIDict = new();

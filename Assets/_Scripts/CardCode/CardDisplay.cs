@@ -10,9 +10,9 @@ public class CardDisplay : MonoBehaviour
     private CardBase _card; //ScriptableObject we use as data to display
 
     [Header("Card Template Art")]
-    [SerializeField] private Sprite _basicTemplate;
-    [SerializeField] private Sprite _commonTemplate;
-    [SerializeField] private Sprite _rareTemplate;
+    [SerializeField] private Sprite _monkTemplate;
+    [SerializeField] private Sprite _clericTemplate;
+    [SerializeField] private Sprite _wizardTemplate;
 
     [Header("Card Elements")]
     [SerializeField] private Image _cardTemplate;
@@ -66,13 +66,18 @@ public class CardDisplay : MonoBehaviour
 
     private void UpdateDisplay()
     {
-        switch(_card.Rarity)
+        switch(_card.Rarity) //set durability
         {
-            case Rarity.BASIC: _cardTemplate.sprite = _basicTemplate; _durabilityTMP.text = "∞"; break;
-            case Rarity.COMMON: _cardTemplate.sprite = _commonTemplate; _durabilityTMP.text = _card.Durability.ToString(); break;
-            case Rarity.RARE: _cardTemplate.sprite = _rareTemplate; _durabilityTMP.text = _card.Durability.ToString(); break;
+            case Rarity.BASIC:  _durabilityTMP.text = "∞"; break;
+            case Rarity.COMMON:  _durabilityTMP.text = _card.Durability.ToString(); break;
+            case Rarity.RARE:  _durabilityTMP.text = _card.Durability.ToString(); break;
         }
-
+        switch (_card.Class) //card templates
+        {
+            case Class.Wizard:  _cardTemplate.sprite = _wizardTemplate; break;
+            case Class.Monk: _cardTemplate.sprite = _monkTemplate; break;
+            case Class.Cleric: _cardTemplate.sprite = _clericTemplate; break;
+        }
         _nameTMP.text = _card.Name;
         _cardArt.sprite = _card.CardArt;
         _descripTMP.text = _card.Description;

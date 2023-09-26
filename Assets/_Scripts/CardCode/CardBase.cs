@@ -33,8 +33,9 @@ public enum Rarity
 
 public enum Class 
 {
+    None =0, //Default
     Wizard =1,
     Monk =2,
-    Cleric =3
+    Cleric =3,
 }
 

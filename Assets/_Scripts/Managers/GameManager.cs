@@ -128,6 +128,7 @@ public class GameManager : NetworkBehaviour
     }
     private void LoadGrid()
     {
+        _loadScreenObject.SetActive(true); //load screen up
         if(IsServer) 
         {
             GridManager.Instance.InitBoard();

@@ -1,67 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Surface", menuName = "Surfaces/RandomRewardSurface")]
 public class RandomRewardSurface : SurfaceBase
 {
-    [Header("Icons")]
-    [SerializeField] private Sprite _commonRewardIcon;
-    [SerializeField] private Sprite _rareRewardIcon;
-    [SerializeField] private Sprite _epicRewardIcon;
-
-    [Header("Distributions")]
-    [Range(0, 100)]
-    [SerializeField] private int _commonChance;
-
+    private Class _classType = default;
     private bool _isWalkable = true;
     private bool _canAbilitiesPassthrough = true;
-    private Rarity _rarity;
+    private Sprite _surfaceSprite;
     private int ID => (int)NodeOn.NetworkObject.NetworkObjectId;
     
-    protected Rarity Rarity
+    protected Class ClassType
     {
         get
         {
             if (!SurfaceSync.Instance.ContainsID(ID))
             {
-                int random = Random.Range(1, 101);
-                if(random <= _commonChance)
-                {
-                    SurfaceSync.Instance.SetRarity(ID, Rarity.COMMON);
-                    _rarity = Rarity.COMMON;
-                    return _rarity;
-                }
-                else
-                {
-                    SurfaceSync.Instance.SetRarity(ID, Rarity.RARE);
-                    _rarity = Rarity.RARE;
-                    return _rarity;
-                }
+                int random = Random.Range(0, 3);
+                Class characterClass = PlayerSpawner.Instance.CharacterList[random].CharacterClass;
+                SurfaceSync.Instance.SetClass(ID, characterClass);
             }
-            else
+            else if(_classType == default)
             {
-                _rarity = SurfaceSync.Instance.GetRarity(ID);
+                _classType = SurfaceSync.Instance.GetClass(ID);
             }
-            return _rarity;
+            return _classType;
         }
     }
 
     public override bool IsWalkable { get => _isWalkable; set => _isWalkable = value; }
     public override bool CanAbilitiesPassthrough => _canAbilitiesPassthrough;
 
-    private Sprite _surfaceSprite;
     public override Sprite SurfaceSprite 
     {
         get
         {
             if (_surfaceSprite == null)
             {
-                switch (Rarity)
-                {
-                    case Rarity.COMMON: _surfaceSprite = _commonRewardIcon; break;
-                    case Rarity.RARE: _surfaceSprite = _rareRewardIcon; break;
-                }
+                Debug.Log(ClassType);
+                Debug.Log(PlayerSpawner.Instance);
+                _surfaceSprite = PlayerSpawner.Instance.CharacterList.FirstOrDefault(character=> character.CharacterClass == ClassType).RewardIcon;
             }
             
             return _surfaceSprite;
@@ -72,11 +52,11 @@ public class RandomRewardSurface : SurfaceBase
     {
         if (EndTurnButton.Instance.IsItMyTurn()) //only pick card if is your turn
         {
-            CardRewardScreen.Instance.PickThreeCards(Rarity);
-            LogManager.Instance.LogCardReward(Rarity);
+            CardRewardScreen.Instance.PickThreeCards(ClassType);
+            LogManager.Instance.LogCardReward(ClassType);
         }
 
-        character.GetNodeOn().SetSurface(Database.Instance.GetSurface("EmptySurface")); //remove this surface on touch
+        character.GetNodeOn().SetSurface(Database.Instance.GetSurfaceByName("EmptySurface")); //remove this surface on touch
         character.GetNodeOn().SetSurfaceWalkable(false); //make new surface not walkable
     }
 }

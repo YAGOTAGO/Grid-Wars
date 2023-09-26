@@ -103,7 +103,7 @@ public class HexNode : NetworkBehaviour
         {
             Destroy(_surface);
         }
-        _surface = Database.Instance.GetSurface(newVal.Value.Replace("(Clone)", "")); //Have to get rid of "clone" to make it work
+        _surface = Database.Instance.GetSurfaceByName(newVal.Value.Replace("(Clone)", "")); //Have to get rid of "clone" to make it work
         _surface.NodeOn = this;
         _surfaceRenderer.sprite = _surface.SurfaceSprite;
     }
