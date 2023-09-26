@@ -6,22 +6,20 @@ using UnityEngine;
 
 public abstract class EffectBase : ScriptableObject
 {
-
     public virtual int Duration { get; set; } //not all effects need duration
     public abstract StatusType Type { get;}
     public abstract string Description { get; }
     public abstract Sprite EffectIcon { get; }
 
-
     #region Hooks
     public virtual void EndOfTurn(Character character) { }
     public virtual void StartOfTurn() { }
-    public virtual void OnStepNode() { }
-    public virtual void OnLeaveNode() { }
     public virtual bool CanMove() { return true; } //modifying if can move
     public virtual int OnMove(int moveAmount) { return moveAmount; } //modifying move amount
-    public virtual int OnDamageDeal(DamageInfo damageInfo) { return damageInfo.Val; }
-    public virtual int OnDamageReceive(DamageInfo damageInfo) { return damageInfo.Val; }
+    public virtual int OnHealDeal(CombatInfo healInfo) { return healInfo.Value; }
+    public virtual int OnHealReceive(CombatInfo healInfo) { return healInfo.Value; }
+    public virtual int OnDamageDeal(CombatInfo damageInfo) { return damageInfo.Value; }
+    public virtual int OnDamageReceive(CombatInfo damageInfo) { return damageInfo.Value; }
     #endregion
 
     #region Helper Methods/ vars

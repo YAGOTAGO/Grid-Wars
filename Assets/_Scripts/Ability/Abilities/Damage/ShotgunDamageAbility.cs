@@ -13,20 +13,12 @@ public class ShotgunDamageAbility : AbilityBase
     [SerializeField] private int _range;
 
     private TargetingType _targetingType = TargetingType.NORMAL;
-    private AbstractShape _abstractShape;
     private bool _firstCharacterHit = false;
 
+    public override Shape ShapeEnum => global::Shape.SHOTGUN;
     public override int Range { get => _range; }
     public override string Prompt => _prompt;
-    public override AbstractShape Shape
-    {
-        get
-        {
-            _abstractShape = new ShotgunShape();
-            return _abstractShape;
-        }
-        set => _abstractShape = value;
-    }
+
     public override IEnumerator DoAbility(List<HexNode> shape, CardBase card)
     {
         _firstCharacterHit = false;
@@ -36,15 +28,15 @@ public class ShotgunDamageAbility : AbilityBase
             AbstractCharacter character = node.GetCharacterOnNode();
             if (character != null && !_firstCharacterHit)
             {
-                DamageInfo dmgInfo = new(_lineDamage, _damageType, CardSelectionManager.Instance.SelectedCharacter, character);
-                int damage = DamageManager.Damage(dmgInfo);
+                CombatInfo dmgInfo = new(_lineDamage, _damageType, CardSelectionManager.Instance.SelectedCharacter, character);
+                int damage = CombatManager.Damage(dmgInfo);
                 LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
                 _firstCharacterHit = true;
             }
             else if(character != null && _firstCharacterHit)
             {
-                DamageInfo dmgInfo = new(_scatterDamage, _damageType, CardSelectionManager.Instance.SelectedCharacter, character);
-                int damage = DamageManager.Damage(dmgInfo);
+                CombatInfo dmgInfo = new(_scatterDamage, _damageType, CardSelectionManager.Instance.SelectedCharacter, character);
+                int damage = CombatManager.Damage(dmgInfo);
                 LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
             }
 

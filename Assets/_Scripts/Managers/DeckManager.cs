@@ -62,7 +62,7 @@ public class DeckManager : MonoBehaviour
         AddToDeck(Database.Instance.GetCardByName("MeteorShower"));
         AddToDeck(Database.Instance.GetCardByName("SkippingStone"));
         AddToDeck(Database.Instance.GetCardByName("AssassinsBlade"));
-        AddToDeck(Database.Instance.GetCardByName("TentacleSpell"));
+        AddToDeck(Database.Instance.GetCardByName("Redemption"));
         ShuffleList(_deck);
 
     }

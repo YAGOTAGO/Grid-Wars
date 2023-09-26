@@ -12,18 +12,10 @@ public class TentacleDamageAbility : AbilityBase
     [SerializeField] private string _prompt;
     [SerializeField] private int _range;
 
-    private AbstractShape _abstractShape;
+    public override Shape ShapeEnum => _shape;
     public override int Range { get => _range; }
     public override string Prompt => _prompt;
-    public override AbstractShape Shape
-    {
-        get
-        {
-            _abstractShape ??= EnumToShape(_shape); //If abstract shape is null we set it
-            return _abstractShape;
-        }
-        set => _abstractShape = value;
-    }
+   
     /// <summary>
     /// Deals damage equal to number of characters targeted
     /// </summary>
@@ -43,8 +35,8 @@ public class TentacleDamageAbility : AbilityBase
 
         foreach (HexNode node in shape)
         {
-            DamageInfo dmgInfo = new(damageAmount, _damageType, CardSelectionManager.Instance.SelectedCharacter, node.GetCharacterOnNode());
-            int damage = DamageManager.Damage(dmgInfo);
+            CombatInfo dmgInfo = new(damageAmount, _damageType, CardSelectionManager.Instance.SelectedCharacter, node.GetCharacterOnNode());
+            int damage = CombatManager.Damage(dmgInfo);
             LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
 
         }

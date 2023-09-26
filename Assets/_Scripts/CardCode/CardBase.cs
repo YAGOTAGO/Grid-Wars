@@ -8,7 +8,6 @@ public class CardBase : ScriptableObject
 {
     [Header("Art")]
     public Sprite CardArt;
-    public Sprite IconArt; //for the icon on ground pickup
     public Sprite ShapeArt;
 
     [Header("Info")]

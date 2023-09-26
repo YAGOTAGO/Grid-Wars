@@ -24,8 +24,8 @@ public class TrapSurface : SurfaceBase
     
     public override void OnEnterNode(AbstractCharacter character)
     {
-        DamageInfo dmgInfo = new(_damage, _dmgType, null, character);
-        int damage = DamageManager.Damage(dmgInfo);
+        CombatInfo dmgInfo = new(_damage, _dmgType, null, character);
+        int damage = CombatManager.Damage(dmgInfo);
 
         HexNode node = character.GetNodeOn();
         node.SetSurface(Database.Instance.GetSurfaceByName("EmptySurface"));

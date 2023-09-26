@@ -15,18 +15,10 @@ public class RandomHexDamageAbility : AbilityBase
     [SerializeField] private int _range;
     [SerializeField] private int _numHexesToDamage;
 
-    private AbstractShape _abstractShape;
-    public override int Range { get => _range; }
+    public override Shape ShapeEnum => _shape;
+    public override int Range => _range;
     public override string Prompt => _prompt;
-    public override AbstractShape Shape
-    {
-        get
-        {
-            _abstractShape ??= EnumToShape(_shape); //If abstract shape is null we set it
-            return _abstractShape;
-        }
-        set => _abstractShape = value;
-    }
+
     public override IEnumerator DoAbility(List<HexNode> shape, CardBase card)
     {
         ShuffleList(shape);
@@ -37,8 +29,8 @@ public class RandomHexDamageAbility : AbilityBase
             HighlightManager.Instance.HighlightTargetList(new List<HexNode> { shape[i] });
             yield return new WaitForSeconds(.1f);
             
-            DamageInfo dmgInfo = new(_damageAmount, _damageType, CardSelectionManager.Instance.SelectedCharacter, shape[i].GetCharacterOnNode());
-            int damage = DamageManager.Damage(dmgInfo);
+            CombatInfo dmgInfo = new(_damageAmount, _damageType, CardSelectionManager.Instance.SelectedCharacter, shape[i].GetCharacterOnNode());
+            int damage = CombatManager.Damage(dmgInfo);
             LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
         }
 

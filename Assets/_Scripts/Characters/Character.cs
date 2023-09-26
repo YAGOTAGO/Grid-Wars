@@ -15,7 +15,6 @@ public class Character : AbstractCharacter //may need to become network behaviou
     [SerializeField] private GameObject _effectUIPrefab;
     
     [Header("Character specific")]
-    [SerializeField] private int _startingHealth = 20;
     [SerializeField] private EffectBase _startingEffect; //Passive for the unique character
     public Class CharacterClass; 
     public Sprite RewardIcon; //icon to display on ground for rewards
@@ -65,8 +64,8 @@ public class Character : AbstractCharacter //may need to become network behaviou
     }
     private void Initialize()
     {
-        _healthBar.InitHealthBarUI(_startingHealth, _startingHealth);
-        SetHealth(_startingHealth);
+        _healthBar.InitHealthBarUI(MaxHealth, StartingHealth);
+        SetHealth(StartingHealth);
         EffectTipWindow.Instance.SetPlayerUI(_characterStatsUI);
     }
 

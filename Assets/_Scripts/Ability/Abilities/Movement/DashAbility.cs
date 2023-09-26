@@ -9,6 +9,7 @@ public class DashAbility : AbilityBase
     [SerializeField] private int _range;
 
     private AbstractShape _abstractShape;
+    public override Shape ShapeEnum => global::Shape.DASH;
     public override string Prompt => $"Dash up to {Range} hexes.";
     public override int Range => GetRange();
     private int GetRange()
@@ -21,16 +22,6 @@ public class DashAbility : AbilityBase
             range = ef.OnMove(range);
         }
         return range;
-    }
-
-    public override AbstractShape Shape
-    {
-        get
-        {
-            _abstractShape ??= EnumToShape(global::Shape.DASH); //If abstract shape is null we set it
-            return _abstractShape;
-        }
-        set => _abstractShape = value;
     }
 
     public override IEnumerator DoAbility(List<HexNode> shape, CardBase card)

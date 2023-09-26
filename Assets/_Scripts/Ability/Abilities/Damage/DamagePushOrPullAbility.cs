@@ -18,18 +18,10 @@ public class DamagePushOrPullAbility : AbilityBase
     
     private int _amountMoved = 0;
 
-    private AbstractShape _abstractShape;
-    public override int Range { get => _range; }
+    public override Shape ShapeEnum => _shape;
+    public override int Range => _range; 
     public override string Prompt => _prompt;
-    public override AbstractShape Shape
-    {
-        get
-        {
-            _abstractShape ??= EnumToShape(_shape); //If abstract shape is null we set it
-            return _abstractShape;
-        }
-        set => _abstractShape = value;
-    }
+  
     public override IEnumerator DoAbility(List<HexNode> shape, CardBase card)
     {
         foreach (HexNode node in shape)
@@ -38,8 +30,8 @@ public class DamagePushOrPullAbility : AbilityBase
             if (character != null)
             {
                 //Damage
-                DamageInfo dmgInfo = new(_damageAmount, _damageType, CardSelectionManager.Instance.SelectedCharacter, node.GetCharacterOnNode());
-                int damage = DamageManager.Damage(dmgInfo);
+                CombatInfo dmgInfo = new(_damageAmount, _damageType, CardSelectionManager.Instance.SelectedCharacter, node.GetCharacterOnNode());
+                int damage = CombatManager.Damage(dmgInfo);
                 LogManager.Instance.LogCardDamageAbility(card, dmgInfo, damage);
 
                 //Push/Pull

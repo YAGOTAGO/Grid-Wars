@@ -1,16 +1,15 @@
 
-public class DamageInfo
+public class CombatInfo
 {
-    public int Val;
+    public int Value;
     public DamageType Type { get; private set; }
-
     public AbstractCharacter Source { get; private set; }
     public AbstractCharacter Target { get; private set; }
 
-    public DamageInfo(int dmg, DamageType type, AbstractCharacter source, AbstractCharacter target)
+    public CombatInfo(int dmg, DamageType type, AbstractCharacter source, AbstractCharacter target)
     {
         Type = type;
-        Val = dmg;
+        Value = dmg;
         Source = source;
         Target = target;
     }
@@ -18,9 +17,10 @@ public class DamageInfo
 }
 public enum DamageType
 {
-    NORMAL,
-    FIRE,
-    MAGIC,
-    WATER
+    NORMAL = 0,
+    FIRE = 1,
+    MAGIC = 2,
+    WATER = 3,
+    HEAL = 4
 }
 

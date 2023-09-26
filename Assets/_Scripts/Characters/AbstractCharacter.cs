@@ -7,6 +7,8 @@ public abstract class AbstractCharacter : NetworkBehaviour
 {
     public HashSet<EffectBase> Effects = new();
     public NetworkVariable<int> Health = new();
+    public int StartingHealth = 20;
+    public int MaxHealth = 20;
     public NetworkVariable<int> CharacterID { get; private set; } = new(-1);
     public NetworkVariable<Vector3Int> HexGridPosition = new(new Vector3Int(-1,-1,-1));
 
@@ -119,6 +121,28 @@ public abstract class AbstractCharacter : NetworkBehaviour
         Health.Value = health;
     }
 
+    public void Heal(int heal)
+    {
+        if (IsServer)
+        {
+            int health = Health.Value;
+            health += heal;
+            Health.Value = health > MaxHealth ? MaxHealth : health;
+        }
+        else
+        {
+            HealServerRPC(heal);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void HealServerRPC(int heal)
+    {
+        int health = Health.Value;
+        health += heal;
+        Health.Value = health > MaxHealth ? MaxHealth : health;
+    }
+
     public void TakeDamage(int damage)
     {
         if (IsServer)
@@ -128,7 +152,6 @@ public abstract class AbstractCharacter : NetworkBehaviour
         else
         {
             TakeDamageServerRPC(damage);
-
         }
     }
 

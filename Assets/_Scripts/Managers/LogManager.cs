@@ -69,12 +69,21 @@ public class LogManager : NetworkBehaviour
         SyncLogs(log);
     }
 
-    public void LogCardDamageAbility(CardBase card, DamageInfo dmgInfo, int damage)
+    public void LogCardDamageAbility(CardBase card, CombatInfo dmgInfo, int damage)
     {
         string name = GetCardName(card);
         if (dmgInfo.Target == null) { return; }
         
         FixedString128Bytes log = $"#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.";
+        SyncLogs(log);
+    }
+
+    public void LogCardHealAbility(CardBase card, CombatInfo healInfo, int heal)
+    {
+        string name = GetCardName(card);
+        if (healInfo.Target == null) { return; }
+
+        FixedString128Bytes log = $"#{healInfo.Source.CharacterID.Value} healed <color=red>{heal} damage</color> from #{healInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 

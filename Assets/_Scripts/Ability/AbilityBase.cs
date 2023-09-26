@@ -8,12 +8,22 @@ public abstract class AbilityBase : ScriptableObject
     public abstract IEnumerator DoAbility(List<HexNode> shape, CardBase card); //Will do its ability using given hexnode if needed
     public abstract string Prompt { get; } //What to tell the player before confirming
     public abstract TargetingType GetTargetingType();
-    public virtual AbstractShape Shape { get; set; }
+    public virtual Shape ShapeEnum { get; }
     public virtual bool IsSpecialPathfind { get => false; }
     public virtual int Range { get => -1; }
     public List<HexNode> GetShape(HexNode mouseNode, HexNode startNode)
     {
         return Shape.GetShape(mouseNode, startNode, this);
+    }
+
+    private AbstractShape _shape;
+    public AbstractShape Shape 
+    {
+        get
+        {
+            _shape ??= EnumToShape(ShapeEnum);
+            return _shape;
+        }
     }
 
     public AbstractShape EnumToShape(Shape shapeEnum)

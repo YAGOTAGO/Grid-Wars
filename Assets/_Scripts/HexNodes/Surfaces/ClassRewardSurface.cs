@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Surface", menuName = "Surfaces/RandomRewardSurface")]
-public class RandomRewardSurface : SurfaceBase
+public class ClassRewardSurface : SurfaceBase
 {
     private Class _classType;
     private bool _isWalkable = true;

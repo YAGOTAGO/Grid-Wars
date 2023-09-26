@@ -11,15 +11,15 @@ public class WizardEffect : EffectBase
     public override Sprite EffectIcon => _effectIcon;
 
     //Deals +1 on all wizard class cards
-    public override int OnDamageDeal(DamageInfo damageInfo)
+    public override int OnDamageDeal(CombatInfo damageInfo)
     {
         if(CardSelectionManager.Instance.SelectedCard.Class == Class.Wizard)
         {
-            return damageInfo.Val + 1;
+            return damageInfo.Value + 1;
         }
         else
         {
-            return damageInfo.Val;
+            return damageInfo.Value;
         }
         
     }

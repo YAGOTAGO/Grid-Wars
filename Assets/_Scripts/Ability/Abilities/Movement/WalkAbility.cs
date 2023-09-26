@@ -8,7 +8,7 @@ public class WalkAbility : AbilityBase
 {
     [SerializeField] private int _range;
 
-    private AbstractShape _abstractShape;
+    public override Shape ShapeEnum => global::Shape.PATHFIND;
     public override string Prompt => $"Move up to {Range} hexes.";
     public override int Range => GetRange();
     public override bool IsSpecialPathfind => true;
@@ -24,15 +24,6 @@ public class WalkAbility : AbilityBase
             range = ef.OnMove(range);
         }
         return range;
-    }
-
-    public override AbstractShape Shape {
-        get
-        {
-            _abstractShape ??= EnumToShape(global::Shape.PATHFIND); //If abstract shape is null we set it
-            return _abstractShape;
-        }
-        set => _abstractShape = value;
     }
 
     private IEnumerator WalkRoutine(HexNode target)

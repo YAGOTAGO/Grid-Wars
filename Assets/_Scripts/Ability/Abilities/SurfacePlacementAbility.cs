@@ -10,18 +10,9 @@ public class SurfacePlacementAbility : AbilityBase
     [SerializeField] private int _range;
     [SerializeField] private SurfaceBase _surface;
 
-    private AbstractShape _abstractShape;
+    public override Shape ShapeEnum => global::Shape.MOUSEHEX;
     public override int Range { get => _range; }
     public override string Prompt => _prompt;
-    public override AbstractShape Shape
-    {
-        get
-        {
-            _abstractShape = EnumToShape(global::Shape.MOUSEHEX); //If abstract shape is null we set it
-            return _abstractShape;
-        }
-        set => _abstractShape = value;
-    }
     public override IEnumerator DoAbility(List<HexNode> shape, CardBase card)
     {
         foreach (HexNode node in shape)
