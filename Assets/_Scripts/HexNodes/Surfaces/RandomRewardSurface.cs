@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Surface", menuName = "Surfaces/RandomRewardSurface")]
 public class RandomRewardSurface : SurfaceBase
 {
-    private Class _classType = default;
+    private Class _classType;
     private bool _isWalkable = true;
     private bool _canAbilitiesPassthrough = true;
     private Sprite _surfaceSprite;
@@ -18,14 +18,16 @@ public class RandomRewardSurface : SurfaceBase
         {
             if (!SurfaceSync.Instance.ContainsID(ID))
             {
-                int random = Random.Range(0, 3);
+                int random = Random.Range(0, PlayerSpawner.Instance.CharacterList.Count);
                 Class characterClass = PlayerSpawner.Instance.CharacterList[random].CharacterClass;
                 SurfaceSync.Instance.SetClass(ID, characterClass);
+                _classType = characterClass;
             }
-            else if(_classType == default)
+            else
             {
                 _classType = SurfaceSync.Instance.GetClass(ID);
             }
+            
             return _classType;
         }
     }
@@ -39,8 +41,6 @@ public class RandomRewardSurface : SurfaceBase
         {
             if (_surfaceSprite == null)
             {
-                Debug.Log(ClassType);
-                Debug.Log(PlayerSpawner.Instance);
                 _surfaceSprite = PlayerSpawner.Instance.CharacterList.FirstOrDefault(character=> character.CharacterClass == ClassType).RewardIcon;
             }
             

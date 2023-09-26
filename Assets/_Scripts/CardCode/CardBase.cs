@@ -26,14 +26,13 @@ public class CardBase : ScriptableObject
 
 public enum Rarity
 {
-    BASIC =0, //Basic cards can't lose durability and start in hand
+    BASIC = 0, //Basic cards can't lose durability and start in hand
     COMMON =1, //Frequently found
     RARE = 2, //maybe sometimes in treasure chests
 }
 
 public enum Class 
 {
-    None =0, //Default
     Wizard =1,
     Monk =2,
     Cleric =3,

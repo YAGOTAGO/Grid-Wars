@@ -11,7 +11,7 @@ public class SurfaceSync : NetworkBehaviour
     private NetworkList<int> _class;
 
     public List<int> ObjectsDebug;
-    public List<int> RarityDebug;
+    public List<int> ClassDebug;
 
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class SurfaceSync : NetworkBehaviour
         if(IsServer)
         {
             ObjectsDebug.Add(id);
-            RarityDebug.Add((int)classType);
+            ClassDebug.Add((int)classType);
             _objectIds.Add(id);
             _class.Add((int)classType);
         }
@@ -45,7 +45,7 @@ public class SurfaceSync : NetworkBehaviour
     private void SetRarityServerRPC(int id, int rarity)
     {
         ObjectsDebug.Add(id);
-        RarityDebug.Add(rarity);
+        ClassDebug.Add(rarity);
         _objectIds.Add(id);
         _class.Add(rarity);
     }
