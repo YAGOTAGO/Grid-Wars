@@ -18,13 +18,13 @@ public class HoverTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         StopAllCoroutines();
-        PlayersUIManager.OnMouseLoseFocus();
+        EffectTipWindow.OnMouseLoseFocus();
     }
 
     //Responisble for showing message
     private void ShowMessage()
     {
-        PlayersUIManager.OnMouseHover(_description, Input.mousePosition);
+        EffectTipWindow.OnMouseHover(_description, Input.mousePosition);
     }
 
     private IEnumerator StartTimer()

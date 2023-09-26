@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayersUIManager : MonoBehaviour
+public class EffectTipWindow : MonoBehaviour
 {
-    public static PlayersUIManager Instance;
+    public static EffectTipWindow Instance;
 
     #region TipWindow
     [Header("Tip window settings")]

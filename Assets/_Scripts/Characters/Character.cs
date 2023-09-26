@@ -67,7 +67,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     {
         _healthBar.InitHealthBarUI(_startingHealth, _startingHealth);
         SetHealth(_startingHealth);
-        PlayersUIManager.Instance.SetPlayerUI(_characterStatsUI);
+        EffectTipWindow.Instance.SetPlayerUI(_characterStatsUI);
     }
 
     private void AddAllyPlayers()
@@ -125,7 +125,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         }
 
         //Hide any hover tips that could still be showing
-        PlayersUIManager.Instance.HideTip();
+        EffectTipWindow.Instance.HideTip();
     }
 
     /// <summary>
