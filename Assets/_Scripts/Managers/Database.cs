@@ -18,12 +18,12 @@ public class Database : MonoBehaviour
 
     [Header("Card ScriptableObjects")]
     [SerializeField] private List<CardBase> _cardScriptables = new();
-
     #region Databases
     public NumberedDictionary<AbstractCharacter> CharactersDB { get; private set; } = new();
-    [HideInInspector]public List<int> AllyPlayers = new();
-    [HideInInspector] public List<int> Allies = new();
-    [HideInInspector] public List<int> Enemies = new();
+    public List<Character> AllyCharacters = new();
+    public List<Character> EnemyCharacters = new();
+    public List<AbstractCharacter> Allies = new();
+    public List<AbstractCharacter> Enemies = new();
     private readonly Dictionary<string, SurfaceBase> _surfacesDB = new();
     private readonly Dictionary<string, CardBase> _cardsDB = new();
     private readonly Dictionary<string, EffectBase> _effectsDB = new();
@@ -49,7 +49,7 @@ public class Database : MonoBehaviour
 
     public bool IsAlly(AbstractCharacter character)
     {
-        return Allies.Contains(character.CharacterID.Value);
+        return Allies.Contains(character);
     }
 
     /// <param name="name">Name of surface</param>

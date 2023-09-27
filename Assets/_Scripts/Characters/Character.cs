@@ -26,7 +26,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     {
         base.OnNetworkSpawn();
         Initialize();
-        AddAllyPlayers();
+        AddCharactersDB();
         AddEffect(_startingEffect);
     }
 
@@ -42,14 +42,14 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
         //Remove Character from DB
         Database.Instance.CharactersDB.Remove(CharacterID.Value);
-        RemoveAllyPlayers();
+        RemoveCharactersDB();
 
         //Free up the hexnode
         HexNode node = GetNodeOn();
         node.SetSurfaceWalkable(true);
         node.SetCharacterOnNode(-1);
         
-        if (Database.Instance.AllyPlayers.Count == 0) //means you have lost
+        if (Database.Instance.AllyCharacters.Count == 0) //means you have lost
         {
             GameManager.Instance.ChangeState(GameState.EndGame);
         }
@@ -69,21 +69,28 @@ public class Character : AbstractCharacter //may need to become network behaviou
         EffectTipWindow.Instance.SetPlayerUI(_characterStatsUI);
     }
 
-    private void AddAllyPlayers()
+    private void AddCharactersDB()
     {
         if (IsOwner)
         {
-            Database.Instance.AllyPlayers.Add(CharacterID.Value);
+            Database.Instance.AllyCharacters.Add(this);
+        }
+        else
+        {
+            Database.Instance.EnemyCharacters.Add(this);
         }
     }
 
-    private void RemoveAllyPlayers()
+    private void RemoveCharactersDB()
     {
         if(IsOwner) 
         {
-            Database.Instance.AllyPlayers.Remove(CharacterID.Value);
+            Database.Instance.AllyCharacters.Remove(this);
         }
-
+        else
+        {
+            Database.Instance.EnemyCharacters.Remove(this);
+        }
     }
     public override void AddEffect(EffectBase ef)
     {

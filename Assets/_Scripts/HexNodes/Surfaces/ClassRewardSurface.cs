@@ -11,7 +11,6 @@ public class ClassRewardSurface : SurfaceBase
     private bool _canAbilitiesPassthrough = true;
     private Sprite _surfaceSprite;
     private int ID => (int)NodeOn.NetworkObject.NetworkObjectId;
-    
     protected Class ClassType
     {
         get

@@ -150,8 +150,11 @@ public class BFS
             return BFSAireal(startNode, ability.Range);
         }
 
-        Debug.Log("Not valid targeting type for Single Hex Shape");
+        Debug.LogWarning("Didnt fing targeting type in TargTypeBFS.");
         return null;
     }
+
+
+
 }
 

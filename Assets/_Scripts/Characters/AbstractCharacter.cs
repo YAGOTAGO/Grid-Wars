@@ -21,7 +21,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
     {
         Health.OnValueChanged += HealthChange;
         HexGridPosition.OnValueChanged += UpdateNodeOn;
-        CharacterID.OnValueChanged += SetAllyEnemy;
+        SetAllyEnemy();
         AddThisToCharacterDB();
     }
 
@@ -29,7 +29,6 @@ public abstract class AbstractCharacter : NetworkBehaviour
     {
         Health.OnValueChanged -= HealthChange;
         HexGridPosition.OnValueChanged -= UpdateNodeOn;
-        CharacterID.OnValueChanged -= SetAllyEnemy;
         UnsetAllyEnemy();
     }
 
@@ -38,28 +37,23 @@ public abstract class AbstractCharacter : NetworkBehaviour
     {
         if(IsOwner)
         {
-            Database.Instance.Allies.Remove(CharacterID.Value);
+            Database.Instance.Allies.Remove(this);
         }
         else
         {
-            Database.Instance.Enemies.Remove(CharacterID.Value);
+            Database.Instance.Enemies.Remove(this);
         }
     }
-    private void SetAllyEnemy(int prevVal, int newVal)
-    {
-        SetAllyEnemyClientRPC();   
-    }
 
-    [ClientRpc]
-    private void SetAllyEnemyClientRPC()
+    private void SetAllyEnemy()
     {
         if (IsOwner)
         {
-            Database.Instance.Allies.Add(CharacterID.Value);
+            Database.Instance.Allies.Add(this);
         }
         else
         {
-            Database.Instance.Enemies.Add(CharacterID.Value);
+            Database.Instance.Enemies.Add(this);
         }
     }
 

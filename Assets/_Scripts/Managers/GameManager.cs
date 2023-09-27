@@ -59,7 +59,7 @@ public class GameManager : NetworkBehaviour
     private void EndGameClientRPC()
     {
         //Find out if won
-        if(Database.Instance.AllyPlayers.Count == 0)
+        if(Database.Instance.AllyCharacters.Count == 0)
         {
             IsWinner = false;
         }

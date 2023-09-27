@@ -83,7 +83,7 @@ public class LogManager : NetworkBehaviour
         string name = GetCardName(card);
         if (healInfo.Target == null) { return; }
 
-        FixedString128Bytes log = $"#{healInfo.Source.CharacterID.Value} healed <color=red>{heal} damage</color> from #{healInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"#{healInfo.Source.CharacterID.Value} healed <color=green> {heal} health</color> from #{healInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 

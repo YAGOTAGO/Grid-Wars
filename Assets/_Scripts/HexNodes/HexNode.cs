@@ -74,8 +74,8 @@ public class HexNode : NetworkBehaviour
         GridPos.OnValueChanged += UpdateGridPos;
         CubeCoord.OnValueChanged += UpdateCubeCoord;
         _characterOnNodeID.OnValueChanged += SetCharacterOnNodeReference;
-        _surfaceWalkable.OnValueChanged += UpdateTheSurfaceWalkable; //both server and client
-        SurfaceName.OnValueChanged += UpdateTheSurfaceReference;
+        _surfaceWalkable.OnValueChanged += UpdateSurfaceWalkable; //both server and client
+        SurfaceName.OnValueChanged += UpdateSurfaceReference;
 
         if (!IsServer && IsClient) //Non host clients
         {    
@@ -87,9 +87,9 @@ public class HexNode : NetworkBehaviour
     {
         GridPos.OnValueChanged -= UpdateGridPos;
         CubeCoord.OnValueChanged -= UpdateCubeCoord;
-        _surfaceWalkable.OnValueChanged -= UpdateTheSurfaceWalkable;
+        _surfaceWalkable.OnValueChanged -= UpdateSurfaceWalkable;
         _characterOnNodeID.OnValueChanged -= SetCharacterOnNodeReference;
-        SurfaceName.OnValueChanged -= UpdateTheSurfaceReference;
+        SurfaceName.OnValueChanged -= UpdateSurfaceReference;
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ public class HexNode : NetworkBehaviour
     /// </summary>
     /// <param name="prevVal"></param>
     /// <param name="newVal"></param>
-    private void UpdateTheSurfaceReference(FixedString32Bytes prevVal,  FixedString32Bytes newVal)
+    private void UpdateSurfaceReference(FixedString32Bytes prevVal,  FixedString32Bytes newVal)
     {
         if(_surface!= null)
         {
@@ -169,7 +169,7 @@ public class HexNode : NetworkBehaviour
         _surfaceWalkable.Value = isWalkable;
     }
 
-    public void UpdateTheSurfaceWalkable(bool prevVal, bool newVal)
+    public void UpdateSurfaceWalkable(bool prevVal, bool newVal)
     {
         _surface.IsWalkable = newVal;
     }
