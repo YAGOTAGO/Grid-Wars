@@ -203,27 +203,20 @@ public class HexNode : NetworkBehaviour
         }
         else
         {
-            CharacterOnNodeServerRPC(abstractCharacterID);
+            SetCharacterOnNodeServerRPC(abstractCharacterID);
         }
         
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void CharacterOnNodeServerRPC(int abstractCharacterID)
+    private void SetCharacterOnNodeServerRPC(int abstractCharacterID)
     {
         _characterOnNodeID.Value = abstractCharacterID;
     }
+
     public AbstractCharacter GetCharacterOnNode()
     {
-        if(IsServer)
-        {
-            return _characterOnNode;
-        }
-        else
-        {
-            return Database.Instance.CharactersDB.Get(_characterOnNodeID.Value);
-        }
-
+        return _characterOnNode;
     }
 
     //So we can globally know what player is hovering over
