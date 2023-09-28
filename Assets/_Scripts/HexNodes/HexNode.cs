@@ -216,7 +216,14 @@ public class HexNode : NetworkBehaviour
 
     public AbstractCharacter GetCharacterOnNode()
     {
-        return _characterOnNode;
+        if (IsServer)
+        {
+            return _characterOnNode;
+        }
+        else
+        {
+            return Database.Instance.AbstractCharactersDB.Get(_characterOnNodeID.Value);
+        }
     }
 
     //So we can globally know what player is hovering over

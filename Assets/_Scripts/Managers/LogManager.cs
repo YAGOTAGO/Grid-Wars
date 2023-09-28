@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -18,20 +19,20 @@ public class LogManager : NetworkBehaviour
 
     public void LogOnSlain(AbstractCharacter character)
     {
-        FixedString128Bytes log = $"{GetCharacterName(character.CharacterID.Value)} was slain.";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} was slain.";
         SyncLogs(log);
     }
-    public void LogPushPullAbility(AbstractCharacter character, CardBase card, int amountPushed, bool isPush)
+    public void LogPushPullAbility(AbstractCharacter character, CardBase card, int amtMoved, bool isPush)
     {
         string name = GetCardName(card);
         string move = isPush ? "pushed" : "pulled";
-        FixedString128Bytes log = $"{GetCharacterName(character.CharacterID.Value)} was {move} {amountPushed} by <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} was {move} {amtMoved} by <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 
     public void LogGenericDamage(AbstractCharacter character, int damage, string source)
     {
-        FixedString128Bytes log = $"{GetCharacterName(character.CharacterID.Value)} took {damage} damage from {source}.";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} took <color=red>{damage} damage</color> from {source}.";
         SyncLogs(log);
     }
         
@@ -65,7 +66,7 @@ public class LogManager : NetworkBehaviour
     public void LogMovementAbility(CardBase card, AbstractCharacter character ,int amount)
     {
         string name = GetCardName(card);
-        FixedString128Bytes log = $"{GetCharacterName(character.CharacterID.Value)} moved {amount} hexes using <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"#{character.CharacterID.Value} moved {amount} hexes using <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 
@@ -74,7 +75,7 @@ public class LogManager : NetworkBehaviour
         string name = GetCardName(card);
         if (dmgInfo.Target == null) { return; }
         
-        FixedString128Bytes log = $"{GetCharacterName(dmgInfo.Source.CharacterID.Value)} dealt <color=red>{damage} damage</color> to {GetCharacterName(dmgInfo.Target.CharacterID.Value)} using <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"#{dmgInfo.Source.CharacterID.Value} dealt <color=red>{damage} damage</color> to #{dmgInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
 
@@ -83,11 +84,10 @@ public class LogManager : NetworkBehaviour
         string name = GetCardName(card);
         if (healInfo.Target == null) { return; }
 
-        FixedString128Bytes log = $"#{GetCharacterName(healInfo.Source.CharacterID.Value)} healed <color=green>{heal} health</color> from {GetCharacterName(healInfo.Target.CharacterID.Value)} using <u><link={name}>{name}</link></u>.";
+        FixedString128Bytes log = $"#{healInfo.Source.CharacterID.Value} healed <color=green>{heal} health</color> from #{healInfo.Target.CharacterID.Value} using <u><link={name}>{name}</link></u>.";
         SyncLogs(log);
     }
-
-
+    
     private string GetCharacterName(int characterId)
     {
         AbstractCharacter character = Database.Instance.AbstractCharactersDB.Get(characterId);
@@ -107,24 +107,28 @@ public class LogManager : NetworkBehaviour
     {
         return card.name.Replace("(Clone)", "");
     }
+
     #region Network Synching
     private void SyncLogs(FixedString128Bytes log)
     {
         if (IsServer) //update other client
         {
-            _logTMP.text += _allyIcon + log + "\n";
             UpdateLogManagerClientRPC(log);
+            log = AddColorCharacters(log);
+            _logTMP.text += _allyIcon + log + "\n";
         }
         else //Send rpc that will then update all clients
         {
-            _logTMP.text += _allyIcon + log + "\n";
             UpdateLogManagerServerRPC(log);
+            log = AddColorCharacters(log);
+            _logTMP.text += _allyIcon + log + "\n";
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void UpdateLogManagerServerRPC(FixedString128Bytes logString)
     {
+        logString = AddColorCharacters(logString);
         _logTMP.text += _enemyIcon + logString + "\n";
     }
 
@@ -133,8 +137,27 @@ public class LogManager : NetworkBehaviour
     {
         if(!IsServer) 
         {
+            logString = AddColorCharacters(logString);
             _logTMP.text += _enemyIcon + logString + "\n";
         } 
+    }
+
+    /// <summary>
+    /// Turns a '#' followed by any number into a character with the color based on ally and enemy
+    /// </summary>
+    /// <param name="log"></param>
+    /// <returns></returns>
+    private FixedString128Bytes AddColorCharacters(FixedString128Bytes log)
+    {
+        string logString = log.ToString();
+        logString = Regex.Replace(logString, @"#(\d+)", match =>
+        {
+            int characterId = int.Parse(match.Groups[1].Value);
+            return GetCharacterName(characterId);
+        });
+
+        log = new(logString);
+        return log;
     }
     #endregion
 }
