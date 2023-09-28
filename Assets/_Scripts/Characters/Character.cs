@@ -41,7 +41,6 @@ public class Character : AbstractCharacter //may need to become network behaviou
         Destroy(_characterStatsUI);
 
         //Remove Character from DB
-        Database.Instance.AbstractCharactersDB.Remove(CharacterID.Value);
         RemoveCharactersDB();
 
         //Free up the hexnode
@@ -83,7 +82,8 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
     private void RemoveCharactersDB()
     {
-        if(IsOwner) 
+        Database.Instance.AbstractCharactersDB.Remove(CharacterID.Value);
+        if (IsOwner) 
         {
             Database.Instance.AllyCharacters.Remove(this);
         }

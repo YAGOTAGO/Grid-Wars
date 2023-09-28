@@ -13,15 +13,8 @@ public class TrapSurface : SurfaceBase
     public override bool IsWalkable { get => _isWalkable; set => _isWalkable = value; }
     public override bool CanAbilitiesPassthrough => _canAbilitiesPassthrough;
 
-    public override Sprite SurfaceSprite
-    {
-        get
-        {
-            if (_surfaceSprites.Count > 0) { return _surfaceSprites[Random.Range(0, _surfaceSprites.Count)]; }
-            return null;
-        }
-    }
-    
+    public override List<Sprite> SurfaceSprites => _surfaceSprites;
+
     public override void OnEnterNode(AbstractCharacter character)
     {
         CombatInfo dmgInfo = new(_damage, _dmgType, null, character);

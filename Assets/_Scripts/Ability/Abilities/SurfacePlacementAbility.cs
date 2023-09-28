@@ -11,7 +11,7 @@ public class SurfacePlacementAbility : AbilityBase
     [SerializeField] private SurfaceBase _surface;
 
     public override Shape ShapeEnum => global::Shape.MOUSEHEX;
-    public override int Range { get => _range; }
+    public override int Range => _range;
     public override string Prompt => _prompt;
     public override IEnumerator DoAbility(List<HexNode> shape, CardBase card)
     {

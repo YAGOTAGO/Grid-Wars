@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 938c97a63199f754e921446c52bf4416, type: 3}
+  m_Name: HealingPots
+  m_EditorClassIdentifier: 
+  CardArt: {fileID: 0}
+  ShapeArt: {fileID: 0}
+  Name: Healing Pots
+  Rarity: 1
+  Class: 3
+  Durability: 2
+  Description: Range 5.<br>Place 2  healing pots. If allies step on them heal 2,
+    if enemies step on them they are destroyed.
+  Abilities: []
+  Keywords: 
