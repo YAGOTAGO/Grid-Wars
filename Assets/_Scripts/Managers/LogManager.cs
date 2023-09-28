@@ -35,7 +35,13 @@ public class LogManager : NetworkBehaviour
         FixedString128Bytes log = $"#{character.CharacterID.Value} took <color=red>{damage} damage</color> from {source}.";
         SyncLogs(log);
     }
-        
+
+    public void LogGenericHeal(AbstractCharacter character, int heal, string source)
+    {
+        FixedString128Bytes log = $"#{character.CharacterID.Value} healed <color=green>{heal} health</color> from {source}.";
+        SyncLogs(log);
+    }
+
     public void LogCardReward(Class classType)
     {
         FixedString128Bytes log = $"picked a {classType} card as reward.";

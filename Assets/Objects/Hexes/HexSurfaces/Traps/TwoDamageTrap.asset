@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c21b7ef010c20d4aa36850ed2214bb8, type: 3}
   m_Name: TwoDamageTrap
   m_EditorClassIdentifier: 
+  NodeOn: {fileID: 0}
   _surfaceSprites:
   - {fileID: 21300000, guid: eb2688829aff7ab4bb2b2e548d40cc85, type: 3}
-  _damage: 2
+  _isHeal: 0
+  _amount: 2
   _dmgType: 0
+  _logName: Trap
