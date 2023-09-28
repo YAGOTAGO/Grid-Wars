@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Surface", menuName = "Surfaces/DamageHealSurface")]
-public class DamageHealSurface : SurfaceBase
+public class DamageOrHealSurface : SurfaceBase
 {   
     [SerializeField] private List<Sprite> _surfaceSprites;
     [SerializeField] private bool _isHeal;
