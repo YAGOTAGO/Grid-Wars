@@ -41,7 +41,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         Destroy(_characterStatsUI);
 
         //Remove Character from DB
-        Database.Instance.CharactersDB.Remove(CharacterID.Value);
+        Database.Instance.AbstractCharactersDB.Remove(CharacterID.Value);
         RemoveCharactersDB();
 
         //Free up the hexnode

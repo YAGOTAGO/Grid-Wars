@@ -14,6 +14,8 @@ public abstract class EffectBase : ScriptableObject
     #region Hooks
     public virtual void EndOfTurn(Character character) { }
     public virtual void StartOfTurn() { }
+    public virtual bool CanTakeDamage() { return true; }
+    public virtual bool CanBeHealed() { return true; }
     public virtual bool CanMove() { return true; } //modifying if can move
     public virtual int OnMove(int moveAmount) { return moveAmount; } //modifying move amount
     public virtual int OnHealDeal(CombatInfo healInfo) { return healInfo.Value; }

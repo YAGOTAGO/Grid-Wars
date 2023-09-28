@@ -28,6 +28,7 @@ public static class CombatManager
 
         foreach (EffectBase ef in target.Effects)
         {
+            if (!ef.CanTakeDamage()) { dmgInfo.Value = 0; break; }
              dmgInfo.Value = ef.OnDamageReceive(dmgInfo);
         }
 
@@ -58,6 +59,7 @@ public static class CombatManager
 
         foreach (EffectBase ef in target.Effects)
         {
+            if (!ef.CanBeHealed()) { healInfo.Value = 0;  break; } //if character has heal negating effect we don't heal
             healInfo.Value = ef.OnHealReceive(healInfo);
         }
 

@@ -59,7 +59,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
 
     private void AddThisToCharacterDB()
     {
-        CharacterID.Value =  Database.Instance.CharactersDB.Add(this);
+        CharacterID.Value =  Database.Instance.AbstractCharactersDB.Add(this);
     }
     #endregion 
     

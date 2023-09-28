@@ -18,8 +18,9 @@ public class Database : MonoBehaviour
 
     [Header("Card ScriptableObjects")]
     [SerializeField] private List<CardBase> _cardScriptables = new();
+    
     #region Databases
-    public NumberedDictionary<AbstractCharacter> CharactersDB { get; private set; } = new();
+    public NumberedDictionary<AbstractCharacter> AbstractCharactersDB { get; private set; } = new();
     [HideInInspector] public List<Character> AllyCharacters = new();
     [HideInInspector] public List<Character> EnemyCharacters = new();
     [HideInInspector] public List<AbstractCharacter> Allies = new();
