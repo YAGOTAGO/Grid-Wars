@@ -119,9 +119,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
     {
         if (IsServer)
         {
-            int health = Health.Value;
-            health += heal;
-            Health.Value = health > MaxHealth ? MaxHealth : health;
+            Health.Value += heal;
         }
         else
         {
@@ -132,9 +130,7 @@ public abstract class AbstractCharacter : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void HealServerRPC(int heal)
     {
-        int health = Health.Value;
-        health += heal;
-        Health.Value = health > MaxHealth ? MaxHealth : health;
+        Health.Value += heal;
     }
 
     public void TakeDamage(int damage)

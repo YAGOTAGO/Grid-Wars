@@ -127,7 +127,7 @@ public class BFS
     }
 
     /// <summary>
-    /// Chooses BFS by targeting type
+    /// Returns a matching BFS by targeting type
     /// </summary>
     /// <param name="startNode"></param>
     /// <param name="ability"></param>
@@ -135,26 +135,45 @@ public class BFS
     public static List<HexNode> TargTypeBFS(HexNode startNode, AbilityBase ability)
     {
 
-        if (ability.GetTargetingType() == TargetingType.WALKABLE)
+        switch (ability.GetTargetingType())
         {
-            return BFSWalkable(startNode, ability.Range);
+            case TargetingType.WALKABLE:
+                return BFSWalkable(startNode, ability.Range);
+
+            case TargetingType.NORMAL:
+                return BFSNormal(startNode, ability.Range);
+
+            case TargetingType.AIREAL:
+                return BFSAireal(startNode, ability.Range);
+
+            case TargetingType.ENEMYCHARACTERS:
+                return CharacterTargeting(false);
+
+            case TargetingType.ALLYCHARACTERS:
+                return CharacterTargeting(true);
+
+            default:
+                Debug.LogWarning("Didn't find targeting type in TargTypeBFS.");
+                return null;
         }
 
-        if (ability.GetTargetingType() == TargetingType.NORMAL)
-        {
-            return BFSNormal(startNode, ability.Range);
-        }
-
-        if (ability.GetTargetingType() == TargetingType.AIREAL)
-        {
-            return BFSAireal(startNode, ability.Range);
-        }
-
-        Debug.LogWarning("Didnt fing targeting type in TargTypeBFS.");
-        return null;
     }
 
+    public static List<HexNode> CharacterTargeting(bool targAlly)
+    {
+        List<HexNode> result;
 
+        if (targAlly)
+        {
+            result = Database.Instance.AllyCharacters.Select(character=> character.GetNodeOn()).ToList();
+        }
+        else //want all enemies
+        {
+            result = Database.Instance.EnemyCharacters.Select(character => character.GetNodeOn()).ToList();
+        }
+
+        return result;
+    }
 
 }
 

@@ -51,9 +51,11 @@ public abstract class AbilityBase : ScriptableObject
 
 public enum TargetingType
 {
-    NORMAL, //Any tile that ability can passthrough
-    AIREAL, //Any tile
-    WALKABLE, //Only tiles that are walkable
-    NONE, //For abilities that dont care about surfaces (ie: draw)
-    SELF //Abilities that apply on character chosen
+    NORMAL=0, //Any tile that ability can passthrough
+    AIREAL=1, //Any tile
+    WALKABLE=2, //Only tiles that are walkable
+    NONE=3, //For abilities that dont care about surfaces (ie: draw)
+    SELF=4, //Abilities that apply on character chosen
+    ENEMYCHARACTERS =5, //All the hexes that enemy characters are on
+    ALLYCHARACTERS = 6, //All hexes that ally characters are on
 }

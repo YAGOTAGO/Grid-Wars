@@ -20,10 +20,10 @@ public class Database : MonoBehaviour
     [SerializeField] private List<CardBase> _cardScriptables = new();
     #region Databases
     public NumberedDictionary<AbstractCharacter> CharactersDB { get; private set; } = new();
-    public List<Character> AllyCharacters = new();
-    public List<Character> EnemyCharacters = new();
-    public List<AbstractCharacter> Allies = new();
-    public List<AbstractCharacter> Enemies = new();
+    [HideInInspector] public List<Character> AllyCharacters = new();
+    [HideInInspector] public List<Character> EnemyCharacters = new();
+    [HideInInspector] public List<AbstractCharacter> Allies = new();
+    [HideInInspector] public List<AbstractCharacter> Enemies = new();
     private readonly Dictionary<string, SurfaceBase> _surfacesDB = new();
     private readonly Dictionary<string, CardBase> _cardsDB = new();
     private readonly Dictionary<string, EffectBase> _effectsDB = new();

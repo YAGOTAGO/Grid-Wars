@@ -61,7 +61,9 @@ public static class CombatManager
             healInfo.Value = ef.OnHealReceive(healInfo);
         }
 
-        healInfo.Value = healInfo.Value <= 0 ? 0 : healInfo.Value;
+        healInfo.Value = healInfo.Value <= 0 ? 0 : healInfo.Value; //make sure not negative
+        int maxHeal = target.MaxHealth - target.Health.Value; //find what max healing can be
+        healInfo.Value = Mathf.Min(maxHeal, healInfo.Value); //make sure cant heal more than max health
 
         target.Heal(healInfo.Value);
 

@@ -18,7 +18,7 @@ public class HexNode : NetworkBehaviour
     
     private SurfaceBase _surface;
     public NetworkVariable<FixedString32Bytes> SurfaceName = new(); //used to know what surface we hold
-    private NetworkVariable<bool> _surfaceWalkable = new(); //when set this triggers on all clients to update their surface value
+    private readonly NetworkVariable<bool> _surfaceWalkable = new(); //when set this triggers on all clients to update their surface value
     
     private SpriteRenderer _surfaceRenderer; //where the surface sprite is displayed
     private SpriteRenderer _hexRenderer; //where hex art is displayed
@@ -27,7 +27,7 @@ public class HexNode : NetworkBehaviour
     [HideInInspector] public NetworkVariable<Vector3Int> CubeCoord = new(new Vector3Int(-100, -100, -100)); 
 
     private AbstractCharacter _characterOnNode;
-    private NetworkVariable<int> _characterOnNodeID = new(-1); //-1 because needs to detect change
+    private readonly NetworkVariable<int> _characterOnNodeID = new(-1); //-1 because needs to detect change
 
     #region Pathfinding
     public float G { get; private set; }
