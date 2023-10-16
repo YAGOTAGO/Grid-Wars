@@ -9,7 +9,6 @@ public class EndTurnButton : NetworkBehaviour
 {
     public static EndTurnButton Instance;
     public NetworkVariable<bool> IsServersTurn = new();
-
     private Button _button;
 
     private void Awake()

@@ -18,6 +18,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     [SerializeField] private EffectBase _startingEffect; //Passive for the unique character
     public Class CharacterClass; 
     public Sprite RewardIcon; //icon to display on ground for rewards
+    public List<CardBase> InitialCards = new ();
     #endregion
     
     private readonly Dictionary<EffectBase, GameObject> _effectToUIDict = new();
@@ -28,6 +29,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         Initialize();
         AddCharactersDB();
         AddEffect(_startingEffect);
+        AddStartingCards();
     }
 
     public override void OnNetworkDespawn()
@@ -61,6 +63,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
             GameManager.Instance.ChangeState(GameState.EndGame);
         }
     }
+
     private void Initialize()
     {
         _healthBar.InitHealthBarUI(MaxHealth, StartingHealth);
@@ -68,6 +71,18 @@ public class Character : AbstractCharacter //may need to become network behaviou
         EffectTipWindow.Instance.SetPlayerUI(_characterStatsUI);
     }
 
+    private void AddStartingCards()
+    {
+        if(IsOwner)
+        {
+            foreach (CardBase card in InitialCards)
+            {
+                DeckManager.Instance.AddToDeck(card);
+            }
+
+            DeckManager.Instance.ShuffleDeck();
+        }
+    }
     private void AddCharactersDB()
     {
         if (IsOwner)

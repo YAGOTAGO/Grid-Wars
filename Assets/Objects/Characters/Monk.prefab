@@ -394,16 +394,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health:
     m_InternalValue: 0
+  StartingHealth: 20
+  MaxHealth: 20
   HexGridPosition:
     m_InternalValue: {x: -1, y: -1, z: -1}
   _effectsUIGroup: {fileID: 7146395176887563526}
   _healthBar: {fileID: 7146395176905388865}
   _characterStatsUI: {fileID: 7146395176721374659}
   _effectUIPrefab: {fileID: 3834171814173998123, guid: 9f7b01a8318faf74e9de3c5508271f40, type: 3}
-  _startingHealth: 20
   _startingEffect: {fileID: 11400000, guid: ff20fa854d532f34d84476759690ad88, type: 2}
   CharacterClass: 2
   RewardIcon: {fileID: 21300000, guid: 4a44897fbbb1242499c4de2a04885692, type: 3}
+  InitialCards:
+  - {fileID: 11400000, guid: 5ce0aa8334a31644bbe9afd1112d45b3, type: 2}
+  - {fileID: 11400000, guid: 5ce0aa8334a31644bbe9afd1112d45b3, type: 2}
 --- !u!1 &7146395176887563526
 GameObject:
   m_ObjectHideFlags: 0

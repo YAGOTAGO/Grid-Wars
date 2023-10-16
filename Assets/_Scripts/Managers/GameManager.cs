@@ -14,6 +14,7 @@ public class GameManager : NetworkBehaviour
     public GameState State= GameState.StartState;
     [SerializeField] private GameObject _loadScreenObject;
     [SerializeField] private SceneAsset _endScene;
+    public int Round = 0;
     public bool IsWinner = true; //true by default loser swaps scene and sets this to false
 
     private void Awake()

@@ -35,6 +35,10 @@ public class DeckManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        // Subscribe to the CollectionChanged event
+        _deck.CollectionChanged += OnDeckCollectionChanged;
+        _discard.CollectionChanged += OnDiscardCollectionChanged;
     }
 
     private void Update()
@@ -50,22 +54,6 @@ public class DeckManager : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        // Subscribe to the CollectionChanged event
-        _deck.CollectionChanged += OnDeckCollectionChanged;
-        _discard.CollectionChanged += OnDiscardCollectionChanged;
-
-        //Add cards to deck here
-        AddToDeck(Database.Instance.GetCardByName("Walk"));
-        AddToDeck(Database.Instance.GetCardByName("FlameBlast"));
-        AddToDeck(Database.Instance.GetCardByName("MeteorShower"));
-        AddToDeck(Database.Instance.GetCardByName("TrapMaking"));
-        AddToDeck(Database.Instance.GetCardByName("AssassinsBlade"));
-        AddToDeck(Database.Instance.GetCardByName("Redemption"));
-        ShuffleList(_deck);
-
-    }
     private void OnDestroy()
     {
         _deck.CollectionChanged -= OnDeckCollectionChanged;
@@ -112,6 +100,11 @@ public class DeckManager : MonoBehaviour
     public void HandCardToDiscard(GameObject card)
     {
         ActionQueue.Instance.EnqueueMethod(() => DiscardCardFromHandCoroutine(card));
+    }
+
+    public void ShuffleDeck()
+    {
+        ShuffleList(_deck);
     }
 
     /// <summary>
