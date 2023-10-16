@@ -632,8 +632,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: DECK
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
-  m_sharedMaterial: {fileID: 1896070371157972072, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -777,10 +777,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 83a3626e99dfd4542b8e8cd9d9df36fa, type: 2}
   - {fileID: 11400000, guid: e29e2db49b93ff548a88e5151adc310c, type: 2}
   - {fileID: 11400000, guid: 2c53c0c6f298cfe4897129468c9d3c77, type: 2}
-  AllyCharacters: []
-  EnemyCharacters: []
-  Allies: []
-  Enemies: []
+  AllyPlayers: 
+  Allies: 
+  Enemies: 
   _commonCardChance: 90
 --- !u!1 &308264840
 GameObject:
@@ -2413,8 +2412,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: TMP
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
-  m_sharedMaterial: {fileID: 1896070371157972072, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3309,8 +3308,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: UNDO
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
-  m_sharedMaterial: {fileID: 1896070371157972072, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4342,8 +4341,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
-  m_sharedMaterial: {fileID: 1896070371157972072, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9210,8 +9209,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: DISCARD
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
-  m_sharedMaterial: {fileID: 1896070371157972072, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9480,8 +9479,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1861916909}
   m_HandleRect: {fileID: 1861916908}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10003,8 +10002,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: End Turn
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
-  m_sharedMaterial: {fileID: 1896070371157972072, guid: 099df6d78c552b642a4fb47182e0374b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
