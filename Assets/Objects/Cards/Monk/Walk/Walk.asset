@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: Walk
   m_EditorClassIdentifier: 
   CardArt: {fileID: 21300000, guid: 688c2f2863b61954295809f5b6714c42, type: 3}
-  IconArt: {fileID: 0}
   ShapeArt: {fileID: 0}
   Name: Walk
   Rarity: 1
   Class: 2
-  Durability: 1
+  Durability: 5
   Description: Move 4.
   Abilities:
   - {fileID: 11400000, guid: c5893bd7877bc65438b03701f690e61d, type: 2}

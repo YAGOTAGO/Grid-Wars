@@ -43,7 +43,7 @@ public class EndTurnButton : NetworkBehaviour
         }
         else
         {
-            ButtonColorUpdate();
+            EndTurnUpdate();
         }
     }
     private void OnEndTurnButtonClick()
@@ -60,10 +60,10 @@ public class EndTurnButton : NetworkBehaviour
 
     public void OnServerTurnValueChanged(bool prevVal, bool newVal)
     {
-        ButtonColorUpdate();
+        EndTurnUpdate();
     }
 
-    private void ButtonColorUpdate()
+    private void EndTurnUpdate()
     {
         if (IsItMyTurn())
         {
@@ -71,6 +71,7 @@ public class EndTurnButton : NetworkBehaviour
         }
         else
         {
+            DeckManager.Instance.DeckDraw(2); //If ended turn then draw 2 cards.
             _button.image.color = Color.red;
         }
     }
@@ -96,6 +97,6 @@ public class EndTurnButton : NetworkBehaviour
     [ClientRpc]
     public void ButtonColorUpdateClientRPC()
     {
-        ButtonColorUpdate();
+        EndTurnUpdate();
     }
 }

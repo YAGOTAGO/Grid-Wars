@@ -86,16 +86,27 @@ public class GameManager : NetworkBehaviour
 
     private void EndLoadScreen()
     {
-        if (IsServer)
-        {
-            _loadScreenObject.SetActive(false);
-            EndLoadScreenClientRPC();
-        }
-        else
-        {
-            _loadScreenObject.SetActive(false);
-            EndLoadScreenServerRPC();
-        }
+        _loadScreenObject.SetActive(false);
+        EndLoadScreenServerRPC();
+        StartCoroutine(StartGameDraw());
+    }
+
+    private bool AreCharactersLoaded()
+    {
+        return Database.Instance.AbstractCharactersDB.Count == 6;
+    }
+    private IEnumerator StartGameDraw()
+    {
+        //wait until all characters are spawned
+        yield return new WaitUntil(AreCharactersLoaded);
+        DeckManager.Instance.DeckDraw(2);
+        DrawInitialHandServerRPC();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void DrawInitialHandServerRPC()
+    {
+        DeckManager.Instance.DeckDraw(2);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -104,21 +115,9 @@ public class GameManager : NetworkBehaviour
         _loadScreenObject.SetActive(false);
     }
 
-    [ClientRpc]
-    private void EndLoadScreenClientRPC()
-    {
-        _loadScreenObject.SetActive(false);
-    }
     private void SpawnCharacters()
     {
-        if(IsServer)
-        {
-            PlayerSpawner.Instance.SpawnCharacters();
-        }
-        else
-        {
-            SpawnCharactersServerRPC();
-        }
+        SpawnCharactersServerRPC();
         ChangeState(GameState.EndLoadScreen);
     }
 
