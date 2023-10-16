@@ -13,7 +13,7 @@ public class GameManager : NetworkBehaviour
     public static GameManager Instance;
     public GameState State= GameState.StartState;
     [SerializeField] private GameObject _loadScreenObject;
-    [SerializeField] private SceneAsset _endScene;
+    [SerializeField] private string _endScene;
     public int Round = 0;
     public bool IsWinner = true; //true by default loser swaps scene and sets this to false
 
@@ -75,7 +75,7 @@ public class GameManager : NetworkBehaviour
         }
 
         //After leaving network we go to end game scene
-        SceneManager.LoadScene(_endScene.name);
+        SceneManager.LoadScene(_endScene);
         
         //Cleanup the network manager
         if (NetworkManager.Singleton != null)

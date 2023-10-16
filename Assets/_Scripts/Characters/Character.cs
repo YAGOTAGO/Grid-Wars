@@ -58,10 +58,10 @@ public class Character : AbstractCharacter //may need to become network behaviou
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        /*if (Input.GetKeyDown(KeyCode.B))
         {
             GameManager.Instance.ChangeState(GameState.EndGame);
-        }
+        }*/
     }
 
     private void Initialize()

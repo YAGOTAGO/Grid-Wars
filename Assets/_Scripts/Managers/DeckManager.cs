@@ -43,14 +43,14 @@ public class DeckManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             HandCardToDiscard(_cardPrefabsInHand.Keys.First());
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             DeckDraw(1);
-        }
+        }*/
 
     }
 

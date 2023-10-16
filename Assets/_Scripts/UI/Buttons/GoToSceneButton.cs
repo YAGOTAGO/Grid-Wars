@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GoToSceneButton : MonoBehaviour
 {
-    [SerializeField] private SceneAsset _destinationScene;
+    [SerializeField] private string _destinationScene;
     private Button _button;
 
     private void Awake()
@@ -18,6 +18,6 @@ public class GoToSceneButton : MonoBehaviour
 
     private void SwitchScenes()
     {
-        SceneManager.LoadScene(_destinationScene.name);
+        SceneManager.LoadScene(_destinationScene);
     }
 }

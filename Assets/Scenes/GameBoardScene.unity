@@ -777,9 +777,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 83a3626e99dfd4542b8e8cd9d9df36fa, type: 2}
   - {fileID: 11400000, guid: e29e2db49b93ff548a88e5151adc310c, type: 2}
   - {fileID: 11400000, guid: 2c53c0c6f298cfe4897129468c9d3c77, type: 2}
-  AllyPlayers: 
-  Allies: 
-  Enemies: 
+  AllyCharacters: []
+  EnemyCharacters: []
+  Allies: []
+  Enemies: []
   _commonCardChance: 90
 --- !u!1 &308264840
 GameObject:
@@ -4111,7 +4112,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   State: 0
   _loadScreenObject: {fileID: 2506445}
-  _endScene: {fileID: 102900000, guid: 8bdd00bf86bed1746a439a338ad24283, type: 3}
+  _endScene: EndScene
+  Round: 0
   IsWinner: 1
 --- !u!4 &1416620741
 Transform:
@@ -9479,8 +9481,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1861916909}
   m_HandleRect: {fileID: 1861916908}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
