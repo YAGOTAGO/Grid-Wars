@@ -1,5 +1,5 @@
 # Grid-Wars
-A 1v1 multiplater deck building brawler.
+A 1v1 multiplater deck building brawler.<br>
 [Download on Itch.io here.](https://tdavies.itch.io/grid-wars)
 
 ## Coding features:
