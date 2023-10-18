@@ -20,7 +20,7 @@ A 1v1 multiplater deck building brawler.<br>
 • Implemented A* path finding algorithm.<br>
 • Implemented BFS with checks for various terrain types.<br>
 
-##In Progress:
+## In Progress:
 • Add more cards. <br>
 • Sync effects over client. <br>
 • Different Win conditions. <br>
