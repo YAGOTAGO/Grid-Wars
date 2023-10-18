@@ -4,9 +4,9 @@ A 1v1 multiplater deck building brawler.<br>
 
 ## Coding features:
 ### Multiplayer Networking
+• Use of Unity Netcode for Game Objects networking solution.<br>
 • Local server hosting with relay service that allows connection over the internet.<br>
 • Use of client and server RPC to send data.<br>
-• Use of Unity Netcode for Game Objects networking solution.<br>
 
 ### Scriptable Objects for Cards, Abilties
 • Modular scriptable objects used for fast and easy development of new cards.<br>
@@ -18,8 +18,13 @@ A 1v1 multiplater deck building brawler.<br>
 
 ### Algorithms
 • Implemented A* path finding algorithm.<br>
-• Implemented BFS with checks for various terrain types.
+• Implemented BFS with checks for various terrain types.<br>
 
+##In Progress:
+• Add more cards. <br>
+• Sync effects over client. <br>
+• Different Win conditions. <br>
+• More ways to add variability. <br>
 
 
 
