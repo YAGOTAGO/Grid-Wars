@@ -10,23 +10,13 @@ public class ClassRewardSurface : SurfaceBase
     private bool _isWalkable = true;
     private bool _canAbilitiesPassthrough = true;
     private Sprite _surfaceSprite;
-    private int ID => (int)NodeOn.NetworkObject.NetworkObjectId;
     protected Class ClassType
     {
         get
         {
-            if (!SurfaceSync.Instance.ContainsID(ID))
-            {
-                int random = Random.Range(0, PlayerSpawner.Instance.CharacterList.Count);
-                Class characterClass = PlayerSpawner.Instance.CharacterList[random].CharacterClass;
-                SurfaceSync.Instance.SetClass(ID, characterClass);
-                _classType = characterClass;
-            }
-            else
-            {
-                _classType = SurfaceSync.Instance.GetClass(ID);
-            }
-            
+            int random = Random.Range(0, PlayerSpawner.Instance.CharacterList.Count);
+            Class characterClass = PlayerSpawner.Instance.CharacterList[random].CharacterClass;
+            _classType = characterClass;
             return _classType;
         }
     }

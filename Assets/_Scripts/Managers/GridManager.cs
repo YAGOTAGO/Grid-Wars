@@ -13,11 +13,13 @@ public class GridManager : NetworkBehaviour
     public List<HexNode> DebugGrid = new();
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
     public List<HexNode> DebugCube = new();
+    
+    //private
     private Grid _grid; //used to put all tiles under
     private readonly int _tileNum = 349; //number of tiles
-
-    [Header("Tile Prefabs")]
     private Dictionary<TileType, HexNode> _prefabDict;
+    
+    [Header("Tile Prefabs")]
     [SerializeField] private Tilemap _tileMap; //the map we will copy
     [SerializeField] private List<HexNode> _prefabs;
     
