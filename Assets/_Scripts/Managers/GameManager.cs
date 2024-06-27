@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
-    public GameState State= GameState.StartState;
+    public GameState State = GameState.StartState;
     [SerializeField] private GameObject _loadScreenObject;
     [SerializeField] private string _endScene;
     public int Round = 0;
@@ -30,7 +30,6 @@ public class GameManager : NetworkBehaviour
         switch(state)
         {
             case GameState.LoadGrid: LoadGrid(); break;
-            case GameState.InitNeighboors: InitHexNeighboorsClientRPC(); break;
             case GameState.LoadCharacters: SpawnCharacters(); break;
             case GameState.EndLoadScreen: EndLoadScreen(); break;
             case GameState.EndGame: EndGame(); break;
@@ -126,20 +125,15 @@ public class GameManager : NetworkBehaviour
     {
         PlayerSpawner.Instance.SpawnCharacters();
     }
+
     private void LoadGrid()
     {
         _loadScreenObject.SetActive(true); //load screen up
         if(IsServer) 
         {
-            GridManager.Instance.InitBoard();
-            ChangeState(GameState.InitNeighboors);
+            GridManager.Instance.SpawnBoard();
+            //ChangeState(GameState.InitNeighboors);
         }
-    }
-
-    [ClientRpc]
-    private void InitHexNeighboorsClientRPC()
-    {
-        StartCoroutine(GridManager.Instance.InitNeighboors());
     }
 
 }
@@ -148,7 +142,6 @@ public enum GameState
 {
     StartState = 0,
     LoadGrid = 1,
-    InitNeighboors = 2,
     LoadCharacters = 3,
     EndLoadScreen = 4,
     EndGame = 5,

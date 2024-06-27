@@ -16,7 +16,7 @@ public class GridManager : NetworkBehaviour
     
     //private
     private Grid _grid; //used to put all tiles under
-    private readonly int _tileNum = 349; //number of tiles
+    private int _tileNum; //used to know when to cache hex neighboors
     private Dictionary<TileType, HexNode> _prefabDict;
     
     [Header("Tile Prefabs")]
@@ -25,9 +25,11 @@ public class GridManager : NetworkBehaviour
     
     public void Awake()
     {
+        Debug.Log("Grid Manager Awake, Instance");
         Instance = this;
         _grid = GetComponent<Grid>();
         InitDict();
+        WaitToInitHexNeighboors();
     }
     private void InitDict()
     {
@@ -38,23 +40,27 @@ public class GridManager : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// Waits until the grid has all the hexes in it
-    /// </summary>
-    /// <returns></returns>
-    public bool BoardLoad()
+    private void WaitToInitHexNeighboors()
     {
-        return GridCoordTiles.Count >= _tileNum && CubeCoordTiles.Count >= _tileNum;
+        //Count num of tile in the 
+        foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
+        {
+            if (_tileMap.HasTile(position))
+            {
+                _tileNum++;
+            }
+        }
+
+        StartCoroutine(CacheNeighboors());
     }
 
-    public IEnumerator InitNeighboors()
+    public IEnumerator CacheNeighboors()
     {
-        yield return new WaitUntil(BoardLoad);
-        if (IsClient && !IsServer) { GameManager.Instance.ChangeState(GameState.LoadCharacters); }
+        yield return new WaitUntil(() => GridCoordTiles.Count >= _tileNum && CubeCoordTiles.Count >= _tileNum);
         foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
     }
     
-    public void InitBoard()
+    public void SpawnBoard()
     {
 
         foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
@@ -65,15 +71,10 @@ public class GridManager : NetworkBehaviour
                 HexRuleTile tileInfo = _tileMap.GetTile<HexRuleTile>(position);
                 SurfaceBase surface = Instantiate(tileInfo.Surface); //use instantiate so we use a copy
 
-                //Instatiate the prefab
                 HexNode tile = Instantiate(_prefabDict[tileInfo.Type], _tileMap.CellToWorld(position), Quaternion.identity);
                 tile.GetComponent<NetworkObject>().Spawn(); //spawn tile for the clients
 
-                //Cache cube and grid pos
-                Vector3Int cubePos = HexDistance.UnityCellToCube(position);//calculate cube pos
-                tile.ServerInitHex(position, cubePos, surface); //Init Tile with grid and cube pos and the surface
-                //GridCoordTiles[position] = tile; //So we can lookup tile later from dict
-                //CubeCoordTiles[cubePos] = tile;
+                tile.ServerInitHex(position, HexDistance.UnityCellToCube(position), surface); //Will set the data in Grid Manager
 
                 //organizes look in editor
                 tile.transform.SetParent(_grid.transform); 

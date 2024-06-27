@@ -120,7 +120,6 @@ public class RelayService : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void LoadSceneServerRPC()
     {
-        //NetworkManager.Singleton.SceneManager.LoadScene("GameBoardScene", LoadSceneMode.Single);
         StartCoroutine(LoadBoardScene());
     }
 

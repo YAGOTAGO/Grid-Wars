@@ -43,7 +43,7 @@ public class HexNode : NetworkBehaviour
     }
 
     public void CacheNeighbors()
-    {   
+    {
         Neighboors = GridManager.Instance.GridCoordTiles.Where(t => HexDistance.GetDistance(this, t.Value) == 1).Select(t => t.Value).ToList();
     }
 
@@ -72,6 +72,7 @@ public class HexNode : NetworkBehaviour
             _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
         }
     }
+
     private void UpdateGridPos(Vector3Int prevVal, Vector3Int newVal)
     {
         GridManager.Instance.GridCoordTiles[newVal] = this;
