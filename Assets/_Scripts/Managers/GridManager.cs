@@ -62,15 +62,11 @@ public class GridManager : NetworkBehaviour
             if (_tileMap.HasTile(position))
             {
 
-                //Get position to instantiate at
-                Vector3 tileWorldPos = _tileMap.CellToWorld(position);
-
                 HexRuleTile tileInfo = _tileMap.GetTile<HexRuleTile>(position);
-                
                 SurfaceBase surface = Instantiate(tileInfo.Surface); //use instantiate so we use a copy
 
                 //Instatiate the prefab
-                HexNode tile = Instantiate(_prefabDict[tileInfo.Type], tileWorldPos, Quaternion.identity);
+                HexNode tile = Instantiate(_prefabDict[tileInfo.Type], _tileMap.CellToWorld(position), Quaternion.identity);
                 tile.GetComponent<NetworkObject>().Spawn(); //spawn tile for the clients
 
                 //Cache cube and grid pos

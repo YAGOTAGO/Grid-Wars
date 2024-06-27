@@ -58,16 +58,6 @@ public class HexNode : NetworkBehaviour
         _hexRenderer = GetComponent<SpriteRenderer>();
         _surfaceRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
-    private void UpdateGridPos(Vector3Int prevVal, Vector3Int newVal)
-    {
-        GridManager.Instance.GridCoordTiles[newVal] = this;
-        GridManager.Instance.DebugGrid.Add(this);
-    }
-    private void UpdateCubeCoord(Vector3Int prevVal, Vector3Int newVal)
-    {
-        GridManager.Instance.CubeCoordTiles[newVal] = this;
-        GridManager.Instance.DebugCube.Add(this);
-    }
 
     public override void OnNetworkSpawn()
     {
@@ -78,9 +68,19 @@ public class HexNode : NetworkBehaviour
         SurfaceName.OnValueChanged += UpdateSurfaceReference;
 
         if (!IsServer && IsClient) //Non host clients
-        {    
+        {
             _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
         }
+    }
+    private void UpdateGridPos(Vector3Int prevVal, Vector3Int newVal)
+    {
+        GridManager.Instance.GridCoordTiles[newVal] = this;
+        GridManager.Instance.DebugGrid.Add(this);
+    }
+    private void UpdateCubeCoord(Vector3Int prevVal, Vector3Int newVal)
+    {
+        GridManager.Instance.CubeCoordTiles[newVal] = this;
+        GridManager.Instance.DebugCube.Add(this);
     }
 
     public override void OnNetworkDespawn()
