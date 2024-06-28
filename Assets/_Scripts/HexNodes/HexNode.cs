@@ -43,7 +43,7 @@ public class HexNode : NetworkBehaviour
     }
 
     public void CacheNeighbors()
-    {   
+    {
         Neighboors = GridManager.Instance.GridCoordTiles.Where(t => HexDistance.GetDistance(this, t.Value) == 1).Select(t => t.Value).ToList();
     }
 
@@ -58,6 +58,23 @@ public class HexNode : NetworkBehaviour
         _hexRenderer = GetComponent<SpriteRenderer>();
         _surfaceRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
+
+    public override void OnNetworkSpawn()
+    {
+        Debug.Log("Node Spawned");
+
+        GridPos.OnValueChanged += UpdateGridPos;
+        CubeCoord.OnValueChanged += UpdateCubeCoord;
+        _characterOnNodeID.OnValueChanged += SetCharacterOnNodeReference;
+        _surfaceWalkable.OnValueChanged += UpdateSurfaceWalkable; //both server and client
+        SurfaceName.OnValueChanged += UpdateSurfaceReference;
+
+        if (!IsServer && IsClient) //Non host clients
+        {
+            _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
+        }
+    }
+
     private void UpdateGridPos(Vector3Int prevVal, Vector3Int newVal)
     {
         GridManager.Instance.GridCoordTiles[newVal] = this;
@@ -67,20 +84,6 @@ public class HexNode : NetworkBehaviour
     {
         GridManager.Instance.CubeCoordTiles[newVal] = this;
         GridManager.Instance.DebugCube.Add(this);
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        GridPos.OnValueChanged += UpdateGridPos;
-        CubeCoord.OnValueChanged += UpdateCubeCoord;
-        _characterOnNodeID.OnValueChanged += SetCharacterOnNodeReference;
-        _surfaceWalkable.OnValueChanged += UpdateSurfaceWalkable; //both server and client
-        SurfaceName.OnValueChanged += UpdateSurfaceReference;
-
-        if (!IsServer && IsClient) //Non host clients
-        {    
-            _hexRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Count)];
-        }
     }
 
     public override void OnNetworkDespawn()
@@ -185,7 +188,7 @@ public class HexNode : NetworkBehaviour
         {
             _characterOnNode = null;
         }
-        else if(newVal >= 0 && newVal<=6)
+        else if(newVal >= 0)
         {
             _characterOnNode = Database.Instance.AbstractCharactersDB.Get(newVal);
         }
