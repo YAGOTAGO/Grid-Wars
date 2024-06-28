@@ -61,6 +61,8 @@ public class HexNode : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        Debug.Log("Node Spawned");
+
         GridPos.OnValueChanged += UpdateGridPos;
         CubeCoord.OnValueChanged += UpdateCubeCoord;
         _characterOnNodeID.OnValueChanged += SetCharacterOnNodeReference;

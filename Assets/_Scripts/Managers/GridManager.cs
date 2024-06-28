@@ -13,20 +13,20 @@ public class GridManager : NetworkBehaviour
     public List<HexNode> DebugGrid = new();
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
     public List<HexNode> DebugCube = new();
-
+    
     public bool MapLoaded { get; private set; } = false;
+    [Header("Tile Prefabs")]
+    [SerializeField] private List<HexNode> _prefabs;
 
     //private
     private Grid _grid; //used to put all tiles under
     private int _tileNum; //used to know when to cache hex neighboors
     private Dictionary<TileType, HexNode> _prefabDict = new();
-    
-    [Header("Tile Prefabs")]
-    [SerializeField] private Tilemap _tileMap; //the map we will copy
-    [SerializeField] private List<HexNode> _prefabs;
+    private Tilemap _tileMap;
     
     public void Awake()
     {
+        Debug.Log("GRID AWAKE");
         Instance = this;
         _grid = GetComponent<Grid>();
         InitDict();
@@ -63,6 +63,9 @@ public class GridManager : NetworkBehaviour
     
     public void SpawnBoard(MapsBase map)
     {
+        Debug.Log("Spawning Board");
+
+        Tilemap _tileMap = Instantiate(map.TileMap, transform);
 
         foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
         {
@@ -78,7 +81,7 @@ public class GridManager : NetworkBehaviour
                 tile.ServerInitHex(position, HexDistance.UnityCellToCube(position), surface); //Will set the data in Grid Manager
 
                 //organizes look in editor
-                tile.transform.SetParent(_grid.transform); 
+                //tile.transform.SetParent(_grid.transform); 
             }
 
         }

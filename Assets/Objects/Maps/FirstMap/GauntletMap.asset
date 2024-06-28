@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea1d62f72225654cbaae768cc957003, type: 3}
   m_Name: GauntletMap
   m_EditorClassIdentifier: 
-  TileMap: {fileID: 615060818029216792, guid: 38a84d7109ce80e45a33956b804199ea, type: 3}
+  TileMap: {fileID: 8462482193482902993, guid: e90ef9d3cf3d178478f05c3cbd8e0a76, type: 3}
   MapName: Gauntlet
   NumOfCharacters: 3
   SpawnA:

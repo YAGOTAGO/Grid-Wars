@@ -25,6 +25,7 @@ public class GameManager : NetworkBehaviour
 
     public void StartGame(MapsBase map)
     {
+        Debug.Log("Inside Start Game");
         GridManager.Instance.SpawnBoard(map);
     }
     
