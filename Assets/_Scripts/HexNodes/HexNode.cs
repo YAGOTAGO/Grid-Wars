@@ -186,7 +186,7 @@ public class HexNode : NetworkBehaviour
         {
             _characterOnNode = null;
         }
-        else if(newVal >= 0 && newVal<=6)
+        else if(newVal >= 0)
         {
             _characterOnNode = Database.Instance.AbstractCharactersDB.Get(newVal);
         }

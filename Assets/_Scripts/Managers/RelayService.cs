@@ -120,13 +120,13 @@ public class RelayService : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void LoadSceneServerRPC()
     {
-        StartCoroutine(LoadBoardScene());
+        StartCoroutine(LoadGameScene());
     }
 
-    private IEnumerator LoadBoardScene()
+    private IEnumerator LoadGameScene()
     {
         yield return new WaitUntil(()=> NetworkManager.Singleton != null);
-        NetworkManager.Singleton.SceneManager.LoadScene("GameBoardScene", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
 
 }

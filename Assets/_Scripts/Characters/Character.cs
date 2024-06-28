@@ -52,7 +52,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         
         if (Database.Instance.AllyCharacters.Count == 0) //means you have lost
         {
-            GameManager.Instance.ChangeState(GameState.EndGame);
+            //GameManager.Instance.ChangeState(GameState.EndGame);
         }
     }
 

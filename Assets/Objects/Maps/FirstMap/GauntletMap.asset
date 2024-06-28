@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea1d62f72225654cbaae768cc957003, type: 3}
+  m_Name: GauntletMap
+  m_EditorClassIdentifier: 
+  TileMap: {fileID: 615060818029216792, guid: 38a84d7109ce80e45a33956b804199ea, type: 3}
+  MapName: Gauntlet
+  NumOfCharacters: 3
+  SpawnA:
+  - {x: -9, y: -11, z: 0}
+  - {x: -9, y: -7, z: 0}
+  - {x: -9, y: -3, z: 0}
+  SpawnB:
+  - {x: 9, y: -11, z: 0}
+  - {x: 9, y: -7, z: 0}
+  - {x: 9, y: -3, z: 0}

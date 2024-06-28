@@ -13,11 +13,13 @@ public class GridManager : NetworkBehaviour
     public List<HexNode> DebugGrid = new();
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
     public List<HexNode> DebugCube = new();
-    
+
+    public bool MapLoaded { get; private set; } = false;
+
     //private
     private Grid _grid; //used to put all tiles under
     private int _tileNum; //used to know when to cache hex neighboors
-    private Dictionary<TileType, HexNode> _prefabDict;
+    private Dictionary<TileType, HexNode> _prefabDict = new();
     
     [Header("Tile Prefabs")]
     [SerializeField] private Tilemap _tileMap; //the map we will copy
@@ -25,15 +27,13 @@ public class GridManager : NetworkBehaviour
     
     public void Awake()
     {
-        Debug.Log("Grid Manager Awake, Instance");
         Instance = this;
         _grid = GetComponent<Grid>();
         InitDict();
-        WaitToInitHexNeighboors();
+        //WaitToInitHexNeighboors();
     }
     private void InitDict()
     {
-        _prefabDict = new Dictionary<TileType, HexNode>();
         foreach (HexNode prefab in _prefabs)
         {
             _prefabDict[prefab.TileType] = prefab;
@@ -42,7 +42,7 @@ public class GridManager : NetworkBehaviour
 
     private void WaitToInitHexNeighboors()
     {
-        //Count num of tile in the 
+        //Count num of tile in the tilemap
         foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
         {
             if (_tileMap.HasTile(position))
@@ -57,10 +57,11 @@ public class GridManager : NetworkBehaviour
     public IEnumerator CacheNeighboors()
     {
         yield return new WaitUntil(() => GridCoordTiles.Count >= _tileNum && CubeCoordTiles.Count >= _tileNum);
+        MapLoaded = true;
         foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
     }
     
-    public void SpawnBoard()
+    public void SpawnBoard(MapsBase map)
     {
 
         foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
