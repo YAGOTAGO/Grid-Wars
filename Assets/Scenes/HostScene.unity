@@ -853,6 +853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _joinInput: {fileID: 617124876}
   _buttons: {fileID: 1868207477}
+  _dropdown: {fileID: 1862083835}
   _joinCodeTMP: {fileID: 1566518543}
   _loadingTMP: {fileID: 362360039}
 --- !u!4 &444772166
@@ -1368,6 +1369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2cc27e65e3c31846b8955a30378d11d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NumOfCharacters:
+    m_InternalValue: 0
   _maps:
   - {fileID: 11400000, guid: b7d89266c68db5549a8b680725859b2d, type: 2}
   _mapDropdown: {fileID: 1862083835}
@@ -2698,18 +2701,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1862083833}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1489613562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2836,18 +2827,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: RelayService, Assembly-CSharp
         m_MethodName: CreateRelay
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1862083833}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

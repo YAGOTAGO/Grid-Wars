@@ -15,12 +15,17 @@ using UnityEngine.UI;
 
 public class RelayService : NetworkBehaviour
 {
-    private readonly int _maxPlayers = 1; //Doesn't include the host
+
+    [Header("UI Elements")]
     [SerializeField] private TMP_InputField _joinInput; 
     [SerializeField] private GameObject _buttons;
+    [SerializeField] private TMP_Dropdown _dropdown;
+
+    [Header("Join Stuff")]
     [SerializeField] private TextMeshProUGUI _joinCodeTMP;
     [SerializeField] private TextMeshProUGUI _loadingTMP;
 
+    private readonly int _maxPlayers = 1; //Doesn't include the host
     private static bool _signedIn = false;
     private string _joinCode;
 
@@ -57,8 +62,11 @@ public class RelayService : NetworkBehaviour
     {
         if(!_signedIn) { return; }
 
+        //UI Stuff
+        _dropdown.gameObject.SetActive(false);
         _buttons.SetActive(false);
         _loadingTMP.gameObject.SetActive(true);
+
         try
         {
             //Show join on successful connection
@@ -90,10 +98,14 @@ public class RelayService : NetworkBehaviour
     
     public async void JoinRelay()
     {
+       
         if (string.IsNullOrEmpty(_joinInput.text) || !_signedIn) { return; }
-        
+
+        //UI Stuff
+        _dropdown.gameObject.SetActive(false);
         _buttons.SetActive(false);
         _loadingTMP.gameObject.SetActive(true);
+
         try
         {
             JoinAllocation joinAllocation = await Unity.Services.Relay.RelayService.Instance.JoinAllocationAsync(_joinInput.text);
