@@ -14,7 +14,6 @@ public class GridManager : NetworkBehaviour
     public Dictionary<Vector3Int, HexNode> CubeCoordTiles { get; private set; } = new();
     public List<HexNode> DebugCube = new();
     
-    public bool MapLoaded { get; private set; } = false;
     [Header("Tile Prefabs")]
     [SerializeField] private List<HexNode> _prefabs;
 
@@ -39,10 +38,9 @@ public class GridManager : NetworkBehaviour
         }
     }
 
-    public IEnumerator CacheNeighboors(int tileNum)
+    public IEnumerator CacheNeighbors(int tileNum)
     {
         yield return new WaitUntil(() => GridCoordTiles.Count >= tileNum && CubeCoordTiles.Count >= tileNum);
-        MapLoaded = true;
         foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
     }
     

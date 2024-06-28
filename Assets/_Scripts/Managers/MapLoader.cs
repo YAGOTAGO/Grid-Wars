@@ -80,7 +80,7 @@ public class MapLoader : NetworkBehaviour
                     _numTiles++;
                 }
             }
-            WaitHexNeighboorsClientRpc(_numTiles);
+            WaitHexNeighborsClientRpc(_numTiles);
 
             //Send map and Character info to game manager
             Debug.Log("Scene Loaded Star Game send");
@@ -90,9 +90,9 @@ public class MapLoader : NetworkBehaviour
     }
 
     [ClientRpc]
-    void WaitHexNeighboorsClientRpc(int tileNum)
+    void WaitHexNeighborsClientRpc(int tileNum)
     {
-        StartCoroutine(GridManager.Instance.CacheNeighboors(tileNum));
+        StartCoroutine(GridManager.Instance.CacheNeighbors(tileNum));
     }
 
     private void OnEnable()
@@ -110,10 +110,10 @@ public class MapLoader : NetworkBehaviour
         _currMapSelection = _mapDropdown.options[value].text.ToString();
     }
 
-    public IEnumerator SpawnCharacters()
+    /*public IEnumerator SpawnCharacters()
     {
        yield return new WaitUntil(() => GridManager.Instance.MapLoaded);
-    }
+    }*/
 
 
 }

@@ -259,23 +259,15 @@ public class DeckManager : MonoBehaviour
     #endregion
 
     #region Deck/Discard Count TMP updates
-    private void UpdateDeckNum()
-    {
-        _deckNumTMP.text = _deck.Count.ToString();
-    }
-    private void UpdateDiscardNum()
-    {
-        _discardNumTMP.text = _discard.Count.ToString();
-    }
 
     // Events for updating the text when deck or discard count changes
     private void OnDeckCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        UpdateDeckNum();
+        _deckNumTMP.text = _deck.Count.ToString();
     }
     private void OnDiscardCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        UpdateDiscardNum();
+        _discardNumTMP.text = _discard.Count.ToString();
     }
     #endregion
 
