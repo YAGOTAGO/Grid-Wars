@@ -6,6 +6,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class MapLoader : NetworkBehaviour
 {
@@ -16,7 +17,8 @@ public class MapLoader : NetworkBehaviour
 
     private Dictionary<string, MapsBase> _stringToMapBase = new();
     private string _currMapSelection = "Random";
-    
+    private int _numTiles = 0;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -61,7 +63,6 @@ public class MapLoader : NetworkBehaviour
     }
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        Debug.Log("called OnLoadComplete");
 
         //Server is responsible for calling the start of the game
         if (IsServer && sceneName == "GameScene")
@@ -71,7 +72,15 @@ public class MapLoader : NetworkBehaviour
             if (map == null) { Debug.LogError("MAP NOT FOUND IN MAP LOADER!"); }
 
             //Send an RPC to begin wait for hex neighboors
-
+            Tilemap tilemap = map.TileMap;
+            foreach (Vector3Int position in tilemap.cellBounds.allPositionsWithin)
+            {
+                if (tilemap.HasTile(position))
+                {
+                    _numTiles++;
+                }
+            }
+            WaitHexNeighboorsClientRpc(_numTiles);
 
             //Send map and Character info to game manager
             Debug.Log("Scene Loaded Star Game send");
@@ -80,7 +89,11 @@ public class MapLoader : NetworkBehaviour
         }
     }
 
-   
+    [ClientRpc]
+    void WaitHexNeighboorsClientRpc(int tileNum)
+    {
+        StartCoroutine(GridManager.Instance.CacheNeighboors(tileNum));
+    }
 
     private void OnEnable()
     {
@@ -100,7 +113,6 @@ public class MapLoader : NetworkBehaviour
     public IEnumerator SpawnCharacters()
     {
        yield return new WaitUntil(() => GridManager.Instance.MapLoaded);
-       
     }
 
 

@@ -20,7 +20,6 @@ public class GridManager : NetworkBehaviour
 
     //private
     private Grid _grid; //used to put all tiles under
-    private int _tileNum; //used to know when to cache hex neighboors
     private Dictionary<TileType, HexNode> _prefabDict = new();
     private Tilemap _tileMap;
     
@@ -40,23 +39,9 @@ public class GridManager : NetworkBehaviour
         }
     }
 
-    private void WaitToInitHexNeighboors()
+    public IEnumerator CacheNeighboors(int tileNum)
     {
-        //Count num of tile in the tilemap
-        foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
-        {
-            if (_tileMap.HasTile(position))
-            {
-                _tileNum++;
-            }
-        }
-
-        StartCoroutine(CacheNeighboors());
-    }
-
-    public IEnumerator CacheNeighboors()
-    {
-        yield return new WaitUntil(() => GridCoordTiles.Count >= _tileNum && CubeCoordTiles.Count >= _tileNum);
+        yield return new WaitUntil(() => GridCoordTiles.Count >= tileNum && CubeCoordTiles.Count >= tileNum);
         MapLoaded = true;
         foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
     }
@@ -79,9 +64,6 @@ public class GridManager : NetworkBehaviour
                 tile.GetComponent<NetworkObject>().Spawn(); //spawn tile for the clients
 
                 tile.ServerInitHex(position, HexDistance.UnityCellToCube(position), surface); //Will set the data in Grid Manager
-
-                //organizes look in editor
-                //tile.transform.SetParent(_grid.transform); 
             }
 
         }
