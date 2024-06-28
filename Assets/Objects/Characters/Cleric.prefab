@@ -404,7 +404,7 @@ MonoBehaviour:
   _effectUIPrefab: {fileID: 3834171814173998123, guid: 9f7b01a8318faf74e9de3c5508271f40, type: 3}
   _startingEffect: {fileID: 11400000, guid: b898dc7afaa06ae469ea8289c603d98c, type: 2}
   CharacterClass: 3
-  RewardIcon: {fileID: 21300000, guid: e248df7fe9a74854c90e50e4f037a158, type: 3}
+  Icon: {fileID: 21300000, guid: bb1a75d1c4c7331439e104342a62c37b, type: 3}
   InitialCards:
   - {fileID: 11400000, guid: 297069c4a0b792143ab408d41399246f, type: 2}
   - {fileID: 11400000, guid: 2c53c0c6f298cfe4897129468c9d3c77, type: 2}

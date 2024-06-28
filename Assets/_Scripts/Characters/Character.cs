@@ -17,7 +17,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     [Header("Character specific")]
     [SerializeField] private EffectBase _startingEffect; //Passive for the unique character
     public Class CharacterClass; 
-    public Sprite RewardIcon; //icon to display on ground for rewards
+    public Sprite Icon;
     public List<CardBase> InitialCards = new ();
     #endregion
     

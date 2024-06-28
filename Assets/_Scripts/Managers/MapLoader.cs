@@ -12,12 +12,15 @@ public class MapLoader : NetworkBehaviour
 {
     public static MapLoader Instance { get; private set; }
 
+    public NetworkVariable<int> NumOfCharacters = new();
+
     [SerializeField] private List<MapsBase> _maps = new();
     [SerializeField] private TMP_Dropdown _mapDropdown;
 
     private Dictionary<string, MapsBase> _stringToMapBase = new();
     private string _currMapSelection = "Random";
     private int _numTiles = 0;
+    private MapsBase SelectedMap;
 
     private void Awake()
     {
@@ -51,6 +54,7 @@ public class MapLoader : NetworkBehaviour
         if (IsServer)
         {
             NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
+            NetworkManager.SceneManager.OnLoadComplete += SceneManager_OnLoadComplete;
         }
     }
 
@@ -59,19 +63,23 @@ public class MapLoader : NetworkBehaviour
         if (IsServer)
         {
             NetworkManager.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
+            NetworkManager.SceneManager.OnLoadComplete -= SceneManager_OnLoadComplete;
+
         }
     }
-    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+
+    //Just server has finished loading
+    private void SceneManager_OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
-
-        //Server is responsible for calling the start of the game
-        if (IsServer && sceneName == "GameScene")
+        if(IsServer && sceneName == "SelectScene")
         {
+            //Pick a map and have that information be known
             MapsBase map = _currMapSelection == "Random" ? _stringToMapBase.Values.ElementAt(UnityEngine.Random.Range(0, _stringToMapBase.Count)) : _stringToMapBase[_currMapSelection];
-
             if (map == null) { Debug.LogError("MAP NOT FOUND IN MAP LOADER!"); }
 
-            //Send an RPC to begin wait for hex neighboors
+            //Set the net var for number of people that can spawn
+            NumOfCharacters.Value = map.NumOfCharacters;
+
             Tilemap tilemap = map.TileMap;
             foreach (Vector3Int position in tilemap.cellBounds.allPositionsWithin)
             {
@@ -80,11 +88,24 @@ public class MapLoader : NetworkBehaviour
                     _numTiles++;
                 }
             }
+
+
+        }
+    }
+
+    //When both client and server have finished loading spawned objects
+    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+
+        //Server is responsible for calling the start of the game
+        if (IsServer && sceneName == "GameScene")
+        {
+            //Send an RPC to begin wait for hex neighboors
             WaitHexNeighborsClientRpc(_numTiles);
 
             //Send map and Character info to game manager
             Debug.Log("Scene Loaded Star Game send");
-            GameManager.Instance.StartGame(map);
+            GameManager.Instance.StartGame(SelectedMap);
 
         }
     }

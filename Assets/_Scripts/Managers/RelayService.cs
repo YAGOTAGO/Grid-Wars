@@ -125,8 +125,8 @@ public class RelayService : NetworkBehaviour
 
     private IEnumerator LoadGameScene()
     {
-        yield return new WaitUntil(()=> NetworkManager.Singleton != null);
-        NetworkManager.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+        yield return new WaitUntil(()=> NetworkManager.Singleton != null); //This is here because of some bug
+        NetworkManager.SceneManager.LoadScene("SelectScene", LoadSceneMode.Single);
     }
 
 }
