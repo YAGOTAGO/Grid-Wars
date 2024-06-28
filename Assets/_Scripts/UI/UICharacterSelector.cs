@@ -7,7 +7,10 @@ using UnityEngine.UI;
 public class UICharacterSelector : MonoBehaviour
 {
 
+    public int ID = 0;
+
     private int _currIndex;
+    private bool _insertCharacters = true;
 
     [Header("Characters")]
     [SerializeField] private List<Character> _characterList = new();
@@ -20,8 +23,14 @@ public class UICharacterSelector : MonoBehaviour
     private void Awake()
     {
         _characterImage = GetComponent<Image>();
-        _leftButton.onClick.AddListener(LeftButton);
+        _leftButton.onClick.AddListener((LeftButton));
         _rightButton.onClick.AddListener(RightButton);
+    }
+
+    private void Start()
+    {
+        _currIndex = Random.Range(0, _characterList.Count);
+        UpdateSelection();
     }
 
     private void LeftButton()
@@ -36,15 +45,25 @@ public class UICharacterSelector : MonoBehaviour
         UpdateSelection();   
     }
 
-    private void Start()
-    {
-        _currIndex = Random.Range(0, _characterList.Count);
-        UpdateSelection();
-    }
-
     private void UpdateSelection()
     {
+
+        //Update the selection manager
+        if (_insertCharacters)
+        {
+            CharacterSelection.Instance.SelectedCharacters.Insert(ID, _characterList[_currIndex]);
+            _insertCharacters = false;
+        }
+        else
+        {
+            CharacterSelection.Instance.SelectedCharacters[ID] = _characterList[_currIndex];
+        }
+        
+        //Update the image
         _characterImage.sprite = _characterList[_currIndex].Icon;
+    
+        //Show the cards of the character in window
+
     }
 
 }
