@@ -11,7 +11,7 @@ public class CardsPreview : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private CardBase _card;
     private GameObject _spawnedCard;
     private Canvas _canvas;
-    private float _previewDelay = .4f;
+    private float _previewDelay = .3f;
 
     [SerializeField] private GameObject _cardTemplate;
     [SerializeField] private TextMeshProUGUI _quantityTMP;
@@ -42,7 +42,19 @@ public class CardsPreview : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private void ShowCard()
     {
-        Vector3 spawnPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0) + new Vector3(100, -50, 0);
+
+        //Spawn with an offset based on canvas
+        RectTransform canvasRectTransform = _canvas.GetComponent<RectTransform>();
+        float scale = canvasRectTransform.localScale.x;
+
+        // Offset based on a percentage of the canvas size
+        float xOffset = 300 * scale;
+        float yOffset = -50 * scale;
+
+        // Apply offsets
+        Vector3 offset = new Vector2(xOffset, yOffset);
+
+        Vector3 spawnPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0) + offset;
 
         //Instatiate the template object
         _spawnedCard = Instantiate(_cardTemplate, spawnPos, Quaternion.identity, _canvas.transform);
