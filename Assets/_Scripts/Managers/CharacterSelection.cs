@@ -7,10 +7,15 @@ public class CharacterSelection : MonoBehaviour
 {
 
     public static CharacterSelection Instance;
-    public List<Character> SelectedCharacters = new();
 
-    [SerializeField] private UICharacterSelector _prefabSelector;
-    [SerializeField] private HorizontalLayoutGroup _window;
+    [HideInInspector] public List<Character> SelectedCharacters = new();
+
+    [Header("UI")]
+    [SerializeField] private HorizontalLayoutGroup _charactersWindow;
+
+    [Header("Prefabs")]
+    [SerializeField] private UICharacterSelector _ChararacterSelectorPrefab;
+    
 
     private void Awake()
     {
@@ -23,7 +28,7 @@ public class CharacterSelection : MonoBehaviour
         for(int i = 0; i < MapLoader.Instance.NumOfCharacters.Value; i++) 
         {
             //Instantiate and parent it to window
-            UICharacterSelector uICharacterSelector = Instantiate(_prefabSelector, _window.transform);
+            UICharacterSelector uICharacterSelector = Instantiate(_ChararacterSelectorPrefab, _charactersWindow.transform);
 
             //Set the ID number
             uICharacterSelector.ID = i;

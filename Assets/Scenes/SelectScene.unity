@@ -804,5 +804,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedCharacters: []
-  _prefabSelector: {fileID: 1475961904635265394, guid: a4aa2700a4b6dba4bbae617d4b2d9449, type: 3}
-  _window: {fileID: 290691682}
+  _charactersWindow: {fileID: 290691682}
+  _ChararacterSelectorPrefab: {fileID: 1475961904635265394, guid: a4aa2700a4b6dba4bbae617d4b2d9449, type: 3}
