@@ -805,4 +805,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SelectedCharacters: []
   _charactersWindow: {fileID: 290691682}
+  _canvas: {fileID: 899636522}
   _ChararacterSelectorPrefab: {fileID: 1475961904635265394, guid: a4aa2700a4b6dba4bbae617d4b2d9449, type: 3}

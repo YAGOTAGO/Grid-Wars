@@ -12,6 +12,7 @@ public class CharacterSelection : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private HorizontalLayoutGroup _charactersWindow;
+    [SerializeField] private Canvas _canvas;
 
     [Header("Prefabs")]
     [SerializeField] private UICharacterSelector _ChararacterSelectorPrefab;
@@ -28,10 +29,10 @@ public class CharacterSelection : MonoBehaviour
         for(int i = 0; i < MapLoader.Instance.NumOfCharacters.Value; i++) 
         {
             //Instantiate and parent it to window
-            UICharacterSelector uICharacterSelector = Instantiate(_ChararacterSelectorPrefab, _charactersWindow.transform);
+            UICharacterSelector uiCharacterSelector = Instantiate(_ChararacterSelectorPrefab, _charactersWindow.transform);
 
             //Set the ID number
-            uICharacterSelector.ID = i;
+            uiCharacterSelector.Init(_canvas, i);
         }
     }
 

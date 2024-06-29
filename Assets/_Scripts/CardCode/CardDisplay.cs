@@ -36,6 +36,8 @@ public class CardDisplay : MonoBehaviour
     }
     private void AddKeywordWindows()
     {
+        if(_card.Keywords == null) { return; } //No keywords to add
+
         foreach(Keyword keyword in _card.Keywords)
         {
             //Instatiate a new keyword display

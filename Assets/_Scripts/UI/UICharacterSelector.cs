@@ -7,16 +7,13 @@ using UnityEngine.UI;
 public class UICharacterSelector : MonoBehaviour
 {
 
-    [HideInInspector] public int ID = 0;
-
+    private int ID = 0;
     private int _currIndex;
     private bool _insertCharacters = true; //populate the character list the first time around
     private Image _characterImage;
-
-    #region card preview
+    private Canvas _canvas;
     private Dictionary<Character, Dictionary<CardBase, int>> _characterToQuantities = new();
-    #endregion
-
+ 
     [Header("Prefabs")]
     [SerializeField] private CardsPreview _cardPreviewPrefab;
 
@@ -39,6 +36,12 @@ public class UICharacterSelector : MonoBehaviour
     {
         _currIndex = Random.Range(0, _characterList.Count);
         UpdateSelection();
+    }
+
+    public void Init(Canvas canvas, int ID)
+    {
+        _canvas = canvas;
+        this.ID = ID;
     }
 
     private void LeftButton()
@@ -87,7 +90,7 @@ public class UICharacterSelector : MonoBehaviour
         {
             CardBase card = entry.Key;
             CardsPreview preview = Instantiate(_cardPreviewPrefab, _cardsDisplayWindow.transform);
-            preview.Initialize(entry.Value, card);
+            preview.Initialize(entry.Value, card, _canvas);
         }
     }
 

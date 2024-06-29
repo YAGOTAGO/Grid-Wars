@@ -349,7 +349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0b379780fdcc0a4e99e0d4c1de1cbac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 0
   _cardPreviewPrefab: {fileID: 2931988690219222270, guid: dd4f8eb70d982b84689c2e24902f0fdd, type: 3}
   _characterList:
   - {fileID: 7146395176818553969, guid: 12fa879a0f734a74994cc2f03a35b491, type: 3}
@@ -667,8 +666,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Top: 5
+    m_Bottom: -5
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
