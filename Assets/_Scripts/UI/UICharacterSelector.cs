@@ -12,7 +12,10 @@ public class UICharacterSelector : MonoBehaviour
     private int _currIndex;
     private bool _insertCharacters = true; //populate the character list the first time around
     private Image _characterImage;
-    private Dictionary<int, CardBase> _quantityInitialCards = new();
+
+    #region card preview
+    private Dictionary<Character, Dictionary<CardBase, int>> _characterToQuantities = new();
+    #endregion
 
     [Header("Prefabs")]
     [SerializeField] private CardsPreview _cardPreviewPrefab;
@@ -75,13 +78,39 @@ public class UICharacterSelector : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        //Show the cards of the character in window
-        foreach(CardBase card in character.InitialCards)
-        {
-            CardsPreview preview = Instantiate(_cardPreviewPrefab, _cardsDisplayWindow.transform);
-            
+        //Count cards
+        CardQuantities(character);
 
+        Dictionary<CardBase, int> quantities = _characterToQuantities[character];
+
+        foreach(KeyValuePair<CardBase, int> entry in quantities)
+        {
+            CardBase card = entry.Key;
+            CardsPreview preview = Instantiate(_cardPreviewPrefab, _cardsDisplayWindow.transform);
+            preview.Initialize(entry.Value, card);
         }
     }
 
+    private void CardQuantities(Character character)
+    {
+
+        if (!_characterToQuantities.ContainsKey(character)) //we havent counted the cards for that character
+        {
+            Dictionary<CardBase, int> cardsToQuantities = new();
+            foreach (CardBase card in character.InitialCards)
+            {
+                if (cardsToQuantities.ContainsKey(card))
+                {
+                    cardsToQuantities[card]++; //Count
+                }
+                else
+                {
+                    cardsToQuantities[card] = 1;
+                }
+                
+            }
+            _characterToQuantities[character] = cardsToQuantities; //Update the character dict
+        }
+
+    }
 }

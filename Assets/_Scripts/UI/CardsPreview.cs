@@ -9,9 +9,10 @@ public class CardsPreview : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField] private TextMeshProUGUI _quantityTMP;
     [SerializeField] private TextMeshProUGUI _cardNameTMP;
 
-    public void Initialize(string quantity, string cardName)
+    public void Initialize(int quantity, CardBase card)
     {
-
+        _cardNameTMP.text = card.Name;
+        _quantityTMP.text = $"{quantity}x";
     }
 
     public void OnPointerEnter(PointerEventData eventData)
