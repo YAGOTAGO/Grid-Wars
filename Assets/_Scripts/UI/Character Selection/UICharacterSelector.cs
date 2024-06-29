@@ -24,6 +24,7 @@ public class UICharacterSelector : MonoBehaviour
     [SerializeField] private Button _leftButton;
     [SerializeField] private Button _rightButton;
     [SerializeField] private VerticalLayoutGroup _cardsDisplayWindow;
+    [SerializeField] private PowerPreview _powerPreview;
 
     private void Awake()
     {
@@ -58,7 +59,7 @@ public class UICharacterSelector : MonoBehaviour
 
     private void UpdateSelection()
     {
-
+        //New character selected
         Character character = _characterList[_currIndex];
 
         //Update the selection manager
@@ -71,7 +72,10 @@ public class UICharacterSelector : MonoBehaviour
         {
             CharacterSelection.Instance.SelectedCharacters[ID] = character;
         }
-        
+
+        //Update power preview
+        _powerPreview.Initialize(character.StartingEffect);
+
         //Update the image
         _characterImage.sprite = character.Icon;
     

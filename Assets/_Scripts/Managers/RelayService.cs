@@ -122,6 +122,7 @@ public class RelayService : NetworkBehaviour
         }
         catch (RelayServiceException e)
         {
+            //Here I should tell player that wrong code
             _loadingTMP.gameObject.SetActive(false);
             _buttons.SetActive(true);
             Debug.Log(e);

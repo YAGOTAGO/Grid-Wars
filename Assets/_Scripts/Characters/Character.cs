@@ -15,7 +15,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     [SerializeField] private GameObject _effectUIPrefab;
     
     [Header("Character specific")]
-    [SerializeField] private EffectBase _startingEffect; //Passive for the unique character
+    public EffectBase StartingEffect; //Passive for the unique character
     public Class CharacterClass; 
     public Sprite Icon;
     public List<CardBase> InitialCards = new ();
@@ -28,7 +28,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         base.OnNetworkSpawn();
         Initialize();
         AddCharactersDB();
-        AddEffect(_startingEffect);
+        AddEffect(StartingEffect);
         AddStartingCards();
     }
 

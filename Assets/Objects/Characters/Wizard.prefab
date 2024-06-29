@@ -402,7 +402,7 @@ MonoBehaviour:
   _healthBar: {fileID: 7146395176905388865}
   _characterStatsUI: {fileID: 7146395176721374659}
   _effectUIPrefab: {fileID: 3834171814173998123, guid: 9f7b01a8318faf74e9de3c5508271f40, type: 3}
-  _startingEffect: {fileID: 11400000, guid: 405c5cf35afc0224583ef1e62e252a10, type: 2}
+  StartingEffect: {fileID: 11400000, guid: 405c5cf35afc0224583ef1e62e252a10, type: 2}
   CharacterClass: 1
   Icon: {fileID: 21300000, guid: 0fdb60a6df9a949458f7eda588711bef, type: 3}
   InitialCards:
