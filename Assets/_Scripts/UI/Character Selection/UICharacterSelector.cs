@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,7 @@ public class UICharacterSelector : MonoBehaviour
     [SerializeField] private Button _rightButton;
     [SerializeField] private VerticalLayoutGroup _cardsDisplayWindow;
     [SerializeField] private PowerPreview _powerPreview;
+    [SerializeField] private TextMeshProUGUI _characterNameTMP;
 
     private void Awake()
     {
@@ -78,6 +80,7 @@ public class UICharacterSelector : MonoBehaviour
 
         //Update the image
         _characterImage.sprite = character.Icon;
+        _characterNameTMP.text = character.name;
     
         //Remove prior cards in preview window
         foreach(Transform child in _cardsDisplayWindow.transform)

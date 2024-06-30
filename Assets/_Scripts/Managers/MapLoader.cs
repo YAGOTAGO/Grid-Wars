@@ -20,7 +20,7 @@ public class MapLoader : NetworkBehaviour
     private Dictionary<string, MapsBase> _stringToMapBase = new();
     private string _currMapSelection = "Random";
     private int _numTiles = 0;
-    private MapsBase SelectedMap;
+    private MapsBase _selectedMap;
 
     private void Awake()
     {
@@ -105,7 +105,7 @@ public class MapLoader : NetworkBehaviour
 
             //Send map and Character info to game manager
             Debug.Log("Scene Loaded Star Game send");
-            GameManager.Instance.StartGame(SelectedMap);
+            GameManager.Instance.StartGame(_selectedMap);
 
         }
     }
