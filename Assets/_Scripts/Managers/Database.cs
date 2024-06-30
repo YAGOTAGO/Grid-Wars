@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Database : MonoBehaviour
+public class Database : PersistentSingleton<Database>
 {
-    public static Database Instance;
-
     [Header("Effect ScripableObjects")]
     [SerializeField] private List<EffectBase> _effectScriptables = new();
 
@@ -37,9 +35,9 @@ public class Database : MonoBehaviour
     private Dictionary<Class, Dictionary<Rarity, List<CardBase>>> _cardsByClassAndRarityDB = new();
     #endregion
 
-    private void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         LoadAllSurfaceScriptables();
         LoadAllEffectSprites();
         LoadAllCardScriptables();
