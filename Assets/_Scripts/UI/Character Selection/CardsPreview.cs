@@ -11,7 +11,7 @@ public class CardsPreview : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private CardBase _card;
     private GameObject _spawnedCard;
     private Canvas _canvas;
-    private float _previewDelay = .3f;
+    private readonly float _previewDelay = .3f;
 
     [SerializeField] private GameObject _cardTemplate;
     [SerializeField] private TextMeshProUGUI _quantityTMP;
