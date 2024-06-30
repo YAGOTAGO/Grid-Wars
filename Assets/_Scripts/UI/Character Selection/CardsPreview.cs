@@ -48,12 +48,8 @@ public class CardsPreview : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         float scale = canvasRectTransform.localScale.x;
 
         // Offset based on a percentage of the canvas size
-        float xOffset = 300 * scale;
-        float yOffset = -50 * scale;
-
-        // Apply offsets
-        Vector3 offset = new Vector2(xOffset, yOffset);
-
+        float yOffset = 150 * scale;
+        Vector3 offset = new Vector2(0, yOffset);
         Vector3 spawnPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0) + offset;
 
         //Instatiate the template object
