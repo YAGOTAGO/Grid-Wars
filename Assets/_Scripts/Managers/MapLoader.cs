@@ -74,16 +74,16 @@ public class MapLoader : NetworkBehaviour
         if(IsServer && sceneName == "SelectScene")
         {
             //Pick a map and have that information be known
-            MapsBase map = _currMapSelection == "Random" ? _stringToMapBase.Values.ElementAt(UnityEngine.Random.Range(0, _stringToMapBase.Count)) : _stringToMapBase[_currMapSelection];
-            if (map == null) { Debug.LogError("MAP NOT FOUND IN MAP LOADER!"); }
+            _selectedMap = _currMapSelection == "Random" ? _stringToMapBase.Values.ElementAt(UnityEngine.Random.Range(0, _stringToMapBase.Count)) : _stringToMapBase[_currMapSelection];
+            if (_selectedMap == null) { Debug.LogError("MAP NOT FOUND IN MAP LOADER!"); }
 
             //Set the net var for number of people that can spawn
-            NumOfCharacters.Value = map.NumOfCharacters;
+            NumOfCharacters.Value = _selectedMap.NumOfCharacters;
 
             //Set Spawn Points in character spawner
-            CharacterSpawner.Instance.SetSpawnPoints(map);
+            CharacterSpawner.Instance.SetSpawnPoints(_selectedMap);
 
-            Tilemap tilemap = map.TileMap;
+            Tilemap tilemap = _selectedMap.TileMap;
             foreach (Vector3Int position in tilemap.cellBounds.allPositionsWithin)
             {
                 if (tilemap.HasTile(position))

@@ -10,8 +10,8 @@ public class CharacterSpawner : NetworkBehaviour
     public List<Character> ServerCharacters = new();
     public List<Character> ClientCharacters = new();
 
-    private List<Vector3Int> _spawnServer = new();
-    private List<Vector3Int> _spawnClient = new();
+    private List<Vector3Int> _spawnPosServer = new();
+    private List<Vector3Int> _spawnPosClient = new();
 
     private void Awake()
     {
@@ -28,8 +28,8 @@ public class CharacterSpawner : NetworkBehaviour
 
     public void SetSpawnPoints(MapsBase map)
     {
-        _spawnServer = map.SpawnServer;
-        _spawnClient = map.SpawnClient;
+        _spawnPosServer = map.SpawnPosServer;
+        _spawnPosClient = map.SpawnPosClient;
     }
 
 

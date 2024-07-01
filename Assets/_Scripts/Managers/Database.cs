@@ -14,7 +14,10 @@ public class Database : PersistentSingleton<Database>
 
     [Header("Card ScriptableObjects")]
     [SerializeField] private List<CardBase> _cardScriptables = new();
-    
+
+    [Header("Characters")]
+    [SerializeField] private List<Character> _characters = new();
+
     #region Databases
     public NumberedDictionary<AbstractCharacter> AbstractCharactersDB { get; private set; } = new();
     [HideInInspector] public List<Character> AllyCharacters = new();
@@ -24,6 +27,7 @@ public class Database : PersistentSingleton<Database>
     private readonly Dictionary<string, SurfaceBase> _surfacesDB = new();
     private readonly Dictionary<string, CardBase> _cardsDB = new();
     private readonly Dictionary<string, EffectBase> _effectsDB = new();
+    private readonly Dictionary<string, Character> _charactersDB = new();
 
     //Sorted by rarity
     [Header("Card Distributions")]
@@ -41,6 +45,7 @@ public class Database : PersistentSingleton<Database>
         LoadAllSurfaceScriptables();
         LoadAllEffectSprites();
         LoadAllCardScriptables();
+        LoadAllCharacters();
         LoadClassAndRarityDB();
     }
 
@@ -85,11 +90,24 @@ public class Database : PersistentSingleton<Database>
     {
         if (_effectsDB.TryGetValue(name, out EffectBase effect))
         {
-            return Instantiate(effect); //Use instantiate so each surface is unique
+            return Instantiate(effect); //Use instantiate so each effect is unique
         }
         else
         {
-            Debug.LogWarning($"Did not find {name} in cards DB");
+            Debug.LogWarning($"Did not find {name} in effect DB");
+            return null;
+        }
+    }
+
+    public Character GetCharacterByName(string name)
+    {
+        if (_charactersDB.TryGetValue(name, out Character character))
+        {
+            return Instantiate(character); //Use instantiate so each character is unique
+        }
+        else
+        {
+            Debug.LogWarning($"Did not find {name} in character DB");
             return null;
         }
     }
@@ -151,6 +169,16 @@ public class Database : PersistentSingleton<Database>
         foreach (SurfaceBase s in _surfaceScriptables)
         {
             _surfacesDB[s.name] = s;
+
+        }
+    }
+
+    private void LoadAllCharacters()
+    {
+
+        foreach (Character s in _characters)
+        {
+            _charactersDB[s.name] = s;
 
         }
     }

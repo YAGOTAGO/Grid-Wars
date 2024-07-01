@@ -25,8 +25,15 @@ public class CharacterSelection : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(LoadSelectionScreen());   
+    }
 
-        for(int i = 0; i < MapLoader.Instance.NumOfCharacters.Value; i++) 
+    private IEnumerator LoadSelectionScreen()
+    {
+
+        yield return new WaitUntil(() => MapLoader.Instance.NumOfCharacters.Value>0);
+
+        for (int i = 0; i < MapLoader.Instance.NumOfCharacters.Value; i++)
         {
             //Instantiate and parent it to window
             UICharacterSelector uiCharacterSelector = Instantiate(_ChararacterSelectorPrefab, _charactersWindow.transform);
@@ -34,7 +41,6 @@ public class CharacterSelection : MonoBehaviour
             //Set the ID number
             uiCharacterSelector.Init(_canvas, i);
         }
-    }
-
+    } 
 
 }

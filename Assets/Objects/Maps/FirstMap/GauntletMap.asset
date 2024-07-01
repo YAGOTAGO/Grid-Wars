@@ -15,11 +15,7 @@ MonoBehaviour:
   TileMap: {fileID: 8462482193482902993, guid: e90ef9d3cf3d178478f05c3cbd8e0a76, type: 3}
   MapName: Gauntlet
   NumOfCharacters: 3
-  SpawnA:
-  - {x: -9, y: -11, z: 0}
-  - {x: -9, y: -7, z: 0}
-  - {x: -9, y: -3, z: 0}
-  SpawnB:
-  - {x: 9, y: -11, z: 0}
-  - {x: 9, y: -7, z: 0}
-  - {x: 9, y: -3, z: 0}
+  SpawnPosServer:
+  - {x: 1, y: 1, z: 1}
+  SpawnPosClient:
+  - {x: 1, y: 1, z: 1}
