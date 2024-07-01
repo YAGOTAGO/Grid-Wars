@@ -32,12 +32,9 @@ public class GridManager : NetworkBehaviour
         }
     }
 
-    public IEnumerator CacheNeighbors(int tileNum)
+    public void CacheNeighbors()
     {
-        yield return new WaitUntil(() => GridCoordTiles.Count >= tileNum && CubeCoordTiles.Count >= tileNum);
         foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
-
-        //If client tell server to spawn characters
     }
     
     public void SpawnBoard(MapsBase map)

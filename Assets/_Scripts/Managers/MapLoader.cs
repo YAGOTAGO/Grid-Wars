@@ -17,9 +17,8 @@ public class MapLoader : NetworkBehaviour
     [SerializeField] private List<MapsBase> _maps = new();
     [SerializeField] private TMP_Dropdown _mapDropdown;
 
-    private Dictionary<string, MapsBase> _stringToMapBase = new();
+    private readonly Dictionary<string, MapsBase> _stringToMapBase = new();
     private string _currMapSelection = "Random";
-    private int _numTiles = 0;
     private MapsBase _selectedMap;
 
     private void Awake()
@@ -36,17 +35,47 @@ public class MapLoader : NetworkBehaviour
         SetDropdown();
     }
 
-    private void SetDropdown()
+    
+    //Just server has finished loading
+    private void SceneManager_OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
-        List<string> options = new() { "Random" };
-        foreach(MapsBase map in _maps)
+        if(IsServer && sceneName == "SelectScene")
         {
-            options.Add(map.MapName);
-            _stringToMapBase.Add(map.MapName, map);
-        }
+            //Pick a map and have that information be known
+            _selectedMap = _currMapSelection == "Random" ? _stringToMapBase.Values.ElementAt(UnityEngine.Random.Range(0, _stringToMapBase.Count)) : _stringToMapBase[_currMapSelection];
+            if (_selectedMap == null) { Debug.LogError("MAP NOT FOUND IN MAP LOADER!"); }
 
-        _mapDropdown.ClearOptions();
-        _mapDropdown.AddOptions(options);
+            //Set the net var for number of people that can spawn
+            NumOfCharacters.Value = _selectedMap.NumOfCharacters;
+
+            //Set Spawn Points in character spawner
+            CharacterSpawner.Instance.SetSpawnPoints(_selectedMap);
+
+        }
+    }
+
+    //When both client and server have finished loading spawned objects
+    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        //Server is responsible for calling the start of the game
+        if (IsServer && sceneName == "GameScene")
+        {   
+            GameManager.Instance.StartGame(_selectedMap); //Send map info to game manager
+        }
+    }
+
+    #region Start Stuff
+    private void OnEnable()
+    {
+        _mapDropdown.onValueChanged.AddListener(OnDropdownValueChanged);
+    }
+
+    private void OnDisable()
+    {
+        if(_mapDropdown != null)
+        {
+            _mapDropdown.onValueChanged.RemoveListener(OnDropdownValueChanged);
+        }
     }
 
     public override void OnNetworkSpawn()
@@ -67,73 +96,21 @@ public class MapLoader : NetworkBehaviour
 
         }
     }
-
-    //Just server has finished loading
-    private void SceneManager_OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+    private void SetDropdown()
     {
-        if(IsServer && sceneName == "SelectScene")
+        List<string> options = new() { "Random" };
+        foreach (MapsBase map in _maps)
         {
-            //Pick a map and have that information be known
-            _selectedMap = _currMapSelection == "Random" ? _stringToMapBase.Values.ElementAt(UnityEngine.Random.Range(0, _stringToMapBase.Count)) : _stringToMapBase[_currMapSelection];
-            if (_selectedMap == null) { Debug.LogError("MAP NOT FOUND IN MAP LOADER!"); }
-
-            //Set the net var for number of people that can spawn
-            NumOfCharacters.Value = _selectedMap.NumOfCharacters;
-
-            //Set Spawn Points in character spawner
-            CharacterSpawner.Instance.SetSpawnPoints(_selectedMap);
-
-            Tilemap tilemap = _selectedMap.TileMap;
-            foreach (Vector3Int position in tilemap.cellBounds.allPositionsWithin)
-            {
-                if (tilemap.HasTile(position))
-                {
-                    _numTiles++;
-                }
-            }
-
-
+            options.Add(map.MapName);
+            _stringToMapBase.Add(map.MapName, map);
         }
+
+        _mapDropdown.ClearOptions();
+        _mapDropdown.AddOptions(options);
     }
-
-    //When both client and server have finished loading spawned objects
-    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
-    {
-
-        //Server is responsible for calling the start of the game
-        if (IsServer && sceneName == "GameScene")
-        {
-            //Send an RPC to begin wait for hex neighboors
-            WaitHexNeighborsClientRpc(_numTiles);
-
-            //Send map and Character info to game manager
-            GameManager.Instance.StartGame(_selectedMap);
-
-        }
-    }
-
-    [ClientRpc]
-    void WaitHexNeighborsClientRpc(int tileNum)
-    {
-        StartCoroutine(GridManager.Instance.CacheNeighbors(tileNum));
-    }
-
-    private void OnEnable()
-    {
-        _mapDropdown.onValueChanged.AddListener(OnDropdownValueChanged);
-    }
-
-    private void OnDisable()
-    {
-        if(_mapDropdown != null)
-        {
-            _mapDropdown.onValueChanged.RemoveListener(OnDropdownValueChanged);
-        }
-    }
-
     private void OnDropdownValueChanged(int value)
     { 
         _currMapSelection = _mapDropdown.options[value].text.ToString();
     }
-
+    #endregion
 }

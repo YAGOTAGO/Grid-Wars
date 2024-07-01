@@ -14,4 +14,19 @@ public class MapsBase : ScriptableObject
     [Header("Spawn Points")]
     public List<Vector3Int> SpawnPosServer = new();
     public List<Vector3Int> SpawnPosClient = new();
+
+    public int GetNumTiles()
+    {
+        int num = 0;
+        foreach (Vector3Int position in TileMap.cellBounds.allPositionsWithin)
+        {
+            if (TileMap.HasTile(position))
+            {
+                num++;
+            }
+        }
+
+        Debug.Log(num);
+        return num;
+    }
 }
