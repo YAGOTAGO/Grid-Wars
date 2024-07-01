@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
@@ -31,6 +32,11 @@ public class ReadyButton : NetworkBehaviour
         if (IsServer)
         {
             CharacterSpawner.Instance.ServerCharacters = selectedCharacters;
+            if(CharacterSpawner.Instance.ClientCharacters.Count> 0) //If we have both character information then load the next scene
+            {
+                NetworkManager.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+            }
+
         }
         else
         {
@@ -54,10 +60,14 @@ public class ReadyButton : NetworkBehaviour
         {
             if (characters.MyStrings[i] != null)
             {
-                CharacterSpawner.Instance.ClientCharacters.Insert(i, Database.Instance.GetCharacterByName(characters.MyStrings[i]));
+                CharacterSpawner.Instance.ClientCharacters.Add(Database.Instance.GetCharacterByName(characters.MyStrings[i]));
             }
         }
 
+        if (CharacterSpawner.Instance.ServerCharacters.Count > 0) //If we have both character information then load the next scene
+        {
+            NetworkManager.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+        }
     }
 
 }

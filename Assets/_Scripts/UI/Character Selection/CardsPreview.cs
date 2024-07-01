@@ -27,17 +27,13 @@ public class CardsPreview : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Enter");
         StartCoroutine(PreviewWait());
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-
-        Debug.Log("Exit");
         StopAllCoroutines();
         Destroy(_spawnedCard);
-   
     }
 
     private void ShowCard()

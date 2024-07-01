@@ -125,18 +125,15 @@ public class MapLoader : NetworkBehaviour
 
     private void OnDisable()
     {
-        _mapDropdown.onValueChanged.RemoveListener(OnDropdownValueChanged);
+        if(_mapDropdown != null)
+        {
+            _mapDropdown.onValueChanged.RemoveListener(OnDropdownValueChanged);
+        }
     }
 
     private void OnDropdownValueChanged(int value)
     { 
         _currMapSelection = _mapDropdown.options[value].text.ToString();
     }
-
-    /*public IEnumerator SpawnCharacters()
-    {
-       yield return new WaitUntil(() => GridManager.Instance.MapLoaded);
-    }*/
-
 
 }

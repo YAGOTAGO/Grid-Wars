@@ -103,7 +103,7 @@ public class Database : PersistentSingleton<Database>
     {
         if (_charactersDB.TryGetValue(name, out Character character))
         {
-            return Instantiate(character); //Use instantiate so each character is unique
+            return character;
         }
         else
         {
