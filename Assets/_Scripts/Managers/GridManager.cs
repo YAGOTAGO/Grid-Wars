@@ -5,7 +5,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[RequireComponent(typeof(Grid))]
 public class GridManager : NetworkBehaviour
 {
     public static GridManager Instance;
@@ -18,17 +17,12 @@ public class GridManager : NetworkBehaviour
     [SerializeField] private List<HexNode> _prefabs;
 
     //private
-    private Grid _grid; //used to put all tiles under
     private Dictionary<TileType, HexNode> _prefabDict = new();
-    private Tilemap _tileMap;
     
     public void Awake()
     {
-        Debug.Log("GRID AWAKE");
         Instance = this;
-        _grid = GetComponent<Grid>();
         InitDict();
-        //WaitToInitHexNeighboors();
     }
     private void InitDict()
     {
