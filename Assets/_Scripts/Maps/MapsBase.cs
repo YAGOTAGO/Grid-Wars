@@ -12,6 +12,6 @@ public class MapsBase : ScriptableObject
     [Range(2,3)]public int NumOfCharacters;
 
     [Header("Spawn Points")]
-    public List<Vector3Int> SpawnA = new();
-    public List<Vector3Int> SpawnB = new();
+    public List<Vector3Int> SpawnServer = new();
+    public List<Vector3Int> SpawnClient = new();
 }

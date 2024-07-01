@@ -80,6 +80,9 @@ public class MapLoader : NetworkBehaviour
             //Set the net var for number of people that can spawn
             NumOfCharacters.Value = map.NumOfCharacters;
 
+            //Set Spawn Points in character spawner
+            CharacterSpawner.Instance.SetSpawnPoints(map);
+
             Tilemap tilemap = map.TileMap;
             foreach (Vector3Int position in tilemap.cellBounds.allPositionsWithin)
             {
@@ -104,7 +107,6 @@ public class MapLoader : NetworkBehaviour
             WaitHexNeighborsClientRpc(_numTiles);
 
             //Send map and Character info to game manager
-            Debug.Log("Scene Loaded Star Game send");
             GameManager.Instance.StartGame(_selectedMap);
 
         }

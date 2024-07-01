@@ -42,12 +42,12 @@ public class GridManager : NetworkBehaviour
     {
         yield return new WaitUntil(() => GridCoordTiles.Count >= tileNum && CubeCoordTiles.Count >= tileNum);
         foreach (HexNode tile in GridCoordTiles.Values) tile.CacheNeighbors();
+
+        //If client tell server to spawn characters
     }
     
     public void SpawnBoard(MapsBase map)
     {
-        Debug.Log("Spawning Board");
-
         Tilemap _tileMap = Instantiate(map.TileMap, transform);
 
         foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)

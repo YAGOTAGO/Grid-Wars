@@ -8,7 +8,7 @@ public class CharacterSelection : MonoBehaviour
 
     public static CharacterSelection Instance;
 
-    [HideInInspector] public List<Character> SelectedCharacters = new();
+    public List<Character> SelectedCharacters = new();
 
     [Header("UI")]
     [SerializeField] private HorizontalLayoutGroup _charactersWindow;
