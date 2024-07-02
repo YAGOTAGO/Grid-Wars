@@ -8,10 +8,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
-public class MapLoader : NetworkBehaviour
+public class MapLoader : PersistentNetworkSingleton<MapLoader>
 {
-    public static MapLoader Instance { get; private set; }
-
     public NetworkVariable<int> NumOfCharacters = new();
 
     [SerializeField] private List<MapsBase> _maps = new();
@@ -21,20 +19,11 @@ public class MapLoader : NetworkBehaviour
     private string _currMapSelection = "Random";
     private MapsBase _selectedMap;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        base.Awake();
         SetDropdown();
     }
-
     
     //Just server has finished loading
     private void SceneManager_OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
