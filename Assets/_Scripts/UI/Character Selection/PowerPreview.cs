@@ -2,27 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
-public class PowerPreview : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class PowerPreview : HoverTip
 {
-    private EffectBase _power;
-    
+   
     [SerializeField] private Image _powerImage;
     
-    public void Initialize(EffectBase power)
+    public void UpdatePowerPreview(EffectBase power)
     {
-        _power = power;
         _powerImage.sprite = power.EffectIcon; //changes image
+        SetDescription(power.Description);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        //throw new System.NotImplementedException();
-    }
 }
