@@ -76,7 +76,8 @@ public class UICharacterSelector : MonoBehaviour
         }
 
         //Update power preview
-        _powerPreview.Initialize(character.StartingEffect);
+        _powerPreview.UpdatePowerPreview(character.StartingEffect);
+        _powerPreview.SetDescription(character.StartingEffect.Description);
 
         //Update the image
         _characterImage.sprite = character.Icon;

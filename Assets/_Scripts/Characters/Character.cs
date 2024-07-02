@@ -68,7 +68,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
     {
         _healthBar.InitHealthBarUI(MaxHealth, StartingHealth);
         SetHealth(StartingHealth);
-        EffectTipWindow.Instance.SetPlayerUI(_characterStatsUI);
+        PlayerPanel.Instance.SetPlayerUI(_characterStatsUI);
     }
 
     private void AddStartingCards()
@@ -161,7 +161,6 @@ public class Character : AbstractCharacter //may need to become network behaviou
     //Adds all the components and sets them
     private void SetEffectUI(EffectBase ef)
     {
-
         //Instatiate the UI element and assign it to the horizontal group
         GameObject efUI = Instantiate(_effectUIPrefab, _effectsUIGroup.transform);
         efUI.name = ef.ToString(); //Name the gameobject
