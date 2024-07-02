@@ -27,6 +27,7 @@ public class CardsPreview : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        StopAllCoroutines(); //May not be needed
         StartCoroutine(PreviewWait());
     }
 
