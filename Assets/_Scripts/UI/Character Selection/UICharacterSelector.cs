@@ -7,7 +7,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class UICharacterSelector : MonoBehaviour
 {
-
     private int ID = 0;
     private int _currIndex;
     private bool _insertCharacters = true; //populate the character list the first time around
@@ -77,7 +76,6 @@ public class UICharacterSelector : MonoBehaviour
 
         //Update power preview
         _powerPreview.UpdatePowerPreview(character.StartingEffect);
-        _powerPreview.SetDescription(character.StartingEffect.Description);
 
         //Update the image
         _characterImage.sprite = character.Icon;

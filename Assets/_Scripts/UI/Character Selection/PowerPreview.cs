@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class PowerPreview : HoverTip
@@ -12,6 +13,7 @@ public class PowerPreview : HoverTip
     public void UpdatePowerPreview(EffectBase power)
     {
         _powerImage.sprite = power.EffectIcon; //changes image
+        SetDescription(power.Description);
     }
 
 }
