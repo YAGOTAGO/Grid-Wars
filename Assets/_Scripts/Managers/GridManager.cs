@@ -40,6 +40,7 @@ public class GridManager : NetworkBehaviour
     public void SpawnBoard(MapsBase map)
     {
         Tilemap _tileMap = Instantiate(map.TileMap, transform);
+        _tileMap.gameObject.SetActive(false);
 
         foreach (Vector3Int position in _tileMap.cellBounds.allPositionsWithin)
         {

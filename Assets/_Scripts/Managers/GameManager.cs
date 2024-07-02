@@ -39,7 +39,7 @@ public class GameManager : NetworkSingleton<GameManager>
         //Spawn the characters;
         if (IsServer)
         {
-            Debug.Log("SPAWN");
+            CharacterSpawner.Instance.SpawnCharacters();
         }
 
         //Put load screen away
