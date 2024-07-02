@@ -25,8 +25,6 @@ public class MapsBase : ScriptableObject
                 num++;
             }
         }
-
-        Debug.Log(num);
         return num;
     }
 }
