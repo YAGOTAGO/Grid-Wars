@@ -22,6 +22,7 @@ public class RelayService : NetworkBehaviour
     [SerializeField] private TMP_Dropdown _dropdown;
 
     [Header("Join Stuff")]
+    [SerializeField] private GameObject _JoinCodeGO;
     [SerializeField] private TextMeshProUGUI _joinCodeTMP;
     [SerializeField] private TextMeshProUGUI _loadingTMP;
 
@@ -72,8 +73,8 @@ public class RelayService : NetworkBehaviour
             //Show join on successful connection
             NetworkManager.Singleton.OnServerStarted += () => {
                 _loadingTMP.gameObject.SetActive(false);
-                _joinCodeTMP.gameObject.SetActive(true);
-                _joinCodeTMP.text = "Join Code: " + _joinCode + "\n Waiting for player to join...";
+                _JoinCodeGO.gameObject.SetActive(true);
+                _joinCodeTMP.text = _joinCode;
             };
 
             //Make an allocation
