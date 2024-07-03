@@ -15,18 +15,13 @@ public class HealthBar : MonoBehaviour
     {
         _healthBarSlider = GetComponent<Slider>();
         _healthBarSlider.wholeNumbers = true; // Ensure whole numbers only
-    }
-
-    private void Start()
-    {
         _healthBarSlider.minValue = 0;
-        _healthBarSlider.wholeNumbers = true;
     }
 
-    public void InitHealthBarUI(int maxHealth, int health)
+    public void InitHealthBarUI(int maxHealth)
     {
         SetMaxHealth(maxHealth);
-        SetHealth(health);
+        SetHealth(maxHealth);
     }
 
     public void SetTMP()

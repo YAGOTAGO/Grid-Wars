@@ -7,22 +7,18 @@ using UnityEngine.UI;
 
 public class Character : AbstractCharacter //may need to become network behaviour
 {
-    #region Visuals
-    [Header("Visuals")]
-    [SerializeField] private GameObject _effectsUIGroup; //This contains the horizontal layout group UI
-    [SerializeField] private HealthBar _healthBar; //info about player healthbar
-    [SerializeField] private GameObject _characterStatsUI; //UI object that holds everything else
-    [SerializeField] private GameObject _effectUIPrefab;
+
+    [SerializeField] private GameObject _statsUIPrefab;
     
     [Header("Character specific")]
     public EffectBase StartingEffect; //Passive for the unique character
     public Class CharacterClass; 
     public Sprite Icon;
     public List<CardBase> InitialCards = new ();
-    #endregion
     
     private readonly Dictionary<EffectBase, GameObject> _effectToUIDict = new();
-
+    private StatsUI _statsUI;
+    private GameObject _statsUIGO;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -40,7 +36,7 @@ public class Character : AbstractCharacter //may need to become network behaviou
         LogManager.Instance.LogOnSlain(this);
         
         //Remove stats UI
-        Destroy(_characterStatsUI);
+        Destroy(_statsUIGO);
 
         //Remove Character from DB
         RemoveCharactersDB();
@@ -56,19 +52,14 @@ public class Character : AbstractCharacter //may need to become network behaviou
         }
     }
 
-    private void Update()
-    {
-        /*if (Input.GetKeyDown(KeyCode.B))
-        {
-            GameManager.Instance.ChangeState(GameState.EndGame);
-        }*/
-    }
-
     private void Initialize()
     {
-        _healthBar.InitHealthBarUI(MaxHealth, StartingHealth);
-        SetHealth(StartingHealth);
-        PlayerPanel.Instance.SetPlayerUI(_characterStatsUI);
+        _statsUIGO = Instantiate(_statsUIPrefab);
+        _statsUI = _statsUIGO.GetComponent<StatsUI>();
+        
+        _statsUI.Initialize(this);
+        SetHealth(MaxHealth);
+        
     }
 
     private void AddStartingCards()
@@ -162,19 +153,18 @@ public class Character : AbstractCharacter //may need to become network behaviou
     private void SetEffectUI(EffectBase ef)
     {
         //Instatiate the UI element and assign it to the horizontal group
-        GameObject efUI = Instantiate(_effectUIPrefab, _effectsUIGroup.transform);
+        GameObject efUI = Instantiate(_statsUI.GetEffectPrefab(), _statsUI.GetEffectUIGroup());
         efUI.name = ef.ToString(); //Name the gameobject
         efUI.GetComponent<HoverTip>().SetDescription(ef.Description); //update description of Hover tip
         efUI.GetComponent<Image>().sprite = ef.EffectIcon; //update image
 
         //Cache this game object for future
         _effectToUIDict[ef] = efUI;
-
     }
     
     protected override void OnHealthChanged()
     {
-        _healthBar.SetHealth(Health.Value);
+        _statsUI.GetHealthBar().SetHealth(Health.Value);
 
         if (Health.Value <= 0)
         {

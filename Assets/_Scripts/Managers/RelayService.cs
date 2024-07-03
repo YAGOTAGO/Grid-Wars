@@ -98,7 +98,7 @@ public class RelayService : NetworkBehaviour
     
     public async void JoinRelay()
     {
-       
+
         if (string.IsNullOrEmpty(_joinInput.text) || !_signedIn) { return; }
 
         //UI Stuff

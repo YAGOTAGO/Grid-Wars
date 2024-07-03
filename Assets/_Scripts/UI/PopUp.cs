@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class PopUp : MonoBehaviour
 {
     public static PopUp Instance;
-    private GameObject _popUpGO;
     private TextMeshProUGUI _popUpTMP;
     private Coroutine _popUpCoroutine;
     private Image _image;
@@ -19,7 +18,6 @@ public class PopUp : MonoBehaviour
             Instance = this;
         }
         _image = GetComponent<Image>();
-        _popUpGO = gameObject;
         _popUpTMP = GetComponentInChildren<TextMeshProUGUI>();
         Hide(true);
     }

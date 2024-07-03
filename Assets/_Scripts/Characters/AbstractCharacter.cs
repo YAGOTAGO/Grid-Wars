@@ -7,7 +7,6 @@ public abstract class AbstractCharacter : NetworkBehaviour
 {
     public HashSet<EffectBase> Effects = new();
     public NetworkVariable<int> Health = new();
-    public int StartingHealth = 20;
     public int MaxHealth = 20;
     public NetworkVariable<int> CharacterID { get; private set; } = new(-1);
     public NetworkVariable<Vector3Int> HexGridPosition = new(new Vector3Int(-1,-1,-1));
