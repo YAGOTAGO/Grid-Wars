@@ -87,7 +87,7 @@ public class MapLoader : PersistentNetworkSingleton<MapLoader>
     }
     private void SetDropdown()
     {
-        List<string> options = new() { "Random" };
+        List<string> options = new() { "Random Map" };
         foreach (MapsBase map in _maps)
         {
             options.Add(map.MapName);
