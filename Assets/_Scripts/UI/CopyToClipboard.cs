@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CopyToClipboard : MonoBehaviour
 {
     private Button _copyButton;
-    private float _waitTime;
+    private float _waitTime = 2.5f;
     [SerializeField] private TextMeshProUGUI _copiedTMP;
     [SerializeField] private TextMeshProUGUI _joinCodeTMP;
     
