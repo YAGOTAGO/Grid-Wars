@@ -10,7 +10,7 @@ public class CardDisplay : MonoBehaviour
     private CardBase _card; //ScriptableObject we use as data to display
 
     [Header("Card Template Art")]
-    [SerializeField] private Sprite _monkTemplate;
+    [SerializeField] private Sprite _monkTemplate; //change these to rarity
     [SerializeField] private Sprite _clericTemplate;
     [SerializeField] private Sprite _wizardTemplate;
 

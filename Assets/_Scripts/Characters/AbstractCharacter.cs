@@ -15,7 +15,6 @@ public abstract class AbstractCharacter : NetworkBehaviour
     public HexNode GetNodeOn() { return NodeOn; }
 
     #region Network methods
-
     public override void OnNetworkSpawn()
     {
         Health.OnValueChanged += HealthChange;
